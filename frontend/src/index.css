@@ -1,1 +1,1 @@
-﻿body { margin: 0; font-family: sans-serif; }
+﻿@tailwind base; @tailwind components; @tailwind utilities; @layer base { :root { --background: 222.2 84% 4.9%; --foreground: 210 40% 98%; } body { @apply bg-[#030712] text-[#f9fafb] antialiased; font-family: 'Inter', sans-serif; } }
