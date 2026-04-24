@@ -1,11 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../tailwind.config.js";
 
 @layer base {
   :root {
-    --background: 20 66% 97%;
-    --foreground: 20 20% 20%;
+    --background: #FFF8F0;
+    --text: #4B2E2B;
+    --primary: #C08552;
   }
 }
 
