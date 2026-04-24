@@ -1,7 +1,9 @@
-﻿import React from "react";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import Topbar from "./components/Topbar";
+
+import LoginPage from "./pages/LoginPage";
 
 // Placeholder for screens (to be implemented next)
 const Placeholder = ({ title }) => (
@@ -35,7 +37,7 @@ function App() {
     <Router>
       <Routes>
         {/* Auth Route */}
-        <Route path="/login" element={<Placeholder title="Login Page" />} />
+        <Route path="/login" element={<LoginPage />} />
 
         {/* Shop Routes */}
         <Route path="/" element={isLoggedIn && userRole === "shop" ? <Layout><Placeholder title="Shop Dashboard" /></Layout> : <Navigate to="/login" />} />
