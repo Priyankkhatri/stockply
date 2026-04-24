@@ -1,32 +1,33 @@
 import React from 'react';
+import './PageHeader.css';
 
 const PageHeader = ({ title, subtitle, breadcrumbs = [], actions }) => {
   return (
-    <div className="flex flex-col mb-10 animate-fade-in">
+    <div className="page-header-container">
       {breadcrumbs.length > 0 && (
-        <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted mb-8">
+        <div className="breadcrumbs">
           {breadcrumbs.map((crumb, i) => (
             <React.Fragment key={i}>
-              <span className={`hover:text-primary transition-colors ${i === breadcrumbs.length - 1 ? 'text-primary' : 'cursor-pointer'}`}>
+              <span className={`breadcrumb-item ${i === breadcrumbs.length - 1 ? 'active' : ''}`}>
                 {crumb}
               </span>
-              {i < breadcrumbs.length - 1 && <span className="text-text/20">/</span>}
+              {i < breadcrumbs.length - 1 && <span className="breadcrumb-separator">/</span>}
             </React.Fragment>
           ))}
         </div>
       )}
 
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div className="header-main">
         <div>
-          <h1 className="text-4xl md:text-5xl font-display font-bold text-text mb-3 tracking-tight">
+          <h1 className="header-title">
             {title}
           </h1>
-          <p className="text-text-muted font-medium text-lg max-w-2xl">
+          <p className="header-subtitle">
             {subtitle}
           </p>
         </div>
         {actions && (
-          <div className="flex items-center gap-4">
+          <div className="header-actions">
             {actions}
           </div>
         )}
