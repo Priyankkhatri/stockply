@@ -28,7 +28,7 @@ const LoginPage = () => {
           {/* Logo */}
           <div className="flex items-center gap-2 text-primary font-bold text-xl mb-12">
             <Package size={24} />
-            <span>The Tactile Archive</span>
+            <span>Stockply</span>
           </div>
 
           {/* Welcome Text */}
