@@ -14,55 +14,7 @@ import {
 } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
 import PremiumButton from '../components/PremiumButton';
-
-const shops = [
-  {
-    name: 'Tech Emporium',
-    initials: 'TE',
-    initialsBg: 'bg-teal-50 text-teal-600',
-    category: 'Electronics',
-    location: 'Mumbai, IND',
-    totalOrders: '1,245',
-    revenue: 'Rs. 450,000',
-    behavior: 'On-time',
-    status: 'Active',
-  },
-  {
-    name: 'Style Factory',
-    initials: 'SF',
-    initialsBg: 'bg-red-50 text-red-600',
-    category: 'Clothing',
-    location: 'Delhi, IND',
-    totalOrders: '890',
-    revenue: 'Rs. 215,500',
-    behavior: 'Delayed',
-    status: 'Active',
-  },
-  {
-    name: 'Fresh Mart',
-    initials: 'FM',
-    initialsBg: 'bg-teal-50 text-teal-600',
-    category: 'Food & Beverage',
-    location: 'Bengaluru, IND',
-    totalOrders: '3,450',
-    revenue: 'Rs. 890,000',
-    behavior: 'On-time',
-    status: 'Active',
-  },
-  {
-    name: 'City Grocers',
-    initials: 'CG',
-    initialsBg: 'bg-gray-100 text-gray-400',
-    category: 'Food & Beverage',
-    location: 'Pune, IND',
-    totalOrders: '120',
-    revenue: 'Rs. 45,000',
-    behavior: 'N/A',
-    status: 'Inactive',
-  },
-];
-
-const filters = ['All Partners', 'High Volume', 'Frequent', 'New'];
+import { motion, AnimatePresence } from 'framer-motion';
 
 const behaviorStyles = {
   'On-time': 'bg-teal-50 text-teal-600 border-teal-100',
@@ -70,13 +22,98 @@ const behaviorStyles = {
   'N/A': 'bg-gray-50 text-gray-400 border-gray-100',
 };
 
+const filters = ['All Partners', 'High Volume', 'Frequent', 'New'];
+
+
 const SupplierShopsPage = () => {
   const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState('All Partners');
   const [searchTerm, setSearchTerm] = useState('');
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+  const [partners, setPartners] = useState([
+    {
+      name: 'Tech Emporium',
+      initials: 'TE',
+      initialsBg: 'bg-teal-50 text-teal-600',
+      category: 'Electronics',
+      location: 'Mumbai, IND',
+      totalOrders: '1,245',
+      revenue: 'Rs. 450,000',
+      behavior: 'On-time',
+      status: 'Active',
+    },
+    {
+      name: 'Style Factory',
+      initials: 'SF',
+      initialsBg: 'bg-red-50 text-red-600',
+      category: 'Clothing',
+      location: 'Delhi, IND',
+      totalOrders: '890',
+      revenue: 'Rs. 215,500',
+      behavior: 'Delayed',
+      status: 'Active',
+    },
+    {
+      name: 'Fresh Mart',
+      initials: 'FM',
+      initialsBg: 'bg-teal-50 text-teal-600',
+      category: 'Food & Beverage',
+      location: 'Bengaluru, IND',
+      totalOrders: '3,450',
+      revenue: 'Rs. 890,000',
+      behavior: 'On-time',
+      status: 'Active',
+    },
+    {
+      name: 'City Grocers',
+      initials: 'CG',
+      initialsBg: 'bg-gray-100 text-gray-400',
+      category: 'Food & Beverage',
+      location: 'Pune, IND',
+      totalOrders: '120',
+      revenue: 'Rs. 45,000',
+      behavior: 'N/A',
+      status: 'Inactive',
+    },
+  ]);
+
+  const [newPartner, setNewPartner] = useState({
+    name: '',
+    category: 'Electronics',
+    location: '',
+    totalOrders: '0',
+    revenue: 'Rs. 0',
+    behavior: 'N/A',
+    status: 'Active',
+    initials: '',
+    initialsBg: 'bg-teal-50 text-teal-600'
+  });
+
+  const handleAddPartner = () => {
+    if (!newPartner.name || !newPartner.location) return;
+    
+    const initials = newPartner.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+    const partner = { ...newPartner, initials };
+    
+    setPartners([partner, ...partners]);
+    setIsAddModalOpen(false);
+    setNewPartner({
+      name: '',
+      category: 'Electronics',
+      location: '',
+      totalOrders: '0',
+      revenue: 'Rs. 0',
+      behavior: 'N/A',
+      status: 'Active',
+      initials: '',
+      initialsBg: 'bg-teal-50 text-teal-600'
+    });
+  };
 
   const visibleShops = useMemo(() => {
-    return shops.filter((shop) => {
+    return partners.filter((shop) => {
+
       const matchesSearch =
         shop.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         shop.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -105,11 +142,12 @@ const SupplierShopsPage = () => {
         subtitle="Manage your connected shop network, order volume, geography, and trust signals."
         breadcrumbs={['Supplier', 'Shops']}
         actions={
-          <PremiumButton icon={Plus}>
+          <PremiumButton onClick={() => setIsAddModalOpen(true)} icon={Plus}>
             Add partner
           </PremiumButton>
         }
       />
+
 
       <div className="mb-8 grid grid-cols-1 gap-4 lg:grid-cols-[1fr_auto]">
         <div className="relative">
@@ -256,8 +294,100 @@ const SupplierShopsPage = () => {
           </div>
         </div>
       </div>
+      <AnimatePresence>
+        {isAddModalOpen && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center px-6">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsAddModalOpen(false)}
+              className="absolute inset-0 bg-text/40 backdrop-blur-md"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-2xl bg-white rounded-[40px] shadow-2xl overflow-hidden border border-white/20"
+            >
+              <div className="p-10 border-b border-text/5 flex justify-between items-center bg-background/50">
+                <div>
+                  <h2 className="text-2xl font-bold text-text">New Partner Entry</h2>
+                  <p className="text-[10px] font-black text-text/30 uppercase tracking-[0.2em] mt-1">Establishing shop connection</p>
+                </div>
+                <button 
+                  onClick={() => setIsAddModalOpen(false)}
+                  className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-text/20 hover:text-text transition-colors shadow-sm"
+                >
+                  <Plus className="rotate-45" size={20} />
+                </button>
+              </div>
+
+              <div className="p-10 grid grid-cols-2 gap-8">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-text/40 uppercase tracking-widest ml-1">Shop Name</label>
+                  <input 
+                    type="text" 
+                    placeholder="e.g. Urban Boutique" 
+                    value={newPartner.name}
+                    onChange={(e) => setNewPartner({...newPartner, name: e.target.value})}
+                    className="w-full px-6 py-4 bg-background border border-transparent rounded-2xl text-sm font-bold focus:outline-none focus:bg-white focus:border-primary/20 transition-all" 
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-text/40 uppercase tracking-widest ml-1">Geography (City)</label>
+                  <input 
+                    type="text" 
+                    placeholder="e.g. Mumbai, IND" 
+                    value={newPartner.location}
+                    onChange={(e) => setNewPartner({...newPartner, location: e.target.value})}
+                    className="w-full px-6 py-4 bg-background border border-transparent rounded-2xl text-sm font-bold focus:outline-none focus:bg-white focus:border-primary/20 transition-all" 
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-text/40 uppercase tracking-widest ml-1">Industry Category</label>
+                  <select 
+                    value={newPartner.category}
+                    onChange={(e) => setNewPartner({...newPartner, category: e.target.value})}
+                    className="w-full px-6 py-4 bg-background border border-transparent rounded-2xl text-sm font-bold focus:outline-none focus:bg-white focus:border-primary/20 transition-all appearance-none"
+                  >
+                    <option>Electronics</option>
+                    <option>Clothing</option>
+                    <option>Food & Beverage</option>
+                    <option>Home Decor</option>
+                  </select>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-text/40 uppercase tracking-widest ml-1">Initial Status</label>
+                  <select 
+                    value={newPartner.status}
+                    onChange={(e) => setNewPartner({...newPartner, status: e.target.value})}
+                    className="w-full px-6 py-4 bg-background border border-transparent rounded-2xl text-sm font-bold focus:outline-none focus:bg-white focus:border-primary/20 transition-all appearance-none"
+                  >
+                    <option>Active</option>
+                    <option>Inactive</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="px-10 py-8 bg-background/50 border-t border-text/5 flex items-center justify-end gap-4">
+                <button 
+                  onClick={() => setIsAddModalOpen(false)}
+                  className="px-8 py-4 text-xs font-black uppercase tracking-widest text-text/40 hover:text-text transition-colors"
+                >
+                  Discard
+                </button>
+                <PremiumButton onClick={handleAddPartner} className="px-10">
+                  Connect Partner
+                </PremiumButton>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
+
 
 export default SupplierShopsPage;
