@@ -1,0 +1,16 @@
+# Stockply — robots.txt
+# https://stockply.vercel.app
+
+User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /dashboard/*
+Disallow: /supplier/*
+Disallow: /home
+Disallow: /support
+
+# Sitemaps
+Sitemap: https://stockply.vercel.app/sitemap.xml
+
+# Crawl-delay (optional, respected by some bots)
+Crawl-delay: 1
