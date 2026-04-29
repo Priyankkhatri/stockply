@@ -11,6 +11,7 @@ import AlertsPage from "./pages/AlertsPage";
 import SupplierDashboardPage from "./pages/SupplierDashboardPage";
 import SupplierShopsPage from "./pages/SupplierShopsPage";
 import SupplierShopDetailsPage from "./pages/SupplierShopDetailsPage";
+import SupplierOrdersPage from "./pages/SupplierOrdersPage";
 import SectionPlaceholder from "./pages/SectionPlaceholder";
 
 const getSession = () => ({
@@ -73,11 +74,6 @@ const shopRoutes = [
 ];
 
 const supplierRoutes = [
-  {
-    path: "/supplier/orders",
-    title: "Supplier Orders",
-    description: "Manage incoming requests, approvals, and dispatch status.",
-  },
   {
     path: "/supplier/inventory",
     title: "Supplier Inventory",
@@ -194,6 +190,16 @@ function App() {
             <RequireSession role="supplier">
               <AppLayout role="supplier">
                 <SupplierShopDetailsPage />
+              </AppLayout>
+            </RequireSession>
+          }
+        />
+        <Route
+          path="/supplier/orders"
+          element={
+            <RequireSession role="supplier">
+              <AppLayout role="supplier">
+                <SupplierOrdersPage />
               </AppLayout>
             </RequireSession>
           }
