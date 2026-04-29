@@ -13,6 +13,7 @@ import SupplierShopsPage from "./pages/SupplierShopsPage";
 import SupplierShopDetailsPage from "./pages/SupplierShopDetailsPage";
 import SupplierOrdersPage from "./pages/SupplierOrdersPage";
 import SupplierInventoryPage from "./pages/SupplierInventoryPage";
+import SupplierAnalyticsPage from "./pages/SupplierAnalyticsPage";
 import SectionPlaceholder from "./pages/SectionPlaceholder";
 
 const getSession = () => ({
@@ -75,11 +76,6 @@ const shopRoutes = [
 ];
 
 const supplierRoutes = [
-  {
-    path: "/supplier/analytics",
-    title: "Analytics Overview",
-    description: "Track demand, fulfillment speed, and revenue patterns.",
-  },
   {
     path: "/supplier/settings",
     title: "Supplier Settings",
@@ -206,6 +202,16 @@ function App() {
             <RequireSession role="supplier">
               <AppLayout role="supplier">
                 <SupplierInventoryPage />
+              </AppLayout>
+            </RequireSession>
+          }
+        />
+        <Route
+          path="/supplier/analytics"
+          element={
+            <RequireSession role="supplier">
+              <AppLayout role="supplier">
+                <SupplierAnalyticsPage />
               </AppLayout>
             </RequireSession>
           }
