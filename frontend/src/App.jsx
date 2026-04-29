@@ -8,6 +8,7 @@ import InventoryPage from "./pages/InventoryPage";
 import OrdersPage from "./pages/OrdersPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 import AlertsPage from "./pages/AlertsPage";
+import SettingsPage from "./pages/SettingsPage";
 import SupplierDashboardPage from "./pages/SupplierDashboardPage";
 import SupplierShopsPage from "./pages/SupplierShopsPage";
 import SupplierShopDetailsPage from "./pages/SupplierShopDetailsPage";
@@ -69,11 +70,6 @@ const shopRoutes = [
     title: "Analytics Overview",
     description: "Inspect inventory health, spend trends, and procurement performance.",
   },
-  {
-    path: "/dashboard/settings",
-    title: "Workspace Settings",
-    description: "Adjust notification preferences, account details, and portal defaults.",
-  },
 ];
 
 const supplierRoutes = [];
@@ -133,6 +129,16 @@ function App() {
             <RequireSession role="shop">
               <AppLayout role="shop">
                 <AlertsPage />
+              </AppLayout>
+            </RequireSession>
+          }
+        />
+        <Route
+          path="/dashboard/settings"
+          element={
+            <RequireSession role="shop">
+              <AppLayout role="shop">
+                <SettingsPage />
               </AppLayout>
             </RequireSession>
           }

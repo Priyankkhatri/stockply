@@ -1,0 +1,232 @@
+import React, { useState } from "react";
+import {
+  ChevronRight,
+  CreditCard,
+  HelpCircle,
+  LogOut,
+  MapPin,
+  Phone,
+  Plus,
+  Settings as SettingsIcon,
+  ShieldCheck,
+  Store,
+  User,
+  Wallet,
+} from "lucide-react";
+
+export default function SettingsPage() {
+  const [autoPay, setAutoPay] = useState(false);
+
+  const connectedSuppliers = [
+    { name: "Oakwood Timber Co.", category: "Raw Materials", status: "Active", icon: Store },
+    { name: "Cerulean Dyes Ltd.", category: "Finishing", status: "Active", icon: ShieldCheck },
+  ];
+
+  return (
+    <div className="max-w-[1600px] mx-auto px-10 py-10">
+      <div className="mb-10">
+        <h1 className="text-4xl font-bold text-text mb-2 text-primary">Settings</h1>
+        <div className="flex items-center gap-2 text-text/40 text-sm font-medium">
+          <SettingsIcon size={16} />
+          <span>Manage your store profile, financials, and system preferences</span>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+        <div className="xl:col-span-2 space-y-8">
+          <section className="bg-white rounded-2xl border border-text/5 shadow-sm p-8">
+            <div className="flex justify-between items-start mb-10">
+              <div>
+                <h2 className="text-2xl font-bold text-text mb-1">Artisan Ledger Studio</h2>
+                <p className="text-text/40 text-sm font-medium">Primary Operations Center</p>
+              </div>
+              <button
+                className="bg-[#8C5A3C] hover:bg-[#8C5A3C]/90 text-white px-6 py-2.5 rounded-xl font-bold text-sm transition-all shadow-md shadow-[#8C5A3C]/10"
+                type="button"
+              >
+                Edit Details
+              </button>
+            </div>
+
+            <div className="grid grid-cols-2 gap-y-8 gap-x-12">
+              <div className="space-y-1.5">
+                <p className="text-[10px] font-bold text-text/30 uppercase tracking-widest flex items-center gap-2">
+                  <User size={12} /> Owner
+                </p>
+                <p className="font-bold text-text">Arthur Pendelton</p>
+              </div>
+              <div className="space-y-1.5">
+                <p className="text-[10px] font-bold text-text/30 uppercase tracking-widest flex items-center gap-2">
+                  <Phone size={12} /> Phone
+                </p>
+                <p className="font-bold text-text">+91 98765 43210</p>
+              </div>
+              <div className="space-y-1.5">
+                <p className="text-[10px] font-bold text-text/30 uppercase tracking-widest flex items-center gap-2">
+                  <MapPin size={12} /> Pincode
+                </p>
+                <p className="font-bold text-text">560001</p>
+              </div>
+              <div className="space-y-1.5">
+                <p className="text-[10px] font-bold text-text/30 uppercase tracking-widest flex items-center gap-2">
+                  <Store size={12} /> Shop Type
+                </p>
+                <span className="inline-block bg-background text-text/60 text-[10px] font-bold px-3 py-1 rounded-full border border-text/5">
+                  Premium Materials
+                </span>
+              </div>
+            </div>
+          </section>
+
+          <section className="bg-white rounded-2xl border border-text/5 shadow-sm overflow-hidden">
+            <div className="p-8 flex justify-between items-center border-b border-text/5">
+              <h3 className="text-xl font-bold text-text">Connected Suppliers</h3>
+              <button className="text-primary hover:text-primary-dark font-bold text-sm flex items-center gap-1.5 transition-all" type="button">
+                <Plus size={18} />
+                Add New
+              </button>
+            </div>
+            <div className="divide-y divide-text/5">
+              {connectedSuppliers.map((supplier) => (
+                <div
+                  key={supplier.name}
+                  className="px-8 py-6 flex items-center justify-between hover:bg-background/10 transition-all group"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-background flex items-center justify-center text-text/20 group-hover:text-primary/40 transition-colors">
+                      <supplier.icon size={24} />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-text text-sm">{supplier.name}</h4>
+                      <p className="text-[10px] text-text/30 font-bold uppercase tracking-widest">
+                        {supplier.category} • {supplier.status}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-6">
+                    <button className="text-[11px] font-bold text-text/40 hover:text-text transition-colors" type="button">
+                      View
+                    </button>
+                    <button className="text-[11px] font-bold text-red-400 hover:text-red-500 transition-colors" type="button">
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
+
+        <div className="space-y-6">
+          <section className="bg-white rounded-2xl border border-text/5 shadow-sm p-8">
+            <h3 className="text-sm font-bold text-text uppercase tracking-widest mb-8">Financials</h3>
+
+            <div className="bg-background/50 rounded-2xl p-6 border border-text/5 relative overflow-hidden mb-8">
+              <div className="absolute -right-4 -top-4 opacity-5">
+                <Wallet size={120} />
+              </div>
+              <p className="text-[10px] font-bold text-text/30 uppercase tracking-widest mb-1">Available Credit</p>
+              <p className="text-3xl font-bold text-[#8C5A3C]">Rs. 20,000</p>
+            </div>
+
+            <div className="space-y-6">
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-2 text-text/60">
+                  <CreditCard size={16} />
+                  <span className="text-xs font-bold">Payment Methods</span>
+                </div>
+                <button className="text-[10px] font-bold text-primary uppercase tracking-widest hover:underline" type="button">
+                  Manage
+                </button>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {["UPI", "Net Banking", "Pay Later"].map((method) => (
+                  <span
+                    key={method}
+                    className="px-3 py-1 bg-background text-text/40 text-[9px] font-bold rounded-lg border border-text/5"
+                  >
+                    {method}
+                  </span>
+                ))}
+              </div>
+
+              <div className="pt-6 border-t border-text/5 flex items-center justify-between">
+                <div>
+                  <p className="text-xs font-bold text-text">Auto-pay</p>
+                  <p className="text-[10px] text-text/30 font-medium">Deduct automatically for trusted suppliers</p>
+                </div>
+                <button
+                  onClick={() => setAutoPay(!autoPay)}
+                  className={`w-10 h-5 rounded-full transition-all relative flex items-center px-1 ${autoPay ? "bg-primary" : "bg-text/10"}`}
+                  type="button"
+                >
+                  <div className={`w-3 h-3 bg-white rounded-full shadow-sm transition-all ${autoPay ? "translate-x-5" : "translate-x-0"}`} />
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section className="bg-white rounded-2xl border border-text/5 shadow-sm p-8">
+            <h3 className="text-sm font-bold text-text uppercase tracking-widest mb-8">System Preferences</h3>
+
+            <div className="space-y-8">
+              <div>
+                <p className="text-[10px] font-bold text-text/30 uppercase tracking-widest mb-4">Alert Channels</p>
+                <div className="flex items-center gap-6">
+                  {["Push", "WhatsApp", "SMS"].map((channel) => (
+                    <label key={channel} className="flex items-center gap-2 cursor-pointer group">
+                      <div
+                        className={`w-4 h-4 rounded border-2 transition-all flex items-center justify-center ${
+                          channel !== "SMS" ? "bg-primary border-primary" : "border-text/10"
+                        }`}
+                      >
+                        {channel !== "SMS" ? <div className="w-1.5 h-1.5 bg-white rounded-full" /> : null}
+                      </div>
+                      <span
+                        className={`text-[11px] font-bold ${
+                          channel !== "SMS" ? "text-text" : "text-text/30 group-hover:text-text/40"
+                        }`}
+                      >
+                        {channel}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <p className="text-[10px] font-bold text-text/30 uppercase tracking-widest mb-4">Reorder Logic</p>
+                <div className="relative">
+                  <select className="w-full bg-background border border-text/5 rounded-xl px-4 py-3 text-xs font-bold text-text focus:outline-none focus:border-primary/30 appearance-none cursor-pointer">
+                    <option>AI Predictive (Recommended)</option>
+                    <option>Fixed Threshold</option>
+                    <option>Manual Review</option>
+                  </select>
+                  <ChevronRight size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-text/20 rotate-90" />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div className="space-y-3">
+            <button className="w-full bg-white border border-text/5 rounded-2xl p-6 flex items-center justify-between group hover:border-primary/20 transition-all" type="button">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-background rounded-lg text-text/20 group-hover:text-primary/40 transition-colors">
+                  <HelpCircle size={18} />
+                </div>
+                <span className="text-sm font-bold text-text">Help & Support</span>
+              </div>
+              <ChevronRight size={18} className="text-text/20" />
+            </button>
+
+            <button className="w-full bg-white border border-red-100 rounded-2xl p-6 flex items-center justify-center gap-3 text-red-500 hover:bg-red-50 transition-all group" type="button">
+              <LogOut size={18} className="group-hover:-translate-x-1 transition-transform" />
+              <span className="text-sm font-bold">Sign Out Session</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
