@@ -5,6 +5,7 @@ import Topbar from "./components/Topbar";
 import LoginPage from "./pages/LoginPage";
 import DashboardHome from "./pages/DashboardHome";
 import InventoryPage from "./pages/InventoryPage";
+import CompareSuppliersPage from "./pages/CompareSuppliersPage";
 import OrdersPage from "./pages/OrdersPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 import AlertsPage from "./pages/AlertsPage";
@@ -100,6 +101,16 @@ function App() {
             <RequireSession role="shop">
               <AppLayout role="shop">
                 <InventoryPage />
+              </AppLayout>
+            </RequireSession>
+          }
+        />
+        <Route
+          path="/dashboard/inventory/compare"
+          element={
+            <RequireSession role="shop">
+              <AppLayout role="shop">
+                <CompareSuppliersPage />
               </AppLayout>
             </RequireSession>
           }
