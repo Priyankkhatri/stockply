@@ -26,4 +26,10 @@ export const alertAPI = {
   getSummary: () => api.get('/alerts/summary')
 };
 
+export const partnerAPI = {
+  getAll: () => api.get('/partners'),
+  create: (data) => api.post('/partners', data),
+  update: (id, data) => api.patch(`/partners/${id}`, data)
+};
+
 export default api;

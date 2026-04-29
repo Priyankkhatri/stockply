@@ -29,7 +29,7 @@ const filters = ['All Partners', 'High Volume', 'Frequent', 'New'];
 
 const SupplierShopsPage = () => {
   const navigate = useNavigate();
-  const { partners, addPartner } = useSupplier();
+  const { partners, loading, addPartner } = useSupplier();
   const [activeFilter, setActiveFilter] = useState('All Partners');
   const [searchTerm, setSearchTerm] = useState('');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -38,34 +38,38 @@ const SupplierShopsPage = () => {
     name: '',
     category: 'Electronics',
     location: '',
-    totalOrders: '0',
-    revenue: 'Rs. 0',
-    behavior: 'N/A',
-    status: 'Active',
-    initials: '',
-    initialsBg: 'bg-teal-50 text-teal-600'
+    status: 'Active'
   });
 
-  const handleAddPartner = () => {
+  const handleAddPartner = async () => {
     if (!newPartner.name || !newPartner.location) return;
     
-    const initials = newPartner.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
-    const partner = { ...newPartner, initials };
-    
-    addPartner(partner);
+    await addPartner({
+      ...newPartner,
+      revenue: 'Rs. 0',
+      totalOrders: '0',
+      behavior: 'On-time'
+    });
+
     setIsAddModalOpen(false);
     setNewPartner({
       name: '',
       category: 'Electronics',
       location: '',
-      totalOrders: '0',
-      revenue: 'Rs. 0',
-      behavior: 'N/A',
-      status: 'Active',
-      initials: '',
-      initialsBg: 'bg-teal-50 text-teal-600'
+      status: 'Active'
     });
   };
+
+  if (loading) {
+    return (
+      <div className="flex h-[80vh] items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <p className="text-xs font-black uppercase tracking-widest text-text/40">Syncing Network Directory...</p>
+        </div>
+      </div>
+    );
+  }
 
 
   const visibleShops = useMemo(() => {
@@ -161,58 +165,61 @@ const SupplierShopsPage = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-text/5">
-              {visibleShops.map((shop) => (
-                <tr
-                  key={shop.name}
-                  onClick={() => navigate(`/supplier/shops/${shop.name.toLowerCase().replace(/\\s+/g, '-')}`)}
-                  className="group cursor-pointer transition-all hover:bg-background/20"
-                >
-                  <td className="px-10 py-8">
-                    <div className="flex items-center gap-4">
-                      <div className={`flex h-14 w-14 items-center justify-center rounded-2xl border border-black/5 text-sm font-black shadow-sm ${shop.initialsBg}`}>
-                        {shop.initials}
-                      </div>
-                      <div>
-                        <span className="block text-base font-bold text-text transition-colors group-hover:text-primary">{shop.name}</span>
-                        <span className="mt-1 block text-[10px] font-black uppercase tracking-widest text-text/30">Partner since 2022</span>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-10 py-8">
-                    <span className="rounded-lg border border-text/5 bg-white px-3 py-1 text-[9px] font-black uppercase tracking-widest text-text/60 shadow-sm">
-                      {shop.category}
-                    </span>
-                  </td>
-                  <td className="px-10 py-8">
-                    <div className="flex items-center gap-2 text-sm font-medium text-text/60">
-                      <MapPin size={14} className="text-primary" />
-                      {shop.location}
-                    </div>
-                  </td>
-                  <td className="px-10 py-8">
-                    <p className="text-sm font-black tracking-tight text-text">{shop.revenue}</p>
-                    <p className="text-[10px] font-bold tracking-widest text-text/30">{shop.totalOrders} Orders</p>
-                  </td>
-                  <td className="px-10 py-8 text-center">
-                    <span className={`rounded-full border px-4 py-1 text-[9px] font-black uppercase tracking-widest ${behaviorStyles[shop.behavior]}`}>
-                      {shop.behavior}
-                    </span>
-                  </td>
-                  <td className="px-10 py-8 text-center">
-                    <div className="flex flex-col items-center gap-1">
-                      <div className={`h-2 w-2 rounded-full ${shop.status === 'Active' ? 'bg-teal-500 shadow-[0_0_8px_rgba(20,184,166,0.5)]' : 'bg-orange-400 shadow-[0_0_8px_rgba(251,146,60,0.5)]'}`} />
-                      <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${shop.status === 'Active' ? 'text-teal-600' : 'text-orange-400'}`}>
-                        {shop.status}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="px-10 py-8 text-right">
-                    <button className="text-text/10 transition-all group-hover:text-text">
-                      <MoreHorizontal size={24} />
-                    </button>
-                  </td>
-                </tr>
-              ))}
+               {visibleShops.map((shop) => {
+                  const initials = shop.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+                  return (
+                    <tr
+                      key={shop._id || shop.name}
+                      onClick={() => navigate(`/supplier/shops/${shop.name.toLowerCase().replace(/\s+/g, '-')}`)}
+                      className="group cursor-pointer transition-all hover:bg-background/20"
+                    >
+                      <td className="px-10 py-8">
+                        <div className="flex items-center gap-4">
+                          <div className={`flex h-14 w-14 items-center justify-center rounded-2xl border border-black/5 text-sm font-black shadow-sm bg-teal-50 text-teal-600`}>
+                            {initials}
+                          </div>
+                          <div>
+                            <span className="block text-base font-bold text-text transition-colors group-hover:text-primary">{shop.name}</span>
+                            <span className="mt-1 block text-[10px] font-black uppercase tracking-widest text-text/30">Partner since {new Date(shop.createdAt).getFullYear() || 2024}</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-10 py-8">
+                        <span className="rounded-lg border border-text/5 bg-white px-3 py-1 text-[9px] font-black uppercase tracking-widest text-text/60 shadow-sm">
+                          {shop.category || 'General'}
+                        </span>
+                      </td>
+                      <td className="px-10 py-8">
+                        <div className="flex items-center gap-2 text-sm font-medium text-text/60">
+                          <MapPin size={14} className="text-primary" />
+                          {shop.location}
+                        </div>
+                      </td>
+                      <td className="px-10 py-8">
+                        <p className="text-sm font-black tracking-tight text-text">{shop.revenue || 'Rs. 0'}</p>
+                        <p className="text-[10px] font-bold tracking-widest text-text/30">{shop.totalOrders || 0} Orders</p>
+                      </td>
+                      <td className="px-10 py-8 text-center">
+                        <span className={`rounded-full border px-4 py-1 text-[9px] font-black uppercase tracking-widest ${behaviorStyles[shop.behavior] || behaviorStyles['On-time']}`}>
+                          {shop.behavior || 'On-time'}
+                        </span>
+                      </td>
+                      <td className="px-10 py-8 text-center">
+                        <div className="flex flex-col items-center gap-1">
+                          <div className={`h-2 w-2 rounded-full ${shop.status === 'Active' ? 'bg-teal-500 shadow-[0_0_8px_rgba(20,184,166,0.5)]' : 'bg-orange-400 shadow-[0_0_8px_rgba(251,146,60,0.5)]'}`} />
+                          <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${shop.status === 'Active' ? 'text-teal-600' : 'text-orange-400'}`}>
+                            {shop.status}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-10 py-8 text-right">
+                        <button className="text-text/10 transition-all group-hover:text-text">
+                          <MoreHorizontal size={24} />
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         </div>

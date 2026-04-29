@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { productAPI, transactionAPI, alertAPI } from '../services/api';
+import { productAPI, transactionAPI, alertAPI, partnerAPI } from '../services/api';
 
 const SupplierContext = createContext();
 
@@ -25,17 +25,37 @@ export const SupplierProvider = ({ children }) => {
   const fetchInitialData = async () => {
     try {
       setLoading(true);
-      const [prodRes, summaryRes] = await Promise.all([
+      const [prodRes, summaryRes, partnersRes] = await Promise.all([
         productAPI.getAll(),
-        alertAPI.getSummary()
+        alertAPI.getSummary(),
+        partnerAPI.getAll()
       ]);
       
       setProducts(prodRes.data.data.products);
       setSummary(summaryRes.data.data.summary);
-      setLoading(false);
+      setPartners(partnersRes.data.data.partners);
     } catch (error) {
       console.error('Error fetching initial data:', error);
+    } finally {
       setLoading(false);
+    }
+  };
+
+  const addPartner = async (partnerData) => {
+    try {
+      const res = await partnerAPI.create(partnerData);
+      setPartners(prev => [res.data.data.partner, ...prev]);
+    } catch (error) {
+      console.error('Error adding partner:', error);
+    }
+  };
+
+  const updatePartner = async (id, partnerData) => {
+    try {
+      const res = await partnerAPI.update(id, partnerData);
+      setPartners(prev => prev.map(p => (p._id === id ? res.data.data.partner : p)));
+    } catch (error) {
+      console.error('Error updating partner:', error);
     }
   };
 
@@ -63,7 +83,6 @@ export const SupplierProvider = ({ children }) => {
     }
   };
   const addOrder = (order) => setOrders([order, ...orders]);
-  const addPartner = (partner) => setPartners([partner, ...partners]);
   
   const updateOrderStatus = (id, status) => {
     setOrders(orders.map(o => o.id === id ? { ...o, status } : o));
