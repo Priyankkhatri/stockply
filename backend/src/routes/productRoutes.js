@@ -12,4 +12,8 @@ router
   .route('/:id/stock')
   .patch(productController.updateStock);
 
+router
+  .route('/scan/:barcode')
+  .patch(productController.scanProduct);
+
 module.exports = router;
