@@ -20,12 +20,30 @@ const FeatureCard = ({ icon: Icon, title, desc, color }) => (
   </motion.div>
 );
 
-const StatBlock = ({ value, label }) => (
-  <div className="text-center">
-    <p className="text-4xl lg:text-5xl font-black text-white tracking-tighter">{value}</p>
-    <p className="text-[10px] font-black uppercase tracking-[0.25em] text-white/30 mt-2">{label}</p>
-  </div>
-);
+const StatBlock = ({ value, label }) => {
+  const [displayed, setDisplayed] = useState(value);
+  const numericValue = parseInt(value.replace(/[^0-9]/g, ''));
+  
+  useEffect(() => {
+    if (isNaN(numericValue)) { setDisplayed(value); return; }
+    let current = 0;
+    const step = Math.max(1, Math.floor(numericValue / 40));
+    const suffix = value.replace(/[0-9]/g, '');
+    const timer = setInterval(() => {
+      current += step;
+      if (current >= numericValue) { setDisplayed(value); clearInterval(timer); }
+      else { setDisplayed(current + suffix); }
+    }, 30);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="text-center">
+      <p className="text-4xl lg:text-5xl font-black text-white tracking-tighter">{displayed}</p>
+      <p className="text-[10px] font-black uppercase tracking-[0.25em] text-white/30 mt-2">{label}</p>
+    </div>
+  );
+};
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -187,6 +205,51 @@ const LandingPage = () => {
         </motion.div>
       </section>
 
+      {/* ─── Testimonials ─── */}
+      <section id="testimonials" className="py-24 px-6 lg:px-12 bg-white/50">
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}
+          variants={{ visible: { transition: { staggerChildren: 0.12 } } }}
+          className="max-w-7xl mx-auto">
+          <motion.div variants={fadeUp} className="text-center mb-16">
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary mb-4">Testimonials</p>
+            <h2 className="text-4xl lg:text-5xl font-black text-text tracking-tighter">Loved by supply chains everywhere.</h2>
+          </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { name: 'Aarav Mehta', role: 'Shop Owner, Mumbai', quote: 'Stockply replaced three tools for us. Inventory, orders, and partner management — all in one beautiful interface.' },
+              { name: 'Priya Sharma', role: 'Supplier, Delhi', quote: 'The fulfillment dashboard is a game changer. I can track every order from placement to delivery in real-time.' },
+              { name: 'Rohan Patel', role: 'Operations Lead, Bangalore', quote: 'We reduced stock-outs by 40% in the first month. The low-stock alerts are incredibly accurate.' },
+            ].map((t, i) => (
+              <motion.div key={i} variants={fadeUp} className="bg-background rounded-[32px] p-8 border border-text/5 relative group hover:shadow-lg transition-all">
+                <div className="flex gap-1 mb-6">
+                  {[...Array(5)].map((_, s) => <Star key={s} size={14} className="text-primary fill-primary" />)}
+                </div>
+                <p className="text-sm text-text/70 leading-relaxed mb-8 italic">"{t.quote}"</p>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-black">{t.name.split(' ').map(n => n[0]).join('')}</div>
+                  <div>
+                    <p className="text-sm font-bold text-text">{t.name}</p>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-text/30">{t.role}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ─── Trusted By ─── */}
+      <section className="py-16 px-6 lg:px-12 border-y border-text/5">
+        <div className="max-w-7xl mx-auto text-center">
+          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-text/20 mb-8">Trusted by businesses across India</p>
+          <div className="flex flex-wrap items-center justify-center gap-12 opacity-30">
+            {['RetailMax', 'UrbanGoods', 'FreshMart', 'TechSupply', 'MetroWare'].map((brand) => (
+              <span key={brand} className="text-xl font-black text-text tracking-tighter">{brand}</span>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ─── Stats Bar ─── */}
       <section id="stats" className="mx-6 lg:mx-12 mb-24">
         <div className="max-w-7xl mx-auto bg-text rounded-[40px] p-16 relative overflow-hidden">
@@ -198,6 +261,33 @@ const LandingPage = () => {
             <StatBlock value="24/7" label="Support" />
           </div>
         </div>
+      </section>
+
+      {/* ─── FAQ ─── */}
+      <section className="py-24 px-6 lg:px-12 max-w-4xl mx-auto">
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}
+          variants={{ visible: { transition: { staggerChildren: 0.1 } } }}>
+          <motion.div variants={fadeUp} className="text-center mb-16">
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary mb-4">FAQ</p>
+            <h2 className="text-4xl lg:text-5xl font-black text-text tracking-tighter">Common questions.</h2>
+          </motion.div>
+          <div className="space-y-4">
+            {[
+              { q: 'Is Stockply free to use?', a: 'Yes! Stockply offers a free tier with all core features. Premium plans are available for high-volume businesses.' },
+              { q: 'Can I use it as both a shop and supplier?', a: 'Each account is tied to a single role for security. You can create separate accounts for each role.' },
+              { q: 'How is my data protected?', a: 'All data is encrypted in transit and at rest. We use JWT authentication and MongoDB Atlas with enterprise-grade security.' },
+              { q: 'Does it work on mobile?', a: 'Absolutely. Stockply is fully responsive and works beautifully on phones, tablets, and desktops.' },
+            ].map((faq, i) => (
+              <motion.details key={i} variants={fadeUp} className="group bg-white rounded-2xl border border-text/5 overflow-hidden hover:shadow-md transition-all">
+                <summary className="flex items-center justify-between cursor-pointer px-8 py-6 text-sm font-bold text-text list-none">
+                  {faq.q}
+                  <ChevronRight size={16} className="text-text/20 group-open:rotate-90 transition-transform" />
+                </summary>
+                <div className="px-8 pb-6 text-sm text-text/50 leading-relaxed">{faq.a}</div>
+              </motion.details>
+            ))}
+          </div>
+        </motion.div>
       </section>
 
       {/* ─── CTA ─── */}
