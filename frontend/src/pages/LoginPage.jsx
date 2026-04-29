@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Package, Store, Truck, ArrowRight } from 'lucide-react';
 import { authAPI } from '../services/api';
+import SEOHead from '../components/SEOHead';
 
 const LoginPage = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -49,6 +50,11 @@ const LoginPage = () => {
 
   return (
     <div className="min-h-screen flex bg-background font-sans">
+      <SEOHead
+        title="Log In"
+        description="Log in or sign up to Stockply — manage your inventory, orders, and supply chain from one premium dashboard."
+        path="/login"
+      />
       {/* Left Side: Auth Form */}
       <div className="w-full lg:w-1/2 flex flex-col p-8 lg:p-24 justify-between overflow-y-auto">
         <div>

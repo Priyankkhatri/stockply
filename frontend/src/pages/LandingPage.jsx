@@ -6,6 +6,7 @@ import {
   Users, ShoppingCart, Truck, Star, ChevronRight, Globe,
   Menu, X
 } from 'lucide-react';
+import SEOHead from '../components/SEOHead';
 
 const fadeUp = { hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0 } };
 
@@ -65,6 +66,11 @@ const LandingPage = () => {
 
   return (
     <div className="min-h-screen bg-background font-sans overflow-x-hidden scroll-smooth">
+      <SEOHead
+        title="Stockply — Supply Chain Clarity, Beautifully Delivered"
+        description="Stockply is the Digital Atelier for supply chain management. Real-time inventory tracking, intelligent analytics, and seamless logistics for shop owners and suppliers across India."
+        path="/"
+      />
       {/* ─── Navbar ─── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b transition-all duration-300 ${scrolled ? 'bg-white/90 border-text/10 shadow-lg shadow-text/5' : 'bg-background/80 border-text/5'}`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
