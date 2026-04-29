@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { useSupplier } from '../context/SupplierContext';
 import { 
   Plus, 
   Download, 
@@ -224,64 +225,18 @@ const OrderCard = ({ order, isExpanded, onToggle, onUpdateStatus }) => {
 };
 
 export default function SupplierOrdersPage() {
-  const [activeTab, setActiveTab] = useState('Pending');
-  const [query, setQuery] = useState('');
-  const [expandedId, setExpandedId] = useState('#ORD-8920');
+  const { orders, updateOrderStatus } = useSupplier();
+  const [activeTab, setActiveTab] = useState('All Orders');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [expandedOrder, setExpandedOrder] = useState(null);
 
-  const [orders, setOrders] = useState([
-    {
-      id: '#ORD-8920',
-      date: 'Oct 24 • 14:30',
-      shop: 'Artisan Goods Co.',
-      itemsCount: 3,
-      totalQty: 174,
-      amount: 'Rs. 45,200',
-      payment: 'Paid',
-      status: 'Pending',
-      items: [
-        { name: 'Terracotta Vase', sku: 'TC-VS-001', qty: 24, price: '12,000' },
-        { name: 'Jute Storage Basket', sku: 'JT-BS-092', qty: 50, price: '25,000' },
-        { name: 'Carved Wood Coasters', sku: 'WD-CS-014', qty: 100, price: '8,200' },
-      ]
-    },
-    {
-      id: '#ORD-8919',
-      date: 'Oct 23 • 09:10',
-      shop: 'The Craft Boutique',
-      itemsCount: 4,
-      totalQty: 120,
-      amount: 'Rs. 18,500',
-      payment: 'Paid',
-      status: 'Dispatched',
-      items: [
-        { name: 'Linen Napkins', sku: 'LN-NP-05', qty: 100, price: '15,000' },
-        { name: 'Ceramic Plate', sku: 'CM-PL-02', qty: 20, price: '3,500' }
-      ]
-    },
-    {
-      id: '#ORD-8918',
-      date: 'Oct 22 • 18:05',
-      shop: 'Urban Nest Decor',
-      itemsCount: 2,
-      totalQty: 15,
-      amount: 'Rs. 4,200',
-      payment: 'Pending',
-      status: 'Pending',
-      items: [
-        { name: 'Glass Candle Holder', sku: 'GL-CH-01', qty: 15, price: '4,200' }
-      ]
-    }
-  ]);
-
-  const handleUpdateStatus = (id, newStatus) => {
-    setOrders(orders.map(order => 
-      order.id === id ? { ...order, status: newStatus } : order
-    ));
+  const handleStatusUpdate = (id, newStatus) => {
+    updateOrderStatus(id, newStatus);
   };
 
 
   const filtered = useMemo(() => {
-    const norm = query.trim().toLowerCase();
+    const norm = searchTerm.trim().toLowerCase();
     return orders.filter((order) => {
       if (activeTab !== 'All' && order.status !== activeTab) return false;
       if (!norm) return true;
