@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { SupplierProvider } from "./context/SupplierContext";
 import LoginPage from "./pages/LoginPage";
 import DashboardHome from "./pages/DashboardHome";
 import InventoryPage from "./pages/InventoryPage";
@@ -54,8 +55,10 @@ function App() {
   const session = getSession();
 
   return (
-    <Router>
-      <Routes>
+    <SupplierProvider>
+      <Router>
+        <Routes>
+
         <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<HomeRoute />} />
 
@@ -224,6 +227,7 @@ function App() {
         <Route path="*" element={<Navigate to={getHomePath(session.role)} replace />} />
       </Routes>
     </Router>
+    </SupplierProvider>
   );
 }
 

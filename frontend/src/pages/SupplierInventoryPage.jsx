@@ -14,6 +14,7 @@ import {
   ArrowUpDown,
   MoreHorizontal
 } from 'lucide-react';
+import { useSupplier } from '../context/SupplierContext';
 import GlassCard from '../components/GlassCard';
 import PremiumButton from '../components/PremiumButton';
 import PageHeader from '../components/PageHeader';
@@ -148,59 +149,21 @@ const InventoryRow = ({ product, isEditing, onEdit, onCancel }) => {
 };
 
 export default function SupplierInventoryPage() {
+  const { products, addProduct } = useSupplier();
   const [activeTab, setActiveTab] = useState('All Items');
   const [editingRow, setEditingRow] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-
-  const [products, setProducts] = useState([
-    {
-      name: 'European Linen - Natural',
-      sku: 'LNN-NAT-01',
-      category: 'Fabric',
-      stock: '340',
-      unit: 'mtrs',
-      price: '850.00',
-      moq: '100',
-      leadTime: '14 Days',
-      status: 'In Stock',
-      img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=100&auto=format&fit=crop'
-    },
-    {
-      name: 'Full Grain Leather - Cognac',
-      sku: 'LTH-COG-05',
-      category: 'Leather',
-      stock: '45',
-      unit: 'sqft',
-      price: '1250.00',
-      moq: '50',
-      leadTime: '21 Days',
-      status: 'Low Stock',
-      img: 'https://images.unsplash.com/photo-1524292332709-b33366a7f139?q=80&w=100&auto=format&fit=crop'
-    },
-    {
-      name: 'Corrugated Boxes (Medium)',
-      sku: 'PKG-BOX-M',
-      category: 'Packaging',
-      stock: '1,200',
-      unit: 'pcs',
-      price: '45.00',
-      moq: '500',
-      leadTime: '5 Days',
-      status: 'In Stock',
-      img: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?q=80&w=100&auto=format&fit=crop'
-    }
-  ]);
 
   const [newProduct, setNewProduct] = useState({
     name: '',
     sku: '',
     category: 'Fabric',
     stock: '',
-    unit: 'units',
-    price: '0.00',
-    moq: '10',
-    leadTime: '7 Days',
+    unit: 'mtrs',
+    price: '',
+    moq: '100',
+    leadTime: '14 Days',
     status: 'In Stock',
     img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=100&auto=format&fit=crop'
   });
@@ -208,17 +171,17 @@ export default function SupplierInventoryPage() {
   const handleAddProduct = () => {
     if (!newProduct.name || !newProduct.sku) return;
     
-    setProducts([newProduct, ...products]);
+    addProduct(newProduct);
     setIsAddModalOpen(false);
     setNewProduct({
       name: '',
       sku: '',
       category: 'Fabric',
       stock: '',
-      unit: 'units',
-      price: '0.00',
-      moq: '10',
-      leadTime: '7 Days',
+      unit: 'mtrs',
+      price: '',
+      moq: '100',
+      leadTime: '14 Days',
       status: 'In Stock',
       img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=100&auto=format&fit=crop'
     });

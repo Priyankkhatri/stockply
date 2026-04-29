@@ -12,7 +12,9 @@ import {
   Search,
   Tag,
 } from 'lucide-react';
+import { useSupplier } from '../context/SupplierContext';
 import PageHeader from '../components/PageHeader';
+
 import PremiumButton from '../components/PremiumButton';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -27,56 +29,10 @@ const filters = ['All Partners', 'High Volume', 'Frequent', 'New'];
 
 const SupplierShopsPage = () => {
   const navigate = useNavigate();
+  const { partners, addPartner } = useSupplier();
   const [activeFilter, setActiveFilter] = useState('All Partners');
   const [searchTerm, setSearchTerm] = useState('');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-
-  const [partners, setPartners] = useState([
-    {
-      name: 'Tech Emporium',
-      initials: 'TE',
-      initialsBg: 'bg-teal-50 text-teal-600',
-      category: 'Electronics',
-      location: 'Mumbai, IND',
-      totalOrders: '1,245',
-      revenue: 'Rs. 450,000',
-      behavior: 'On-time',
-      status: 'Active',
-    },
-    {
-      name: 'Style Factory',
-      initials: 'SF',
-      initialsBg: 'bg-red-50 text-red-600',
-      category: 'Clothing',
-      location: 'Delhi, IND',
-      totalOrders: '890',
-      revenue: 'Rs. 215,500',
-      behavior: 'Delayed',
-      status: 'Active',
-    },
-    {
-      name: 'Fresh Mart',
-      initials: 'FM',
-      initialsBg: 'bg-teal-50 text-teal-600',
-      category: 'Food & Beverage',
-      location: 'Bengaluru, IND',
-      totalOrders: '3,450',
-      revenue: 'Rs. 890,000',
-      behavior: 'On-time',
-      status: 'Active',
-    },
-    {
-      name: 'City Grocers',
-      initials: 'CG',
-      initialsBg: 'bg-gray-100 text-gray-400',
-      category: 'Food & Beverage',
-      location: 'Pune, IND',
-      totalOrders: '120',
-      revenue: 'Rs. 45,000',
-      behavior: 'N/A',
-      status: 'Inactive',
-    },
-  ]);
 
   const [newPartner, setNewPartner] = useState({
     name: '',
@@ -96,7 +52,7 @@ const SupplierShopsPage = () => {
     const initials = newPartner.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
     const partner = { ...newPartner, initials };
     
-    setPartners([partner, ...partners]);
+    addPartner(partner);
     setIsAddModalOpen(false);
     setNewPartner({
       name: '',
@@ -110,6 +66,7 @@ const SupplierShopsPage = () => {
       initialsBg: 'bg-teal-50 text-teal-600'
     });
   };
+
 
   const visibleShops = useMemo(() => {
     return partners.filter((shop) => {

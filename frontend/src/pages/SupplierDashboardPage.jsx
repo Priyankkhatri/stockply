@@ -1,3 +1,5 @@
+
+.
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -11,53 +13,60 @@ import {
   TrendingUp,
   Wallet,
 } from 'lucide-react';
+import { useSupplier } from '../context/SupplierContext';
 import PageHeader from '../components/PageHeader';
+
 import PremiumButton from '../components/PremiumButton';
-
-const connectedShops = [
-  {
-    name: 'The Organic Pantry',
-    status: 'Active',
-    tag: 'Frequent buyer',
-    lastOrder: 'Today, 10:30 AM',
-    monthlyRev: 'Rs. 45,000',
-    avatar: 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=100&auto=format&fit=crop',
-  },
-  {
-    name: 'Urban Crust Cafe',
-    status: 'Active',
-    tag: 'High demand',
-    lastOrder: 'Yesterday',
-    monthlyRev: 'Rs. 62,000',
-    avatar: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=100&auto=format&fit=crop',
-  },
-];
-
-const incomingOrders = [
-  { id: '#ORD-092', shop: 'The Organic Pantry', items: '4 items', value: 'Rs. 4,200', status: 'Pending' },
-  { id: '#ORD-091', shop: 'Daily Fresh Supermarket', items: '12 items', value: 'Rs. 12,800', status: 'Accepted' },
-  { id: '#ORD-090', shop: 'Urban Crust Cafe', items: '2 items', value: 'Rs. 1,500', status: 'Pending' },
-];
-
-const stockOverview = [
-  { name: 'Artisan Sourdough Flour', detail: '25kg bags', stock: '12 units', status: 'Low stock' },
-  { name: 'Organic Honey Jar', detail: '500ml', stock: '45 units', status: 'Selling fast' },
-  { name: 'Premium Almonds', detail: '1kg pack', stock: '8 units', status: 'Low stock' },
-  { name: 'Cold Pressed Olive Oil', detail: '1L bottle', stock: '120 units', status: 'Stable' },
-];
-
-const stats = [
-  { label: 'CONNECTED SHOPS', value: '5', trend: '+1 new', icon: Store, color: 'text-blue-500', bg: 'bg-blue-50' },
-  { label: 'ORDERS TODAY', value: '18', trend: '+12%', icon: ShoppingCart, color: 'text-primary', bg: 'bg-primary/10' },
-  { label: 'REVENUE TODAY', value: 'Rs. 12,500', trend: '+5.4%', icon: Wallet, color: 'text-teal-600', bg: 'bg-teal-50' },
-  { label: 'STOCK ALERTS', value: '6', trend: 'Critical', icon: AlertTriangle, color: 'text-red-500', bg: 'bg-red-50' },
-];
 
 const trendHeights = [30, 45, 60, 40, 70, 55, 90];
 const trendDays = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
+
 const SupplierDashboardPage = () => {
   const navigate = useNavigate();
+  const { partners, orders, products } = useSupplier();
+
+  const activePartnersCount = partners.filter(p => p.status === 'Active').length;
+  const ordersTodayCount = orders.length; // Simplified for mock
+  
+  const revenueToday = orders.reduce((sum, o) => {
+    const val = parseInt(o.amount.replace(/[^0-9]/g, '')) || 0;
+    return sum + val;
+  }, 0);
+
+  const stockAlertsCount = products.filter(p => p.status === 'Low Stock').length;
+
+  const stats = [
+    { label: 'CONNECTED SHOPS', value: activePartnersCount.toString(), trend: '+1 new', icon: Store, color: 'text-blue-500', bg: 'bg-blue-50' },
+    { label: 'ORDERS TODAY', value: ordersTodayCount.toString(), trend: '+12%', icon: ShoppingCart, color: 'text-primary', bg: 'bg-primary/10' },
+    { label: 'REVENUE TODAY', value: `Rs. ${(revenueToday / 1000).toFixed(1)}k`, trend: '+5.4%', icon: Wallet, color: 'text-teal-600', bg: 'bg-teal-50' },
+    { label: 'STOCK ALERTS', value: stockAlertsCount.toString(), trend: 'Critical', icon: AlertTriangle, color: 'text-red-500', bg: 'bg-red-50' },
+  ];
+
+  const incomingOrders = orders.slice(0, 3).map(o => ({
+    id: o.id,
+    shop: o.shop,
+    items: `${o.itemsCount} items`,
+    value: o.amount,
+    status: o.status
+  }));
+
+  const stockOverview = products.slice(0, 4).map(p => ({
+    name: p.name,
+    detail: p.unit,
+    stock: `${p.stock} units`,
+    status: p.status
+  }));
+
+  const connectedShops = partners.filter(p => p.status === 'Active').slice(0, 2).map(p => ({
+    name: p.name,
+    status: p.status,
+    tag: p.behavior === 'On-time' ? 'Frequent buyer' : 'High demand',
+    lastOrder: 'Today, 10:30 AM',
+    monthlyRev: p.revenue,
+    avatar: `https://ui-avatars.com/api/?name=${p.name}&background=random&color=fff`,
+  }));
+
 
   return (
     <div className="mx-auto max-w-[1600px] px-10 py-10 pb-12">
@@ -235,11 +244,10 @@ const SupplierDashboardPage = () => {
                     </td>
                     <td className="py-6 text-sm font-bold text-text">{order.value}</td>
                     <td className="py-6">
-                      <span className={`rounded-lg border px-2.5 py-1 text-[9px] font-black uppercase tracking-widest ${
-                        order.status === 'Pending'
+                      <span className={`rounded-lg border px-2.5 py-1 text-[9px] font-black uppercase tracking-widest ${order.status === 'Pending'
                           ? 'border-orange-100 bg-orange-50 text-orange-500'
                           : 'border-teal-100 bg-teal-50 text-teal-500'
-                      }`}>
+                        }`}>
                         {order.status}
                       </span>
                     </td>
@@ -283,13 +291,12 @@ const SupplierDashboardPage = () => {
                 </div>
                 <div className="flex items-center gap-6">
                   <span className={`text-sm font-black ${item.status === 'Low stock' ? 'text-rose-500' : 'text-text'}`}>{item.stock}</span>
-                  <span className={`rounded-lg border px-2.5 py-1 text-[8px] font-black uppercase tracking-widest ${
-                    item.status === 'Low stock'
+                  <span className={`rounded-lg border px-2.5 py-1 text-[8px] font-black uppercase tracking-widest ${item.status === 'Low stock'
                       ? 'border-rose-100 bg-rose-50 text-rose-500'
                       : item.status === 'Selling fast'
                         ? 'border-blue-100 bg-blue-50 text-blue-500'
                         : 'border-teal-100 bg-teal-50 text-teal-500'
-                  }`}>
+                    }`}>
                     {item.status}
                   </span>
                 </div>
