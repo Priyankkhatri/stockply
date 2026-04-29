@@ -19,7 +19,7 @@ const connectedShops = [
     status: 'Active',
     tag: 'Frequent buyer',
     lastOrder: 'Today, 10:30 AM',
-    monthlyRev: '$45,000',
+    monthlyRev: 'Rs. 45,000',
     avatar: 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=100&auto=format&fit=crop',
   },
   {
@@ -27,15 +27,15 @@ const connectedShops = [
     status: 'Active',
     tag: 'High demand',
     lastOrder: 'Yesterday',
-    monthlyRev: '$62,000',
+    monthlyRev: 'Rs. 62,000',
     avatar: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=100&auto=format&fit=crop',
   },
 ];
 
 const incomingOrders = [
-  { id: '#ORD-092', shop: 'The Organic Pantry', items: '4 items', value: '$4,200', status: 'Pending' },
-  { id: '#ORD-091', shop: 'Daily Fresh Supermarket', items: '12 items', value: '$12,800', status: 'Accepted' },
-  { id: '#ORD-090', shop: 'Urban Crust Cafe', items: '2 items', value: '$1,500', status: 'Pending' },
+  { id: '#ORD-092', shop: 'The Organic Pantry', items: '4 items', value: 'Rs. 4,200', status: 'Pending' },
+  { id: '#ORD-091', shop: 'Daily Fresh Supermarket', items: '12 items', value: 'Rs. 12,800', status: 'Accepted' },
+  { id: '#ORD-090', shop: 'Urban Crust Cafe', items: '2 items', value: 'Rs. 1,500', status: 'Pending' },
 ];
 
 const stockOverview = [
@@ -48,7 +48,7 @@ const stockOverview = [
 const stats = [
   { label: 'CONNECTED SHOPS', value: '5', trend: '+1 new', icon: Store, color: 'text-blue-500', bg: 'bg-blue-50' },
   { label: 'ORDERS TODAY', value: '18', trend: '+12%', icon: ShoppingCart, color: 'text-primary', bg: 'bg-primary/10' },
-  { label: 'REVENUE TODAY', value: '$12,500', trend: '+5.4%', icon: Wallet, color: 'text-teal-600', bg: 'bg-teal-50' },
+  { label: 'REVENUE TODAY', value: 'Rs. 12,500', trend: '+5.4%', icon: Wallet, color: 'text-teal-600', bg: 'bg-teal-50' },
   { label: 'STOCK ALERTS', value: '6', trend: 'Critical', icon: AlertTriangle, color: 'text-red-500', bg: 'bg-red-50' },
 ];
 

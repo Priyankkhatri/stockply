@@ -27,7 +27,7 @@ const stats = [
   { label: 'Inventory Health', value: '82%', trend: '+2.4%', up: true, icon: Zap },
   { label: 'Stockout Rate', value: '4.2%', trend: '+1.1%', up: false, icon: AlertTriangle },
   { label: 'Overstock Items', value: '15', trend: 'Static', up: null, icon: Package },
-  { label: 'Monthly Spend', value: '$4.2L', trend: '-5.2%', up: true, icon: Wallet },
+  { label: 'Monthly Spend', value: 'Rs. 4.2L', trend: '-5.2%', up: true, icon: Wallet },
 ];
 
 const AnalyticsPage = () => {
@@ -141,7 +141,7 @@ const AnalyticsPage = () => {
                 <h4 className="text-lg font-display font-bold text-text">AI Optimizer</h4>
               </div>
               <p className="text-xs font-medium leading-relaxed text-text-muted">
-                You can save <span className="font-black text-accent-emerald">$24,500</span> this month by switching to a better supplier mix.
+                You can save <span className="font-black text-accent-emerald">Rs. 24,500</span> this month by switching to a better supplier mix.
               </p>
             </div>
             <PremiumButton variant="primary" size="sm" className="w-full bg-accent-emerald hover:bg-accent-emerald/90 shadow-accent-emerald/20">

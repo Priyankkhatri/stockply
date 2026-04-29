@@ -5,11 +5,11 @@ import ProductDetailPanel from '../components/ProductDetailPanel';
 import PremiumButton from '../components/PremiumButton';
 
 const products = [
-  { name: 'Paracetamol 500mg', supplier: 'PharmaCorp Inc.', category: 'Analgesics', stock: '12 units', status: 'Low Stock', action: 'Reorder', price: '$4.50' },
-  { name: 'Ibuprofen 400mg', supplier: 'BioHealth Labs', category: 'Analgesics', stock: '450 units', status: 'In Stock', action: 'Manage', price: '$6.20' },
-  { name: 'Amoxicillin 250mg', supplier: 'PharmaCorp Inc.', category: 'Antibiotics', stock: '85 units', status: 'In Stock', action: 'Manage', price: '$12.00' },
-  { name: 'Vitamin C Drops', supplier: 'NatureWell', category: 'Supplements', stock: '0 units', status: 'Out of Stock', action: 'Urgent Reorder', price: '$8.40' },
-  { name: 'Cough Syrup Adult', supplier: 'MediCore', category: 'Respiratory', stock: '28 units', status: 'Low Stock', action: 'Reorder', price: '$5.90' },
+  { name: 'Paracetamol 500mg', supplier: 'PharmaCorp Inc.', category: 'Analgesics', stock: '12 units', status: 'Low Stock', action: 'Reorder', price: 'Rs. 4.50' },
+  { name: 'Ibuprofen 400mg', supplier: 'BioHealth Labs', category: 'Analgesics', stock: '450 units', status: 'In Stock', action: 'Manage', price: 'Rs. 6.20' },
+  { name: 'Amoxicillin 250mg', supplier: 'PharmaCorp Inc.', category: 'Antibiotics', stock: '85 units', status: 'In Stock', action: 'Manage', price: 'Rs. 12.00' },
+  { name: 'Vitamin C Drops', supplier: 'NatureWell', category: 'Supplements', stock: '0 units', status: 'Out of Stock', action: 'Urgent Reorder', price: 'Rs. 8.40' },
+  { name: 'Cough Syrup Adult', supplier: 'MediCore', category: 'Respiratory', stock: '28 units', status: 'Low Stock', action: 'Reorder', price: 'Rs. 5.90' },
 ];
 
 const InventoryPage = () => {

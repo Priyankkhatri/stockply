@@ -45,10 +45,10 @@ const shops = [
 ];
 
 const recentOrders = [
-  { id: 'ORD-4092', date: 'Today, 10:30 AM', items: '45 units', amount: '$12,450', status: 'Pending' },
-  { id: 'ORD-4085', date: 'Oct 12, 2023', items: '32 units', amount: '$8,900', status: 'Dispatched' },
-  { id: 'ORD-4050', date: 'Oct 09, 2023', items: '50 units', amount: '$15,200', status: 'Delivered' },
-  { id: 'ORD-4012', date: 'Oct 05, 2023', items: '28 units', amount: '$7,800', status: 'Delivered' },
+  { id: 'ORD-4092', date: 'Today, 10:30 AM', items: '45 units', amount: 'Rs. 12,450', status: 'Pending' },
+  { id: 'ORD-4085', date: 'Oct 12, 2023', items: '32 units', amount: 'Rs. 8,900', status: 'Dispatched' },
+  { id: 'ORD-4050', date: 'Oct 09, 2023', items: '50 units', amount: 'Rs. 15,200', status: 'Delivered' },
+  { id: 'ORD-4012', date: 'Oct 05, 2023', items: '28 units', amount: 'Rs. 7,800', status: 'Delivered' },
 ];
 
 const statusStyles = {
@@ -111,8 +111,8 @@ const SupplierShopDetailsPage = () => {
       <div className="mb-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         {[
           { label: 'Total Orders', value: '120', trend: '+12% this month', accent: 'text-teal-600' },
-          { label: 'Revenue Generated', value: '$890,000', trend: '+5.4% this month', accent: 'text-teal-600' },
-          { label: 'Avg Order Value', value: '$7,416', trend: 'Stable', accent: 'text-text/30' },
+          { label: 'Revenue Generated', value: 'Rs. 890,000', trend: '+5.4% this month', accent: 'text-teal-600' },
+          { label: 'Avg Order Value', value: 'Rs. 7,416', trend: 'Stable', accent: 'text-text/30' },
           { label: 'Last Order', value: '2h ago', trend: 'ORD-4092', accent: 'text-text/30' },
         ].map((stat) => (
           <div key={stat.label} className="relative overflow-hidden rounded-[28px] border border-text/5 bg-white p-6 shadow-sm">
