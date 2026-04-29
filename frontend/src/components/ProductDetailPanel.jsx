@@ -63,7 +63,7 @@ const ProductDetailPanel = ({ product, onClose }) => {
             </div>
             <div className="flex justify-between items-center text-xs">
               <span className="text-text/40 font-medium">Unit Price</span>
-              <span className="text-text font-bold">$1.45</span>
+              <span className="text-text font-bold">Rs. 1.45</span>
             </div>
           </div>
         </div>
