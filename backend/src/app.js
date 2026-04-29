@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const productRoutes = require('./routes/productRoutes');
 
 const app = express();
 
@@ -17,5 +18,8 @@ app.get('/health', (req, res) => {
     timestamp: new Date().toISOString()
   });
 });
+
+// Routes
+app.use('/api/v1/products', productRoutes);
 
 module.exports = app;
