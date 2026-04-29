@@ -1,7 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Bell, Search, HelpCircle, ChevronDown } from 'lucide-react';
 
 const Topbar = ({ role }) => {
+  const navigate = useNavigate();
+
   return (
     <header className="sticky top-0 z-10 flex h-28 items-center justify-between border-b border-text/5 bg-transparent px-12 backdrop-blur-md">
       <div className="flex-1 max-w-2xl">
@@ -24,7 +27,11 @@ const Topbar = ({ role }) => {
 
       <div className="flex items-center gap-10">
         <div className="flex items-center gap-8 border-r border-text/10 pr-10">
-          <button className="text-text-light transition-all hover:scale-110 hover:text-primary">
+          <button
+            className="text-text-light transition-all hover:scale-110 hover:text-primary"
+            onClick={() => navigate('/support')}
+            type="button"
+          >
             <HelpCircle size={22} />
           </button>
           <button className="relative text-text-light transition-all hover:scale-110 hover:text-primary">
