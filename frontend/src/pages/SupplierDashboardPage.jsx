@@ -60,23 +60,29 @@ const SupplierDashboardPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="mx-auto max-w-[1600px] px-6 py-8 pb-12">
+    <div className="mx-auto max-w-[1600px] px-10 py-10 pb-12">
       <PageHeader
         title="Supplier Dashboard"
-        subtitle="Monitor shop demand, active orders, and warehouse pressure from one supplier workspace."
+        subtitle="Welcome back, Master Artisan. Monitor shop demand, active orders, and warehouse pressure."
         breadcrumbs={['Supplier', 'Dashboard']}
         actions={
-          <PremiumButton icon={Package} onClick={() => navigate('/supplier/inventory')}>
-            Prep inventory
-          </PremiumButton>
+          <div className="flex items-center gap-4">
+            <div className="px-4 py-2 bg-white rounded-xl border border-text/5 shadow-sm flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></div>
+              <span className="text-[10px] font-black text-text/40 uppercase tracking-widest">System Live</span>
+            </div>
+            <PremiumButton icon={Package} onClick={() => navigate('/supplier/inventory')}>
+              Prep inventory
+            </PremiumButton>
+          </div>
         }
       />
 
-      <div className="mb-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div className="mb-10 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
-          <div key={stat.label} className="flex h-[220px] flex-col justify-between rounded-[32px] border border-text/5 bg-white p-8 shadow-sm transition-all hover:shadow-premium">
+          <div key={stat.label} className="flex h-[220px] flex-col justify-between rounded-[32px] border border-text/5 bg-white p-8 shadow-sm transition-all hover:shadow-xl hover:border-primary/20 group">
             <div className="flex items-start justify-between">
-              <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${stat.bg} ${stat.color} shadow-sm`}>
+              <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${stat.bg} ${stat.color} shadow-sm group-hover:scale-110 transition-transform`}>
                 <stat.icon size={22} />
               </div>
               <div className="flex items-center gap-1.5 text-[10px] font-black text-teal-600">
@@ -86,24 +92,24 @@ const SupplierDashboardPage = () => {
             </div>
             <div className="mt-4">
               <p className="mb-1 text-[10px] font-black uppercase tracking-[0.2em] text-text/30">{stat.label}</p>
-              <p className="text-4xl font-bold text-text">{stat.value}</p>
+              <p className="text-4xl font-bold text-text tracking-tight">{stat.value}</p>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="mb-10 grid grid-cols-1 gap-8 xl:grid-cols-3">
-        <div className="space-y-6 xl:col-span-2">
+      <div className="mb-10 grid grid-cols-1 gap-10 xl:grid-cols-3">
+        <div className="space-y-8 xl:col-span-2">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold text-text">Connected Shops</h2>
-            <button className="flex items-center gap-2 text-xs font-bold text-primary" onClick={() => navigate('/supplier/shops')} type="button">
-              View shop directory <ChevronRight size={16} />
+            <button className="flex items-center gap-2 text-xs font-bold text-primary group" onClick={() => navigate('/supplier/shops')} type="button">
+              View shop directory <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             {connectedShops.map((shop) => (
-              <div key={shop.name} className="rounded-[32px] border border-text/5 bg-white p-8 shadow-sm transition-all hover:border-b-primary hover:shadow-premium">
+              <div key={shop.name} className="rounded-[32px] border border-text/5 bg-white p-8 shadow-sm transition-all hover:shadow-xl hover:border-b-primary border-b-transparent border-b-4">
                 <div className="mb-6 flex items-center gap-5">
                   <div className="relative">
                     <img src={shop.avatar} alt={shop.name} className="h-16 w-16 rounded-2xl object-cover shadow-md" />
@@ -134,7 +140,7 @@ const SupplierDashboardPage = () => {
                 </div>
 
                 <button
-                  className="mt-8 w-full rounded-2xl border border-text/5 bg-background py-4 text-xs font-bold text-text shadow-sm transition-all hover:border-primary hover:bg-primary hover:text-white"
+                  className="mt-8 w-full rounded-2xl border border-text/5 bg-background py-4 text-xs font-bold text-text shadow-sm transition-all hover:bg-primary hover:text-white hover:border-primary"
                   onClick={() => navigate('/supplier/shops')}
                   type="button"
                 >
@@ -145,16 +151,17 @@ const SupplierDashboardPage = () => {
           </div>
         </div>
 
-        <div className="space-y-8">
-          <div className="relative overflow-hidden rounded-[36px] bg-text p-10 text-white">
+        <div className="space-y-10">
+          <div className="relative overflow-hidden rounded-[40px] bg-text p-10 text-white group shadow-2xl shadow-text/20">
+            <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700" />
             <div className="relative z-10 mb-6 flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/20 text-primary">
                 <Sparkles size={20} />
               </div>
-              <h3 className="text-xl font-bold">Supply Intelligence</h3>
+              <h3 className="text-xl font-bold">Artisan Intelligence</h3>
             </div>
             <p className="relative z-10 mb-10 text-base leading-relaxed text-white/70">
-              Three shops are likely to reorder <span className="font-bold text-primary">Sourdough Flour</span> in the next 48 hours.
+              <span className="font-black text-white italic">Prediction:</span> 3 shops are likely to reorder <span className="font-bold text-primary">Sourdough Flour</span> in the next 48 hours.
             </p>
             <button
               className="relative z-10 w-full rounded-2xl bg-white py-4 text-xs font-black uppercase tracking-widest text-text shadow-lg transition-all hover:bg-primary hover:text-white"
@@ -165,7 +172,7 @@ const SupplierDashboardPage = () => {
             </button>
           </div>
 
-          <div className="rounded-[36px] border border-text/5 bg-white p-10 shadow-sm">
+          <div className="rounded-[40px] border border-text/5 bg-white p-10 shadow-sm transition-all hover:shadow-lg">
             <div className="mb-10 flex items-start justify-between">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal-600">
@@ -182,9 +189,9 @@ const SupplierDashboardPage = () => {
             </div>
             <div className="flex h-32 items-end justify-between gap-3">
               {trendHeights.map((height, index) => (
-                <div key={`${trendDays[index]}-${height}`} className="flex flex-1 flex-col items-center gap-3">
-                  <div className={`w-full rounded-t-xl transition-all duration-500 ${index === 6 ? 'bg-primary' : 'bg-primary/10 hover:bg-primary/30'}`} style={{ height: `${height}%` }} />
-                  <span className="text-[9px] font-black uppercase text-text/20">{trendDays[index]}</span>
+                <div key={`${trendDays[index]}-${height}`} className="flex flex-1 flex-col items-center gap-3 group">
+                  <div className={`w-full rounded-t-xl transition-all duration-500 ${index === 6 ? 'bg-primary' : 'bg-primary/10 group-hover:bg-primary/30'}`} style={{ height: `${height}%` }} />
+                  <span className="text-[9px] font-black uppercase text-text/20 tracking-tighter">{trendDays[index]}</span>
                 </div>
               ))}
             </div>
@@ -192,8 +199,8 @@ const SupplierDashboardPage = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 xl:grid-cols-2">
-        <div className="rounded-[36px] border border-text/5 bg-white p-10 shadow-sm">
+      <div className="grid grid-cols-1 gap-10 xl:grid-cols-2">
+        <div className="rounded-[40px] border border-text/5 bg-white p-10 shadow-sm hover:shadow-lg transition-all">
           <div className="mb-8 flex items-center justify-between">
             <div>
               <h3 className="text-xl font-bold text-text">Recent Orders</h3>
@@ -248,7 +255,7 @@ const SupplierDashboardPage = () => {
           </div>
         </div>
 
-        <div className="rounded-[36px] border border-[#F0E5D8] bg-[#FAF5F0] p-10 shadow-sm">
+        <div className="rounded-[40px] border border-[#F0E5D8] bg-[#FAF5F0] p-10 shadow-sm hover:shadow-lg transition-all">
           <div className="mb-8 flex items-center justify-between">
             <div>
               <h3 className="text-xl font-bold text-text">Stock Status</h3>
@@ -264,9 +271,9 @@ const SupplierDashboardPage = () => {
           </div>
           <div className="space-y-4">
             {stockOverview.map((item) => (
-              <div key={item.name} className="flex items-center justify-between rounded-3xl border border-text/5 bg-white p-5 transition-all hover:shadow-md">
+              <div key={item.name} className="flex items-center justify-between rounded-3xl border border-text/5 bg-white p-5 transition-all hover:shadow-md group">
                 <div className="flex items-center gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-background text-text/20">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-background text-text/20 group-hover:text-primary transition-all">
                     <Package size={20} />
                   </div>
                   <div>
@@ -275,10 +282,10 @@ const SupplierDashboardPage = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-6">
-                  <span className={`text-sm font-black ${item.status === 'Low stock' ? 'text-red-500' : 'text-text'}`}>{item.stock}</span>
+                  <span className={`text-sm font-black ${item.status === 'Low stock' ? 'text-rose-500' : 'text-text'}`}>{item.stock}</span>
                   <span className={`rounded-lg border px-2.5 py-1 text-[8px] font-black uppercase tracking-widest ${
                     item.status === 'Low stock'
-                      ? 'border-red-100 bg-red-50 text-red-500'
+                      ? 'border-rose-100 bg-rose-50 text-rose-500'
                       : item.status === 'Selling fast'
                         ? 'border-blue-100 bg-blue-50 text-blue-500'
                         : 'border-teal-100 bg-teal-50 text-teal-500'
