@@ -1,29 +1,56 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Package, Store, Truck, ArrowRight } from 'lucide-react';
+import { authAPI } from '../services/api';
 
 const LoginPage = () => {
+  const [isLogin, setIsLogin] = useState(true);
   const [role, setRole] = useState('shop'); // 'shop' or 'supplier'
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    localStorage.setItem('isLoggedIn', 'true');
-    localStorage.setItem('userRole', role);
-    
-    if (role === 'shop') {
-      navigate('/dashboard');
-    } else {
-      navigate('/supplier/dashboard');
+    setLoading(true);
+    setError(null);
+
+    try {
+      let res;
+      if (isLogin) {
+        res = await authAPI.login({ email, password, role });
+      } else {
+        res = await authAPI.signup({ email, password, role, name });
+      }
+
+      if (res.data.status === 'success') {
+        const { token, data } = res.data;
+        const user = data.user;
+
+        localStorage.setItem('authToken', token);
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('userRole', user.role);
+        
+        if (user.role === 'shop') {
+          navigate('/dashboard');
+        } else {
+          navigate('/supplier/dashboard');
+        }
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || err.message || 'Authentication failed');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="min-h-screen flex bg-background font-sans">
-      {/* Left Side: Login Form */}
-      <div className="w-full lg:w-1/2 flex flex-col p-8 lg:p-24 justify-between">
+      {/* Left Side: Auth Form */}
+      <div className="w-full lg:w-1/2 flex flex-col p-8 lg:p-24 justify-between overflow-y-auto">
         <div>
           {/* Logo */}
           <div className="flex items-center gap-2 text-primary font-bold text-xl mb-12">
@@ -33,8 +60,12 @@ const LoginPage = () => {
 
           {/* Welcome Text */}
           <div className="mb-8">
-            <h1 className="text-4xl font-bold text-text mb-2">Welcome back.</h1>
-            <p className="text-text/60">Securely access your inventory command center.</p>
+            <h1 className="text-4xl font-bold text-text mb-2">
+              {isLogin ? 'Welcome back.' : 'Create an account.'}
+            </h1>
+            <p className="text-text/60">
+              {isLogin ? 'Securely access your inventory command center.' : 'Join Stockply to manage your supply chain.'}
+            </p>
           </div>
 
           {/* Role Selection */}
@@ -84,13 +115,35 @@ const LoginPage = () => {
             </div>
             <div className="relative flex justify-center text-xs uppercase">
               <span className="bg-background px-4 text-text/30 tracking-widest text-[10px] font-bold">
-                AUTHENTICATION
+                {isLogin ? 'LOGIN' : 'SIGN UP'}
               </span>
             </div>
           </div>
 
-          {/* Login Form */}
-          <form onSubmit={handleLogin} className="space-y-6">
+          {/* Auth Form */}
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {error && (
+              <div className="p-4 bg-red-50 text-red-600 rounded-lg text-sm border border-red-100">
+                {error}
+              </div>
+            )}
+
+            {!isLogin && (
+              <div>
+                <label className="text-[10px] font-bold tracking-widest text-text/40 uppercase mb-2 block">
+                  FULL NAME
+                </label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="John Doe"
+                  className="w-full p-4 rounded-lg border border-text/10 bg-white focus:outline-none focus:border-primary/50 text-sm transition-colors"
+                  required={!isLogin}
+                />
+              </div>
+            )}
+
             <div>
               <label className="text-[10px] font-bold tracking-widest text-text/40 uppercase mb-2 block">
                 EMAIL ADDRESS
@@ -110,9 +163,11 @@ const LoginPage = () => {
                 <label className="text-[10px] font-bold tracking-widest text-text/40 uppercase block">
                   PASSWORD
                 </label>
-                <a href="#" className="text-[10px] font-bold text-primary hover:text-primary-dark transition-colors">
-                  Forgot password?
-                </a>
+                {isLogin && (
+                  <a href="#" className="text-[10px] font-bold text-primary hover:text-primary-dark transition-colors">
+                    Forgot password?
+                  </a>
+                )}
               </div>
               <input
                 type="password"
@@ -121,16 +176,31 @@ const LoginPage = () => {
                 placeholder="********"
                 className="w-full p-4 rounded-lg border border-text/10 bg-white focus:outline-none focus:border-primary/50 text-sm transition-colors"
                 required
+                minLength={6}
               />
             </div>
 
             <button
               type="submit"
-              className="w-full bg-primary hover:bg-primary-dark text-white font-bold py-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-md shadow-primary/20"
+              disabled={loading}
+              className="w-full bg-primary hover:bg-primary-dark text-white font-bold py-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-md shadow-primary/20 disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              Continue <ArrowRight size={18} />
+              {loading ? 'Processing...' : (isLogin ? 'Log In' : 'Sign Up')} <ArrowRight size={18} />
             </button>
           </form>
+
+          {/* Toggle Login/Signup */}
+          <div className="mt-6 text-center">
+            <button
+              onClick={() => {
+                setIsLogin(!isLogin);
+                setError(null);
+              }}
+              className="text-sm text-text/60 hover:text-primary transition-colors font-medium"
+            >
+              {isLogin ? "Don't have an account? Sign up" : 'Already have an account? Log in'}
+            </button>
+          </div>
         </div>
 
         {/* Footer Links */}
@@ -143,7 +213,6 @@ const LoginPage = () => {
 
       {/* Right Side: Visual Content */}
       <div className="hidden lg:block lg:w-1/2 bg-[#D9D9D9] relative overflow-hidden">
-        {/* Placeholder for the abstract image from screenshot */}
         <div className="absolute inset-0 bg-gradient-to-br from-black/20 to-transparent"></div>
         <img 
           src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop" 

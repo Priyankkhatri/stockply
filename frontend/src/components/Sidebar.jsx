@@ -21,6 +21,7 @@ const Sidebar = ({ role }) => {
       // Clear session data if any (e.g., localStorage.clear())
       localStorage.removeItem('userRole');
       localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('authToken');
       
       // Navigate to login page
       navigate('/login');

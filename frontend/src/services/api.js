@@ -24,6 +24,11 @@ api.interceptors.response.use(
   }
 );
 
+export const authAPI = {
+  signup: (data) => api.post('/auth/signup', data),
+  login: (data) => api.post('/auth/login', data),
+};
+
 export const productAPI = {
   getAll: () => api.get('/products'),
   create: (data) => api.post('/products', data),
