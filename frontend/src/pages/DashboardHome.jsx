@@ -1,19 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  ArrowRight,
-  Package,
-  ShoppingCart,
-  Activity,
-  AlertTriangle,
-  Lightbulb,
-  ChevronRight,
-} from 'lucide-react';
-import PageHeader from '../components/PageHeader';
+import { ShoppingCart, Lightbulb, MessageSquare } from 'lucide-react';
 import GlassCard from '../components/GlassCard';
 import StatCard from '../components/StatCard';
 import StatusBadge from '../components/StatusBadge';
-import PremiumButton from '../components/PremiumButton';
 
 const criticalInventory = [
   {
@@ -23,7 +13,7 @@ const criticalInventory = [
     stock: '0 units',
     price: '$4.50',
     status: 'Out of Stock',
-    forecast: 'Reorder needed today',
+    daysLeft: '0 days left',
   },
   {
     name: 'Ibuprofen 400mg',
@@ -32,7 +22,7 @@ const criticalInventory = [
     stock: '12 units',
     price: '$6.20',
     status: 'Low Stock',
-    forecast: '3 days left',
+    daysLeft: '3 days left',
   },
   {
     name: 'Amoxicillin 250mg',
@@ -41,30 +31,20 @@ const criticalInventory = [
     stock: '145 units',
     price: '$12.00',
     status: 'In Stock',
-    forecast: 'Healthy supply',
+    daysLeft: '45 days left',
   },
 ];
 
 const stats = [
-  { label: 'TOTAL PRODUCTS', value: '1,248', icon: Package },
-  { label: 'LOW STOCK', value: '42', colorClass: 'text-[#C08552]', icon: AlertTriangle },
-  { label: 'OUT OF STOCK', value: '7', colorClass: 'text-accent-rose', icon: Activity },
-  { label: 'ORDERS PENDING', value: '18', icon: ShoppingCart },
+  { label: 'TOTAL PRODUCTS', value: '1,248' },
+  { label: 'LOW STOCK', value: '42', colorClass: 'text-[#C08552]' },
+  { label: 'OUT OF STOCK', value: '7', colorClass: 'text-red-500' },
+  { label: 'ORDERS PENDING', value: '18' },
 ];
 
-const insightCards = [
-  {
-    title: 'Smart Recommendations',
-    body: 'Paracetamol 500mg is projected to stock out in 3 days based on current sales velocity.',
-    value: '60 units',
-    cta: 'Review suppliers',
-  },
-  {
-    title: 'Inventory Health',
-    body: 'Overall health is stable. 15 items still need attention this week.',
-    value: '82%',
-    cta: 'Open analytics',
-  },
+const expiringSoon = [
+  { name: 'Vitamin C Drops', days: '12 days left', color: 'text-red-500' },
+  { name: 'Cough Syrup (Adult)', days: '28 days left', color: 'text-orange-500' },
 ];
 
 const DashboardHome = () => {
@@ -72,86 +52,83 @@ const DashboardHome = () => {
 
   return (
     <div className="max-w-[1600px] mx-auto px-6 py-8">
-      <PageHeader
-        title="Dashboard"
-        subtitle="Overview of your inventory, stock risks, and active orders."
-        breadcrumbs={['Dashboard']}
-        actions={
-          <PremiumButton
-            variant="primary"
-            icon={ArrowRight}
-            onClick={() => navigate('/dashboard/inventory')}
-          >
-            Review inventory
-          </PremiumButton>
-        }
-      />
-
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
-        {stats.map((stat) => (
-          <StatCard
-            key={stat.label}
-            label={stat.label}
-            value={stat.value}
-            icon={stat.icon}
-            colorClass={stat.colorClass}
-          />
-        ))}
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold text-text mb-2">Dashboard</h1>
+        <p className="text-text/60">Overview of your inventory and orders</p>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-        <div className="xl:col-span-2">
-          <GlassCard className="p-0 overflow-hidden h-full">
-            <div className="flex items-center justify-between border-b border-text/5 px-8 py-6">
-              <div>
-                <h2 className="text-xl font-display font-bold text-text">Critical Inventory</h2>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-text-muted mt-1">
-                  Items that need attention now
-                </p>
-              </div>
-              <PremiumButton
-                variant="secondary"
-                size="sm"
-                onClick={() => navigate('/dashboard/orders')}
+      <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
+        <div className="xl:col-span-3 space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {stats.map((stat) => (
+              <StatCard
+                key={stat.label}
+                label={stat.label}
+                value={stat.value}
+                colorClass={stat.colorClass}
+              />
+            ))}
+          </div>
+
+          <GlassCard className="p-0 overflow-hidden">
+            <div className="p-6 flex justify-between items-center border-b border-text/5">
+              <h2 className="text-xl font-bold text-text">Critical Inventory</h2>
+              <button
+                onClick={() => navigate('/dashboard/inventory')}
+                className="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 transition-all"
               >
-                Bulk reorder
-              </PremiumButton>
+                <ShoppingCart size={16} />
+                Reorder All Low Stock
+              </button>
             </div>
 
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="bg-background/40 border-b border-text/5">
-                    <th className="px-8 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-text-muted">Product</th>
-                    <th className="px-8 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-text-muted">Stock</th>
-                    <th className="px-8 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-text-muted">Price</th>
-                    <th className="px-8 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-text-muted">Status</th>
-                    <th className="px-8 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-text-muted">Forecast</th>
-                    <th className="px-8 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-text-muted text-right">Action</th>
+                  <tr className="bg-background/30 border-b border-text/5">
+                    <th className="px-6 py-4 text-[10px] font-bold text-text/40 uppercase tracking-widest">Product</th>
+                    <th className="px-6 py-4 text-[10px] font-bold text-text/40 uppercase tracking-widest">Stock</th>
+                    <th className="px-6 py-4 text-[10px] font-bold text-text/40 uppercase tracking-widest">Price</th>
+                    <th className="px-6 py-4 text-[10px] font-bold text-text/40 uppercase tracking-widest">Status</th>
+                    <th className="px-6 py-4 text-[10px] font-bold text-text/40 uppercase tracking-widest">Forecast</th>
+                    <th className="px-6 py-4 text-[10px] font-bold text-text/40 uppercase tracking-widest text-right">Action</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-text/5">
                   {criticalInventory.map((item) => (
-                    <tr key={item.name} className="hover:bg-background/30 transition-colors">
-                      <td className="px-8 py-5">
+                    <tr key={item.name} className="hover:bg-background/10 transition-colors">
+                      <td className="px-6 py-4">
                         <p className="font-bold text-text text-sm">{item.name}</p>
-                        <p className="text-[10px] text-text-muted uppercase tracking-[0.18em] mt-1">
-                          {item.category} - {item.supplier}
-                        </p>
+                        <p className="text-[10px] text-text/40">{item.category} • {item.supplier}</p>
                       </td>
-                      <td className="px-8 py-5 text-sm font-bold text-text">{item.stock}</td>
-                      <td className="px-8 py-5 text-sm text-text-muted">{item.price}</td>
-                      <td className="px-8 py-5">
+                      <td
+                        className={`px-6 py-4 text-sm font-bold ${
+                          item.status === 'Out of Stock'
+                            ? 'text-red-500'
+                            : item.status === 'Low Stock'
+                              ? 'text-orange-500'
+                              : 'text-teal-600'
+                        }`}
+                      >
+                        {item.stock}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-text/60">{item.price}</td>
+                      <td className="px-6 py-4">
                         <StatusBadge status={item.status} />
                       </td>
-                      <td className="px-8 py-5 text-sm text-text-muted">{item.forecast}</td>
-                      <td className="px-8 py-5 text-right">
+                      <td
+                        className={`px-6 py-4 text-sm font-bold ${
+                          item.status === 'In Stock' ? 'text-text/60' : 'text-orange-500'
+                        }`}
+                      >
+                        {item.daysLeft}
+                      </td>
+                      <td className="px-6 py-4 text-right">
                         <button
-                          onClick={() => navigate('/dashboard/inventory')}
-                          className="inline-flex items-center gap-1 rounded-full border border-text/10 px-3 py-1.5 text-xs font-bold text-text/50 transition-colors hover:border-primary/20 hover:text-primary"
+                          onClick={() => navigate('/dashboard/inventory/compare')}
+                          className="text-xs font-bold text-text/40 hover:text-primary transition-colors border border-text/10 px-3 py-1.5 rounded-md"
                         >
                           Reorder
-                          <ChevronRight size={14} />
                         </button>
                       </td>
                     </tr>
@@ -163,41 +140,71 @@ const DashboardHome = () => {
         </div>
 
         <div className="space-y-6">
-          {insightCards.map((card) => (
-            <div key={card.title}>
-              <GlassCard className="h-full">
-                <div className="flex items-center gap-2 mb-4">
-                  <Lightbulb size={18} className="text-primary" />
-                  <h3 className="font-bold text-text">{card.title}</h3>
-                </div>
-                <p className="text-sm leading-6 text-text-muted">{card.body}</p>
-                <div className="mt-5 flex items-center justify-between rounded-2xl border border-text/5 bg-background/50 px-4 py-3">
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-text-muted">
-                    Suggested action
-                  </span>
-                  <span className="text-sm font-bold text-text">{card.value}</span>
-                </div>
-                <button
-                  onClick={() => navigate('/dashboard/analytics')}
-                  className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-text/10 bg-white px-4 py-3 text-xs font-black uppercase tracking-[0.2em] text-text transition-all hover:border-primary/20 hover:text-primary"
-                >
-                  {card.cta}
-                </button>
-              </GlassCard>
+          <GlassCard className="relative overflow-hidden">
+            <div className="flex items-center gap-2 mb-4">
+              <Lightbulb size={18} className="text-primary" />
+              <h3 className="font-bold text-text">Smart Recommendations</h3>
             </div>
-          ))}
-
-          <GlassCard className="bg-white/90">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text-muted">System status</p>
-                <h3 className="text-lg font-display font-bold text-text mt-1">Inventory Health</h3>
+            <div className="p-4 bg-background/50 rounded-xl border border-text/5 mb-4">
+              <p className="text-xs text-text/80 leading-relaxed mb-4">
+                <span className="font-bold text-text">Paracetamol 500mg</span> is projected to stock out in{' '}
+                <span className="text-red-500 font-bold">3 days</span> based on current sales velocity.
+              </p>
+              <div className="flex justify-between items-center text-[10px] font-bold">
+                <span className="text-text/40 uppercase tracking-widest">Suggested Order:</span>
+                <span className="text-text">60 units</span>
               </div>
-              <div className="h-12 w-12 rounded-full border-4 border-accent-emerald border-t-transparent animate-spin-slow" />
             </div>
-            <p className="text-sm leading-6 text-text-muted">
-              The stock profile is stable. Fifteen items need attention, but the core assortment is healthy.
-            </p>
+            <button
+              onClick={() => navigate('/dashboard/inventory/compare')}
+              className="w-full bg-secondary hover:bg-secondary/90 text-white font-bold py-3 rounded-lg text-sm transition-all shadow-md shadow-secondary/10"
+            >
+              Reorder Now
+            </button>
+          </GlassCard>
+
+          <GlassCard>
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <p className="text-[10px] font-bold text-text/40 uppercase tracking-widest mb-1">Inventory Health</p>
+                <div className="flex items-center gap-2">
+                  <span className="text-3xl font-bold text-text">82%</span>
+                  <span className="text-teal-500 text-xs">↑</span>
+                </div>
+              </div>
+              <div className="w-12 h-12 rounded-full border-4 border-teal-500 border-t-transparent animate-spin-slow"></div>
+            </div>
+            <p className="text-[10px] text-text/40 font-bold leading-tight">Optimal range. 15 items need attention.</p>
+          </GlassCard>
+
+          <GlassCard className="p-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-green-50 text-green-600 rounded-lg">
+                <MessageSquare size={18} />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-text">WhatsApp Alerts</p>
+                <p className="text-[10px] text-text/40">Receive urgent stockout notices</p>
+              </div>
+            </div>
+            <div className="w-10 h-5 bg-secondary rounded-full relative flex items-center px-1">
+              <div className="w-3 h-3 bg-white rounded-full absolute right-1"></div>
+            </div>
+          </GlassCard>
+
+          <GlassCard>
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="font-bold text-text text-sm">Expiring Soon</h3>
+              <span className="text-text/20">!</span>
+            </div>
+            <div className="space-y-4">
+              {expiringSoon.map((item) => (
+                <div key={item.name} className="flex justify-between items-center text-xs font-bold">
+                  <span className="text-text/60">{item.name}</span>
+                  <span className={item.color}>{item.days}</span>
+                </div>
+              ))}
+            </div>
           </GlassCard>
         </div>
       </div>
