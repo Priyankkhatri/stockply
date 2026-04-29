@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const productRoutes = require('./routes/productRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
 const alertRoutes = require('./routes/alertRoutes');
+const partnerRoutes = require('./routes/partnerRoutes');
 
 const app = express();
 
