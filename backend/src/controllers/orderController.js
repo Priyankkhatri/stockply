@@ -4,20 +4,31 @@ const Order = require('../models/Order');
 exports.getOrders = async (req, res) => {
   try {
     const orders = await Order.find().sort({ createdAt: -1 });
-    res.json(orders);
+    res.status(200).json({
+      status: 'success',
+      results: orders.length,
+      data: { orders }
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ status: 'fail', message: error.message });
   }
 };
 
 // Create an order
 exports.createOrder = async (req, res) => {
   try {
-    const order = new Order(req.body);
-    const savedOrder = await order.save();
-    res.status(201).json(savedOrder);
+    // Auto-generate order number if not provided
+    if (!req.body.orderNumber) {
+      const count = await Order.countDocuments();
+      req.body.orderNumber = `ORD-${String(count + 1).padStart(4, '0')}`;
+    }
+    const order = await Order.create(req.body);
+    res.status(201).json({
+      status: 'success',
+      data: { order }
+    });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ status: 'fail', message: error.message });
   }
 };
 
@@ -28,12 +39,15 @@ exports.updateOrderStatus = async (req, res) => {
     const order = await Order.findByIdAndUpdate(
       req.params.id,
       { status },
-      { new: true }
+      { new: true, runValidators: true }
     );
-    if (!order) return res.status(404).json({ message: 'Order not found' });
-    res.json(order);
+    if (!order) return res.status(404).json({ status: 'fail', message: 'Order not found' });
+    res.status(200).json({
+      status: 'success',
+      data: { order }
+    });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ status: 'fail', message: error.message });
   }
 };
 
@@ -41,9 +55,9 @@ exports.updateOrderStatus = async (req, res) => {
 exports.deleteOrder = async (req, res) => {
   try {
     const order = await Order.findByIdAndDelete(req.params.id);
-    if (!order) return res.status(404).json({ message: 'Order not found' });
-    res.json({ message: 'Order deleted successfully' });
+    if (!order) return res.status(404).json({ status: 'fail', message: 'Order not found' });
+    res.status(200).json({ status: 'success', data: null });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ status: 'fail', message: error.message });
   }
 };

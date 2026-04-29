@@ -8,6 +8,7 @@ router.route('/')
   .post(partnerController.createPartner);
 
 router.route('/:id')
-  .patch(partnerController.updatePartner);
+  .patch(partnerController.updatePartner)
+  .delete(partnerController.deletePartner);
 
 module.exports = router;
