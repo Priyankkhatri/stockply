@@ -48,7 +48,9 @@ const AlertCard = ({ type, category, name, value, threshold, color }) => {
   );
 };
 
-const InventoryRow = ({ product, isEditing, onEdit, onCancel }) => {
+const InventoryRow = ({ product, isEditing, onEdit, onCancel, onUpdateStock }) => {
+  const [adjustmentValue, setAdjustmentValue] = useState(1);
+
   return (
     <motion.tr 
       layout
@@ -64,7 +66,7 @@ const InventoryRow = ({ product, isEditing, onEdit, onCancel }) => {
       <td className="px-10 py-8">
         <div className="flex items-center gap-5">
           <div className="relative">
-            <img src={product.img} alt={product.name} className="w-16 h-16 rounded-2xl object-cover border-2 border-white shadow-sm group-hover:scale-105 transition-transform duration-500" />
+            <img src={product.img || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=100&auto=format&fit=crop'} alt={product.name} className="w-16 h-16 rounded-2xl object-cover border-2 border-white shadow-sm group-hover:scale-105 transition-transform duration-500" />
           </div>
           <div>
             <p className="font-bold text-text text-lg mb-1 leading-tight">{product.name}</p>
@@ -82,76 +84,46 @@ const InventoryRow = ({ product, isEditing, onEdit, onCancel }) => {
         </span>
       </td>
       <td className="px-10 py-8">
-        {isEditing ? (
-          <div className="flex items-center gap-3">
+        <div className="flex flex-col gap-2">
+          <p className="text-sm font-bold text-text">{product.stock} <span className="text-[10px] text-text/40 font-medium uppercase ml-1">{product.unit || 'units'}</span></p>
+          <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
             <input 
-              type="text" 
-              defaultValue={product.stock}
-              className="w-24 px-4 py-2.5 border border-primary/20 rounded-xl text-sm font-bold text-text focus:outline-none focus:ring-4 focus:ring-primary/10 bg-white"
+              type="number" 
+              value={adjustmentValue}
+              onChange={(e) => setAdjustmentValue(parseInt(e.target.value) || 0)}
+              className="w-12 px-2 py-1 bg-background border border-text/5 rounded-lg text-[10px] font-bold"
             />
-            <span className="text-[10px] font-black text-text/40 uppercase">{product.unit}</span>
+            <button onClick={() => onUpdateStock(product._id, adjustmentValue, 'IN')} className="p-1 text-emerald-600 hover:bg-emerald-50 rounded-md transition-colors">
+              <Plus size={14} />
+            </button>
+            <button onClick={() => onUpdateStock(product._id, adjustmentValue, 'OUT')} className="p-1 text-rose-600 hover:bg-rose-50 rounded-md transition-colors">
+              <X size={14} />
+            </button>
           </div>
-        ) : (
-          <p className="text-sm font-bold text-text">{product.stock} <span className="text-[10px] text-text/40 font-medium uppercase ml-1">{product.unit}</span></p>
-        )}
+        </div>
       </td>
       <td className="px-10 py-8">
-        {isEditing ? (
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-black text-text/40">Rs.</span>
-            <input 
-              type="text" 
-              defaultValue={product.price}
-              className="w-32 px-4 py-2.5 border border-primary/20 rounded-xl text-sm font-bold text-text focus:outline-none focus:ring-4 focus:ring-primary/10 bg-white"
-            />
-          </div>
-        ) : (
-          <p className="text-sm font-bold text-text">Rs. {product.price}</p>
-        )}
+        <p className="text-sm font-bold text-text">Rs. {product.price}</p>
       </td>
       <td className="px-10 py-8 text-sm font-bold text-text/40">{product.moq}</td>
       <td className="px-10 py-8 text-sm font-bold text-text/40">{product.leadTime}</td>
       <td className="px-10 py-8">
-        <StatusBadge status={product.status} />
+        <StatusBadge status={product.status || 'In Stock'} />
       </td>
       <td className="px-10 py-8 text-right">
-        {isEditing ? (
-          <div className="flex items-center justify-end gap-3">
-            <button 
-              onClick={onCancel} 
-              className="w-11 h-11 flex items-center justify-center text-text/40 hover:text-rose-500 hover:bg-rose-50 rounded-2xl transition-all"
-            >
-              <X size={20} />
-            </button>
-            <button 
-              onClick={onCancel} 
-              className="w-11 h-11 flex items-center justify-center bg-primary text-white rounded-2xl shadow-lg shadow-primary/20 hover:scale-110 active:scale-95 transition-all"
-            >
-              <Check size={20} strokeWidth={3} />
-            </button>
-          </div>
-        ) : (
-          <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <button 
-              onClick={onEdit} 
-              className="px-5 py-2.5 text-[10px] font-black text-primary hover:bg-primary/5 rounded-xl transition-all uppercase tracking-widest border border-transparent hover:border-primary/10"
-            >
-              Edit
-            </button>
-            <button className="p-2.5 text-text/40 hover:text-text transition-colors">
-              <MoreHorizontal size={20} />
-            </button>
-          </div>
-        )}
+        <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <button className="p-2.5 text-text/40 hover:text-text transition-colors">
+            <MoreHorizontal size={20} />
+          </button>
+        </div>
       </td>
     </motion.tr>
   );
 };
 
 export default function SupplierInventoryPage() {
-  const { products, addProduct } = useSupplier();
+  const { products, summary, loading, addProduct, updateStock } = useSupplier();
   const [activeTab, setActiveTab] = useState('All Items');
-  const [editingRow, setEditingRow] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
@@ -164,14 +136,20 @@ export default function SupplierInventoryPage() {
     price: '',
     moq: '100',
     leadTime: '14 Days',
-    status: 'In Stock',
+    barcode: '',
     img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=100&auto=format&fit=crop'
   });
 
-  const handleAddProduct = () => {
+  const handleAddProduct = async () => {
     if (!newProduct.name || !newProduct.sku) return;
     
-    addProduct(newProduct);
+    await addProduct({
+      ...newProduct,
+      stock: parseInt(newProduct.stock) || 0,
+      price: parseInt(newProduct.price) || 0,
+      moq: parseInt(newProduct.moq) || 0
+    });
+    
     setIsAddModalOpen(false);
     setNewProduct({
       name: '',
@@ -182,10 +160,21 @@ export default function SupplierInventoryPage() {
       price: '',
       moq: '100',
       leadTime: '14 Days',
-      status: 'In Stock',
+      barcode: '',
       img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=100&auto=format&fit=crop'
     });
   };
+
+  if (loading) {
+    return (
+      <div className="flex h-[80vh] items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <p className="text-xs font-black uppercase tracking-widest text-text/40">Syncing Warehouse Data...</p>
+        </div>
+      </div>
+    );
+  }
 
   const filteredProducts = useMemo(() => {
     return products.filter(product => {
@@ -278,6 +267,16 @@ export default function SupplierInventoryPage() {
                   </select>
                 </div>
                 <div className="space-y-2">
+                  <label className="text-[10px] font-black text-text/40 uppercase tracking-widest ml-1">Barcode / EAN</label>
+                  <input 
+                    type="text" 
+                    placeholder="e.g. 890123456789" 
+                    value={newProduct.barcode}
+                    onChange={(e) => setNewProduct({...newProduct, barcode: e.target.value})}
+                    className="w-full px-6 py-4 bg-background border border-transparent rounded-2xl text-sm font-bold focus:outline-none focus:bg-white focus:border-primary/20 transition-all" 
+                  />
+                </div>
+                <div className="space-y-2">
                   <label className="text-[10px] font-black text-text/40 uppercase tracking-widest ml-1">Initial Stock</label>
                   <div className="flex items-center gap-3">
                     <input 
@@ -323,7 +322,7 @@ export default function SupplierInventoryPage() {
             </div>
             <div>
               <h3 className="font-bold text-text text-2xl">Critical Alerts</h3>
-              <p className="text-[10px] font-black text-text/40 uppercase tracking-[0.2em]">3 items require immediate replenishment</p>
+              <p className="text-[10px] font-black text-text/40 uppercase tracking-[0.2em]">{summary?.lowStockCount + summary?.outOfStockCount || 0} items require immediate replenishment</p>
             </div>
           </div>
           <button className="text-xs font-bold text-primary hover:text-primary/80 transition-colors">
@@ -426,11 +425,9 @@ export default function SupplierInventoryPage() {
               <AnimatePresence mode="popLayout">
                 {filteredProducts.map(product => (
                   <InventoryRow 
-                    key={product.sku} 
+                    key={product._id || product.sku} 
                     product={product} 
-                    isEditing={editingRow === product.sku}
-                    onEdit={() => setEditingRow(product.sku)}
-                    onCancel={() => setEditingRow(null)}
+                    onUpdateStock={updateStock}
                   />
                 ))}
               </AnimatePresence>
