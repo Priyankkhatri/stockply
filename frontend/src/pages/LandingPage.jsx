@@ -263,6 +263,33 @@ const LandingPage = () => {
         </div>
       </section>
 
+      {/* ─── FAQ ─── */}
+      <section className="py-24 px-6 lg:px-12 max-w-4xl mx-auto">
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}
+          variants={{ visible: { transition: { staggerChildren: 0.1 } } }}>
+          <motion.div variants={fadeUp} className="text-center mb-16">
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary mb-4">FAQ</p>
+            <h2 className="text-4xl lg:text-5xl font-black text-text tracking-tighter">Common questions.</h2>
+          </motion.div>
+          <div className="space-y-4">
+            {[
+              { q: 'Is Stockply free to use?', a: 'Yes! Stockply offers a free tier with all core features. Premium plans are available for high-volume businesses.' },
+              { q: 'Can I use it as both a shop and supplier?', a: 'Each account is tied to a single role for security. You can create separate accounts for each role.' },
+              { q: 'How is my data protected?', a: 'All data is encrypted in transit and at rest. We use JWT authentication and MongoDB Atlas with enterprise-grade security.' },
+              { q: 'Does it work on mobile?', a: 'Absolutely. Stockply is fully responsive and works beautifully on phones, tablets, and desktops.' },
+            ].map((faq, i) => (
+              <motion.details key={i} variants={fadeUp} className="group bg-white rounded-2xl border border-text/5 overflow-hidden hover:shadow-md transition-all">
+                <summary className="flex items-center justify-between cursor-pointer px-8 py-6 text-sm font-bold text-text list-none">
+                  {faq.q}
+                  <ChevronRight size={16} className="text-text/20 group-open:rotate-90 transition-transform" />
+                </summary>
+                <div className="px-8 pb-6 text-sm text-text/50 leading-relaxed">{faq.a}</div>
+              </motion.details>
+            ))}
+          </div>
+        </motion.div>
+      </section>
+
       {/* ─── CTA ─── */}
       <section className="py-24 px-6 lg:px-12 text-center">
         <div className="max-w-3xl mx-auto">
