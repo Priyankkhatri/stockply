@@ -1,4 +1,5 @@
 const Product = require('../models/Product');
+const Transaction = require('../models/Transaction');
 
 // Get all products
 exports.getAllProducts = async (req, res) => {
@@ -47,6 +48,7 @@ exports.updateStock = async (req, res) => {
       });
     }
 
+    const previousStock = product.stock;
     product.stock += adjustment;
     
     // Update status based on new stock level
@@ -55,6 +57,16 @@ exports.updateStock = async (req, res) => {
     else product.status = 'In Stock';
 
     await product.save();
+
+    // Log Transaction
+    await Transaction.create({
+      product: product._id,
+      type: adjustment > 0 ? 'IN' : 'OUT',
+      quantity: Math.abs(adjustment),
+      method: 'Manual',
+      previousStock,
+      newStock: product.stock
+    });
 
     res.status(200).json({
       status: 'success',
@@ -89,6 +101,7 @@ exports.scanProduct = async (req, res) => {
       });
     }
 
+    const previousStock = product.stock;
     product.stock -= 1;
 
     // Update status
@@ -97,6 +110,16 @@ exports.scanProduct = async (req, res) => {
     else product.status = 'In Stock';
 
     await product.save();
+
+    // Log Transaction
+    await Transaction.create({
+      product: product._id,
+      type: 'OUT',
+      quantity: 1,
+      method: 'Scan',
+      previousStock,
+      newStock: product.stock
+    });
 
     res.status(200).json({
       status: 'success',
