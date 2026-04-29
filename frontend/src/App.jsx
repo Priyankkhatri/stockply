@@ -12,6 +12,7 @@ import SupplierDashboardPage from "./pages/SupplierDashboardPage";
 import SupplierShopsPage from "./pages/SupplierShopsPage";
 import SupplierShopDetailsPage from "./pages/SupplierShopDetailsPage";
 import SupplierOrdersPage from "./pages/SupplierOrdersPage";
+import SupplierInventoryPage from "./pages/SupplierInventoryPage";
 import SectionPlaceholder from "./pages/SectionPlaceholder";
 
 const getSession = () => ({
@@ -74,11 +75,6 @@ const shopRoutes = [
 ];
 
 const supplierRoutes = [
-  {
-    path: "/supplier/inventory",
-    title: "Supplier Inventory",
-    description: "Keep warehouse counts, stock movement, and ledger accuracy in sync.",
-  },
   {
     path: "/supplier/analytics",
     title: "Analytics Overview",
@@ -200,6 +196,16 @@ function App() {
             <RequireSession role="supplier">
               <AppLayout role="supplier">
                 <SupplierOrdersPage />
+              </AppLayout>
+            </RequireSession>
+          }
+        />
+        <Route
+          path="/supplier/inventory"
+          element={
+            <RequireSession role="supplier">
+              <AppLayout role="supplier">
+                <SupplierInventoryPage />
               </AppLayout>
             </RequireSession>
           }
