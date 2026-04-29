@@ -32,3 +32,39 @@ exports.createProduct = async (req, res) => {
     });
   }
 };
+
+// Update product stock (manual adjustment)
+exports.updateStock = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { adjustment } = req.body;
+
+    const product = await Product.findById(id);
+    if (!product) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'Product not found'
+      });
+    }
+
+    product.stock += adjustment;
+    
+    // Update status based on new stock level
+    if (product.stock === 0) product.status = 'Out of Stock';
+    else if (product.stock <= 10) product.status = 'Low Stock';
+    else product.status = 'In Stock';
+
+    await product.save();
+
+    res.status(200).json({
+      status: 'success',
+      data: { product }
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: err.message
+    });
+  }
+};
+
