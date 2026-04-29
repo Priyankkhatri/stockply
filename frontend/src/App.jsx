@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import DashboardHome from "./pages/DashboardHome";
 import InventoryPage from "./pages/InventoryPage";
 import OrdersPage from "./pages/OrdersPage";
+import AnalyticsPage from "./pages/AnalyticsPage";
 import SectionPlaceholder from "./pages/SectionPlaceholder";
 
 const getSession = () => ({
@@ -135,6 +136,16 @@ function App() {
             <RequireSession role="shop">
               <AppLayout role="shop">
                 <OrdersPage />
+              </AppLayout>
+            </RequireSession>
+          }
+        />
+        <Route
+          path="/dashboard/analytics"
+          element={
+            <RequireSession role="shop">
+              <AppLayout role="shop">
+                <AnalyticsPage />
               </AppLayout>
             </RequireSession>
           }
