@@ -226,9 +226,10 @@ const OrderCard = ({ order, isExpanded, onToggle, onUpdateStatus }) => {
 
 export default function SupplierOrdersPage() {
   const { orders, updateOrderStatus } = useSupplier();
-  const [activeTab, setActiveTab] = useState('All Orders');
+  const [activeTab, setActiveTab] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
   const [expandedOrder, setExpandedOrder] = useState(null);
+
 
   const handleStatusUpdate = (id, newStatus) => {
     updateOrderStatus(id, newStatus);
@@ -238,14 +239,17 @@ export default function SupplierOrdersPage() {
   const filtered = useMemo(() => {
     const norm = searchTerm.trim().toLowerCase();
     return orders.filter((order) => {
-      if (activeTab !== 'All' && order.status !== activeTab) return false;
+      const matchesTab = activeTab === 'All' || order.status === activeTab;
+      if (!matchesTab) return false;
+      
       if (!norm) return true;
       return (
         order.id.toLowerCase().includes(norm) ||
         order.shop.toLowerCase().includes(norm)
       );
     });
-  }, [activeTab, orders, query]);
+  }, [activeTab, orders, searchTerm]);
+
 
   return (
     <div className="max-w-[1600px] mx-auto px-10 pb-12 pt-10">
@@ -290,11 +294,12 @@ export default function SupplierOrdersPage() {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-text/20 group-focus-within:text-primary transition-colors" size={16} />
             <input
               type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search orders or shops..."
               className="pl-12 pr-6 py-3 bg-background border border-transparent rounded-2xl text-xs font-bold focus:outline-none focus:bg-white focus:border-primary/20 transition-all w-80 placeholder:text-text/20"
             />
+
           </div>
 
           <button className="p-3.5 text-text/40 hover:text-primary transition-all bg-background rounded-2xl border border-transparent hover:border-primary/10 hover:shadow-sm">
@@ -308,12 +313,12 @@ export default function SupplierOrdersPage() {
           <OrderCard 
             key={order.id} 
             order={order} 
-            isExpanded={expandedId === order.id}
-            onToggle={() => setExpandedId(expandedId === order.id ? null : order.id)}
-            onUpdateStatus={handleUpdateStatus}
+            isExpanded={expandedOrder === order.id}
+            onToggle={() => setExpandedOrder(expandedOrder === order.id ? null : order.id)}
+            onUpdateStatus={handleStatusUpdate}
           />
-
         ))}
+
       </div>
 
       <div className="mt-16 flex items-center justify-between">
