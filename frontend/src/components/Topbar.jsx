@@ -19,7 +19,7 @@ const Topbar = ({ role }) => {
             className="w-full rounded-3xl border border-transparent bg-white/50 py-4.5 pl-16 pr-8 text-sm font-bold placeholder:text-text-light shadow-inner-soft transition-all focus:border-primary/20 focus:bg-white focus:outline-none focus:ring-8 focus:ring-primary/5"
           />
           <div className="absolute right-6 top-1/2 flex -translate-y-1/2 items-center gap-1.5 rounded-lg border border-text/5 bg-background px-2 py-1">
-            <span className="text-[10px] font-black tracking-tighter text-text-light">⌘</span>
+            <span className="text-[10px] font-black tracking-tighter text-text-light">Ctrl</span>
             <span className="text-[10px] font-black tracking-tighter text-text-light">K</span>
           </div>
         </div>
@@ -34,7 +34,7 @@ const Topbar = ({ role }) => {
           >
             <HelpCircle size={22} />
           </button>
-          <button className="relative text-text-light transition-all hover:scale-110 hover:text-primary">
+          <button className="relative text-text-light transition-all hover:scale-110 hover:text-primary" type="button">
             <Bell size={22} />
             <span className="absolute -right-1 -top-1 h-3.5 w-3.5 animate-bounce rounded-full border-2 border-white bg-accent-rose" />
           </button>
