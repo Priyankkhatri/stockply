@@ -72,7 +72,7 @@ const LandingPage = () => {
         path="/"
       />
       {/* ─── Navbar ─── */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b transition-all duration-300 ${scrolled ? 'bg-white/90 border-text/10 shadow-lg shadow-text/5' : 'bg-background/80 border-text/5'}`}>
+      <nav aria-label="Main navigation" className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b transition-all duration-300 ${scrolled ? 'bg-white/90 border-text/10 shadow-lg shadow-text/5' : 'bg-background/80 border-text/5'}`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20">
@@ -92,7 +92,7 @@ const LandingPage = () => {
             </button>
           </div>
           {/* Mobile hamburger */}
-          <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden w-10 h-10 rounded-xl flex items-center justify-center text-text/60 hover:text-primary transition-colors">
+          <button onClick={() => setMobileOpen(!mobileOpen)} aria-label="Toggle mobile menu" aria-expanded={mobileOpen} className="md:hidden w-10 h-10 rounded-xl flex items-center justify-center text-text/60 hover:text-primary transition-colors">
             {mobileOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
@@ -110,6 +110,7 @@ const LandingPage = () => {
       </nav>
 
       {/* ─── Hero ─── */}
+      <main>
       <section className="pt-40 pb-24 px-6 lg:px-12 max-w-7xl mx-auto relative">
         {/* Floating decorative elements */}
         <div className="absolute top-32 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl animate-pulse" />
@@ -334,6 +335,7 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
+      </main>
 
       {/* ─── Footer ─── */}
       <footer className="border-t border-text/5 bg-white/50">
