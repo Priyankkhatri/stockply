@@ -20,7 +20,8 @@ import {
 import PageHeader from '../components/PageHeader';
 import PremiumButton from '../components/PremiumButton';
 
-const OrderCard = ({ order, isExpanded, onToggle }) => {
+const OrderCard = ({ order, isExpanded, onToggle, onUpdateStatus }) => {
+
   const paymentClasses = {
     Pending: 'bg-orange-50 text-orange-600 border-orange-100',
     Paid: 'bg-teal-50 text-teal-600 border-teal-100',
@@ -53,9 +54,34 @@ const OrderCard = ({ order, isExpanded, onToggle }) => {
               </div>
             </div>
             <div className="flex gap-3">
-              <button className="px-6 py-3 rounded-2xl text-rose-500 font-black text-[10px] uppercase tracking-widest hover:bg-rose-50 border border-transparent hover:border-rose-100 transition-all">Reject</button>
-              <PremiumButton variant="primary" className="px-10">Accept Order</PremiumButton>
+              {order.status === 'Pending' && (
+                <>
+                  <button 
+                    onClick={() => onUpdateStatus(order.id, 'Cancelled')}
+                    className="px-6 py-3 rounded-2xl text-rose-500 font-black text-[10px] uppercase tracking-widest hover:bg-rose-50 border border-transparent hover:border-rose-100 transition-all"
+                  >
+                    Reject
+                  </button>
+                  <PremiumButton 
+                    onClick={() => onUpdateStatus(order.id, 'Accepted')}
+                    variant="primary" 
+                    className="px-10"
+                  >
+                    Accept Order
+                  </PremiumButton>
+                </>
+              )}
+              {order.status === 'Accepted' && (
+                <PremiumButton 
+                  onClick={() => onUpdateStatus(order.id, 'Dispatched')}
+                  variant="primary" 
+                  className="px-10"
+                >
+                  Dispatch Order
+                </PremiumButton>
+              )}
             </div>
+
           </div>
 
           <div className="grid grid-cols-3 gap-8 mb-12 bg-[#FAF5F0] rounded-[32px] p-8 border border-[#F0E5D8]">
@@ -202,7 +228,7 @@ export default function SupplierOrdersPage() {
   const [query, setQuery] = useState('');
   const [expandedId, setExpandedId] = useState('#ORD-8920');
 
-  const orders = useMemo(() => [
+  const [orders, setOrders] = useState([
     {
       id: '#ORD-8920',
       date: 'Oct 24 • 14:30',
@@ -245,7 +271,14 @@ export default function SupplierOrdersPage() {
         { name: 'Glass Candle Holder', sku: 'GL-CH-01', qty: 15, price: '4,200' }
       ]
     }
-  ], []);
+  ]);
+
+  const handleUpdateStatus = (id, newStatus) => {
+    setOrders(orders.map(order => 
+      order.id === id ? { ...order, status: newStatus } : order
+    ));
+  };
+
 
   const filtered = useMemo(() => {
     const norm = query.trim().toLowerCase();
@@ -322,7 +355,9 @@ export default function SupplierOrdersPage() {
             order={order} 
             isExpanded={expandedId === order.id}
             onToggle={() => setExpandedId(expandedId === order.id ? null : order.id)}
+            onUpdateStatus={handleUpdateStatus}
           />
+
         ))}
       </div>
 
