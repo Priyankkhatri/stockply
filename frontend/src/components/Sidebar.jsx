@@ -1,5 +1,4 @@
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { 
   LayoutDashboard, 
   Package, 
@@ -48,13 +47,9 @@ const Sidebar = ({ role }) => {
       <aside className="w-80 h-screen bg-white/50 backdrop-blur-xl flex flex-col sticky top-0 border-r border-text/5 z-20">
         <div className="p-10">
           <div className="flex items-center gap-4">
-            <motion.div 
-              whileHover={{ rotate: 180 }}
-              transition={{ duration: 0.5 }}
-              className="w-14 h-14 bg-primary rounded-3xl flex items-center justify-center text-white font-bold text-2xl shadow-xl shadow-primary/20"
-            >
+            <div className="w-14 h-14 bg-primary rounded-3xl flex items-center justify-center text-white font-bold text-2xl shadow-xl shadow-primary/20">
               <Sparkles size={28} />
-            </motion.div>
+            </div>
             <div className="flex flex-col">
               <span className="text-text font-display font-black text-xl leading-tight tracking-tighter uppercase">Stockply</span>
               <span className="text-[10px] font-black text-text/30 tracking-[0.3em] uppercase mt-0.5 opacity-60">Digital Atelier</span>
@@ -77,12 +72,7 @@ const Sidebar = ({ role }) => {
                       : 'text-text-muted hover:text-text hover:bg-primary/5'
                   }`}
                 >
-                  {isActive && (
-                    <motion.div 
-                      layoutId="sidebarActive"
-                      className="absolute inset-0 bg-white shadow-premium border border-text/5 rounded-2xl z-0"
-                    />
-                  )}
+                  {isActive && <div className="absolute inset-0 bg-white shadow-premium border border-text/5 rounded-2xl z-0" />}
                   <div className="relative z-10 flex items-center gap-4">
                     <link.icon size={20} className={`${isActive ? 'text-primary' : 'text-text-muted group-hover:text-primary'} transition-colors`} />
                     <span className="mt-0.5">{link.name}</span>
@@ -94,14 +84,10 @@ const Sidebar = ({ role }) => {
         </nav>
 
         <div className="p-8 space-y-4">
-          <motion.button 
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full py-4 bg-primary rounded-2xl text-white font-black text-xs uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-primary/20 hover:bg-primary-dark transition-all"
-          >
+          <button className="w-full py-4 bg-primary rounded-2xl text-white font-black text-xs uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-primary/20 hover:bg-primary-dark transition-all">
             <Plus size={20} />
             New Entry
-          </motion.button>
+          </button>
 
           <div className="pt-6 mt-2 border-t border-text/5 space-y-1">
             <NavLink
