@@ -153,7 +153,7 @@ export default function SupplierInventoryPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
-  const products = useMemo(() => [
+  const [products, setProducts] = useState([
     {
       name: 'European Linen - Natural',
       sku: 'LNN-NAT-01',
@@ -190,7 +190,39 @@ export default function SupplierInventoryPage() {
       status: 'In Stock',
       img: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?q=80&w=100&auto=format&fit=crop'
     }
-  ], []);
+  ]);
+
+  const [newProduct, setNewProduct] = useState({
+    name: '',
+    sku: '',
+    category: 'Fabric',
+    stock: '',
+    unit: 'units',
+    price: '0.00',
+    moq: '10',
+    leadTime: '7 Days',
+    status: 'In Stock',
+    img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=100&auto=format&fit=crop'
+  });
+
+  const handleAddProduct = () => {
+    if (!newProduct.name || !newProduct.sku) return;
+    
+    setProducts([newProduct, ...products]);
+    setIsAddModalOpen(false);
+    setNewProduct({
+      name: '',
+      sku: '',
+      category: 'Fabric',
+      stock: '',
+      unit: 'units',
+      price: '0.00',
+      moq: '10',
+      leadTime: '7 Days',
+      status: 'In Stock',
+      img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=100&auto=format&fit=crop'
+    });
+  };
 
   const filteredProducts = useMemo(() => {
     return products.filter(product => {
@@ -202,6 +234,7 @@ export default function SupplierInventoryPage() {
       return matchesSearch && product.category === activeTab;
     });
   }, [products, searchQuery, activeTab]);
+
 
   return (
     <div className="max-w-[1600px] mx-auto pb-10 px-10 pt-10">
@@ -250,15 +283,31 @@ export default function SupplierInventoryPage() {
               <div className="p-10 grid grid-cols-2 gap-8">
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-text/40 uppercase tracking-widest ml-1">Product Name</label>
-                  <input type="text" placeholder="e.g. Raw Silk" className="w-full px-6 py-4 bg-background border border-transparent rounded-2xl text-sm font-bold focus:outline-none focus:bg-white focus:border-primary/20 transition-all" />
+                  <input 
+                    type="text" 
+                    placeholder="e.g. Raw Silk" 
+                    value={newProduct.name}
+                    onChange={(e) => setNewProduct({...newProduct, name: e.target.value})}
+                    className="w-full px-6 py-4 bg-background border border-transparent rounded-2xl text-sm font-bold focus:outline-none focus:bg-white focus:border-primary/20 transition-all" 
+                  />
                 </div>
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-text/40 uppercase tracking-widest ml-1">SKU ID</label>
-                  <input type="text" placeholder="e.g. SLK-001" className="w-full px-6 py-4 bg-background border border-transparent rounded-2xl text-sm font-bold focus:outline-none focus:bg-white focus:border-primary/20 transition-all" />
+                  <input 
+                    type="text" 
+                    placeholder="e.g. SLK-001" 
+                    value={newProduct.sku}
+                    onChange={(e) => setNewProduct({...newProduct, sku: e.target.value})}
+                    className="w-full px-6 py-4 bg-background border border-transparent rounded-2xl text-sm font-bold focus:outline-none focus:bg-white focus:border-primary/20 transition-all" 
+                  />
                 </div>
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-text/40 uppercase tracking-widest ml-1">Category</label>
-                  <select className="w-full px-6 py-4 bg-background border border-transparent rounded-2xl text-sm font-bold focus:outline-none focus:bg-white focus:border-primary/20 transition-all appearance-none">
+                  <select 
+                    value={newProduct.category}
+                    onChange={(e) => setNewProduct({...newProduct, category: e.target.value})}
+                    className="w-full px-6 py-4 bg-background border border-transparent rounded-2xl text-sm font-bold focus:outline-none focus:bg-white focus:border-primary/20 transition-all appearance-none"
+                  >
                     <option>Fabric</option>
                     <option>Leather</option>
                     <option>Hardware</option>
@@ -268,7 +317,13 @@ export default function SupplierInventoryPage() {
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-text/40 uppercase tracking-widest ml-1">Initial Stock</label>
                   <div className="flex items-center gap-3">
-                    <input type="number" placeholder="0" className="flex-1 px-6 py-4 bg-background border border-transparent rounded-2xl text-sm font-bold focus:outline-none focus:bg-white focus:border-primary/20 transition-all" />
+                    <input 
+                      type="number" 
+                      placeholder="0" 
+                      value={newProduct.stock}
+                      onChange={(e) => setNewProduct({...newProduct, stock: e.target.value})}
+                      className="flex-1 px-6 py-4 bg-background border border-transparent rounded-2xl text-sm font-bold focus:outline-none focus:bg-white focus:border-primary/20 transition-all" 
+                    />
                     <span className="text-[10px] font-black text-text/30 uppercase mr-2">Units</span>
                   </div>
                 </div>
@@ -281,7 +336,7 @@ export default function SupplierInventoryPage() {
                 >
                   Discard
                 </button>
-                <PremiumButton onClick={() => setIsAddModalOpen(false)} className="px-10">
+                <PremiumButton onClick={handleAddProduct} className="px-10">
                   Save Product
                 </PremiumButton>
               </div>
