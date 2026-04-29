@@ -14,6 +14,7 @@ import SupplierShopDetailsPage from "./pages/SupplierShopDetailsPage";
 import SupplierOrdersPage from "./pages/SupplierOrdersPage";
 import SupplierInventoryPage from "./pages/SupplierInventoryPage";
 import SupplierAnalyticsPage from "./pages/SupplierAnalyticsPage";
+import SupplierSettingsPage from "./pages/SupplierSettingsPage";
 import SectionPlaceholder from "./pages/SectionPlaceholder";
 
 const getSession = () => ({
@@ -75,13 +76,7 @@ const shopRoutes = [
   },
 ];
 
-const supplierRoutes = [
-  {
-    path: "/supplier/settings",
-    title: "Supplier Settings",
-    description: "Update fulfillment preferences, channels, and account settings.",
-  },
-];
+const supplierRoutes = [];
 
 function App() {
   const session = getSession();
@@ -212,6 +207,16 @@ function App() {
             <RequireSession role="supplier">
               <AppLayout role="supplier">
                 <SupplierAnalyticsPage />
+              </AppLayout>
+            </RequireSession>
+          }
+        />
+        <Route
+          path="/supplier/settings"
+          element={
+            <RequireSession role="supplier">
+              <AppLayout role="supplier">
+                <SupplierSettingsPage />
               </AppLayout>
             </RequireSession>
           }
