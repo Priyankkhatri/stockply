@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   ArrowUpRight,
   ChevronDown,
@@ -70,6 +71,7 @@ const behaviorStyles = {
 };
 
 const SupplierShopsPage = () => {
+  const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState('All Partners');
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -165,7 +167,11 @@ const SupplierShopsPage = () => {
             </thead>
             <tbody className="divide-y divide-text/5">
               {visibleShops.map((shop) => (
-                <tr key={shop.name} className="group cursor-pointer transition-all hover:bg-background/20">
+                <tr
+                  key={shop.name}
+                  onClick={() => navigate(`/supplier/shops/${shop.name.toLowerCase().replace(/\\s+/g, '-')}`)}
+                  className="group cursor-pointer transition-all hover:bg-background/20"
+                >
                   <td className="px-10 py-8">
                     <div className="flex items-center gap-4">
                       <div className={`flex h-14 w-14 items-center justify-center rounded-2xl border border-black/5 text-sm font-black shadow-sm ${shop.initialsBg}`}>
