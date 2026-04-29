@@ -8,6 +8,7 @@ import InventoryPage from "./pages/InventoryPage";
 import OrdersPage from "./pages/OrdersPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 import SupplierDashboardPage from "./pages/SupplierDashboardPage";
+import SupplierShopsPage from "./pages/SupplierShopsPage";
 import SectionPlaceholder from "./pages/SectionPlaceholder";
 
 const getSession = () => ({
@@ -75,11 +76,6 @@ const shopRoutes = [
 ];
 
 const supplierRoutes = [
-  {
-    path: "/supplier/shops",
-    title: "Connected Shops",
-    description: "Review the shops in your network and open their account details.",
-  },
   {
     path: "/supplier/orders",
     title: "Supplier Orders",
@@ -171,6 +167,16 @@ function App() {
             <RequireSession role="supplier">
               <AppLayout role="supplier">
                 <SupplierDashboardPage />
+              </AppLayout>
+            </RequireSession>
+          }
+        />
+        <Route
+          path="/supplier/shops"
+          element={
+            <RequireSession role="supplier">
+              <AppLayout role="supplier">
+                <SupplierShopsPage />
               </AppLayout>
             </RequireSession>
           }
