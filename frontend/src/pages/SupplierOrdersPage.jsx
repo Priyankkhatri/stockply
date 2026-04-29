@@ -1,194 +1,295 @@
-import React, { useMemo, useState } from "react";
-import { Download, Plus, Search, Filter, ChevronDown, MoreHorizontal } from "lucide-react";
+import React, { useState, useMemo } from 'react';
+import { 
+  ChevronDown, 
+  ChevronUp, 
+  Plus, 
+  MoreVertical, 
+  Download, 
+  Package, 
+  Clock, 
+  Filter, 
+  ChevronRight,
+  Search
+} from 'lucide-react';
+import PageHeader from '../components/PageHeader';
+import PremiumButton from '../components/PremiumButton';
+import OrderTimeline from '../components/OrderTimeline';
 
-const statusStyles = {
-  Pending: "bg-orange-50 text-orange-600 border-orange-100",
-  Dispatched: "bg-blue-50 text-blue-600 border-blue-100",
-  Delivered: "bg-emerald-50 text-emerald-600 border-emerald-100",
-};
+const OrderCard = ({ order }) => {
+  const [isExpanded, setIsExpanded] = useState(order.id === '#ORD-8920');
 
-const StatusPill = ({ status }) => (
-  <span
-    className={`text-[9px] font-black px-2.5 py-1 rounded-full border uppercase tracking-widest ${
-      statusStyles[status] ?? "bg-background text-text/40 border-text/5"
-    }`}
-  >
-    {status}
-  </span>
-);
+  const paymentClasses = {
+    Pending: 'bg-orange-50 text-orange-600 border-orange-100',
+    Paid: 'bg-teal-50 text-teal-600 border-teal-100',
+    Failed: 'bg-red-50 text-red-600 border-red-100',
+  };
 
-const OrderRow = ({ order }) => {
+  const statusClasses = {
+    Pending: 'bg-orange-50 text-orange-600 border-orange-100',
+    Dispatched: 'bg-blue-50 text-blue-600 border-blue-100',
+    Delivered: 'bg-teal-50 text-teal-600 border-teal-100',
+    Cancelled: 'bg-red-50 text-red-600 border-red-100',
+  };
+
   return (
-    <div className="bg-white rounded-3xl border border-text/5 shadow-sm px-10 py-7 flex items-center justify-between hover:shadow-xl hover:border-primary/20 transition-all group relative overflow-hidden">
-      <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary scale-y-0 group-hover:scale-y-100 transition-transform origin-top" />
-
-      <div className="flex items-center gap-10 min-w-0 flex-1">
-        <div className="min-w-[170px]">
-          <p className="text-[10px] font-black text-text/20 uppercase tracking-[0.2em] mb-1">{order.id}</p>
-          <h4 className="font-bold text-text text-sm group-hover:text-primary transition-colors">{order.shop}</h4>
-          <p className="text-[11px] font-bold text-text/30 mt-1">{order.date}</p>
+    <div className="mb-4 overflow-hidden rounded-[28px] border border-text/5 bg-white shadow-sm transition-all hover:shadow-md">
+      <div
+        className="flex cursor-pointer items-center justify-between px-8 py-6 hover:bg-background/10"
+        onClick={() => setIsExpanded((value) => !value)}
+      >
+        <div className="flex-1">
+          <h4 className="text-base font-bold text-text group-hover:text-primary transition-colors">{order.id}</h4>
+          <p className="mt-0.5 text-[10px] font-bold uppercase tracking-widest text-text/40">
+            {order.shop} • {order.itemsCount} items
+          </p>
         </div>
 
-        <div className="hidden lg:block min-w-[240px]">
-          <p className="text-[10px] font-black text-text/20 uppercase tracking-[0.2em] mb-1">Details</p>
-          <p className="text-sm font-bold text-text">{order.details}</p>
+        <div className="flex-1 text-center">
+          <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-text/30">Value</p>
+          <p className="font-bold text-text">{order.amount}</p>
         </div>
 
-        <div className="hidden md:flex items-center gap-4 min-w-[220px]">
-          <div className="flex flex-col">
-            <p className="text-[10px] font-black text-text/20 uppercase tracking-[0.2em] mb-1">Amount</p>
-            <p className="text-sm font-black text-text tracking-tight">{order.amount}</p>
-            <p className="text-[10px] font-bold text-text/30 mt-1">{order.payment}</p>
+        <div className="flex-1 text-center">
+          <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-text/30">Payment</p>
+          <span className={`rounded-lg border px-2 py-0.5 text-[10px] font-bold ${paymentClasses[order.payment]}`}>
+            {order.payment}
+          </span>
+        </div>
+
+        <div className="flex-1 text-center">
+          <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-text/30">Status</p>
+          <span className={`rounded-lg border px-2 py-0.5 text-[10px] font-bold ${statusClasses[order.status]}`}>
+            {order.status}
+          </span>
+        </div>
+
+        <div className="flex-1 text-center">
+          <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-text/30">Ordered</p>
+          <p className="text-xs font-bold text-text/60">
+            {order.date.split(' • ')[0]}
+          </p>
+        </div>
+
+        <div className="flex items-center gap-4 border-l border-text/5 pl-4">
+          <button className="text-text/20 transition-colors hover:text-text">
+            {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+          </button>
+          <button className="text-text/20 transition-colors hover:text-text">
+            <MoreVertical size={20} />
+          </button>
+        </div>
+      </div>
+
+      {isExpanded && (
+        <div className="border-t border-text/5 bg-[#FAF9F6]/50 px-8 pb-8 pt-2">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+            <div className="space-y-8 lg:col-span-2">
+              <div>
+                <h5 className="mb-4 text-sm font-bold text-text">Fulfillment Journey</h5>
+                <OrderTimeline currentStep={order.journeyStep} />
+              </div>
+
+              <div>
+                <h5 className="mb-4 text-sm font-bold text-text">Item Breakdown</h5>
+                <div className="overflow-hidden rounded-xl border border-text/5 bg-white">
+                  {order.items && order.items.length > 0 ? (
+                    order.items.map((item) => (
+                      <div key={item.sku} className="flex items-center justify-between border-b border-text/5 px-6 py-4 last:border-0">
+                        <div className="flex items-center gap-4">
+                          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-background text-text/30">
+                            <Package size={20} />
+                          </div>
+                          <div>
+                            <p className="text-sm font-bold text-text">{item.name}</p>
+                            <p className="text-[10px] font-bold uppercase tracking-widest text-text/30">SKU: {item.sku}</p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-sm font-bold text-text">{item.qty} units</p>
+                          <p className="text-[10px] font-bold uppercase tracking-widest text-text/30">Rs. {item.price} / unit</p>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="px-6 py-10 text-sm text-text/40 italic">No detailed item breakdown available.</div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <div className="rounded-2xl border border-text/5 bg-white p-6 shadow-sm">
+                <div className="mb-6 flex items-center gap-2">
+                  <div className="rounded-lg bg-blue-50 p-2 text-blue-600">
+                    <Clock size={18} />
+                  </div>
+                  <h5 className="text-sm font-bold text-text">Dispatch Timeline</h5>
+                </div>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-bold uppercase tracking-widest text-text/40">SLA Deadline</span>
+                    <span className="font-bold text-text">Within 24h</span>
+                  </div>
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-bold uppercase tracking-widest text-text/40">Priority</span>
+                    <span className="rounded border border-teal-100 bg-teal-50 px-2 py-0.5 text-[8px] font-bold uppercase tracking-widest text-teal-600">
+                      Standard
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                <button className="flex-1 py-4 bg-white border border-text/10 rounded-xl font-bold text-text text-sm hover:bg-background transition-all flex items-center justify-center gap-2 shadow-sm">
+                  <Download size={18} />
+                  Label
+                </button>
+                <PremiumButton variant="primary" className="flex-1">
+                  Accept Order
+                </PremiumButton>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div className="flex items-center gap-4">
-        <StatusPill status={order.status} />
-        <button
-          type="button"
-          className="p-3 rounded-2xl border border-text/5 text-text/30 hover:text-text hover:border-primary/20 hover:bg-background transition-all"
-          aria-label="More actions"
-        >
-          <MoreHorizontal size={18} />
-        </button>
-      </div>
+      )}
     </div>
   );
 };
 
 export default function SupplierOrdersPage() {
-  const [activeTab, setActiveTab] = useState("Pending");
-  const [query, setQuery] = useState("");
+  const [activeTab, setActiveTab] = useState('Pending');
+  const [query, setQuery] = useState('');
 
-  const orders = useMemo(
-    () => [
-      {
-        id: "#ORD-8920",
-        date: "Oct 24 • 14:30",
-        shop: "Artisan Goods Co.",
-        details: "3 Items • 174 Qty",
-        amount: "₹45,200",
-        payment: "Paid",
-        status: "Pending",
-      },
-      {
-        id: "#ORD-8919",
-        date: "Oct 23 • 09:10",
-        shop: "The Craft Boutique",
-        details: "4 Items • 120 Qty",
-        amount: "₹18,500",
-        payment: "Paid",
-        status: "Dispatched",
-      },
-      {
-        id: "#ORD-8918",
-        date: "Oct 22 • 18:05",
-        shop: "Urban Nest Decor",
-        details: "2 Items • 15 Qty",
-        amount: "₹4,200",
-        payment: "Pending",
-        status: "Pending",
-      },
-    ],
-    [],
-  );
+  const orders = useMemo(() => [
+    {
+      id: '#ORD-8920',
+      date: 'Oct 24 • 14:30',
+      shop: 'Artisan Goods Co.',
+      itemsCount: 3,
+      amount: 'Rs. 45,200',
+      payment: 'Paid',
+      status: 'Pending',
+      journeyStep: 'submitted',
+      items: [
+        { name: 'European Linen - Natural', sku: 'LNN-NAT-01', qty: 150, price: '850.00' },
+        { name: 'Brass Findings', sku: 'HW-BRS-09', qty: 24, price: '45.00' }
+      ]
+    },
+    {
+      id: '#ORD-8919',
+      date: 'Oct 23 • 09:10',
+      shop: 'The Craft Boutique',
+      itemsCount: 4,
+      amount: 'Rs. 18,500',
+      payment: 'Paid',
+      status: 'Dispatched',
+      journeyStep: 'dispatched',
+      items: []
+    },
+    {
+      id: '#ORD-8918',
+      date: 'Oct 22 • 18:05',
+      shop: 'Urban Nest Decor',
+      itemsCount: 2,
+      amount: 'Rs. 4,200',
+      payment: 'Pending',
+      status: 'Pending',
+      journeyStep: 'submitted',
+      items: []
+    }
+  ], []);
 
   const filtered = useMemo(() => {
     const norm = query.trim().toLowerCase();
     return orders.filter((order) => {
-      if (activeTab !== "All" && order.status !== activeTab) return false;
+      if (activeTab !== 'All' && order.status !== activeTab) return false;
       if (!norm) return true;
       return (
         order.id.toLowerCase().includes(norm) ||
-        order.shop.toLowerCase().includes(norm) ||
-        order.details.toLowerCase().includes(norm)
+        order.shop.toLowerCase().includes(norm)
       );
     });
   }, [activeTab, orders, query]);
 
   return (
     <div className="max-w-[1600px] mx-auto px-10 pb-12 pt-10">
-      <div className="flex justify-between items-end mb-12">
-        <div>
-          <h1 className="text-4xl font-bold text-text mb-2 tracking-tight">Order Management</h1>
-          <p className="text-text/60 font-medium italic">
-            Fulfilling the legacy of artisan retail partners worldwide.
-          </p>
-        </div>
-        <div className="flex gap-4">
-          <button
-            type="button"
-            className="px-6 py-3 rounded-2xl border border-text/10 bg-white text-text font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-background transition-all shadow-sm"
-          >
-            <Download size={16} />
-            Export Batch
-          </button>
-          <button
-            type="button"
-            className="px-8 py-3 rounded-2xl bg-primary hover:bg-primary/90 text-white font-black text-[10px] uppercase tracking-widest flex items-center gap-2 transition-all shadow-xl shadow-primary/20 border border-primary/20"
-          >
-            <Plus size={18} />
-            New Entry
-          </button>
-        </div>
-      </div>
+      <PageHeader 
+        title="Order Management"
+        subtitle="Review, accept, and fulfill incoming orders from your retail partner network."
+        breadcrumbs={['Supplier', 'Orders']}
+        actions={
+          <>
+            <PremiumButton variant="secondary" icon={Download}>
+              Export Batch
+            </PremiumButton>
+            <PremiumButton icon={Plus}>
+              New Entry
+            </PremiumButton>
+          </>
+        }
+      />
 
-      <div className="bg-white rounded-[32px] border border-text/5 shadow-sm p-3 mb-10 flex flex-wrap items-center justify-between gap-6">
-        <div className="flex items-center p-1.5 bg-background/50 rounded-[20px]">
-          {[
-            { name: "Pending", count: 12 },
-            { name: "All", count: null },
-            { name: "Dispatched", count: null },
-            { name: "Delivered", count: null },
-          ].map((tab) => (
+      <div className="mb-10 flex flex-wrap items-center justify-between gap-6 rounded-[32px] border border-text/5 bg-white p-2 shadow-sm">
+        <div className="flex items-center rounded-xl bg-background/50 p-1">
+          {['Pending', 'All', 'Dispatched', 'Delivered'].map((tab) => (
             <button
-              key={tab.name}
-              onClick={() => setActiveTab(tab.name)}
+              key={tab}
+              onClick={() => setActiveTab(tab)}
               className={`px-8 py-2.5 rounded-[14px] text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-3 ${
-                activeTab === tab.name
-                  ? "bg-white text-text shadow-md shadow-text/5 border border-text/5"
-                  : "text-text/30 hover:text-text"
+                activeTab === tab
+                  ? 'bg-white text-text shadow-md shadow-text/5 border border-text/5'
+                  : 'text-text/30 hover:text-text'
               }`}
-              type="button"
             >
-              {tab.name}
-              {tab.count ? (
-                <span className="bg-primary/10 text-primary px-2 py-0.5 rounded-full text-[9px]">{tab.count}</span>
-              ) : null}
+              {tab}
+              {tab === 'Pending' && (
+                <span className="bg-primary/10 text-primary px-2 py-0.5 rounded-full text-[9px]">12</span>
+              )}
             </button>
           ))}
         </div>
 
         <div className="flex items-center gap-4 px-3">
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-text/20" size={16} />
+          <div className="relative group">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-text/20 group-focus-within:text-primary transition-colors" size={16} />
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search orders, shops, or SKUs..."
-              className="pl-12 pr-6 py-3 bg-background/30 border border-transparent rounded-2xl text-xs font-medium focus:outline-none focus:bg-white focus:border-primary/20 transition-all w-80 placeholder:text-text/20"
+              placeholder="Search orders or shops..."
+              className="pl-12 pr-6 py-3 bg-background border border-transparent rounded-2xl text-xs font-bold focus:outline-none focus:bg-white focus:border-primary/20 transition-all w-80 placeholder:text-text/20"
             />
           </div>
 
-          <button
-            type="button"
-            className="px-5 py-3 rounded-2xl border border-text/10 bg-white text-text/60 font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:border-primary/20 hover:text-text transition-all"
-          >
-            <Filter size={16} />
-            Filters
-            <ChevronDown size={14} className="text-text/30" />
+          <button className="p-3.5 text-text/40 hover:text-primary transition-all bg-background rounded-2xl border border-transparent hover:border-primary/10 hover:shadow-sm">
+            <Filter size={20} />
           </button>
         </div>
       </div>
 
       <div className="space-y-4">
         {filtered.map((order) => (
-          <OrderRow key={order.id} order={order} />
+          <OrderCard key={order.id} order={order} />
         ))}
+      </div>
+
+      <div className="mt-10 flex items-center justify-between">
+        <p className="text-xs font-bold text-text/30 uppercase tracking-widest">
+          Showing <span className="text-text/60">{filtered.length}</span> of <span className="text-text/60">45</span> orders
+        </p>
+        <div className="flex items-center gap-4">
+          <button className="p-3 rounded-xl text-text/20 transition-all" disabled>
+            <ChevronLeft size={20} />
+          </button>
+          <div className="flex gap-2">
+            <button className="w-9 h-9 rounded-xl bg-primary text-white text-xs font-black shadow-lg shadow-primary/20">1</button>
+            <button className="w-9 h-9 rounded-xl text-xs font-black text-text/40 hover:text-text transition-all border border-text/5">2</button>
+          </div>
+          <button className="p-3 rounded-xl text-text/40 hover:text-primary transition-all bg-background border border-transparent hover:border-primary/10">
+            <ChevronRight size={20} />
+          </button>
+        </div>
       </div>
     </div>
   );
 }
-
