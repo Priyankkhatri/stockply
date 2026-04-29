@@ -20,12 +20,30 @@ const FeatureCard = ({ icon: Icon, title, desc, color }) => (
   </motion.div>
 );
 
-const StatBlock = ({ value, label }) => (
-  <div className="text-center">
-    <p className="text-4xl lg:text-5xl font-black text-white tracking-tighter">{value}</p>
-    <p className="text-[10px] font-black uppercase tracking-[0.25em] text-white/30 mt-2">{label}</p>
-  </div>
-);
+const StatBlock = ({ value, label }) => {
+  const [displayed, setDisplayed] = useState(value);
+  const numericValue = parseInt(value.replace(/[^0-9]/g, ''));
+  
+  useEffect(() => {
+    if (isNaN(numericValue)) { setDisplayed(value); return; }
+    let current = 0;
+    const step = Math.max(1, Math.floor(numericValue / 40));
+    const suffix = value.replace(/[0-9]/g, '');
+    const timer = setInterval(() => {
+      current += step;
+      if (current >= numericValue) { setDisplayed(value); clearInterval(timer); }
+      else { setDisplayed(current + suffix); }
+    }, 30);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="text-center">
+      <p className="text-4xl lg:text-5xl font-black text-white tracking-tighter">{displayed}</p>
+      <p className="text-[10px] font-black uppercase tracking-[0.25em] text-white/30 mt-2">{label}</p>
+    </div>
+  );
+};
 
 const LandingPage = () => {
   const navigate = useNavigate();
