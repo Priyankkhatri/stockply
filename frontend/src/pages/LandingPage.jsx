@@ -214,17 +214,48 @@ const LandingPage = () => {
       </section>
 
       {/* ─── Footer ─── */}
-      <footer className="border-t border-text/5 py-12 px-6 lg:px-12">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white"><Sparkles size={14} /></div>
-            <span className="font-display font-black text-sm text-text tracking-tighter uppercase">Stockply</span>
+      <footer className="border-t border-text/5 bg-white/50">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
+            <div className="col-span-2 md:col-span-1">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20"><Sparkles size={18} /></div>
+                <span className="font-display font-black text-lg text-text tracking-tighter uppercase">Stockply</span>
+              </div>
+              <p className="text-xs text-text/40 leading-relaxed">The Digital Atelier for modern supply chain management.</p>
+            </div>
+            <div>
+              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-text/30 mb-4">Product</h4>
+              <div className="space-y-3">
+                <a href="#features" className="block text-sm text-text/50 hover:text-primary transition-colors">Features</a>
+                <a href="#how" className="block text-sm text-text/50 hover:text-primary transition-colors">How It Works</a>
+                <a href="#stats" className="block text-sm text-text/50 hover:text-primary transition-colors">Stats</a>
+              </div>
+            </div>
+            <div>
+              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-text/30 mb-4">Company</h4>
+              <div className="space-y-3">
+                <a href="#" className="block text-sm text-text/50 hover:text-primary transition-colors">About</a>
+                <a href="#" className="block text-sm text-text/50 hover:text-primary transition-colors">Careers</a>
+                <a href="#" className="block text-sm text-text/50 hover:text-primary transition-colors">Blog</a>
+              </div>
+            </div>
+            <div>
+              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-text/30 mb-4">Connect</h4>
+              <div className="space-y-3">
+                <a href="https://github.com/Priyankkhatri/stockply" target="_blank" className="block text-sm text-text/50 hover:text-primary transition-colors">GitHub</a>
+                <a href="#" className="block text-sm text-text/50 hover:text-primary transition-colors">Twitter</a>
+                <a href="#" className="block text-sm text-text/50 hover:text-primary transition-colors">LinkedIn</a>
+              </div>
+            </div>
           </div>
-          <p className="text-[10px] font-black uppercase tracking-widest text-text/30">© 2026 Stockply. Built by Priyank Khatri.</p>
-          <div className="flex gap-6">
-            <a href="#" className="text-[10px] font-bold text-text/30 hover:text-primary transition-colors">Terms</a>
-            <a href="#" className="text-[10px] font-bold text-text/30 hover:text-primary transition-colors">Privacy</a>
-            <a href="https://github.com/Priyankkhatri/stockply" target="_blank" className="text-[10px] font-bold text-text/30 hover:text-primary transition-colors">GitHub</a>
+          <div className="pt-8 border-t border-text/5 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-[10px] font-black uppercase tracking-widest text-text/20">© 2026 Stockply. Built by Priyank Khatri.</p>
+            <div className="flex gap-6">
+              <a href="#" className="text-[10px] font-bold text-text/20 hover:text-primary transition-colors">Terms</a>
+              <a href="#" className="text-[10px] font-bold text-text/20 hover:text-primary transition-colors">Privacy</a>
+              <a href="#" className="text-[10px] font-bold text-text/20 hover:text-primary transition-colors">Cookies</a>
+            </div>
           </div>
         </div>
       </footer>
