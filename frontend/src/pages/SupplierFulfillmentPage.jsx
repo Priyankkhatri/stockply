@@ -1,3 +1,5 @@
+import React from "react";
+import { ArrowRight, CheckCircle2, Clock3, PackageCheck, Truck } from "lucide-react";
 import { useSupplier } from "../context/SupplierContext";
 
 const statusClasses = {
