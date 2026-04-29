@@ -7,6 +7,7 @@ import DashboardHome from "./pages/DashboardHome";
 import InventoryPage from "./pages/InventoryPage";
 import OrdersPage from "./pages/OrdersPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
+import AlertsPage from "./pages/AlertsPage";
 import SupplierDashboardPage from "./pages/SupplierDashboardPage";
 import SupplierShopsPage from "./pages/SupplierShopsPage";
 import SupplierShopDetailsPage from "./pages/SupplierShopDetailsPage";
@@ -58,11 +59,6 @@ const shopRoutes = [
     path: "/dashboard/orders",
     title: "Order History",
     description: "Review purchase orders, status updates, and fulfillment timelines.",
-  },
-  {
-    path: "/dashboard/alerts",
-    title: "Alerts Center",
-    description: "Monitor low-stock signals, expiring items, and attention-needed items.",
   },
   {
     path: "/dashboard/analytics",
@@ -144,6 +140,16 @@ function App() {
             <RequireSession role="shop">
               <AppLayout role="shop">
                 <AnalyticsPage />
+              </AppLayout>
+            </RequireSession>
+          }
+        />
+        <Route
+          path="/dashboard/alerts"
+          element={
+            <RequireSession role="shop">
+              <AppLayout role="shop">
+                <AlertsPage />
               </AppLayout>
             </RequireSession>
           }
