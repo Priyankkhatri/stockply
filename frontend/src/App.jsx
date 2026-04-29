@@ -9,6 +9,7 @@ import OrdersPage from "./pages/OrdersPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 import SupplierDashboardPage from "./pages/SupplierDashboardPage";
 import SupplierShopsPage from "./pages/SupplierShopsPage";
+import SupplierShopDetailsPage from "./pages/SupplierShopDetailsPage";
 import SectionPlaceholder from "./pages/SectionPlaceholder";
 
 const getSession = () => ({
@@ -177,6 +178,16 @@ function App() {
             <RequireSession role="supplier">
               <AppLayout role="supplier">
                 <SupplierShopsPage />
+              </AppLayout>
+            </RequireSession>
+          }
+        />
+        <Route
+          path="/supplier/shops/:id"
+          element={
+            <RequireSession role="supplier">
+              <AppLayout role="supplier">
+                <SupplierShopDetailsPage />
               </AppLayout>
             </RequireSession>
           }
