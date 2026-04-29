@@ -19,6 +19,7 @@ import SupplierFulfillmentPage from "./pages/SupplierFulfillmentPage";
 import SupplierInventoryPage from "./pages/SupplierInventoryPage";
 import SupplierAnalyticsPage from "./pages/SupplierAnalyticsPage";
 import SupplierSettingsPage from "./pages/SupplierSettingsPage";
+import NotFoundPage from "./pages/NotFoundPage";
 import DashboardLayout from "./layouts/DashboardLayout";
 
 const getSession = () => ({
@@ -226,7 +227,7 @@ function App() {
           }
         />
 
-        <Route path="*" element={<Navigate to={getHomePath(session.role)} replace />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
     </SupplierProvider>
