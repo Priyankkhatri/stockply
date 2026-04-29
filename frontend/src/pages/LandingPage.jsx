@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   Package, ArrowRight, Sparkles, BarChart3, Shield, Zap,
-  Users, ShoppingCart, Truck, Star, ChevronRight, Globe
+  Users, ShoppingCart, Truck, Star, ChevronRight, Globe,
+  Menu, X
 } from 'lucide-react';
 
 const fadeUp = { hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0 } };
@@ -28,11 +29,26 @@ const StatBlock = ({ value, label }) => (
 
 const LandingPage = () => {
   const navigate = useNavigate();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const navLinks = [
+    { label: 'Features', href: '#features' },
+    { label: 'How It Works', href: '#how' },
+    { label: 'Testimonials', href: '#testimonials' },
+    { label: 'Stats', href: '#stats' },
+  ];
 
   return (
-    <div className="min-h-screen bg-background font-sans overflow-x-hidden">
+    <div className="min-h-screen bg-background font-sans overflow-x-hidden scroll-smooth">
       {/* ─── Navbar ─── */}
-      <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-background/80 border-b border-text/5">
+      <nav className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b transition-all duration-300 ${scrolled ? 'bg-white/90 border-text/10 shadow-lg shadow-text/5' : 'bg-background/80 border-text/5'}`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20">
@@ -41,17 +57,32 @@ const LandingPage = () => {
             <span className="font-display font-black text-xl text-text tracking-tighter uppercase">Stockply</span>
           </div>
           <div className="hidden md:flex items-center gap-8">
-            <a href="#features" className="text-[11px] font-black uppercase tracking-widest text-text/40 hover:text-primary transition-colors">Features</a>
-            <a href="#how" className="text-[11px] font-black uppercase tracking-widest text-text/40 hover:text-primary transition-colors">How It Works</a>
-            <a href="#stats" className="text-[11px] font-black uppercase tracking-widest text-text/40 hover:text-primary transition-colors">Stats</a>
+            {navLinks.map(l => (
+              <a key={l.label} href={l.href} className="text-[11px] font-black uppercase tracking-widest text-text/40 hover:text-primary transition-colors">{l.label}</a>
+            ))}
           </div>
-          <div className="flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-3">
             <button onClick={() => navigate('/login')} className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-text/60 hover:text-primary transition-colors">Log In</button>
             <button onClick={() => navigate('/login')} className="px-6 py-3 bg-primary text-white text-[11px] font-black uppercase tracking-widest rounded-xl shadow-lg shadow-primary/20 hover:bg-primary-dark transition-all">
               Get Started
             </button>
           </div>
+          {/* Mobile hamburger */}
+          <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden w-10 h-10 rounded-xl flex items-center justify-center text-text/60 hover:text-primary transition-colors">
+            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
         </div>
+        {/* Mobile menu overlay */}
+        {mobileOpen && (
+          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="md:hidden bg-white border-t border-text/5 shadow-xl px-6 py-6 space-y-2">
+            {navLinks.map(l => (
+              <a key={l.label} href={l.href} onClick={() => setMobileOpen(false)} className="block px-4 py-3 rounded-xl text-xs font-black uppercase tracking-widest text-text/60 hover:text-primary hover:bg-primary/5 transition-all">{l.label}</a>
+            ))}
+            <div className="pt-4 border-t border-text/5 flex flex-col gap-2">
+              <button onClick={() => { navigate('/login'); setMobileOpen(false); }} className="w-full py-4 bg-primary text-white text-xs font-black uppercase tracking-widest rounded-xl shadow-lg shadow-primary/20">Get Started</button>
+            </div>
+          </motion.div>
+        )}
       </nav>
 
       {/* ─── Hero ─── */}
@@ -183,17 +214,48 @@ const LandingPage = () => {
       </section>
 
       {/* ─── Footer ─── */}
-      <footer className="border-t border-text/5 py-12 px-6 lg:px-12">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white"><Sparkles size={14} /></div>
-            <span className="font-display font-black text-sm text-text tracking-tighter uppercase">Stockply</span>
+      <footer className="border-t border-text/5 bg-white/50">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
+            <div className="col-span-2 md:col-span-1">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20"><Sparkles size={18} /></div>
+                <span className="font-display font-black text-lg text-text tracking-tighter uppercase">Stockply</span>
+              </div>
+              <p className="text-xs text-text/40 leading-relaxed">The Digital Atelier for modern supply chain management.</p>
+            </div>
+            <div>
+              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-text/30 mb-4">Product</h4>
+              <div className="space-y-3">
+                <a href="#features" className="block text-sm text-text/50 hover:text-primary transition-colors">Features</a>
+                <a href="#how" className="block text-sm text-text/50 hover:text-primary transition-colors">How It Works</a>
+                <a href="#stats" className="block text-sm text-text/50 hover:text-primary transition-colors">Stats</a>
+              </div>
+            </div>
+            <div>
+              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-text/30 mb-4">Company</h4>
+              <div className="space-y-3">
+                <a href="#" className="block text-sm text-text/50 hover:text-primary transition-colors">About</a>
+                <a href="#" className="block text-sm text-text/50 hover:text-primary transition-colors">Careers</a>
+                <a href="#" className="block text-sm text-text/50 hover:text-primary transition-colors">Blog</a>
+              </div>
+            </div>
+            <div>
+              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-text/30 mb-4">Connect</h4>
+              <div className="space-y-3">
+                <a href="https://github.com/Priyankkhatri/stockply" target="_blank" className="block text-sm text-text/50 hover:text-primary transition-colors">GitHub</a>
+                <a href="#" className="block text-sm text-text/50 hover:text-primary transition-colors">Twitter</a>
+                <a href="#" className="block text-sm text-text/50 hover:text-primary transition-colors">LinkedIn</a>
+              </div>
+            </div>
           </div>
-          <p className="text-[10px] font-black uppercase tracking-widest text-text/30">© 2026 Stockply. Built by Priyank Khatri.</p>
-          <div className="flex gap-6">
-            <a href="#" className="text-[10px] font-bold text-text/30 hover:text-primary transition-colors">Terms</a>
-            <a href="#" className="text-[10px] font-bold text-text/30 hover:text-primary transition-colors">Privacy</a>
-            <a href="https://github.com/Priyankkhatri/stockply" target="_blank" className="text-[10px] font-bold text-text/30 hover:text-primary transition-colors">GitHub</a>
+          <div className="pt-8 border-t border-text/5 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-[10px] font-black uppercase tracking-widest text-text/20">© 2026 Stockply. Built by Priyank Khatri.</p>
+            <div className="flex gap-6">
+              <a href="#" className="text-[10px] font-bold text-text/20 hover:text-primary transition-colors">Terms</a>
+              <a href="#" className="text-[10px] font-bold text-text/20 hover:text-primary transition-colors">Privacy</a>
+              <a href="#" className="text-[10px] font-bold text-text/20 hover:text-primary transition-colors">Cookies</a>
+            </div>
           </div>
         </div>
       </footer>
