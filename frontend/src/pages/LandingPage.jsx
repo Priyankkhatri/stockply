@@ -104,7 +104,11 @@ const LandingPage = () => {
       </nav>
 
       {/* ─── Hero ─── */}
-      <section className="pt-40 pb-24 px-6 lg:px-12 max-w-7xl mx-auto">
+      <section className="pt-40 pb-24 px-6 lg:px-12 max-w-7xl mx-auto relative">
+        {/* Floating decorative elements */}
+        <div className="absolute top-32 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute top-64 right-10 w-56 h-56 bg-accent-violet/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute bottom-20 left-1/4 w-40 h-40 bg-accent-cyan/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
         <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.12 } } }} className="text-center max-w-4xl mx-auto">
           <motion.div variants={fadeUp} className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/5 text-primary text-[10px] font-black uppercase tracking-widest mb-8">
             <Sparkles size={12} /> The Digital Atelier for Supply Chains
