@@ -7,6 +7,7 @@ import DashboardHome from "./pages/DashboardHome";
 import InventoryPage from "./pages/InventoryPage";
 import OrdersPage from "./pages/OrdersPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
+import SupplierDashboardPage from "./pages/SupplierDashboardPage";
 import SectionPlaceholder from "./pages/SectionPlaceholder";
 
 const getSession = () => ({
@@ -169,10 +170,7 @@ function App() {
           element={
             <RequireSession role="supplier">
               <AppLayout role="supplier">
-                <SectionPlaceholder
-                  title="Supplier Dashboard"
-                  description="Track incoming demand, active shops, and daily throughput from the same clean workspace."
-                />
+                <SupplierDashboardPage />
               </AppLayout>
             </RequireSession>
           }
