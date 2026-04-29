@@ -104,7 +104,11 @@ const LandingPage = () => {
       </nav>
 
       {/* ─── Hero ─── */}
-      <section className="pt-40 pb-24 px-6 lg:px-12 max-w-7xl mx-auto">
+      <section className="pt-40 pb-24 px-6 lg:px-12 max-w-7xl mx-auto relative">
+        {/* Floating decorative elements */}
+        <div className="absolute top-32 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute top-64 right-10 w-56 h-56 bg-accent-violet/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute bottom-20 left-1/4 w-40 h-40 bg-accent-cyan/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
         <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.12 } } }} className="text-center max-w-4xl mx-auto">
           <motion.div variants={fadeUp} className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/5 text-primary text-[10px] font-black uppercase tracking-widest mb-8">
             <Sparkles size={12} /> The Digital Atelier for Supply Chains
@@ -130,7 +134,19 @@ const LandingPage = () => {
         <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.8 }}
           className="mt-20 relative max-w-5xl mx-auto">
           <div className="absolute -inset-4 bg-gradient-to-b from-primary/10 via-transparent to-transparent rounded-[48px] blur-3xl" />
-          <div className="relative bg-white rounded-[36px] border border-text/10 shadow-2xl shadow-text/10 p-3 overflow-hidden">
+          <div className="relative bg-white rounded-[36px] border border-text/10 shadow-2xl shadow-text/10 overflow-hidden">
+            {/* Browser chrome */}
+            <div className="flex items-center gap-2 px-6 py-3 border-b border-text/5 bg-background/50">
+              <div className="flex gap-1.5">
+                <div className="w-3 h-3 rounded-full bg-rose-400/60" />
+                <div className="w-3 h-3 rounded-full bg-amber-400/60" />
+                <div className="w-3 h-3 rounded-full bg-emerald-400/60" />
+              </div>
+              <div className="flex-1 mx-4">
+                <div className="bg-white/80 rounded-lg px-4 py-1.5 text-[10px] font-bold text-text/20 text-center border border-text/5">stockply.app/supplier/dashboard</div>
+              </div>
+            </div>
+            <div className="p-3">
             <div className="bg-background rounded-[28px] p-8 lg:p-12">
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                 {[
@@ -155,6 +171,7 @@ const LandingPage = () => {
                 ))}
               </div>
             </div>
+          </div>
           </div>
         </motion.div>
       </section>
