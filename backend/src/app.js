@@ -3,6 +3,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const productRoutes = require('./routes/productRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
+const alertRoutes = require('./routes/alertRoutes');
 
 const app = express();
 
@@ -23,5 +24,6 @@ app.get('/health', (req, res) => {
 // Routes
 app.use('/api/v1/products', productRoutes);
 app.use('/api/v1/transactions', transactionRoutes);
+app.use('/api/v1/alerts', alertRoutes);
 
 module.exports = app;
