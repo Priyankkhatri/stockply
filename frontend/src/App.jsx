@@ -9,6 +9,7 @@ import OrdersPage from "./pages/OrdersPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 import AlertsPage from "./pages/AlertsPage";
 import SettingsPage from "./pages/SettingsPage";
+import SupportPage from "./pages/SupportPage";
 import SupplierDashboardPage from "./pages/SupplierDashboardPage";
 import SupplierShopsPage from "./pages/SupplierShopsPage";
 import SupplierShopDetailsPage from "./pages/SupplierShopDetailsPage";
@@ -139,6 +140,16 @@ function App() {
             <RequireSession role="shop">
               <AppLayout role="shop">
                 <SettingsPage />
+              </AppLayout>
+            </RequireSession>
+          }
+        />
+        <Route
+          path="/support"
+          element={
+            <RequireSession>
+              <AppLayout role={session.role}>
+                <SupportPage />
               </AppLayout>
             </RequireSession>
           }
