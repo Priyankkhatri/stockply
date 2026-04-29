@@ -1,7 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import Sidebar from "./components/Sidebar";
-import Topbar from "./components/Topbar";
 import LoginPage from "./pages/LoginPage";
 import DashboardHome from "./pages/DashboardHome";
 import InventoryPage from "./pages/InventoryPage";
@@ -19,6 +17,7 @@ import SupplierFulfillmentPage from "./pages/SupplierFulfillmentPage";
 import SupplierInventoryPage from "./pages/SupplierInventoryPage";
 import SupplierAnalyticsPage from "./pages/SupplierAnalyticsPage";
 import SupplierSettingsPage from "./pages/SupplierSettingsPage";
+import DashboardLayout from "./layouts/DashboardLayout";
 
 const getSession = () => ({
   isLoggedIn: localStorage.getItem("isLoggedIn") === "true",
@@ -26,16 +25,6 @@ const getSession = () => ({
 });
 
 const getHomePath = (role) => (role === "supplier" ? "/supplier/dashboard" : "/dashboard");
-
-const AppLayout = ({ role, children }) => (
-  <div className="flex min-h-screen bg-background">
-    <Sidebar role={role} />
-    <div className="flex flex-1 min-w-0 flex-col">
-      <Topbar role={role} />
-      <main className="flex-1 overflow-y-auto">{children}</main>
-    </div>
-  </div>
-);
 
 const RequireSession = ({ role, children }) => {
   const session = getSession();
@@ -74,9 +63,9 @@ function App() {
           path="/dashboard"
           element={
             <RequireSession role="shop">
-              <AppLayout role="shop">
+              <DashboardLayout role="shop">
                 <DashboardHome />
-              </AppLayout>
+              </DashboardLayout>
             </RequireSession>
           }
         />
@@ -84,9 +73,9 @@ function App() {
           path="/dashboard/inventory"
           element={
             <RequireSession role="shop">
-              <AppLayout role="shop">
+              <DashboardLayout role="shop">
                 <InventoryPage />
-              </AppLayout>
+              </DashboardLayout>
             </RequireSession>
           }
         />
@@ -94,9 +83,9 @@ function App() {
           path="/dashboard/inventory/compare"
           element={
             <RequireSession role="shop">
-              <AppLayout role="shop">
+              <DashboardLayout role="shop">
                 <CompareSuppliersPage />
-              </AppLayout>
+              </DashboardLayout>
             </RequireSession>
           }
         />
@@ -104,9 +93,9 @@ function App() {
           path="/dashboard/orders"
           element={
             <RequireSession role="shop">
-              <AppLayout role="shop">
+              <DashboardLayout role="shop">
                 <OrdersPage />
-              </AppLayout>
+              </DashboardLayout>
             </RequireSession>
           }
         />
@@ -114,9 +103,9 @@ function App() {
           path="/dashboard/analytics"
           element={
             <RequireSession role="shop">
-              <AppLayout role="shop">
+              <DashboardLayout role="shop">
                 <AnalyticsPage />
-              </AppLayout>
+              </DashboardLayout>
             </RequireSession>
           }
         />
@@ -124,9 +113,9 @@ function App() {
           path="/dashboard/alerts"
           element={
             <RequireSession role="shop">
-              <AppLayout role="shop">
+              <DashboardLayout role="shop">
                 <AlertsPage />
-              </AppLayout>
+              </DashboardLayout>
             </RequireSession>
           }
         />
@@ -134,9 +123,9 @@ function App() {
           path="/dashboard/settings"
           element={
             <RequireSession role="shop">
-              <AppLayout role="shop">
+              <DashboardLayout role="shop">
                 <SettingsPage />
-              </AppLayout>
+              </DashboardLayout>
             </RequireSession>
           }
         />
@@ -144,9 +133,9 @@ function App() {
           path="/support"
           element={
             <RequireSession>
-              <AppLayout role={session.role}>
+              <DashboardLayout role={session.role}>
                 <SupportPage />
-              </AppLayout>
+              </DashboardLayout>
             </RequireSession>
           }
         />
@@ -155,9 +144,9 @@ function App() {
           path="/supplier/dashboard"
           element={
             <RequireSession role="supplier">
-              <AppLayout role="supplier">
+              <DashboardLayout role="supplier">
                 <SupplierDashboardPage />
-              </AppLayout>
+              </DashboardLayout>
             </RequireSession>
           }
         />
@@ -165,9 +154,9 @@ function App() {
           path="/supplier/shops"
           element={
             <RequireSession role="supplier">
-              <AppLayout role="supplier">
+              <DashboardLayout role="supplier">
                 <SupplierShopsPage />
-              </AppLayout>
+              </DashboardLayout>
             </RequireSession>
           }
         />
@@ -175,9 +164,9 @@ function App() {
           path="/supplier/shops/:id"
           element={
             <RequireSession role="supplier">
-              <AppLayout role="supplier">
+              <DashboardLayout role="supplier">
                 <SupplierShopDetailsPage />
-              </AppLayout>
+              </DashboardLayout>
             </RequireSession>
           }
         />
@@ -185,9 +174,9 @@ function App() {
           path="/supplier/orders"
           element={
             <RequireSession role="supplier">
-              <AppLayout role="supplier">
+              <DashboardLayout role="supplier">
                 <SupplierOrdersPage />
-              </AppLayout>
+              </DashboardLayout>
             </RequireSession>
           }
         />
@@ -195,9 +184,9 @@ function App() {
           path="/supplier/fulfillment"
           element={
             <RequireSession role="supplier">
-              <AppLayout role="supplier">
+              <DashboardLayout role="supplier">
                 <SupplierFulfillmentPage />
-              </AppLayout>
+              </DashboardLayout>
             </RequireSession>
           }
         />
@@ -205,9 +194,9 @@ function App() {
           path="/supplier/inventory"
           element={
             <RequireSession role="supplier">
-              <AppLayout role="supplier">
+              <DashboardLayout role="supplier">
                 <SupplierInventoryPage />
-              </AppLayout>
+              </DashboardLayout>
             </RequireSession>
           }
         />
@@ -215,9 +204,9 @@ function App() {
           path="/supplier/analytics"
           element={
             <RequireSession role="supplier">
-              <AppLayout role="supplier">
+              <DashboardLayout role="supplier">
                 <SupplierAnalyticsPage />
-              </AppLayout>
+              </DashboardLayout>
             </RequireSession>
           }
         />
@@ -225,9 +214,9 @@ function App() {
           path="/supplier/settings"
           element={
             <RequireSession role="supplier">
-              <AppLayout role="supplier">
+              <DashboardLayout role="supplier">
                 <SupplierSettingsPage />
-              </AppLayout>
+              </DashboardLayout>
             </RequireSession>
           }
         />
@@ -237,5 +226,6 @@ function App() {
     </Router>
   );
 }
+
 
 export default App;

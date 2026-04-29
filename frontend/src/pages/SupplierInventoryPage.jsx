@@ -151,8 +151,9 @@ export default function SupplierInventoryPage() {
   const [activeTab, setActiveTab] = useState('All Items');
   const [editingRow, setEditingRow] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
-  const products = useMemo(() => [
+  const [products, setProducts] = useState([
     {
       name: 'European Linen - Natural',
       sku: 'LNN-NAT-01',
@@ -189,7 +190,39 @@ export default function SupplierInventoryPage() {
       status: 'In Stock',
       img: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?q=80&w=100&auto=format&fit=crop'
     }
-  ], []);
+  ]);
+
+  const [newProduct, setNewProduct] = useState({
+    name: '',
+    sku: '',
+    category: 'Fabric',
+    stock: '',
+    unit: 'units',
+    price: '0.00',
+    moq: '10',
+    leadTime: '7 Days',
+    status: 'In Stock',
+    img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=100&auto=format&fit=crop'
+  });
+
+  const handleAddProduct = () => {
+    if (!newProduct.name || !newProduct.sku) return;
+    
+    setProducts([newProduct, ...products]);
+    setIsAddModalOpen(false);
+    setNewProduct({
+      name: '',
+      sku: '',
+      category: 'Fabric',
+      stock: '',
+      unit: 'units',
+      price: '0.00',
+      moq: '10',
+      leadTime: '7 Days',
+      status: 'In Stock',
+      img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=100&auto=format&fit=crop'
+    });
+  };
 
   const filteredProducts = useMemo(() => {
     return products.filter(product => {
@@ -202,6 +235,7 @@ export default function SupplierInventoryPage() {
     });
   }, [products, searchQuery, activeTab]);
 
+
   return (
     <div className="max-w-[1600px] mx-auto pb-10 px-10 pt-10">
       <PageHeader 
@@ -213,12 +247,104 @@ export default function SupplierInventoryPage() {
             <PremiumButton variant="secondary" icon={Upload}>
               Export Data
             </PremiumButton>
-            <PremiumButton icon={Plus}>
+            <PremiumButton icon={Plus} onClick={() => setIsAddModalOpen(true)}>
               Add Product
             </PremiumButton>
           </>
         }
       />
+
+      <AnimatePresence>
+        {isAddModalOpen && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsAddModalOpen(false)}
+              className="absolute inset-0 bg-text/40 backdrop-blur-md"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-2xl bg-white rounded-[40px] shadow-2xl overflow-hidden border border-text/5"
+            >
+              <div className="p-10 border-b border-text/5 flex items-center justify-between bg-background/50">
+                <div>
+                  <h3 className="text-2xl font-bold text-text">Add New SKU</h3>
+                  <p className="text-[10px] font-black text-text/30 uppercase tracking-widest mt-1">Initialize raw material entry</p>
+                </div>
+                <button onClick={() => setIsAddModalOpen(false)} className="w-12 h-12 flex items-center justify-center rounded-2xl hover:bg-background transition-colors text-text/30">
+                  <X size={24} />
+                </button>
+              </div>
+              
+              <div className="p-10 grid grid-cols-2 gap-8">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-text/40 uppercase tracking-widest ml-1">Product Name</label>
+                  <input 
+                    type="text" 
+                    placeholder="e.g. Raw Silk" 
+                    value={newProduct.name}
+                    onChange={(e) => setNewProduct({...newProduct, name: e.target.value})}
+                    className="w-full px-6 py-4 bg-background border border-transparent rounded-2xl text-sm font-bold focus:outline-none focus:bg-white focus:border-primary/20 transition-all" 
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-text/40 uppercase tracking-widest ml-1">SKU ID</label>
+                  <input 
+                    type="text" 
+                    placeholder="e.g. SLK-001" 
+                    value={newProduct.sku}
+                    onChange={(e) => setNewProduct({...newProduct, sku: e.target.value})}
+                    className="w-full px-6 py-4 bg-background border border-transparent rounded-2xl text-sm font-bold focus:outline-none focus:bg-white focus:border-primary/20 transition-all" 
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-text/40 uppercase tracking-widest ml-1">Category</label>
+                  <select 
+                    value={newProduct.category}
+                    onChange={(e) => setNewProduct({...newProduct, category: e.target.value})}
+                    className="w-full px-6 py-4 bg-background border border-transparent rounded-2xl text-sm font-bold focus:outline-none focus:bg-white focus:border-primary/20 transition-all appearance-none"
+                  >
+                    <option>Fabric</option>
+                    <option>Leather</option>
+                    <option>Hardware</option>
+                    <option>Packaging</option>
+                  </select>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-text/40 uppercase tracking-widest ml-1">Initial Stock</label>
+                  <div className="flex items-center gap-3">
+                    <input 
+                      type="number" 
+                      placeholder="0" 
+                      value={newProduct.stock}
+                      onChange={(e) => setNewProduct({...newProduct, stock: e.target.value})}
+                      className="flex-1 px-6 py-4 bg-background border border-transparent rounded-2xl text-sm font-bold focus:outline-none focus:bg-white focus:border-primary/20 transition-all" 
+                    />
+                    <span className="text-[10px] font-black text-text/30 uppercase mr-2">Units</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="px-10 py-8 bg-background/50 border-t border-text/5 flex items-center justify-end gap-4">
+                <button 
+                  onClick={() => setIsAddModalOpen(false)}
+                  className="px-8 py-4 text-xs font-black uppercase tracking-widest text-text/40 hover:text-text transition-colors"
+                >
+                  Discard
+                </button>
+                <PremiumButton onClick={handleAddProduct} className="px-10">
+                  Save Product
+                </PremiumButton>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
 
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
