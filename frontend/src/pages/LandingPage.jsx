@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   Package, ArrowRight, Sparkles, BarChart3, Shield, Zap,
-  Users, ShoppingCart, Truck, Star, ChevronRight, Globe
+  Users, ShoppingCart, Truck, Star, ChevronRight, Globe,
+  Menu, X
 } from 'lucide-react';
 
 const fadeUp = { hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0 } };
