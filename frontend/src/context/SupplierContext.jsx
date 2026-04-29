@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { productAPI, transactionAPI, alertAPI, partnerAPI } from '../services/api';
+import { productAPI, transactionAPI, alertAPI, partnerAPI, orderAPI } from '../services/api';
 
 const SupplierContext = createContext();
 
@@ -25,19 +25,30 @@ export const SupplierProvider = ({ children }) => {
   const fetchInitialData = async () => {
     try {
       setLoading(true);
-      const [prodRes, summaryRes, partnersRes] = await Promise.all([
+      const [prodRes, summaryRes, partnersRes, ordersRes] = await Promise.all([
         productAPI.getAll(),
         alertAPI.getSummary(),
-        partnerAPI.getAll()
+        partnerAPI.getAll(),
+        orderAPI.getAll()
       ]);
       
       setProducts(prodRes.data.data.products);
       setSummary(summaryRes.data.data.summary);
       setPartners(partnersRes.data.data.partners);
+      setOrders(ordersRes.data.data.orders);
     } catch (error) {
       console.error('Error fetching initial data:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchOrders = async () => {
+    try {
+      const res = await orderAPI.getAll();
+      setOrders(res.data.data.orders);
+    } catch (error) {
+      console.error('Error fetching orders:', error);
     }
   };
 
@@ -82,10 +93,33 @@ export const SupplierProvider = ({ children }) => {
       console.error('Error updating stock:', error);
     }
   };
-  const addOrder = (order) => setOrders([order, ...orders]);
+  const addOrder = async (orderData) => {
+    try {
+      const res = await orderAPI.create(orderData);
+      setOrders(prev => [res.data.data.order, ...prev]);
+      return res.data.data.order;
+    } catch (error) {
+      console.error('Error adding order:', error);
+      throw error;
+    }
+  };
   
-  const updateOrderStatus = (id, status) => {
-    setOrders(orders.map(o => o.id === id ? { ...o, status } : o));
+  const updateOrderStatus = async (id, status) => {
+    try {
+      const res = await orderAPI.updateStatus(id, status);
+      setOrders(prev => prev.map(o => (o._id === id ? res.data.data.order : o)));
+    } catch (error) {
+      console.error('Error updating order status:', error);
+    }
+  };
+
+  const removeOrder = async (id) => {
+    try {
+      await orderAPI.delete(id);
+      setOrders(prev => prev.filter(o => o._id !== id));
+    } catch (error) {
+      console.error('Error removing order:', error);
+    }
   };
 
   const value = {

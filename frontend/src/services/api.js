@@ -32,4 +32,11 @@ export const partnerAPI = {
   update: (id, data) => api.patch(`/partners/${id}`, data)
 };
 
+export const orderAPI = {
+  getAll: () => api.get('/orders'),
+  create: (data) => api.post('/orders', data),
+  updateStatus: (id, status) => api.patch(`/orders/${id}/status`, { status }),
+  delete: (id) => api.delete(`/orders/${id}`)
+};
+
 export default api;

@@ -31,7 +31,8 @@ const OrderCard = ({ order, isExpanded, onToggle, onUpdateStatus }) => {
 
   const statusClasses = {
     Pending: 'bg-orange-50 text-orange-600 border-orange-100',
-    Dispatched: 'bg-blue-50 text-blue-600 border-blue-100',
+    Processing: 'bg-blue-50 text-blue-600 border-blue-100',
+    Shipped: 'bg-purple-50 text-purple-600 border-purple-100',
     Delivered: 'bg-teal-50 text-teal-600 border-teal-100',
     Cancelled: 'bg-rose-50 text-rose-600 border-rose-100',
   };
@@ -43,28 +44,28 @@ const OrderCard = ({ order, isExpanded, onToggle, onUpdateStatus }) => {
           <div className="flex justify-between items-start mb-10">
             <div>
               <div className="flex items-center gap-4 mb-3">
-                <h2 className="text-3xl font-bold text-text tracking-tight">{order.id}</h2>
-                <span className={`text-[9px] font-black px-3 py-1 rounded-lg border uppercase tracking-widest flex items-center gap-2 ${statusClasses[order.status]}`}>
+                <h2 className="text-3xl font-bold text-text tracking-tight">{order.orderNumber}</h2>
+                <span className={`text-[9px] font-black px-3 py-1 rounded-lg border uppercase tracking-widest flex items-center gap-2 ${statusClasses[order.status] || statusClasses.Pending}`}>
                   <div className={`w-1.5 h-1.5 rounded-full animate-pulse ${order.status === 'Pending' ? 'bg-orange-500' : 'bg-blue-500'}`}></div>
                   {order.status}
                 </span>
               </div>
               <div className="flex items-center gap-2 text-text/40 text-xs font-bold">
                 <Calendar size={14} />
-                <span>Placed on {order.date}</span>
+                <span>Placed on {new Date(order.createdAt).toLocaleDateString()}</span>
               </div>
             </div>
             <div className="flex gap-3">
               {order.status === 'Pending' && (
                 <>
                   <button 
-                    onClick={() => onUpdateStatus(order.id, 'Cancelled')}
+                    onClick={() => onUpdateStatus(order._id, 'Cancelled')}
                     className="px-6 py-3 rounded-2xl text-rose-500 font-black text-[10px] uppercase tracking-widest hover:bg-rose-50 border border-transparent hover:border-rose-100 transition-all"
                   >
                     Reject
                   </button>
                   <PremiumButton 
-                    onClick={() => onUpdateStatus(order.id, 'Accepted')}
+                    onClick={() => onUpdateStatus(order._id, 'Processing')}
                     variant="primary" 
                     className="px-10"
                   >
@@ -72,41 +73,40 @@ const OrderCard = ({ order, isExpanded, onToggle, onUpdateStatus }) => {
                   </PremiumButton>
                 </>
               )}
-              {order.status === 'Accepted' && (
+              {order.status === 'Processing' && (
                 <PremiumButton 
-                  onClick={() => onUpdateStatus(order.id, 'Dispatched')}
+                  onClick={() => onUpdateStatus(order._id, 'Shipped')}
                   variant="primary" 
                   className="px-10"
                 >
-                  Dispatch Order
+                  Mark as Shipped
                 </PremiumButton>
               )}
             </div>
-
           </div>
 
           <div className="grid grid-cols-3 gap-8 mb-12 bg-[#FAF5F0] rounded-[32px] p-8 border border-[#F0E5D8]">
             <div className="space-y-3">
               <p className="text-[9px] font-black text-primary/40 uppercase tracking-[0.2em]">Shop Details</p>
-              <h4 className="font-bold text-text text-base leading-tight">{order.shop}</h4>
+              <h4 className="font-bold text-text text-base leading-tight">{order.shopName}</h4>
               <div className="space-y-1.5">
-                <p className="text-[11px] text-text/60 font-bold flex items-center gap-2"><MapPin size={12} className="text-primary" /> Mumbai, IND</p>
-                <p className="text-[11px] text-text/60 font-bold flex items-center gap-2"><Phone size={12} className="text-primary" /> +91 98765 43210</p>
+                <p className="text-[11px] text-text/60 font-bold flex items-center gap-2"><MapPin size={12} className="text-primary" /> India</p>
+                <p className="text-[11px] text-text/60 font-bold flex items-center gap-2"><Phone size={12} className="text-primary" /> Contact details synced</p>
               </div>
             </div>
             <div className="space-y-3 border-x border-[#F0E5D8] px-8">
               <p className="text-[9px] font-black text-primary/40 uppercase tracking-[0.2em]">Financial Summary</p>
-              <h4 className="font-bold text-text text-2xl tracking-tighter flex items-center"><IndianRupee size={20} className="mr-0.5" />{order.amount.replace('Rs. ', '')}</h4>
+              <h4 className="font-bold text-text text-2xl tracking-tighter flex items-center"><IndianRupee size={20} className="mr-0.5" />{order.totalAmount.toLocaleString()}</h4>
               <div className="flex items-center gap-3">
-                <span className={`text-[9px] font-black px-2 py-0.5 rounded border uppercase ${paymentClasses[order.payment]}`}>{order.payment}</span>
-                <span className="text-[10px] text-text/40 font-bold italic">via UPI</span>
+                <span className={`text-[9px] font-black px-2 py-0.5 rounded border uppercase ${paymentClasses[order.payment] || paymentClasses.Pending}`}>Pending</span>
+                <span className="text-[10px] text-text/40 font-bold italic">via Bank Transfer</span>
               </div>
             </div>
             <div className="space-y-3">
-              <p className="text-[9px] font-black text-primary/40 uppercase tracking-[0.2em]">Logistics Trust</p>
-              <p className="text-[11px] text-text font-bold">Window: <span className="font-medium text-text/60 underline decoration-primary/30 underline-offset-2">12 May</span></p>
+              <p className="text-[9px] font-black text-primary/40 uppercase tracking-[0.2em]">Priority & Logistics</p>
+              <p className="text-[11px] text-text font-bold">Priority: <span className="font-medium text-text/60 underline decoration-primary/30 underline-offset-2">{order.priority}</span></p>
               <div className="flex items-center gap-3">
-                <span className="text-[11px] text-teal-600 font-bold italic">7 days left</span>
+                <span className="text-[11px] text-teal-600 font-bold italic">Ready for sync</span>
                 <span className="bg-teal-50 text-teal-600 text-[8px] font-black px-2 py-0.5 rounded-full border border-teal-100 uppercase tracking-widest">● Safe</span>
               </div>
             </div>
@@ -120,9 +120,9 @@ const OrderCard = ({ order, isExpanded, onToggle, onUpdateStatus }) => {
               </div>
               {[
                 { label: 'Received', active: true, done: true },
-                { label: 'Accepted', active: order.status !== 'Pending', done: order.status !== 'Pending' },
-                { label: 'Dispatched', active: order.status === 'Dispatched', done: order.status === 'Dispatched' },
-                { label: 'Delivered', active: false, done: false }
+                { label: 'Processing', active: order.status !== 'Pending', done: ['Shipped', 'Delivered'].includes(order.status) },
+                { label: 'Shipped', active: order.status === 'Shipped', done: order.status === 'Delivered' },
+                { label: 'Delivered', active: order.status === 'Delivered', done: order.status === 'Delivered' }
               ].map((step, i) => (
                 <div key={i} className="relative z-10 flex flex-col items-center w-24">
                   <div className={`w-11 h-11 rounded-2xl flex items-center justify-center border-2 transition-all duration-500 shadow-sm ${
@@ -164,7 +164,7 @@ const OrderCard = ({ order, isExpanded, onToggle, onUpdateStatus }) => {
                   </div>
                   <div>
                     <h4 className="font-bold text-white text-sm group-hover:text-primary transition-colors">{item.name}</h4>
-                    <p className="text-[9px] text-white/30 font-black uppercase tracking-widest mt-1">ID: {item.sku}</p>
+                    <p className="text-[9px] text-white/30 font-black uppercase tracking-widest mt-1">QTY: {item.quantity}</p>
                   </div>
                 </div>
                 <span className="font-bold text-white/90 text-sm">Rs. {item.price}</span>
@@ -175,7 +175,7 @@ const OrderCard = ({ order, isExpanded, onToggle, onUpdateStatus }) => {
             <div className="flex justify-between items-end">
               <div>
                 <p className="text-[9px] font-black text-white/30 uppercase tracking-[0.2em] mb-1">Grand Total</p>
-                <span className="text-3xl font-black text-white tracking-tighter">{order.amount}</span>
+                <span className="text-3xl font-black text-white tracking-tighter">Rs. {order.totalAmount.toLocaleString()}</span>
               </div>
               <div className="flex items-center gap-2 text-primary font-bold text-xs bg-primary/10 px-3 py-1 rounded-full border border-primary/20">
                 <ShieldCheck size={14} /> Insured
@@ -194,24 +194,24 @@ const OrderCard = ({ order, isExpanded, onToggle, onUpdateStatus }) => {
     >
       <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary scale-y-0 group-hover:scale-y-100 transition-transform origin-top"></div>
       <div className="flex-[0.8]">
-        <p className="text-[10px] font-black text-text/20 uppercase tracking-[0.2em] mb-1">{order.id}</p>
-        <h4 className="font-bold text-text text-sm group-hover:text-primary transition-colors">{order.date}</h4>
+        <p className="text-[10px] font-black text-text/20 uppercase tracking-[0.2em] mb-1">{order.orderNumber}</p>
+        <h4 className="font-bold text-text text-sm group-hover:text-primary transition-colors">{new Date(order.createdAt).toLocaleDateString()}</h4>
       </div>
       <div className="flex-1">
-        <h4 className="font-bold text-text text-base">{order.shop}</h4>
-        <p className="text-[10px] text-text/30 font-black uppercase tracking-widest mt-1 italic">{order.itemsCount} Items • {order.totalQty || 'Bulk'} units</p>
+        <h4 className="font-bold text-text text-base">{order.shopName}</h4>
+        <p className="text-[10px] text-text/30 font-black uppercase tracking-widest mt-1 italic">{order.items?.length || 0} Items • {order.items?.reduce((acc, curr) => acc + curr.quantity, 0) || 0} units</p>
       </div>
       <div className="flex-1 text-center">
-        <p className="text-base font-bold text-text mb-2 tracking-tight">{order.amount}</p>
-        <span className={`px-2.5 py-0.5 rounded-md border font-black text-[9px] uppercase tracking-widest ${paymentClasses[order.payment]}`}>
-          {order.payment}
+        <p className="text-base font-bold text-text mb-2 tracking-tight">Rs. {order.totalAmount.toLocaleString()}</p>
+        <span className={`px-2.5 py-0.5 rounded-md border font-black text-[9px] uppercase tracking-widest ${paymentClasses[order.payment] || paymentClasses.Pending}`}>
+          Pending
         </span>
       </div>
       <div className="flex-1 flex justify-center">
         <span className={`px-5 py-2 rounded-full border font-black text-[10px] uppercase tracking-[0.15em] flex items-center gap-3 transition-all ${
-          order.status === 'Dispatched' ? 'bg-teal-50 text-teal-600 border-teal-100 group-hover:bg-teal-600 group-hover:text-white' : 'bg-orange-50 text-orange-600 border-orange-100 group-hover:bg-orange-500 group-hover:text-white'
+          order.status === 'Shipped' ? 'bg-teal-50 text-teal-600 border-teal-100 group-hover:bg-teal-600 group-hover:text-white' : 'bg-orange-50 text-orange-600 border-orange-100 group-hover:bg-orange-500 group-hover:text-white'
         }`}>
-          <div className={`w-1.5 h-1.5 rounded-full ${order.status === 'Dispatched' ? 'bg-teal-500' : 'bg-orange-500'} group-hover:bg-white`}></div>
+          <div className={`w-1.5 h-1.5 rounded-full ${order.status === 'Shipped' ? 'bg-teal-500' : 'bg-orange-500'} group-hover:bg-white`}></div>
           {order.status}
         </span>
       </div>
@@ -225,10 +225,21 @@ const OrderCard = ({ order, isExpanded, onToggle, onUpdateStatus }) => {
 };
 
 export default function SupplierOrdersPage() {
-  const { orders, updateOrderStatus } = useSupplier();
+  const { orders, loading, updateOrderStatus } = useSupplier();
   const [activeTab, setActiveTab] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
   const [expandedOrder, setExpandedOrder] = useState(null);
+
+  if (loading) {
+    return (
+      <div className="flex h-[80vh] items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <p className="text-xs font-black uppercase tracking-widest text-text/40">Fetching Order Manifests...</p>
+        </div>
+      </div>
+    );
+  }
 
 
   const handleStatusUpdate = (id, newStatus) => {
@@ -238,14 +249,14 @@ export default function SupplierOrdersPage() {
 
   const filtered = useMemo(() => {
     const norm = searchTerm.trim().toLowerCase();
-    return orders.filter((order) => {
+    return (orders || []).filter((order) => {
       const matchesTab = activeTab === 'All' || order.status === activeTab;
       if (!matchesTab) return false;
       
       if (!norm) return true;
       return (
-        order.id.toLowerCase().includes(norm) ||
-        order.shop.toLowerCase().includes(norm)
+        order.orderNumber?.toLowerCase().includes(norm) ||
+        order.shopName?.toLowerCase().includes(norm)
       );
     });
   }, [activeTab, orders, searchTerm]);
@@ -271,7 +282,7 @@ export default function SupplierOrdersPage() {
 
       <div className="mb-10 flex flex-wrap items-center justify-between gap-6 rounded-[32px] border border-text/5 bg-white p-3 shadow-sm">
         <div className="flex items-center rounded-[20px] bg-background/50 p-1.5">
-          {['Pending', 'All', 'Dispatched', 'Delivered'].map((tab) => (
+          {['Pending', 'All', 'Processing', 'Shipped', 'Delivered'].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -283,7 +294,9 @@ export default function SupplierOrdersPage() {
             >
               {tab}
               {tab === 'Pending' && (
-                <span className="bg-primary/10 text-primary px-2 py-0.5 rounded-full text-[9px]">12</span>
+                <span className="bg-primary/10 text-primary px-2 py-0.5 rounded-full text-[9px]">
+                  {orders.filter(o => o.status === 'Pending').length}
+                </span>
               )}
             </button>
           ))}
@@ -309,16 +322,25 @@ export default function SupplierOrdersPage() {
       </div>
 
       <div className="space-y-2">
-        {filtered.map((order) => (
-          <OrderCard 
-            key={order.id} 
-            order={order} 
-            isExpanded={expandedOrder === order.id}
-            onToggle={() => setExpandedOrder(expandedOrder === order.id ? null : order.id)}
-            onUpdateStatus={handleStatusUpdate}
-          />
-        ))}
-
+        {filtered.length === 0 ? (
+          <div className="bg-white rounded-[32px] border border-dashed border-text/10 py-20 flex flex-col items-center justify-center text-center">
+            <div className="w-20 h-20 rounded-full bg-background flex items-center justify-center mb-6 text-text/10">
+              <Package size={40} />
+            </div>
+            <h3 className="text-xl font-bold text-text mb-2">No Orders Found</h3>
+            <p className="text-text/40 text-sm max-w-xs">There are no active orders matching your current search or filter criteria.</p>
+          </div>
+        ) : (
+          filtered.map((order) => (
+            <OrderCard 
+              key={order._id || order.orderNumber} 
+              order={order} 
+              isExpanded={expandedOrder === (order._id || order.orderNumber)}
+              onToggle={() => setExpandedOrder(expandedOrder === (order._id || order.orderNumber) ? null : (order._id || order.orderNumber))}
+              onUpdateStatus={handleStatusUpdate}
+            />
+          ))
+        )}
       </div>
 
       <div className="mt-16 flex items-center justify-between">

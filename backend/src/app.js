@@ -5,6 +5,7 @@ const productRoutes = require('./routes/productRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
 const alertRoutes = require('./routes/alertRoutes');
 const partnerRoutes = require('./routes/partnerRoutes');
+const orderRoutes = require('./routes/orderRoutes');
 
 const app = express();
 

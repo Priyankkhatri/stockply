@@ -1,28 +1,46 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  AlertTriangle,
-  ArrowUpRight,
+import { 
+  TrendingUp, 
+  Package, 
+  ShoppingCart, 
+  Users, 
+  ArrowUpRight, 
+  ArrowDownRight,
+  Clock,
+  AlertCircle,
+  MoreHorizontal,
   ChevronRight,
-  Package,
-  ShoppingCart,
-  Sparkles,
-  Store,
-  TrendingUp,
-  Wallet,
+  IndianRupee,
+  Activity
 } from 'lucide-react';
 import { useSupplier } from '../context/SupplierContext';
 import PageHeader from '../components/PageHeader';
-
 import PremiumButton from '../components/PremiumButton';
 
-const trendHeights = [30, 45, 60, 40, 70, 55, 90];
-const trendDays = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
-
+const StatCard = ({ title, value, icon: Icon, trend, trendValue, color }) => (
+  <div className="bg-white rounded-[40px] border border-text/5 p-8 shadow-sm hover:shadow-xl transition-all group overflow-hidden relative">
+    <div className={`absolute top-0 right-0 w-32 h-32 -mr-8 -mt-8 rounded-full opacity-[0.03] group-hover:scale-110 transition-transform ${color}`} />
+    <div className="flex justify-between items-start mb-6">
+      <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${color.replace('bg-', 'bg-opacity-10 text-').replace('text-', 'text-opacity-100')}`}>
+        <Icon size={28} />
+      </div>
+      <div className={`flex items-center gap-1 text-[11px] font-black uppercase tracking-widest ${trend === 'up' ? 'text-teal-600' : 'text-rose-500'}`}>
+        {trend === 'up' ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
+        {trendValue}
+      </div>
+    </div>
+    <p className="text-[10px] font-black text-text/30 uppercase tracking-[0.2em] mb-1">{title}</p>
+    <h3 className="text-3xl font-black text-text tracking-tighter">{value}</h3>
+  </div>
+);
 
 const SupplierDashboardPage = () => {
   const navigate = useNavigate();
-  const { partners, orders, products, summary, loading } = useSupplier();
+  const { products, orders, partners, loading, summary } = useSupplier();
+
+  const trendHeights = [45, 60, 40, 75, 50, 90, 65];
+  const trendDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   if (loading) {
     return (
@@ -35,288 +53,194 @@ const SupplierDashboardPage = () => {
     );
   }
 
-  const activePartnersCount = partners.filter(p => p.status === 'Active').length;
-  const ordersTodayCount = orders.length; 
-  
-  const revenueToday = orders.reduce((sum, o) => {
-    const val = typeof o.amount === 'string' ? parseInt(o.amount.replace(/[^0-9]/g, '')) : o.amount || 0;
-    return sum + val;
-  }, 0);
-
-  const stats = [
-    { label: 'CONNECTED SHOPS', value: activePartnersCount.toString(), trend: '+1 new', icon: Store, color: 'text-blue-500', bg: 'bg-blue-50' },
-    { label: 'ORDERS TODAY', value: ordersTodayCount.toString(), trend: '+12%', icon: ShoppingCart, color: 'text-primary', bg: 'bg-primary/10' },
-    { label: 'TOTAL STOCK', value: (summary?.totalStock || 0).toLocaleString(), trend: '+5.4%', icon: Package, color: 'text-teal-600', bg: 'bg-teal-50' },
-    { label: 'STOCK ALERTS', value: ((summary?.lowStockCount || 0) + (summary?.outOfStockCount || 0)).toString(), trend: 'Critical', icon: AlertTriangle, color: 'text-red-500', bg: 'bg-red-50' },
-  ];
-
-  const incomingOrders = orders.slice(0, 3).map(o => ({
-    id: o.id || o._id,
-    shop: o.shop || 'Retail Partner',
-    items: `${o.itemsCount || 0} items`,
-    value: typeof o.amount === 'number' ? `Rs. ${o.amount.toLocaleString()}` : o.amount,
-    status: o.status
-  }));
-
-  const stockOverview = products.slice(0, 4).map(p => ({
-    name: p.name,
-    detail: p.category,
-    stock: `${p.stock} units`,
-    status: p.status
-  }));
-
-  const connectedShops = partners.filter(p => p.status === 'Active').slice(0, 2).map(p => ({
-    name: p.name,
-    status: p.status,
-    tag: p.behavior === 'On-time' ? 'Frequent buyer' : 'High demand',
-    lastOrder: 'Today, 10:30 AM',
-    monthlyRev: p.revenue,
-    avatar: `https://ui-avatars.com/api/?name=${p.name}&background=random&color=fff`,
-  }));
-
-
   return (
-    <div className="mx-auto max-w-[1600px] px-10 py-10 pb-12">
-      <PageHeader
-        title="Supplier Dashboard"
-        subtitle="Welcome back, Master Artisan. Monitor shop demand, active orders, and warehouse pressure."
+    <div className="max-w-[1600px] mx-auto px-10 pb-12 pt-10">
+      <PageHeader 
+        title="Supplier Overview"
+        subtitle="Global logistics and supply chain intelligence dashboard."
         breadcrumbs={['Supplier', 'Dashboard']}
-        actions={
-          <div className="flex items-center gap-4">
-            <div className="px-4 py-2 bg-white rounded-xl border border-text/5 shadow-sm flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></div>
-              <span className="text-[10px] font-black text-text/40 uppercase tracking-widest">System Live</span>
-            </div>
-            <PremiumButton icon={Package} onClick={() => navigate('/supplier/inventory')}>
-              Prep inventory
-            </PremiumButton>
-          </div>
-        }
       />
 
-      <div className="mb-10 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => (
-          <div key={stat.label} className="flex h-[220px] flex-col justify-between rounded-[32px] border border-text/5 bg-white p-8 shadow-sm transition-all hover:shadow-xl hover:border-primary/20 group">
-            <div className="flex items-start justify-between">
-              <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${stat.bg} ${stat.color} shadow-sm group-hover:scale-110 transition-transform`}>
-                <stat.icon size={22} />
-              </div>
-              <div className="flex items-center gap-1.5 text-[10px] font-black text-teal-600">
-                <ArrowUpRight size={14} />
-                {stat.trend}
-              </div>
-            </div>
-            <div className="mt-4">
-              <p className="mb-1 text-[10px] font-black uppercase tracking-[0.2em] text-text/30">{stat.label}</p>
-              <p className="text-4xl font-bold text-text tracking-tight">{stat.value}</p>
-            </div>
-          </div>
-        ))}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        <StatCard 
+          title="Total Revenue" 
+          value={`Rs. ${summary?.totalRevenue?.toLocaleString() || '0'}`} 
+          icon={IndianRupee} 
+          trend="up" 
+          trendValue="12.5%" 
+          color="bg-primary text-primary"
+        />
+        <StatCard 
+          title="Active Orders" 
+          value={orders.filter(o => o.status === 'Pending').length || '0'} 
+          icon={ShoppingCart} 
+          trend="up" 
+          trendValue="8.2%" 
+          color="bg-teal-500 text-teal-500"
+        />
+        <StatCard 
+          title="Stock Items" 
+          value={products.length || '0'} 
+          icon={Package} 
+          trend="down" 
+          trendValue="2.1%" 
+          color="bg-blue-500 text-blue-500"
+        />
+        <StatCard 
+          title="Retail Partners" 
+          value={partners.length || '0'} 
+          icon={Users} 
+          trend="up" 
+          trendValue="5.4%" 
+          color="bg-purple-500 text-purple-500"
+        />
       </div>
 
-      <div className="mb-10 grid grid-cols-1 gap-10 xl:grid-cols-3">
-        <div className="space-y-8 xl:col-span-2">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-text">Connected Shops</h2>
-            <button className="flex items-center gap-2 text-xs font-bold text-primary group" onClick={() => navigate('/supplier/shops')} type="button">
-              View shop directory <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </button>
-          </div>
-
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-            {connectedShops.map((shop) => (
-              <div key={shop.name} className="rounded-[32px] border border-text/5 bg-white p-8 shadow-sm transition-all hover:shadow-xl hover:border-b-primary border-b-transparent border-b-4">
-                <div className="mb-6 flex items-center gap-5">
-                  <div className="relative">
-                    <img src={shop.avatar} alt={shop.name} className="h-16 w-16 rounded-2xl object-cover shadow-md" />
-                    <div className="absolute -bottom-1 -right-1 h-5 w-5 rounded-full border-4 border-white bg-teal-500" />
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-bold text-text">{shop.name}</h4>
-                    <div className="mt-1 flex flex-wrap gap-2">
-                      <span className="rounded border border-teal-100 bg-teal-50 px-2 py-0.5 text-[9px] font-black uppercase text-teal-600">
-                        {shop.status}
-                      </span>
-                      <span className="rounded border border-orange-100 bg-orange-50 px-2 py-0.5 text-[9px] font-black uppercase text-orange-600">
-                        {shop.tag}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-6 border-t border-text/5 pt-6 text-[10px]">
-                  <div>
-                    <p className="mb-2 font-black uppercase tracking-[0.2em] text-text/30">Last interaction</p>
-                    <p className="text-sm font-bold text-text">{shop.lastOrder}</p>
-                  </div>
-                  <div>
-                    <p className="mb-2 font-black uppercase tracking-[0.2em] text-text/30">Monthly volume</p>
-                    <p className="text-sm font-bold text-text">{shop.monthlyRev}</p>
-                  </div>
-                </div>
-
-                <button
-                  className="mt-8 w-full rounded-2xl border border-text/5 bg-background py-4 text-xs font-bold text-text shadow-sm transition-all hover:bg-primary hover:text-white hover:border-primary"
-                  onClick={() => navigate('/supplier/shops')}
-                  type="button"
-                >
-                  Open Channel
-                </button>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 mb-12">
+        <div className="lg:col-span-2 space-y-10">
+          <div className="rounded-[40px] border border-text/5 bg-white p-10 shadow-sm hover:shadow-lg transition-all">
+            <div className="mb-10 flex items-center justify-between">
+              <div>
+                <h3 className="text-xl font-bold text-text">Demand Forecasting</h3>
+                <p className="text-[10px] font-black uppercase tracking-widest text-text/30">AI-driven predictive analytics</p>
               </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="space-y-10">
-          <div className="relative overflow-hidden rounded-[40px] bg-text p-10 text-white group shadow-2xl shadow-text/20">
-            <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700" />
-            <div className="relative z-10 mb-6 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/20 text-primary">
-                <Sparkles size={20} />
-              </div>
-              <h3 className="text-xl font-bold">Artisan Intelligence</h3>
-            </div>
-            <p className="relative z-10 mb-10 text-base leading-relaxed text-white/70">
-              <span className="font-black text-white italic">Prediction:</span> 3 shops are likely to reorder <span className="font-bold text-primary">Sourdough Flour</span> in the next 48 hours.
-            </p>
-            <button
-              className="relative z-10 w-full rounded-2xl bg-white py-4 text-xs font-black uppercase tracking-widest text-text shadow-lg transition-all hover:bg-primary hover:text-white"
-              onClick={() => navigate('/supplier/inventory')}
-              type="button"
-            >
-              Prep Inventory
-            </button>
-          </div>
-
-          <div className="rounded-[40px] border border-text/5 bg-white p-10 shadow-sm transition-all hover:shadow-lg">
-            <div className="mb-10 flex items-start justify-between">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal-600">
-                  <TrendingUp size={20} />
-                </div>
-                <div>
-                  <h3 className="text-base font-bold text-text">Demand Trend</h3>
-                  <p className="text-[10px] font-black uppercase tracking-widest text-text/30">Weekly analytics</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-1 text-xs font-bold text-teal-600">
-                <ArrowUpRight size={14} /> 12%
+              <div className="flex gap-2">
+                <div className="px-4 py-2 rounded-xl bg-background text-[10px] font-black uppercase tracking-widest text-text/40 border border-text/5">Weekly</div>
+                <div className="px-4 py-2 rounded-xl bg-primary text-[10px] font-black uppercase tracking-widest text-white shadow-lg shadow-primary/20">Monthly</div>
               </div>
             </div>
-            <div className="flex h-32 items-end justify-between gap-3">
-              {trendHeights.map((height, index) => (
-                <div key={`${trendDays[index]}-${height}`} className="flex flex-1 flex-col items-center gap-3 group">
-                  <div className={`w-full rounded-t-xl transition-all duration-500 ${index === 6 ? 'bg-primary' : 'bg-primary/10 group-hover:bg-primary/30'}`} style={{ height: `${height}%` }} />
-                  <span className="text-[9px] font-black uppercase text-text/20 tracking-tighter">{trendDays[index]}</span>
+            
+            <div className="h-64 flex items-end justify-between gap-4 px-4">
+              {trendHeights.map((h, i) => (
+                <div key={i} className="flex-1 flex flex-col items-center gap-4 group">
+                  <div className="relative w-full">
+                    <div 
+                      className={`w-full rounded-2xl transition-all duration-1000 ${i === 5 ? 'bg-primary shadow-[0_0_20px_rgba(192,133,82,0.3)]' : 'bg-background group-hover:bg-primary/20'}`}
+                      style={{ height: `${h}%` }}
+                    />
+                    {i === 5 && (
+                      <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-text text-white text-[9px] font-black px-2 py-1 rounded shadow-xl">
+                        PEAK
+                      </div>
+                    )}
+                  </div>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-text/20 group-hover:text-text transition-colors">{trendDays[i]}</span>
                 </div>
               ))}
             </div>
           </div>
-        </div>
-      </div>
 
-      <div className="grid grid-cols-1 gap-10 xl:grid-cols-2">
-        <div className="rounded-[40px] border border-text/5 bg-white p-10 shadow-sm hover:shadow-lg transition-all">
-          <div className="mb-8 flex items-center justify-between">
-            <div>
-              <h3 className="text-xl font-bold text-text">Recent Orders</h3>
-              <p className="text-[10px] font-black uppercase tracking-widest text-text/30">Active queue</p>
+          <div className="rounded-[40px] border border-text/5 bg-white p-10 shadow-sm hover:shadow-lg transition-all">
+            <div className="mb-8 flex items-center justify-between">
+              <div>
+                <h3 className="text-xl font-bold text-text">Recent Orders</h3>
+                <p className="text-[10px] font-black uppercase tracking-widest text-text/30">Live fulfillment queue</p>
+              </div>
+              <PremiumButton 
+                variant="secondary" 
+                onClick={() => navigate('/supplier/orders')}
+                className="px-6"
+              >
+                View All
+              </PremiumButton>
             </div>
-            <button
-              className="rounded-xl bg-background px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest text-text transition-all hover:bg-text hover:text-white"
-              onClick={() => navigate('/supplier/orders')}
-              type="button"
-            >
-              Full history
-            </button>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="border-b border-text/5 text-[10px] font-black uppercase tracking-[0.2em] text-text/20">
-                  <th className="pb-6">ID</th>
-                  <th className="pb-6">Shop</th>
-                  <th className="pb-6">Value</th>
-                  <th className="pb-6">Status</th>
-                  <th className="pb-6 text-right" />
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-text/5">
-                {incomingOrders.map((order) => (
-                  <tr key={order.id} className="group cursor-pointer transition-all hover:bg-background/20">
-                    <td className="py-6 text-sm font-bold text-primary">{order.id}</td>
-                    <td className="py-6">
-                      <p className="text-sm font-bold text-text">{order.shop}</p>
-                      <p className="text-[10px] font-medium text-text/40">{order.items}</p>
-                    </td>
-                    <td className="py-6 text-sm font-bold text-text">{order.value}</td>
-                    <td className="py-6">
-                      <span className={`rounded-lg border px-2.5 py-1 text-[9px] font-black uppercase tracking-widest ${order.status === 'Pending'
-                          ? 'border-orange-100 bg-orange-50 text-orange-500'
-                          : 'border-teal-100 bg-teal-50 text-teal-500'
-                        }`}>
-                        {order.status}
-                      </span>
-                    </td>
-                    <td className="py-6 text-right">
-                      <div className="ml-auto flex h-10 w-10 items-center justify-center rounded-xl bg-background transition-all group-hover:bg-primary group-hover:text-white">
-                        <ChevronRight size={18} />
+            
+            <div className="space-y-4">
+              {orders && orders.length > 0 ? (
+                orders.slice(0, 4).map((order) => (
+                  <div 
+                    key={order._id} 
+                    onClick={() => navigate('/supplier/orders')}
+                    className="flex items-center justify-between p-6 rounded-3xl hover:bg-background/50 transition-all border border-transparent hover:border-text/5 group cursor-pointer"
+                  >
+                    <div className="flex items-center gap-6">
+                      <div className="w-14 h-14 rounded-2xl bg-primary/5 flex items-center justify-center text-primary border border-primary/10">
+                        <ShoppingCart size={24} />
                       </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                      <div>
+                        <p className="text-base font-bold text-text group-hover:text-primary transition-colors">{order.shopName}</p>
+                        <p className="text-[10px] font-black text-text/20 uppercase tracking-[0.2em] mt-0.5">{order.orderNumber}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-base font-black text-text tracking-tight">Rs. {order.totalAmount.toLocaleString()}</p>
+                      <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded border mt-1 inline-block ${
+                        order.status === 'Pending' ? 'bg-orange-50 text-orange-500 border-orange-100' : 'bg-teal-50 text-teal-600 border-teal-100'
+                      }`}>{order.status}</span>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="py-20 text-center flex flex-col items-center">
+                  <div className="w-16 h-16 rounded-full bg-background flex items-center justify-center mb-4 text-text/10">
+                    <Clock size={32} />
+                  </div>
+                  <p className="text-xs font-bold text-text/20 uppercase tracking-widest">No Active Orders</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
-        <div className="rounded-[40px] border border-[#F0E5D8] bg-[#FAF5F0] p-10 shadow-sm hover:shadow-lg transition-all">
-          <div className="mb-8 flex items-center justify-between">
-            <div>
-              <h3 className="text-xl font-bold text-text">Stock Status</h3>
-              <p className="text-[10px] font-black uppercase tracking-widest text-text/30">Inventory focus</p>
-            </div>
-            <button
-              className="text-[10px] font-black uppercase tracking-[0.2em] text-primary"
-              onClick={() => navigate('/supplier/inventory')}
-              type="button"
-            >
-              Manage ledger
-            </button>
-          </div>
-          <div className="space-y-4">
-            {stockOverview.map((item) => (
-              <div key={item.name} className="flex items-center justify-between rounded-3xl border border-text/5 bg-white p-5 transition-all hover:shadow-md group">
-                <div className="flex items-center gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-background text-text/20 group-hover:text-primary transition-all">
-                    <Package size={20} />
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold text-text">{item.name}</p>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-text/30">{item.detail}</p>
-                  </div>
+        <div className="space-y-10">
+          <div className="bg-text rounded-[40px] p-10 text-white shadow-2xl relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-primary opacity-10 blur-[80px] -mr-32 -mt-32 group-hover:opacity-20 transition-opacity" />
+            <div className="relative z-10">
+              <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center mb-8 border border-white/10">
+                <Activity size={28} className="text-primary" />
+              </div>
+              <h3 className="text-2xl font-bold mb-3 tracking-tight">Logistics Hub</h3>
+              <p className="text-white/40 text-xs font-medium leading-relaxed mb-10">
+                Your supply chain is operating at <span className="text-primary font-black">94% efficiency</span>. Next major dispatch window opens in 4 hours.
+              </p>
+              
+              <div className="space-y-6 mb-10">
+                <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest">
+                  <span className="text-white/30">Warehouse Capacity</span>
+                  <span className="text-primary">78%</span>
                 </div>
-                <div className="flex items-center gap-6">
-                  <span className={`text-sm font-black ${item.status === 'Low stock' ? 'text-rose-500' : 'text-text'}`}>{item.stock}</span>
-                  <span className={`rounded-lg border px-2.5 py-1 text-[8px] font-black uppercase tracking-widest ${item.status === 'Low stock'
-                      ? 'border-rose-100 bg-rose-50 text-rose-500'
-                      : item.status === 'Selling fast'
-                        ? 'border-blue-100 bg-blue-50 text-blue-500'
-                        : 'border-teal-100 bg-teal-50 text-teal-500'
-                    }`}>
-                    {item.status}
-                  </span>
+                <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                  <div className="h-full bg-primary w-[78%] shadow-[0_0_10px_rgba(192,133,82,0.4)]" />
                 </div>
               </div>
-            ))}
+
+              <PremiumButton variant="primary" className="w-full py-5 rounded-2xl" onClick={() => navigate('/supplier/inventory')}>
+                Manage Inventory
+              </PremiumButton>
+            </div>
           </div>
-          <button
-            className="mt-8 w-full rounded-2xl border border-text/5 bg-white py-4 text-[10px] font-black uppercase tracking-widest text-text transition-all hover:shadow-md"
-            onClick={() => navigate('/supplier/inventory')}
-            type="button"
-          >
-            Run Full Audit
-          </button>
+
+          <div className="rounded-[40px] border border-text/5 bg-white p-10 shadow-sm hover:shadow-lg transition-all">
+            <div className="flex items-center gap-3 mb-10">
+              <div className="w-10 h-10 rounded-xl bg-rose-50 text-rose-500 flex items-center justify-center">
+                <AlertCircle size={20} />
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-text">Critical Alerts</h3>
+                <p className="text-[10px] font-black uppercase tracking-widest text-text/30">Action Required</p>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              {summary?.lowStockItems?.slice(0, 3).map((item, i) => (
+                <div key={i} className="flex items-center justify-between group">
+                  <div className="flex items-center gap-4">
+                    <div className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
+                    <div>
+                      <p className="text-sm font-bold text-text group-hover:text-primary transition-colors">{item.name}</p>
+                      <p className="text-[10px] font-black text-rose-500/60 uppercase tracking-widest">Low Stock: {item.stock} units</p>
+                    </div>
+                  </div>
+                  <ChevronRight size={16} className="text-text/10 group-hover:text-primary transition-all" />
+                </div>
+              ))}
+              {(!summary?.lowStockItems || summary.lowStockItems.length === 0) && (
+                <div className="py-6 text-center">
+                  <p className="text-[10px] font-black text-teal-600 uppercase tracking-widest">System Healthy</p>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
