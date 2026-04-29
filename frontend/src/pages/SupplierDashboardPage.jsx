@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   AlertTriangle,
   ArrowUpRight,
@@ -56,6 +57,8 @@ const trendHeights = [30, 45, 60, 40, 70, 55, 90];
 const trendDays = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
 const SupplierDashboardPage = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="mx-auto max-w-[1600px] px-6 py-8 pb-12">
       <PageHeader
@@ -63,7 +66,7 @@ const SupplierDashboardPage = () => {
         subtitle="Monitor shop demand, active orders, and warehouse pressure from one supplier workspace."
         breadcrumbs={['Supplier', 'Dashboard']}
         actions={
-          <PremiumButton icon={Package}>
+          <PremiumButton icon={Package} onClick={() => navigate('/supplier/inventory')}>
             Prep inventory
           </PremiumButton>
         }
@@ -93,7 +96,7 @@ const SupplierDashboardPage = () => {
         <div className="space-y-6 xl:col-span-2">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold text-text">Connected Shops</h2>
-            <button className="flex items-center gap-2 text-xs font-bold text-primary">
+            <button className="flex items-center gap-2 text-xs font-bold text-primary" onClick={() => navigate('/supplier/shops')} type="button">
               View shop directory <ChevronRight size={16} />
             </button>
           </div>
@@ -130,7 +133,11 @@ const SupplierDashboardPage = () => {
                   </div>
                 </div>
 
-                <button className="mt-8 w-full rounded-2xl border border-text/5 bg-background py-4 text-xs font-bold text-text shadow-sm transition-all hover:border-primary hover:bg-primary hover:text-white">
+                <button
+                  className="mt-8 w-full rounded-2xl border border-text/5 bg-background py-4 text-xs font-bold text-text shadow-sm transition-all hover:border-primary hover:bg-primary hover:text-white"
+                  onClick={() => navigate('/supplier/shops')}
+                  type="button"
+                >
                   Open Channel
                 </button>
               </div>
@@ -149,7 +156,11 @@ const SupplierDashboardPage = () => {
             <p className="relative z-10 mb-10 text-base leading-relaxed text-white/70">
               Three shops are likely to reorder <span className="font-bold text-primary">Sourdough Flour</span> in the next 48 hours.
             </p>
-            <button className="relative z-10 w-full rounded-2xl bg-white py-4 text-xs font-black uppercase tracking-widest text-text shadow-lg transition-all hover:bg-primary hover:text-white">
+            <button
+              className="relative z-10 w-full rounded-2xl bg-white py-4 text-xs font-black uppercase tracking-widest text-text shadow-lg transition-all hover:bg-primary hover:text-white"
+              onClick={() => navigate('/supplier/inventory')}
+              type="button"
+            >
               Prep Inventory
             </button>
           </div>
@@ -188,7 +199,11 @@ const SupplierDashboardPage = () => {
               <h3 className="text-xl font-bold text-text">Recent Orders</h3>
               <p className="text-[10px] font-black uppercase tracking-widest text-text/30">Active queue</p>
             </div>
-            <button className="rounded-xl bg-background px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest text-text transition-all hover:bg-text hover:text-white">
+            <button
+              className="rounded-xl bg-background px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest text-text transition-all hover:bg-text hover:text-white"
+              onClick={() => navigate('/supplier/orders')}
+              type="button"
+            >
               Full history
             </button>
           </div>
@@ -239,7 +254,13 @@ const SupplierDashboardPage = () => {
               <h3 className="text-xl font-bold text-text">Stock Status</h3>
               <p className="text-[10px] font-black uppercase tracking-widest text-text/30">Inventory focus</p>
             </div>
-            <button className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">Manage ledger</button>
+            <button
+              className="text-[10px] font-black uppercase tracking-[0.2em] text-primary"
+              onClick={() => navigate('/supplier/inventory')}
+              type="button"
+            >
+              Manage ledger
+            </button>
           </div>
           <div className="space-y-4">
             {stockOverview.map((item) => (
@@ -268,7 +289,11 @@ const SupplierDashboardPage = () => {
               </div>
             ))}
           </div>
-          <button className="mt-8 w-full rounded-2xl border border-text/5 bg-white py-4 text-[10px] font-black uppercase tracking-widest text-text transition-all hover:shadow-md">
+          <button
+            className="mt-8 w-full rounded-2xl border border-text/5 bg-white py-4 text-[10px] font-black uppercase tracking-widest text-text transition-all hover:shadow-md"
+            onClick={() => navigate('/supplier/inventory')}
+            type="button"
+          >
             Run Full Audit
           </button>
         </div>
