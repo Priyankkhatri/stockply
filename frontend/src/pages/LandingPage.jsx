@@ -308,15 +308,24 @@ const LandingPage = () => {
       </section>
 
       {/* ─── CTA ─── */}
-      <section className="py-24 px-6 lg:px-12 text-center">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-4xl lg:text-5xl font-black text-text tracking-tighter mb-6">
-            Ready to transform your<br />supply chain?
-          </h2>
-          <p className="text-text/50 mb-10 text-lg">Join hundreds of businesses already using Stockply to streamline their operations.</p>
-          <button onClick={() => navigate('/login')} className="group px-12 py-5 bg-primary text-white font-black text-xs uppercase tracking-widest rounded-2xl shadow-xl shadow-primary/25 hover:bg-primary-dark transition-all inline-flex items-center gap-3">
-            Get Started Now <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </button>
+      <section className="py-24 px-6 lg:px-12">
+        <div className="max-w-5xl mx-auto relative bg-gradient-to-br from-primary to-primary-dark rounded-[48px] p-16 lg:p-20 text-center overflow-hidden">
+          <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -ml-32 -mt-32" />
+          <div className="absolute bottom-0 right-0 w-80 h-80 bg-black/10 rounded-full blur-3xl -mr-40 -mb-40" />
+          <div className="relative z-10">
+            <h2 className="text-4xl lg:text-5xl font-black text-white tracking-tighter mb-6">
+              Ready to transform your<br />supply chain?
+            </h2>
+            <p className="text-white/60 mb-10 text-lg max-w-xl mx-auto">Join hundreds of businesses already using Stockply to streamline their operations.</p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <button onClick={() => navigate('/login')} className="group px-12 py-5 bg-white text-primary font-black text-xs uppercase tracking-widest rounded-2xl shadow-xl hover:shadow-2xl transition-all inline-flex items-center gap-3">
+                Get Started Free <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+              </button>
+              <button onClick={() => navigate('/login')} className="px-12 py-5 border-2 border-white/20 text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-white/10 transition-all">
+                Log In
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 
