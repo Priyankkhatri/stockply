@@ -1,13 +1,11 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { productAPI, transactionAPI, alertAPI, partnerAPI } from '../services/api';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { productAPI, transactionAPI, alertAPI, partnerAPI, orderAPI } from '../services/api';
 
 const SupplierContext = createContext();
 
 export const useSupplier = () => {
   const context = useContext(SupplierContext);
-  if (!context) {
-    throw new Error('useSupplier must be used within a SupplierProvider');
-  }
+  if (!context) throw new Error('useSupplier must be used within a SupplierProvider');
   return context;
 };
 
@@ -15,94 +13,123 @@ export const SupplierProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
   const [partners, setPartners] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [summary, setSummary] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetchInitialData();
-  }, []);
-
-  const fetchInitialData = async () => {
+  const fetchInitialData = useCallback(async () => {
     try {
       setLoading(true);
-      const [prodRes, summaryRes, partnersRes] = await Promise.all([
+      setError(null);
+
+      const [prodRes, summaryRes, partnersRes, ordersRes] = await Promise.all([
         productAPI.getAll(),
         alertAPI.getSummary(),
-        partnerAPI.getAll()
+        partnerAPI.getAll(),
+        orderAPI.getAll()
       ]);
-      
-      setProducts(prodRes.data.data.products);
-      setSummary(summaryRes.data.data.summary);
-      setPartners(partnersRes.data.data.partners);
-    } catch (error) {
-      console.error('Error fetching initial data:', error);
+
+      // Products: { data: { products: [...] } }
+      setProducts(prodRes.data?.data?.products ?? []);
+      // Summary: { data: { summary: {...} } }
+      setSummary(summaryRes.data?.data?.summary ?? {});
+      // Partners: { data: { partners: [...] } }
+      setPartners(partnersRes.data?.data?.partners ?? []);
+      // Orders: { data: { orders: [...] } }
+      setOrders(ordersRes.data?.data?.orders ?? []);
+    } catch (err) {
+      console.error('Error fetching initial data:', err);
+      setError(err.message);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const addPartner = async (partnerData) => {
-    try {
-      const res = await partnerAPI.create(partnerData);
-      setPartners(prev => [res.data.data.partner, ...prev]);
-    } catch (error) {
-      console.error('Error adding partner:', error);
-    }
-  };
+  useEffect(() => {
+    fetchInitialData();
+  }, [fetchInitialData]);
 
-  const updatePartner = async (id, partnerData) => {
-    try {
-      const res = await partnerAPI.update(id, partnerData);
-      setPartners(prev => prev.map(p => (p._id === id ? res.data.data.partner : p)));
-    } catch (error) {
-      console.error('Error updating partner:', error);
-    }
-  };
-
+  // ─── Products ────────────────────────────────────────────────
   const addProduct = async (productData) => {
-    try {
-      const res = await productAPI.create(productData);
-      setProducts(prev => [res.data.data.product, ...prev]);
-      return res.data.data.product;
-    } catch (error) {
-      console.error('Error adding product:', error);
-      throw error;
-    }
+    const res = await productAPI.create(productData);
+    const product = res.data?.data?.product;
+    setProducts(prev => [product, ...prev]);
+    return product;
   };
 
   const updateStock = async (id, adjustment) => {
-    try {
-      const res = await productAPI.updateStock(id, adjustment);
-      setProducts(prev => prev.map(p => p._id === id ? res.data.data.product : p));
-      
-      // Refresh summary
-      const summaryRes = await alertAPI.getSummary();
-      setSummary(summaryRes.data.data.summary);
-    } catch (error) {
-      console.error('Error updating stock:', error);
-    }
+    const res = await productAPI.updateStock(id, adjustment);
+    const product = res.data?.data?.product;
+    setProducts(prev => prev.map(p => p._id === id ? product : p));
+    // Refresh summary after stock change
+    const summaryRes = await alertAPI.getSummary();
+    setSummary(summaryRes.data?.data?.summary ?? {});
   };
-  const addOrder = (order) => setOrders([order, ...orders]);
-  
-  const updateOrderStatus = (id, status) => {
-    setOrders(orders.map(o => o.id === id ? { ...o, status } : o));
+
+  // ─── Partners ────────────────────────────────────────────────
+  const addPartner = async (partnerData) => {
+    const res = await partnerAPI.create(partnerData);
+    const partner = res.data?.data?.partner;
+    setPartners(prev => [partner, ...prev]);
+    return partner;
+  };
+
+  const updatePartner = async (id, partnerData) => {
+    const res = await partnerAPI.update(id, partnerData);
+    const partner = res.data?.data?.partner;
+    setPartners(prev => prev.map(p => p._id === id ? partner : p));
+    return partner;
+  };
+
+  const removePartner = async (id) => {
+    await partnerAPI.delete(id);
+    setPartners(prev => prev.filter(p => p._id !== id));
+  };
+
+  // ─── Orders ──────────────────────────────────────────────────
+  const addOrder = async (orderData) => {
+    const res = await orderAPI.create(orderData);
+    const order = res.data?.data?.order;
+    setOrders(prev => [order, ...prev]);
+    return order;
+  };
+
+  const updateOrderStatus = async (id, status) => {
+    const res = await orderAPI.updateStatus(id, status);
+    const order = res.data?.data?.order;
+    setOrders(prev => prev.map(o => o._id === id ? order : o));
+    return order;
+  };
+
+  const removeOrder = async (id) => {
+    await orderAPI.delete(id);
+    setOrders(prev => prev.filter(o => o._id !== id));
   };
 
   const value = {
+    // State
     products,
-    setProducts,
+    orders,
+    partners,
+    summary,
+    loading,
+    error,
+    // Products
     addProduct,
     updateStock,
-    orders,
-    setOrders,
+    setProducts,
+    // Partners
+    addPartner,
+    updatePartner,
+    removePartner,
+    setPartners,
+    // Orders
     addOrder,
     updateOrderStatus,
-    partners,
-    setPartners,
-    addPartner,
-    loading,
-    summary,
-    fetchInitialData
+    removeOrder,
+    setOrders,
+    // Refresh
+    fetchInitialData,
   };
 
   return (

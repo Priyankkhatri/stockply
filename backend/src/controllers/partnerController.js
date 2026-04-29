@@ -3,7 +3,11 @@ const Partner = require('../models/Partner');
 exports.getAllPartners = async (req, res) => {
   try {
     const partners = await Partner.find().sort({ createdAt: -1 });
-    res.status(200).json({ status: 'success', data: partners });
+    res.status(200).json({
+      status: 'success',
+      results: partners.length,
+      data: { partners }
+    });
   } catch (err) {
     res.status(400).json({ status: 'fail', message: err.message });
   }
@@ -12,7 +16,10 @@ exports.getAllPartners = async (req, res) => {
 exports.createPartner = async (req, res) => {
   try {
     const newPartner = await Partner.create(req.body);
-    res.status(201).json({ status: 'success', data: newPartner });
+    res.status(201).json({
+      status: 'success',
+      data: { partner: newPartner }
+    });
   } catch (err) {
     res.status(400).json({ status: 'fail', message: err.message });
   }
@@ -24,7 +31,21 @@ exports.updatePartner = async (req, res) => {
       new: true,
       runValidators: true
     });
-    res.status(200).json({ status: 'success', data: partner });
+    if (!partner) return res.status(404).json({ status: 'fail', message: 'Partner not found' });
+    res.status(200).json({
+      status: 'success',
+      data: { partner }
+    });
+  } catch (err) {
+    res.status(400).json({ status: 'fail', message: err.message });
+  }
+};
+
+exports.deletePartner = async (req, res) => {
+  try {
+    const partner = await Partner.findByIdAndDelete(req.params.id);
+    if (!partner) return res.status(404).json({ status: 'fail', message: 'Partner not found' });
+    res.status(200).json({ status: 'success', data: null });
   } catch (err) {
     res.status(400).json({ status: 'fail', message: err.message });
   }

@@ -74,27 +74,25 @@ const SupplierShopsPage = () => {
 
   const visibleShops = useMemo(() => {
     return partners.filter((shop) => {
-
       const matchesSearch =
-        shop.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        shop.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        shop.location.toLowerCase().includes(searchTerm.toLowerCase());
+        shop.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        shop.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        shop.location?.toLowerCase().includes(searchTerm.toLowerCase());
 
       if (activeFilter === 'High Volume') {
-        return matchesSearch && Number(shop.totalOrders.replace(',', '')) > 1000;
+        return matchesSearch && Number(String(shop.totalOrders || '0').replace(',', '')) > 100;
       }
-
       if (activeFilter === 'Frequent') {
         return matchesSearch && shop.behavior === 'On-time';
       }
-
       if (activeFilter === 'New') {
-        return matchesSearch && shop.totalOrders === '120';
+        const createdAt = new Date(shop.createdAt);
+        const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+        return matchesSearch && createdAt > thirtyDaysAgo;
       }
-
       return matchesSearch;
     });
-  }, [activeFilter, searchTerm]);
+  }, [activeFilter, searchTerm, partners]);
 
   return (
     <div className="mx-auto max-w-[1600px] px-6 py-8 pb-12">
@@ -226,7 +224,7 @@ const SupplierShopsPage = () => {
 
         <div className="flex items-center justify-between border-t border-text/5 bg-[#FAF5F0]/30 px-10 py-8">
           <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text/20">
-            Showing <span className="font-black text-text">{visibleShops.length}</span> of <span className="font-black text-text">45</span> partners
+            Showing <span className="font-black text-text">{visibleShops.length}</span> of <span className="font-black text-text">{partners.length}</span> partners
           </p>
           <div className="flex items-center gap-4">
             <button className="flex h-12 w-12 items-center justify-center rounded-2xl border border-text/5 bg-background/30 text-text/20 transition-all hover:bg-white hover:text-primary hover:shadow-md">
