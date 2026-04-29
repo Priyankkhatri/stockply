@@ -19,7 +19,6 @@ import SupplierFulfillmentPage from "./pages/SupplierFulfillmentPage";
 import SupplierInventoryPage from "./pages/SupplierInventoryPage";
 import SupplierAnalyticsPage from "./pages/SupplierAnalyticsPage";
 import SupplierSettingsPage from "./pages/SupplierSettingsPage";
-import SectionPlaceholder from "./pages/SectionPlaceholder";
 
 const getSession = () => ({
   isLoggedIn: localStorage.getItem("isLoggedIn") === "true",
@@ -61,21 +60,6 @@ const HomeRoute = () => {
 
   return <Navigate to={getHomePath(session.role)} replace />;
 };
-
-const shopRoutes = [
-  {
-    path: "/dashboard/orders",
-    title: "Order History",
-    description: "Review purchase orders, status updates, and fulfillment timelines.",
-  },
-  {
-    path: "/dashboard/analytics",
-    title: "Analytics Overview",
-    description: "Inspect inventory health, spend trends, and procurement performance.",
-  },
-];
-
-const supplierRoutes = [];
 
 function App() {
   const session = getSession();
@@ -166,19 +150,6 @@ function App() {
             </RequireSession>
           }
         />
-        {shopRoutes.map((route) => (
-          <Route
-            key={route.path}
-            path={route.path}
-            element={
-              <RequireSession role="shop">
-                <AppLayout role="shop">
-                  <SectionPlaceholder {...route} />
-                </AppLayout>
-              </RequireSession>
-            }
-          />
-        ))}
 
         <Route
           path="/supplier/dashboard"
@@ -260,19 +231,6 @@ function App() {
             </RequireSession>
           }
         />
-        {supplierRoutes.map((route) => (
-          <Route
-            key={route.path}
-            path={route.path}
-            element={
-              <RequireSession role="supplier">
-                <AppLayout role="supplier">
-                  <SectionPlaceholder {...route} />
-                </AppLayout>
-              </RequireSession>
-            }
-          />
-        ))}
 
         <Route path="*" element={<Navigate to={getHomePath(session.role)} replace />} />
       </Routes>
