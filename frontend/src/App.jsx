@@ -4,6 +4,7 @@ import Sidebar from "./components/Sidebar";
 import Topbar from "./components/Topbar";
 import LoginPage from "./pages/LoginPage";
 import DashboardHome from "./pages/DashboardHome";
+import InventoryPage from "./pages/InventoryPage";
 import SectionPlaceholder from "./pages/SectionPlaceholder";
 
 const getSession = () => ({
@@ -48,11 +49,6 @@ const HomeRoute = () => {
 };
 
 const shopRoutes = [
-  {
-    path: "/dashboard/inventory",
-    title: "Inventory Management",
-    description: "Track live stock levels, supplier coverage, and reorder queues from one workspace.",
-  },
   {
     path: "/dashboard/orders",
     title: "Order History",
@@ -118,6 +114,16 @@ function App() {
             <RequireSession role="shop">
               <AppLayout role="shop">
                 <DashboardHome />
+              </AppLayout>
+            </RequireSession>
+          }
+        />
+        <Route
+          path="/dashboard/inventory"
+          element={
+            <RequireSession role="shop">
+              <AppLayout role="shop">
+                <InventoryPage />
               </AppLayout>
             </RequireSession>
           }
