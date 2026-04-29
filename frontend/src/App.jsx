@@ -5,6 +5,7 @@ import Topbar from "./components/Topbar";
 import LoginPage from "./pages/LoginPage";
 import DashboardHome from "./pages/DashboardHome";
 import InventoryPage from "./pages/InventoryPage";
+import OrdersPage from "./pages/OrdersPage";
 import SectionPlaceholder from "./pages/SectionPlaceholder";
 
 const getSession = () => ({
@@ -124,6 +125,16 @@ function App() {
             <RequireSession role="shop">
               <AppLayout role="shop">
                 <InventoryPage />
+              </AppLayout>
+            </RequireSession>
+          }
+        />
+        <Route
+          path="/dashboard/orders"
+          element={
+            <RequireSession role="shop">
+              <AppLayout role="shop">
+                <OrdersPage />
               </AppLayout>
             </RequireSession>
           }
