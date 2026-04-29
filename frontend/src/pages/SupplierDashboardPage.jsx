@@ -22,36 +22,45 @@ const trendDays = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
 const SupplierDashboardPage = () => {
   const navigate = useNavigate();
-  const { partners, orders, products } = useSupplier();
+  const { partners, orders, products, summary, loading } = useSupplier();
+
+  if (loading) {
+    return (
+      <div className="flex h-[80vh] items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <p className="text-xs font-black uppercase tracking-widest text-text/40">Syncing Warehouse Data...</p>
+        </div>
+      </div>
+    );
+  }
 
   const activePartnersCount = partners.filter(p => p.status === 'Active').length;
-  const ordersTodayCount = orders.length; // Simplified for mock
+  const ordersTodayCount = orders.length; 
   
   const revenueToday = orders.reduce((sum, o) => {
-    const val = parseInt(o.amount.replace(/[^0-9]/g, '')) || 0;
+    const val = typeof o.amount === 'string' ? parseInt(o.amount.replace(/[^0-9]/g, '')) : o.amount || 0;
     return sum + val;
   }, 0);
-
-  const stockAlertsCount = products.filter(p => p.status === 'Low Stock').length;
 
   const stats = [
     { label: 'CONNECTED SHOPS', value: activePartnersCount.toString(), trend: '+1 new', icon: Store, color: 'text-blue-500', bg: 'bg-blue-50' },
     { label: 'ORDERS TODAY', value: ordersTodayCount.toString(), trend: '+12%', icon: ShoppingCart, color: 'text-primary', bg: 'bg-primary/10' },
-    { label: 'REVENUE TODAY', value: `Rs. ${(revenueToday / 1000).toFixed(1)}k`, trend: '+5.4%', icon: Wallet, color: 'text-teal-600', bg: 'bg-teal-50' },
-    { label: 'STOCK ALERTS', value: stockAlertsCount.toString(), trend: 'Critical', icon: AlertTriangle, color: 'text-red-500', bg: 'bg-red-50' },
+    { label: 'TOTAL STOCK', value: (summary?.totalStock || 0).toLocaleString(), trend: '+5.4%', icon: Package, color: 'text-teal-600', bg: 'bg-teal-50' },
+    { label: 'STOCK ALERTS', value: ((summary?.lowStockCount || 0) + (summary?.outOfStockCount || 0)).toString(), trend: 'Critical', icon: AlertTriangle, color: 'text-red-500', bg: 'bg-red-50' },
   ];
 
   const incomingOrders = orders.slice(0, 3).map(o => ({
-    id: o.id,
-    shop: o.shop,
-    items: `${o.itemsCount} items`,
-    value: o.amount,
+    id: o.id || o._id,
+    shop: o.shop || 'Retail Partner',
+    items: `${o.itemsCount || 0} items`,
+    value: typeof o.amount === 'number' ? `Rs. ${o.amount.toLocaleString()}` : o.amount,
     status: o.status
   }));
 
   const stockOverview = products.slice(0, 4).map(p => ({
     name: p.name,
-    detail: p.unit,
+    detail: p.category,
     stock: `${p.stock} units`,
     status: p.status
   }));
