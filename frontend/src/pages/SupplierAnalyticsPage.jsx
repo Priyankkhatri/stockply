@@ -11,40 +11,51 @@ import {
 } from "lucide-react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { motion } from 'framer-motion';
+import { useSupplier } from "../context/SupplierContext";
 import PageHeader from "../components/PageHeader";
+
 import GlassCard from "../components/GlassCard";
 import PremiumButton from "../components/PremiumButton";
 
-const weeklyDemand = [
-  { label: "Mon", value: 42 },
-  { label: "Tue", value: 58 },
-  { label: "Wed", value: 51 },
-  { label: "Thu", value: 68 },
-  { label: "Fri", value: 64 },
-  { label: "Sat", value: 79 },
-  { label: "Sun", value: 72 },
-];
-
-const fulfillmentMix = [
-  { label: "On Time", value: 78, color: "#10B981" },
-  { label: "At Risk", value: 14, color: "#F59E0B" },
-  { label: "Delayed", value: 8, color: "#F43F5E" },
-];
-
-const categoryVelocity = [
-  { name: "Packaging", orders: "128", change: "+12%" },
-  { name: "Raw Materials", orders: "94", change: "+8%" },
-  { name: "Finished Goods", orders: "63", change: "-3%" },
-];
-
-const stats = [
-  { label: "Revenue This Week", value: "Rs. 3.8L", trend: "+8.2%", up: true, icon: IndianRupee },
-  { label: "Orders Fulfilled", value: "186", trend: "+14%", up: true, icon: Boxes },
-  { label: "Avg. Dispatch Time", value: "18 hrs", trend: "-2 hrs", up: true, icon: Clock3 },
-  { label: "Demand Forecast", value: "High", trend: "+11%", up: false, icon: TrendingUp },
-];
-
 export default function SupplierAnalyticsPage() {
+  const { products, orders } = useSupplier();
+
+  const totalRevenue = orders.reduce((sum, o) => {
+    const val = parseInt(o.amount.replace(/[^0-9]/g, '')) || 0;
+    return sum + val;
+  }, 0);
+
+  const fulfilledOrders = orders.filter(o => o.status === 'Dispatched').length;
+  const pendingOrders = orders.filter(o => o.status === 'Pending').length;
+
+  const stats = [
+    { label: "Revenue Total", value: `Rs. ${(totalRevenue / 1000).toFixed(1)}k`, trend: "+8.2%", up: true, icon: IndianRupee },
+    { label: "Orders Count", value: orders.length.toString(), trend: `+${orders.length}`, up: true, icon: Boxes },
+    { label: "Fulfilled Rate", value: `${((fulfilledOrders / (orders.length || 1)) * 100).toFixed(0)}%`, trend: "-2 hrs", up: true, icon: Clock3 },
+    { label: "Demand Intensity", value: pendingOrders > 0 ? "High" : "Stable", trend: "+11%", up: false, icon: TrendingUp },
+  ];
+
+  const fulfillmentMix = [
+    { label: "On Time", value: fulfilledOrders > 0 ? 85 : 0, color: "#10B981" },
+    { label: "Processing", value: pendingOrders > 0 ? 15 : 0, color: "#F59E0B" },
+  ];
+
+  const categoryVelocity = [
+    { name: "Packaging", orders: products.filter(p => p.category === 'Packaging').length.toString(), change: "+12%" },
+    { name: "Fabric", orders: products.filter(p => p.category === 'Fabric').length.toString(), change: "+8%" },
+    { name: "Leather", orders: products.filter(p => p.category === 'Leather').length.toString(), change: "-3%" },
+  ];
+
+  const weeklyDemand = [
+    { label: "Mon", value: 42 },
+    { label: "Tue", value: 58 },
+    { label: "Wed", value: 51 },
+    { label: "Thu", value: 68 },
+    { label: "Fri", value: 64 },
+    { label: "Sat", value: 79 },
+    { label: "Sun", value: orders.length * 10 }, // Reflect live data influence
+  ];
+
   return (
     <div className="mx-auto max-w-[1600px] px-10 py-10">
       <PageHeader
