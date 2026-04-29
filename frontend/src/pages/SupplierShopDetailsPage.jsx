@@ -10,58 +10,33 @@ import {
   Store,
   Zap,
 } from 'lucide-react';
+import { useSupplier } from '../context/SupplierContext';
 import PageHeader from '../components/PageHeader';
+
 import PremiumButton from '../components/PremiumButton';
-
-const shops = [
-  {
-    id: 'tech-emporium',
-    name: 'Tech Emporium',
-    category: 'Electronics',
-    city: 'Mumbai',
-    phone: '+91 98765 43210',
-  },
-  {
-    id: 'style-factory',
-    name: 'Style Factory',
-    category: 'Clothing',
-    city: 'Delhi',
-    phone: '+91 98765 98765',
-  },
-  {
-    id: 'fresh-mart',
-    name: 'Fresh Mart',
-    category: 'Grocery',
-    city: 'Bengaluru',
-    phone: '+91 91234 56789',
-  },
-  {
-    id: 'city-grocers',
-    name: 'City Grocers',
-    category: 'Food & Beverage',
-    city: 'Pune',
-    phone: '+91 90000 12345',
-  },
-];
-
-const recentOrders = [
-  { id: 'ORD-4092', date: 'Today, 10:30 AM', items: '45 units', amount: 'Rs. 12,450', status: 'Pending' },
-  { id: 'ORD-4085', date: 'Oct 12, 2023', items: '32 units', amount: 'Rs. 8,900', status: 'Dispatched' },
-  { id: 'ORD-4050', date: 'Oct 09, 2023', items: '50 units', amount: 'Rs. 15,200', status: 'Delivered' },
-  { id: 'ORD-4012', date: 'Oct 05, 2023', items: '28 units', amount: 'Rs. 7,800', status: 'Delivered' },
-];
-
-const statusStyles = {
-  Pending: 'bg-orange-50 text-orange-500 border-orange-100',
-  Dispatched: 'bg-blue-50 text-blue-500 border-blue-100',
-  Delivered: 'bg-teal-50 text-teal-500 border-teal-100',
-};
 
 const SupplierShopDetailsPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const { partners, orders } = useSupplier();
 
-  const shop = useMemo(() => shops.find((candidate) => candidate.id === id) || shops[0], [id]);
+  const shop = useMemo(() => {
+    // Find by slugified name or ID
+    return partners.find((candidate) => 
+      candidate.name.toLowerCase().replace(/\s+/g, '-') === id || 
+      candidate.initials.toLowerCase() === id
+    ) || partners[0];
+  }, [id, partners]);
+
+  const shopOrders = useMemo(() => {
+    return orders.filter(o => o.shop === shop.name);
+  }, [orders, shop]);
+
+  const totalShopRevenue = shopOrders.reduce((sum, o) => {
+    const val = parseInt(o.amount.replace(/[^0-9]/g, '')) || 0;
+    return sum + val;
+  }, 0);
+
 
   return (
     <div className="mx-auto max-w-[1600px] px-6 py-8 pb-12">
@@ -94,11 +69,12 @@ const SupplierShopDetailsPage = () => {
             <Store size={14} /> {shop.category}
           </span>
           <span className="flex items-center gap-1.5">
-            <MapPin size={14} /> {shop.city}
+            <MapPin size={14} /> {shop.location || shop.city}
           </span>
           <span className="flex items-center gap-1.5">
-            <Phone size={14} /> {shop.phone}
+            <Phone size={14} /> {shop.phone || '+91 90000 00000'}
           </span>
+
         </div>
         <button
           onClick={() => navigate('/supplier/shops')}
@@ -110,11 +86,12 @@ const SupplierShopDetailsPage = () => {
 
       <div className="mb-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         {[
-          { label: 'Total Orders', value: '120', trend: '+12% this month', accent: 'text-teal-600' },
-          { label: 'Revenue Generated', value: 'Rs. 890,000', trend: '+5.4% this month', accent: 'text-teal-600' },
-          { label: 'Avg Order Value', value: 'Rs. 7,416', trend: 'Stable', accent: 'text-text/30' },
-          { label: 'Last Order', value: '2h ago', trend: 'ORD-4092', accent: 'text-text/30' },
+          { label: 'Total Orders', value: shopOrders.length.toString(), trend: '+12% this month', accent: 'text-teal-600' },
+          { label: 'Revenue Generated', value: `Rs. ${totalShopRevenue.toLocaleString()}`, trend: '+5.4% this month', accent: 'text-teal-600' },
+          { label: 'Avg Order Value', value: `Rs. ${(totalShopRevenue / (shopOrders.length || 1)).toFixed(0)}`, trend: 'Stable', accent: 'text-text/30' },
+          { label: 'Status', value: shop.status, trend: 'Operational', accent: 'text-text/30' },
         ].map((stat) => (
+
           <div key={stat.label} className="relative overflow-hidden rounded-[28px] border border-text/5 bg-white p-6 shadow-sm">
             <div className="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-primary/5" />
             <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-text/30">{stat.label}</p>
@@ -144,19 +121,31 @@ const SupplierShopDetailsPage = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-text/5">
-                {recentOrders.map((order) => (
+                {shopOrders.map((order) => (
                   <tr key={order.id} className="transition-colors hover:bg-background/10">
                     <td className="px-8 py-5 text-sm font-bold text-text/80">{order.id}</td>
                     <td className="px-8 py-5 text-sm font-medium text-text/40">{order.date}</td>
-                    <td className="px-8 py-5 text-sm font-bold text-text/60">{order.items}</td>
+                    <td className="px-8 py-5 text-sm font-bold text-text/60">{order.itemsCount} units</td>
                     <td className="px-8 py-5 text-sm font-bold text-text">{order.amount}</td>
                     <td className="px-8 py-5">
-                      <span className={`rounded-lg border px-2 py-0.5 text-[9px] font-bold uppercase tracking-tighter ${statusStyles[order.status]}`}>
+                      <span className={`rounded-lg border px-2 py-0.5 text-[9px] font-bold uppercase tracking-tighter ${
+                        order.status === 'Pending' ? 'bg-orange-50 text-orange-500 border-orange-100' : 
+                        order.status === 'Dispatched' ? 'bg-blue-50 text-blue-500 border-blue-100' :
+                        'bg-teal-50 text-teal-500 border-teal-100'
+                      }`}>
                         {order.status}
                       </span>
                     </td>
                   </tr>
                 ))}
+                {shopOrders.length === 0 && (
+                  <tr>
+                    <td colSpan={5} className="px-8 py-10 text-center text-xs font-bold text-text/20 uppercase tracking-widest">
+                      No order history found for this partner
+                    </td>
+                  </tr>
+                )}
+
               </tbody>
             </table>
           </div>

@@ -1,25 +1,32 @@
-import React from "react";
-import { ArrowRight, CheckCircle2, Clock3, PackageCheck, Truck } from "lucide-react";
-
-const stages = [
-  { label: "Ready to pack", count: "12", icon: PackageCheck, tone: "bg-blue-50 text-blue-600 border-blue-100" },
-  { label: "Awaiting pickup", count: "08", icon: Truck, tone: "bg-orange-50 text-orange-600 border-orange-100" },
-  { label: "Delivered today", count: "21", icon: CheckCircle2, tone: "bg-emerald-50 text-emerald-600 border-emerald-100" },
-];
-
-const queue = [
-  { id: "#FUL-2091", shop: "Fresh Mart", window: "Pickup in 45 min", items: "32 cartons", status: "Ready" },
-  { id: "#FUL-2088", shop: "Urban Nest Decor", window: "Dispatch by 3:00 PM", items: "14 cartons", status: "Packing" },
-  { id: "#FUL-2083", shop: "The Craft Boutique", window: "Carrier delayed", items: "9 cartons", status: "At Risk" },
-];
+import { useSupplier } from "../context/SupplierContext";
 
 const statusClasses = {
+  Accepted: "bg-blue-50 text-blue-600 border-blue-100",
   Ready: "bg-emerald-50 text-emerald-600 border-emerald-100",
   Packing: "bg-blue-50 text-blue-600 border-blue-100",
   "At Risk": "bg-red-50 text-red-500 border-red-100",
 };
 
 export default function SupplierFulfillmentPage() {
+  const { orders } = useSupplier();
+
+  const acceptedOrders = orders.filter(o => o.status === 'Accepted');
+  const dispatchedOrders = orders.filter(o => o.status === 'Dispatched');
+
+  const stages = [
+    { label: "Ready to pack", count: acceptedOrders.length.toString(), icon: PackageCheck, tone: "bg-blue-50 text-blue-600 border-blue-100" },
+    { label: "Awaiting pickup", count: "03", icon: Truck, tone: "bg-orange-50 text-orange-600 border-orange-100" },
+    { label: "Delivered today", count: dispatchedOrders.length.toString(), icon: CheckCircle2, tone: "bg-emerald-50 text-emerald-600 border-emerald-100" },
+  ];
+
+  const queue = acceptedOrders.slice(0, 5).map(o => ({
+    id: o.id,
+    shop: o.shop,
+    window: "Dispatch by 5:00 PM",
+    items: `${o.itemsCount} units`,
+    status: "Packing"
+  }));
+
   return (
     <div className="mx-auto max-w-[1600px] px-10 py-10">
       <div className="mb-10 flex items-end justify-between gap-8">
@@ -75,7 +82,7 @@ export default function SupplierFulfillmentPage() {
                   <p className="text-xs font-bold text-text">{item.window}</p>
                   <span
                     className={`mt-2 inline-flex rounded-full border px-3 py-1 text-[9px] font-black uppercase tracking-widest ${
-                      statusClasses[item.status]
+                      statusClasses[item.status] || "bg-blue-50 text-blue-600 border-blue-100"
                     }`}
                   >
                     {item.status}
@@ -83,6 +90,12 @@ export default function SupplierFulfillmentPage() {
                 </div>
               </div>
             ))}
+            {queue.length === 0 && (
+              <div className="px-8 py-12 text-center text-[10px] font-black text-text/20 uppercase tracking-[0.3em]">
+                No pending fulfillment tasks
+              </div>
+            )}
+
           </div>
         </section>
 
