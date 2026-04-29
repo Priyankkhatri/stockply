@@ -15,6 +15,7 @@ import SupplierDashboardPage from "./pages/SupplierDashboardPage";
 import SupplierShopsPage from "./pages/SupplierShopsPage";
 import SupplierShopDetailsPage from "./pages/SupplierShopDetailsPage";
 import SupplierOrdersPage from "./pages/SupplierOrdersPage";
+import SupplierFulfillmentPage from "./pages/SupplierFulfillmentPage";
 import SupplierInventoryPage from "./pages/SupplierInventoryPage";
 import SupplierAnalyticsPage from "./pages/SupplierAnalyticsPage";
 import SupplierSettingsPage from "./pages/SupplierSettingsPage";
@@ -215,6 +216,16 @@ function App() {
             <RequireSession role="supplier">
               <AppLayout role="supplier">
                 <SupplierOrdersPage />
+              </AppLayout>
+            </RequireSession>
+          }
+        />
+        <Route
+          path="/supplier/fulfillment"
+          element={
+            <RequireSession role="supplier">
+              <AppLayout role="supplier">
+                <SupplierFulfillmentPage />
               </AppLayout>
             </RequireSession>
           }
