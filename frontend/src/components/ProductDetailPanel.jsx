@@ -11,10 +11,10 @@ const ProductDetailPanel = ({ product, onClose }) => {
       {/* Header */}
       <div className="p-6 border-b border-text/5 flex justify-between items-start">
         <div>
-          <span className="bg-[#FDF2F0] text-[#E08D7B] text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-widest mb-2 block w-fit">
+          <span className="bg-primary/5 text-primary text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-widest mb-2 block w-fit border border-primary/10">
             {product.category}
           </span>
-          <h2 className="text-xl font-bold text-text">{product.name}</h2>
+          <h2 className="text-xl font-bold text-text tracking-tight">{product.name}</h2>
           <p className="text-xs text-text/40 font-medium flex items-center gap-1 mt-1">
             <Store className="w-3 h-3" /> {product.supplier}
           </p>
