@@ -46,18 +46,18 @@ const Topbar = ({ role, onMenuClick }) => {
 
         <div className="group relative flex-1">
           <Search
-            className="absolute left-4 lg:left-6 top-1/2 -translate-y-1/2 text-text/30 transition-colors group-focus-within:text-primary"
+            className="absolute left-4 lg:left-6 top-1/2 -translate-y-1/2 text-text/50 transition-colors group-focus-within:text-primary"
             size={18}
             strokeWidth={2}
           />
           <input
             type="text"
             placeholder="Search SKU, Product..."
-            className="w-full rounded-2xl lg:rounded-[32px] border border-text/5 bg-white/40 py-3 lg:py-4 pl-12 lg:pl-16 pr-4 lg:pr-8 text-xs lg:text-sm font-bold text-text placeholder:text-text/30 transition-all focus:border-primary/20 focus:bg-white focus:shadow-[0_8px_30px_rgb(0,0,0,0.04)] focus:outline-none"
+            className="w-full rounded-2xl lg:rounded-[32px] border border-text/5 bg-white/40 py-3 lg:py-4 pl-12 lg:pl-16 pr-4 lg:pr-8 text-xs lg:text-sm font-bold text-text placeholder:text-text/50 transition-all focus:border-primary/20 focus:bg-white focus:shadow-[0_8px_30px_rgb(0,0,0,0.04)] focus:outline-none"
           />
           <div className="absolute right-4 top-1/2 hidden lg:flex -translate-y-1/2 items-center gap-1.5 rounded-lg border border-text/5 bg-background/50 px-2 py-1">
-            <span className="text-[10px] font-black tracking-widest uppercase text-text/30">Ctrl</span>
-            <span className="text-[10px] font-black tracking-widest uppercase text-text/30">K</span>
+            <span className="text-[10px] font-black tracking-widest uppercase text-text/50">Ctrl</span>
+            <span className="text-[10px] font-black tracking-widest uppercase text-text/50">K</span>
           </div>
         </div>
       </div>
@@ -65,7 +65,7 @@ const Topbar = ({ role, onMenuClick }) => {
       <div className="flex items-center gap-4 lg:gap-10">
         <div className="flex items-center gap-4 lg:gap-8 border-r border-text/5 pr-4 lg:pr-10">
           <button
-            className="hidden md:block text-text/40 transition-all hover:scale-110 hover:text-primary"
+            className="hidden md:block text-text/60 transition-all hover:scale-110 hover:text-primary"
             onClick={() => navigate('/support')}
             type="button"
           >
@@ -74,7 +74,7 @@ const Topbar = ({ role, onMenuClick }) => {
           
           <div className="relative">
             <button 
-              className="relative text-text/40 transition-all hover:scale-110 hover:text-primary" 
+              className="relative text-text/60 transition-all hover:scale-110 hover:text-primary" 
               type="button"
               onClick={() => {
                 setShowNotifications(!showNotifications);
@@ -108,7 +108,7 @@ const Topbar = ({ role, onMenuClick }) => {
                         <div className="w-12 h-12 bg-background rounded-2xl flex items-center justify-center mx-auto mb-4 border border-text/5">
                           <Bell size={20} className="text-text/20" strokeWidth={1.5} />
                         </div>
-                        <p className="text-[10px] font-black uppercase tracking-widest text-text/30">No Intelligence Yet</p>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-text/50">No Intelligence Yet</p>
                       </div>
                     ) : (
                       notifications.map((n) => (
@@ -119,7 +119,7 @@ const Topbar = ({ role, onMenuClick }) => {
                               {n.message}
                             </p>
                             <div className="mt-3 flex items-center gap-3">
-                              <span className="text-[9px] font-black text-text/30 uppercase tracking-[0.2em] flex items-center gap-1.5">
+                              <span className="text-[9px] font-black text-text/50 uppercase tracking-[0.2em] flex items-center gap-1.5">
                                 <Clock size={10} strokeWidth={2} /> {new Date(n.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                               </span>
                               <span className="text-[9px] font-black text-primary/60 uppercase tracking-[0.2em] flex items-center gap-1.5 bg-primary/5 px-1.5 py-0.5 rounded border border-primary/10">
@@ -132,7 +132,7 @@ const Topbar = ({ role, onMenuClick }) => {
                     )}
                   </div>
                   <div className="p-4 bg-background/30 text-center border-t border-text/5 hover:bg-background/50 transition-colors cursor-pointer">
-                    <button className="text-[10px] font-black uppercase tracking-[0.2em] text-text/40 hover:text-primary transition-colors">
+                    <button className="text-[10px] font-black uppercase tracking-[0.2em] text-text/60 hover:text-primary transition-colors">
                       Open Command Center
                     </button>
                   </div>
@@ -145,7 +145,7 @@ const Topbar = ({ role, onMenuClick }) => {
         <div className="group flex cursor-pointer items-center gap-3 lg:gap-5">
           <div className="hidden sm:flex flex-col items-end">
             <span className="text-[13px] font-black leading-tight tracking-tight text-text group-hover:text-primary transition-colors">Master Artisan</span>
-            <span className="mt-0.5 text-[9px] font-black uppercase tracking-[0.2em] text-text/40">
+            <span className="mt-0.5 text-[9px] font-black uppercase tracking-[0.2em] text-text/60">
               {role === 'supplier' ? 'Premium Supplier' : 'Store Manager'}
             </span>
           </div>
@@ -157,7 +157,7 @@ const Topbar = ({ role, onMenuClick }) => {
             />
             <div className="absolute -bottom-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full border-2 border-white bg-teal-500 shadow-sm" />
           </div>
-          <ChevronDown size={14} strokeWidth={3} className="hidden lg:block text-text/20 transition-all group-hover:text-primary group-hover:translate-y-0.5" />
+          <ChevronDown size={14} strokeWidth={3} className="hidden lg:block text-text/40 transition-all group-hover:text-primary group-hover:translate-y-0.5" />
         </div>
       </div>
     </header>

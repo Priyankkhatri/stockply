@@ -69,7 +69,7 @@ const Sidebar = ({ role, isOpen, onClose }) => {
             </div>
             <div className="flex flex-col">
               <span className="text-text font-bold text-lg tracking-tighter uppercase leading-none">Stockply</span>
-              <span className="text-[7px] font-black text-text/30 tracking-[0.4em] uppercase mt-1.5 flex items-center gap-1.5">
+              <span className="text-[7px] font-black text-text/50 tracking-[0.4em] uppercase mt-1.5 flex items-center gap-1.5">
                 <div className="w-1 h-1 rounded-full bg-primary animate-pulse" />
                 Atelier v2
               </span>
@@ -78,7 +78,7 @@ const Sidebar = ({ role, isOpen, onClose }) => {
           
           <button 
             onClick={onClose}
-            className="lg:hidden p-2 text-text/20 hover:text-text transition-colors bg-text/5 rounded-xl"
+            className="lg:hidden p-2 text-text/40 hover:text-text transition-colors bg-text/5 rounded-xl"
           >
             <X size={20} />
           </button>
@@ -100,7 +100,7 @@ const Sidebar = ({ role, isOpen, onClose }) => {
                   className={`group relative flex items-center justify-between px-5 py-3.5 rounded-[20px] transition-all duration-500 ${
                     isActive
                        ? 'text-text'
-                      : 'text-text/30 hover:text-text/60 hover:bg-text/[0.02]'
+                      : 'text-text/50 hover:text-text/80 hover:bg-text/[0.02]'
                   }`}
                 >
                   {isActive && (
@@ -112,12 +112,12 @@ const Sidebar = ({ role, isOpen, onClose }) => {
                   )}
                   
                   <div className="relative z-10 flex items-center gap-4">
-                    <div className={`p-2.5 rounded-14 transition-all duration-500 ${isActive ? 'bg-primary/10 text-primary' : 'text-text/20 group-hover:text-text/40'}`}>
+                    <div className={`p-2.5 rounded-14 transition-all duration-500 ${isActive ? 'bg-primary/10 text-primary' : 'text-text/40 group-hover:text-text/60'}`}>
                       <link.icon size={18} strokeWidth={isActive ? 2.5 : 2} />
                     </div>
                     <div className="flex flex-col">
                       <span className="text-[10px] font-black uppercase tracking-widest">{link.name}</span>
-                      <span className={`text-[8px] font-bold italic transition-all duration-500 ${isActive ? 'text-text/40 opacity-100' : 'opacity-0 -translate-y-1 group-hover:opacity-40 group-hover:translate-y-0'}`}>
+                      <span className={`text-[8px] font-bold italic transition-all duration-500 ${isActive ? 'text-text/60 opacity-100' : 'opacity-0 -translate-y-1 group-hover:opacity-60 group-hover:translate-y-0'}`}>
                         {link.detail}
                       </span>
                     </div>
@@ -154,7 +154,7 @@ const Sidebar = ({ role, isOpen, onClose }) => {
           <div className="pt-4 border-t border-text/5 space-y-1">
             <NavLink
               to="/support"
-              className="flex items-center gap-4 px-5 py-3.5 rounded-[18px] text-[10px] font-black uppercase tracking-widest text-text/30 hover:text-text hover:bg-text/[0.02] transition-all"
+              className="flex items-center gap-4 px-5 py-3.5 rounded-[18px] text-[10px] font-black uppercase tracking-widest text-text/50 hover:text-text hover:bg-text/[0.02] transition-all"
             >
               <div className="p-2 bg-background rounded-xl">
                 <HelpCircle size={16} />
@@ -163,7 +163,7 @@ const Sidebar = ({ role, isOpen, onClose }) => {
             </NavLink>
             <button
               onClick={handleLogout}
-              className="w-full flex items-center gap-4 px-5 py-3.5 rounded-[18px] text-[10px] font-black uppercase tracking-widest text-red-400/50 hover:text-red-500 hover:bg-red-50 transition-all text-left"
+              className="w-full flex items-center gap-4 px-5 py-3.5 rounded-[18px] text-[10px] font-black uppercase tracking-widest text-red-500 hover:bg-red-50 transition-all text-left"
             >
               <div className="p-2 bg-red-50/50 rounded-xl text-red-400">
                 <LogOut size={16} />
@@ -175,7 +175,7 @@ const Sidebar = ({ role, isOpen, onClose }) => {
           {/* System Badge */}
           <div className="flex items-center justify-center gap-2 pt-2">
             <ShieldCheck size={12} className="text-teal-500/40" />
-            <span className="text-[8px] font-bold text-text/10 uppercase tracking-[0.3em]">Secure Atelier System</span>
+            <span className="text-[8px] font-bold text-text/30 uppercase tracking-[0.3em]">Secure Atelier System</span>
           </div>
         </div>
       </aside>

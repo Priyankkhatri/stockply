@@ -39,7 +39,7 @@ const AlertCard = ({ type, category, name, value, threshold, color }) => {
       </div>
       <div className="mt-4">
         <p className="text-3xl font-bold text-text mb-1 tracking-tighter">{value}</p>
-        <p className="text-[9px] font-black text-text/40 uppercase tracking-widest">{threshold}</p>
+        <p className="text-[9px] font-black text-text/60 uppercase tracking-widest">{threshold}</p>
       </div>
       <PremiumButton variant={color === 'rose' ? 'primary' : 'secondary'} size="sm" className="w-full mt-4 h-10 text-[10px]">
         {color === 'rose' ? 'Urgent Order' : 'Manage Stock'}
@@ -70,7 +70,7 @@ const InventoryRow = ({ product, isEditing, onUpdateStock }) => {
           </div>
           <div>
             <p className="font-bold text-text text-sm mb-0.5 leading-tight tracking-tight">{product.name}</p>
-            <p className="text-[9px] text-text/30 font-black uppercase tracking-widest">SKU: {product.sku}</p>
+            <p className="text-[9px] text-text/50 font-black uppercase tracking-widest">SKU: {product.sku}</p>
           </div>
         </div>
       </td>
@@ -85,7 +85,7 @@ const InventoryRow = ({ product, isEditing, onUpdateStock }) => {
       </td>
       <td className="px-6 py-5">
         <div className="flex flex-col">
-          <p className="text-sm font-bold text-text tracking-tight">{product.stock} <span className="text-[9px] text-text/40 font-medium uppercase ml-1">{product.unit || 'units'}</span></p>
+          <p className="text-sm font-bold text-text tracking-tight">{product.stock} <span className="text-[9px] text-text/60 font-medium uppercase ml-1">{product.unit || 'units'}</span></p>
           <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity mt-1">
             <input 
               type="number" 
@@ -112,7 +112,7 @@ const InventoryRow = ({ product, isEditing, onUpdateStock }) => {
       </td>
       <td className="px-6 py-5 text-right">
         <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <button className="p-2.5 text-text/40 hover:text-text transition-colors">
+          <button className="p-2.5 text-text/60 hover:text-text transition-colors">
             <MoreHorizontal size={20} />
           </button>
         </div>
@@ -182,7 +182,7 @@ export default function SupplierInventoryPage() {
       <div className="flex h-[80vh] items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-          <p className="text-xs font-black uppercase tracking-widest text-text/40">Syncing Warehouse Data...</p>
+          <p className="text-xs font-black uppercase tracking-widest text-text/60">Syncing Warehouse Data...</p>
         </div>
       </div>
     );
@@ -195,10 +195,10 @@ export default function SupplierInventoryPage() {
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-            <span className="text-[10px] font-black text-text/30 uppercase tracking-[0.3em]">Stock Intelligence</span>
+            <span className="text-[10px] font-black text-text/50 uppercase tracking-[0.3em]">Stock Intelligence</span>
           </div>
           <h1 className="text-4xl font-bold text-text tracking-tighter leading-none">The <span className="text-primary italic font-normal serif">Ledger.</span></h1>
-          <p className="text-text/40 text-xs font-medium">Precision tracking for your entire inventory ecosystem.</p>
+          <p className="text-text/60 text-xs font-medium">Precision tracking for your entire inventory ecosystem.</p>
         </div>
 
         <div className="flex items-center gap-4">
@@ -235,16 +235,16 @@ export default function SupplierInventoryPage() {
               <div className="p-10 border-b border-text/5 flex items-center justify-between bg-background/50">
                 <div>
                   <h3 className="text-2xl font-bold text-text">Add New SKU</h3>
-                  <p className="text-[10px] font-black text-text/30 uppercase tracking-widest mt-1">Initialize raw material entry</p>
+                  <p className="text-[10px] font-black text-text/50 uppercase tracking-widest mt-1">Initialize raw material entry</p>
                 </div>
-                <button onClick={() => setIsAddModalOpen(false)} className="w-12 h-12 flex items-center justify-center rounded-2xl hover:bg-background transition-colors text-text/30">
+                <button onClick={() => setIsAddModalOpen(false)} className="w-12 h-12 flex items-center justify-center rounded-2xl hover:bg-background transition-colors text-text/50">
                   <X size={24} />
                 </button>
               </div>
               
               <div className="p-10 grid grid-cols-2 gap-8">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-text/40 uppercase tracking-widest ml-1">Product Name</label>
+                  <label className="text-[10px] font-black text-text/60 uppercase tracking-widest ml-1">Product Name</label>
                   <input 
                     type="text" 
                     placeholder="e.g. Raw Silk" 
@@ -254,7 +254,7 @@ export default function SupplierInventoryPage() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-text/40 uppercase tracking-widest ml-1">SKU ID</label>
+                  <label className="text-[10px] font-black text-text/60 uppercase tracking-widest ml-1">SKU ID</label>
                   <input 
                     type="text" 
                     placeholder="e.g. SLK-001" 
@@ -264,7 +264,7 @@ export default function SupplierInventoryPage() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-text/40 uppercase tracking-widest ml-1">Category</label>
+                  <label className="text-[10px] font-black text-text/60 uppercase tracking-widest ml-1">Category</label>
                   <select 
                     value={newProduct.category}
                     onChange={(e) => setNewProduct({...newProduct, category: e.target.value})}
@@ -277,7 +277,7 @@ export default function SupplierInventoryPage() {
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-text/40 uppercase tracking-widest ml-1">Barcode / EAN</label>
+                  <label className="text-[10px] font-black text-text/60 uppercase tracking-widest ml-1">Barcode / EAN</label>
                   <input 
                     type="text" 
                     placeholder="e.g. 890123456789" 
@@ -287,7 +287,7 @@ export default function SupplierInventoryPage() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-text/40 uppercase tracking-widest ml-1">Initial Stock</label>
+                  <label className="text-[10px] font-black text-text/60 uppercase tracking-widest ml-1">Initial Stock</label>
                   <div className="flex items-center gap-3">
                     <input 
                       type="number" 
@@ -304,7 +304,7 @@ export default function SupplierInventoryPage() {
               <div className="px-10 py-8 bg-background/50 border-t border-text/5 flex items-center justify-end gap-4">
                 <button 
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-8 py-4 text-xs font-black uppercase tracking-widest text-text/40 hover:text-text transition-colors"
+                  className="px-8 py-4 text-xs font-black uppercase tracking-widest text-text/60 hover:text-text transition-colors"
                 >
                   Discard
                 </button>
@@ -332,7 +332,7 @@ export default function SupplierInventoryPage() {
             </div>
             <div>
               <h3 className="font-bold text-text text-xl tracking-tight">Critical Alerts</h3>
-              <p className="text-[10px] font-black text-text/40 uppercase tracking-[0.2em]">{summary?.lowStockCount + summary?.outOfStockCount || 0} items require immediate replenishment</p>
+              <p className="text-[10px] font-black text-text/60 uppercase tracking-[0.2em]">{summary?.lowStockCount + summary?.outOfStockCount || 0} items require immediate replenishment</p>
             </div>
           </div>
           <button className="text-[10px] font-black uppercase tracking-widest text-primary hover:text-primary/80 transition-colors">
@@ -359,11 +359,11 @@ export default function SupplierInventoryPage() {
           />
           <GlassCard className="flex flex-col justify-between h-[220px] p-6">
             <div>
-              <div className="w-12 h-12 bg-background rounded-2xl flex items-center justify-center mb-4 text-text/20">
+              <div className="w-12 h-12 bg-background rounded-2xl flex items-center justify-center mb-4 text-text/40">
                 <Truck size={24} />
               </div>
               <h4 className="font-bold text-text text-lg tracking-tight mb-1">Delayed Shipment</h4>
-              <p className="text-[11px] text-text/40 font-medium max-w-[220px] leading-relaxed">
+              <p className="text-[11px] text-text/60 font-medium max-w-[220px] leading-relaxed">
                 PO #4029 from Linen Co. is overdue by 3 days.
               </p>
             </div>
@@ -382,7 +382,7 @@ export default function SupplierInventoryPage() {
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`text-xs font-black uppercase tracking-widest transition-all relative py-2 ${
-                  activeTab === tab ? 'text-text' : 'text-text/40 hover:text-text'
+                  activeTab === tab ? 'text-text' : 'text-text/50 hover:text-text'
                 }`}
               >
                 {tab}
@@ -398,7 +398,7 @@ export default function SupplierInventoryPage() {
 
           <div className="flex items-center gap-4">
             <div className="relative group">
-              <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-text/30 group-focus-within:text-primary transition-colors" />
+              <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-text/50 group-focus-within:text-primary transition-colors" />
               <input 
                 type="text" 
                 placeholder="Search by SKU or name..." 
@@ -407,7 +407,7 @@ export default function SupplierInventoryPage() {
                 className="pl-12 pr-6 py-3.5 bg-background border border-transparent rounded-2xl text-xs font-bold focus:outline-none focus:bg-white focus:border-primary/20 transition-all w-full lg:w-72"
               />
             </div>
-            <button className="p-3.5 text-text/40 hover:text-primary transition-all bg-background rounded-2xl border border-transparent hover:border-primary/10 hover:shadow-sm">
+            <button className="p-3.5 text-text/60 hover:text-primary transition-all bg-background rounded-2xl border border-transparent hover:border-primary/10 hover:shadow-sm">
               <Filter size={20} />
             </button>
           </div>
@@ -425,7 +425,7 @@ export default function SupplierInventoryPage() {
                   />
                   <div>
                     <h4 className="font-bold text-text text-base leading-tight">{product.name}</h4>
-                    <p className="text-[10px] text-text/30 font-black uppercase tracking-widest mt-1">SKU: {product.sku}</p>
+                    <p className="text-[10px] text-text/50 font-black uppercase tracking-widest mt-1">SKU: {product.sku}</p>
                   </div>
                 </div>
                 <StatusBadge status={product.status || 'In Stock'} />
@@ -433,11 +433,11 @@ export default function SupplierInventoryPage() {
 
               <div className="grid grid-cols-2 gap-4 py-2">
                 <div className="p-4 bg-background/50 rounded-2xl border border-text/5">
-                  <p className="text-[9px] font-black text-text/30 uppercase tracking-widest mb-1">Stock Level</p>
+                  <p className="text-[9px] font-black text-text/50 uppercase tracking-widest mb-1">Stock Level</p>
                   <p className="text-sm font-bold text-text">{product.stock} <span className="text-[9px] text-text/40">{product.unit || 'units'}</span></p>
                 </div>
                 <div className="p-4 bg-background/50 rounded-2xl border border-text/5">
-                  <p className="text-[9px] font-black text-text/30 uppercase tracking-widest mb-1">Price / Unit</p>
+                  <p className="text-[9px] font-black text-text/50 uppercase tracking-widest mb-1">Price / Unit</p>
                   <p className="text-sm font-bold text-text">Rs. {product.price}</p>
                 </div>
               </div>
@@ -471,7 +471,7 @@ export default function SupplierInventoryPage() {
         <div className="hidden lg:block overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="text-[9px] font-black text-text/30 uppercase tracking-[0.25em] bg-background/30">
+              <tr className="text-[9px] font-black text-text/50 uppercase tracking-[0.25em] bg-background/30">
                 <th className="px-6 py-5">
                   <div className="flex items-center gap-2 cursor-pointer hover:text-text transition-colors">
                     Product <ArrowUpDown size={12} />
@@ -501,9 +501,9 @@ export default function SupplierInventoryPage() {
         </div>
 
         <div className="px-10 py-8 border-t border-text/5 flex items-center justify-between bg-white/50">
-          <p className="text-[10px] font-black text-text/40 uppercase tracking-[0.2em]">Showing 1-3 of 124 items</p>
+          <p className="text-[10px] font-black text-text/60 uppercase tracking-[0.2em]">Showing 1-3 of 124 items</p>
           <div className="flex items-center gap-6">
-            <button className="p-2.5 rounded-xl text-text/20 transition-all" disabled>
+            <button className="p-2.5 rounded-xl text-text/40 transition-all" disabled>
               <ChevronLeft size={22} />
             </button>
             <div className="flex gap-3">
@@ -513,7 +513,7 @@ export default function SupplierInventoryPage() {
                   className={`w-10 h-10 rounded-xl font-black text-xs transition-all ${
                     page === 1 
                       ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-110' 
-                      : 'bg-white text-text/40 hover:text-text hover:bg-background border border-text/5'
+                      : 'bg-white text-text/60 hover:text-text hover:bg-background border border-text/5'
                   }`}
                 >
                   {page}
