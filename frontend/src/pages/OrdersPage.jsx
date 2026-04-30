@@ -1,157 +1,223 @@
-import React, { useState, useEffect } from 'react';
-import { ChevronDown, ChevronUp, Plus, MoreVertical, Download, Package, Clock, Filter, ChevronRight } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { 
+  ChevronDown, 
+  ChevronUp, 
+  Plus, 
+  MoreVertical, 
+  Download, 
+  Package, 
+  Clock, 
+  Filter, 
+  ChevronRight,
+  Search,
+  IndianRupee,
+  Calendar,
+  Zap,
+  MapPin
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import PageHeader from '../components/PageHeader';
 import PremiumButton from '../components/PremiumButton';
 import OrderTimeline from '../components/OrderTimeline';
 import CreateOrderModal from '../components/CreateOrderModal';
+import StatusBadge from '../components/StatusBadge';
+import GlassCard from '../components/GlassCard';
 import { orderAPI } from '../services/api';
 
 const tabs = ['All Orders', 'Active', 'Completed', 'Cancelled'];
-// ... (OrderCard remains the same)
+
+const getJourneyStep = (status) => {
+  switch (status) {
+    case 'Pending': return 'submitted';
+    case 'Processing': return 'confirmed';
+    case 'Shipped': return 'shipped';
+    case 'Delivered': return 'delivered';
+    default: return 'submitted';
+  }
+};
 
 const OrderCard = ({ order }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const statusClasses = {
-    'Pending': 'bg-orange-50 text-orange-600 border-orange-100',
-    'Processing': 'bg-blue-50 text-blue-600 border-blue-100',
-    'Shipped': 'bg-purple-50 text-purple-600 border-purple-100',
-    'Delivered': 'bg-teal-50 text-teal-600 border-teal-100',
-    'Cancelled': 'bg-red-50 text-red-600 border-red-100',
-  };
-
-  const getJourneyStep = (status) => {
-    switch (status) {
-      case 'Pending': return 'submitted';
-      case 'Processing': return 'confirmed';
-      case 'Shipped': return 'shipped';
-      case 'Delivered': return 'delivered';
-      default: return 'submitted';
-    }
-  };
-
-  const StatusBadge = ({ status }) => (
-    <span className={`rounded-full border px-4 py-1 text-[9px] font-black uppercase tracking-widest ${statusClasses[status] || statusClasses['Pending']}`}>
-      {status}
-    </span>
-  );
-
   return (
-    <div className="mb-4 overflow-hidden rounded-[28px] border border-text/5 bg-white shadow-sm hover:shadow-md transition-shadow">
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="mb-4 overflow-hidden rounded-[28px] border border-text/5 bg-white shadow-sm hover:shadow-md transition-all group"
+    >
       <div
-        className="flex flex-col md:flex-row cursor-pointer items-stretch md:items-center justify-between px-6 lg:px-8 py-5 lg:py-6 hover:bg-background/10 gap-4"
-        onClick={() => setIsExpanded((value) => !value)}
+        className="flex flex-col md:flex-row cursor-pointer items-stretch md:items-center justify-between px-6 lg:px-10 py-6 lg:py-8 hover:bg-[#FAF5F0]/30 transition-colors gap-6"
+        onClick={() => setIsExpanded(!isExpanded)}
       >
-        <div className="flex-1">
-          <h4 className="text-base font-bold text-text">{order.orderNumber}</h4>
-          <p className="mt-0.5 text-[10px] font-bold uppercase tracking-widest text-text/40">
-            {order.shopName} - {order.items?.length || 0} items
+        <div className="flex-1 flex items-center gap-6">
+          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#FAF5F0] text-primary/40 border border-text/5 group-hover:bg-white transition-colors shadow-sm">
+            <Package size={24} />
+          </div>
+          <div>
+            <h4 className="text-xl font-bold text-text group-hover:text-primary transition-colors tracking-tight">{order.orderNumber}</h4>
+            <p className="mt-1 text-[10px] font-black uppercase tracking-[0.2em] text-text/40 flex items-center gap-2">
+              <span>{order.items?.length || 0} ITEMS</span>
+              <span className="w-1 h-1 rounded-full bg-text/20" />
+              <span>{order.shopName || order.supplierName || 'Unknown Supplier'}</span>
+            </p>
+          </div>
+        </div>
+
+        <div className="flex-1 flex flex-col md:items-center justify-center border-y md:border-y-0 border-text/5 py-4 md:py-0">
+          <p className="mb-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Order Value</p>
+          <p className="font-bold text-text text-lg flex items-center gap-1">
+            <IndianRupee size={16} className="text-text/40" />
+            {(order.totalAmount || 0).toLocaleString()}
           </p>
         </div>
 
-        <div className="flex flex-row md:flex-col items-center md:items-center justify-between md:justify-center flex-1 border-y md:border-y-0 border-text/5 py-3 md:py-0">
-          <div className="text-left md:text-center">
-            <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-text/30">Amount</p>
-            <p className="font-bold text-text text-sm lg:text-base">Rs. {order.totalAmount?.toLocaleString()}</p>
-          </div>
+        <div className="hidden md:flex flex-1 flex-col items-center justify-center">
+          <p className="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Current State</p>
+          <StatusBadge status={order.status || 'Pending'} />
+        </div>
+
+        <div className="flex-1 flex flex-col items-start md:items-center">
+          <p className="mb-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Initiated</p>
+          <p className="text-sm font-bold text-text/60 flex items-center gap-2">
+            <Calendar size={14} className="text-text/30" />
+            {new Date(order.createdAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}
+          </p>
+        </div>
+
+        <div className="flex items-center justify-between md:justify-end gap-6 border-t md:border-t-0 md:border-l border-text/5 pt-4 md:pt-0 md:pl-8">
           <div className="md:hidden">
-             <StatusBadge status={order.status} />
+             <StatusBadge status={order.status || 'Pending'} />
           </div>
-        </div>
-
-        <div className="hidden md:block flex-1 text-center">
-          <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-text/30">Status</p>
-          <StatusBadge status={order.status} />
-        </div>
-
-        <div className="flex-1 text-left md:text-center">
-          <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-text/30">Created At</p>
-          <p className="text-xs font-bold text-text/60">
-            {new Date(order.createdAt).toLocaleDateString()}
-          </p>
-        </div>
-
-        <div className="flex items-center justify-between md:justify-end gap-4 border-t md:border-t-0 md:border-l border-text/5 pt-4 md:pt-0 md:pl-4">
-          <p className="md:hidden text-[10px] font-bold text-text/30 uppercase tracking-widest">Tap to view details</p>
-          <div className="flex items-center gap-4">
-            <button className="text-text/20 transition-colors hover:text-text">
-              {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+          <div className="flex items-center gap-3">
+            <button className="h-10 w-10 flex items-center justify-center rounded-full bg-background text-text/30 hover:bg-white hover:text-text hover:shadow-sm border border-transparent hover:border-text/5 transition-all">
+              <MoreVertical size={18} />
             </button>
-            <button className="text-text/20 transition-colors hover:text-text">
-              <MoreVertical size={20} />
+            <button className="h-10 w-10 flex items-center justify-center rounded-full bg-white text-text/40 hover:text-primary hover:shadow-md border border-text/5 transition-all">
+              <motion.div animate={{ rotate: isExpanded ? 180 : 0 }}>
+                <ChevronDown size={18} />
+              </motion.div>
             </button>
           </div>
         </div>
       </div>
 
-      {isExpanded && (
-        <div className="border-t border-text/5 bg-[#FAF9F6]/50 px-8 pb-8 pt-2">
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-            <div className="space-y-8 lg:col-span-2">
-              <div>
-                <h5 className="mb-4 text-sm font-bold text-text">Order Journey</h5>
-                <OrderTimeline currentStep={getJourneyStep(order.status)} />
-              </div>
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="border-t border-text/5 bg-[#FAF5F0]/30"
+          >
+            <div className="px-6 lg:px-10 py-10">
+              <div className="grid grid-cols-1 gap-10 xl:grid-cols-3">
+                <div className="space-y-10 xl:col-span-2">
+                  <GlassCard className="p-8 shadow-sm">
+                    <h5 className="mb-8 text-sm font-black uppercase tracking-[0.2em] text-text flex items-center gap-3">
+                      <Zap size={18} className="text-primary" /> Fulfillment Journey
+                    </h5>
+                    <OrderTimeline currentStep={getJourneyStep(order.status)} />
+                  </GlassCard>
 
-              <div>
-                <h5 className="mb-4 text-sm font-bold text-text">Item Breakdown</h5>
-                <div className="overflow-hidden rounded-xl border border-text/5 bg-white">
-                  {order.items && order.items.length > 0 ? (
-                    order.items.map((item, idx) => (
-                      <div key={idx} className="flex items-center justify-between border-b border-text/5 px-6 py-4 last:border-0">
-                        <div className="flex items-center gap-4">
-                          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-background text-text/30">
-                            <Package size={20} />
-                          </div>
-                          <div>
-                            <p className="text-sm font-bold text-text">{item.name}</p>
-                            <p className="text-[10px] font-bold uppercase tracking-widest text-text/30">Qty: {item.quantity}</p>
-                          </div>
+                  <div>
+                    <h5 className="mb-6 text-sm font-black uppercase tracking-[0.2em] text-text px-2">Manifest Breakdown</h5>
+                    <div className="overflow-hidden rounded-3xl border border-text/5 bg-white shadow-sm">
+                      {order.items && order.items.length > 0 ? (
+                        <table className="w-full text-left">
+                          <thead>
+                            <tr className="bg-[#FAF5F0] border-b border-[#F0E5D8]">
+                              <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Item Description</th>
+                              <th className="px-8 py-5 text-right text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Qty</th>
+                              <th className="px-8 py-5 text-right text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Unit Price</th>
+                              <th className="px-8 py-5 text-right text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Total</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-text/5">
+                            {order.items.map((item, idx) => (
+                              <tr key={idx} className="group hover:bg-background/20 transition-colors">
+                                <td className="px-8 py-6">
+                                  <div className="flex items-center gap-4">
+                                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-background text-text/20 group-hover:text-primary transition-colors">
+                                      <Package size={18} />
+                                    </div>
+                                    <span className="font-bold text-text text-sm">{item.name || item.product?.name}</span>
+                                  </div>
+                                </td>
+                                <td className="px-8 py-6 text-right font-black text-text/80 text-sm">{item.quantity}</td>
+                                <td className="px-8 py-6 text-right font-medium text-text/60 text-sm">₹{item.price?.toLocaleString()}</td>
+                                <td className="px-8 py-6 text-right font-bold text-text text-sm">₹{((item.price || 0) * (item.quantity || 0)).toLocaleString()}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      ) : (
+                        <div className="px-8 py-16 flex flex-col items-center justify-center text-center">
+                          <Package size={32} className="text-text/10 mb-4" />
+                          <p className="text-sm font-bold text-text/40">No items available in this manifest.</p>
                         </div>
-                        <div className="text-right">
-                          <p className="text-sm font-bold text-text">₹{(item.price * item.quantity).toLocaleString()}</p>
-                          <p className="text-[10px] font-bold uppercase tracking-widest text-text/30">₹{item.price} / unit</p>
-                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-6">
+                  <GlassCard className="p-8 shadow-sm">
+                    <div className="mb-8 flex items-center gap-3">
+                      <div className="rounded-xl bg-blue-50 p-3 text-blue-600">
+                        <Clock size={20} />
                       </div>
-                    ))
-                  ) : (
-                    <div className="px-6 py-10 text-sm text-text-muted">No item breakdown available for this order.</div>
-                  )}
-                </div>
-              </div>
-            </div>
+                      <div>
+                        <h5 className="text-sm font-black uppercase tracking-[0.2em] text-text">Logistics Profile</h5>
+                        <p className="text-[10px] font-medium text-text/40 mt-1">Delivery & Routing</p>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-6">
+                      <div className="flex items-center justify-between border-b border-text/5 pb-6">
+                        <div className="flex items-center gap-2 text-text/40">
+                          <Calendar size={16} />
+                          <span className="text-[10px] font-black uppercase tracking-widest">Expected By</span>
+                        </div>
+                        <span className="font-bold text-sm text-text">
+                          {order.deliveryDate ? new Date(order.deliveryDate).toLocaleDateString(undefined, { day: 'numeric', month: 'short' }) : 'TBD'}
+                        </span>
+                      </div>
+                      
+                      <div className="flex items-center justify-between border-b border-text/5 pb-6">
+                        <div className="flex items-center gap-2 text-text/40">
+                          <MapPin size={16} />
+                          <span className="text-[10px] font-black uppercase tracking-widest">Destination</span>
+                        </div>
+                        <span className="font-bold text-sm text-text truncate max-w-[120px]">
+                          Warehouse A
+                        </span>
+                      </div>
 
-            <div className="space-y-6">
-              <div className="rounded-2xl border border-text/5 bg-white p-6 shadow-sm">
-                <div className="mb-6 flex items-center gap-2">
-                  <div className="rounded-lg bg-blue-50 p-2 text-blue-600">
-                    <Clock size={18} />
-                  </div>
-                  <h5 className="text-sm font-bold text-text">Logistics</h5>
-                </div>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-bold uppercase tracking-widest text-text/40">Expected By</span>
-                    <span className="font-bold text-text">{order.deliveryDate ? new Date(order.deliveryDate).toLocaleDateString() : 'TBD'}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-bold uppercase tracking-widest text-text/40">Priority</span>
-                    <span className={`rounded border px-2 py-0.5 text-[8px] font-bold uppercase tracking-widest ${order.priority === 'High' ? 'bg-red-50 text-red-600 border-red-100' : 'bg-blue-50 text-blue-600 border-blue-100'}`}>
-                      {order.priority}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2 text-text/40">
+                          <Zap size={16} />
+                          <span className="text-[10px] font-black uppercase tracking-widest">Priority</span>
+                        </div>
+                        <span className={`rounded-full border px-3 py-1 text-[9px] font-black uppercase tracking-widest ${order.priority === 'High' ? 'bg-red-50 text-red-600 border-red-100' : 'bg-blue-50 text-blue-600 border-blue-100'}`}>
+                          {order.priority || 'Standard'}
+                        </span>
+                      </div>
+                    </div>
+                  </GlassCard>
+
+                  <PremiumButton variant="secondary" className="w-full flex justify-center py-5 rounded-2xl">
+                    <span className="flex items-center gap-2">
+                      <Download size={16} />
+                      Download Invoice PDF
                     </span>
-                  </div>
+                  </PremiumButton>
                 </div>
               </div>
-
-              <button className="flex w-full items-center justify-center gap-2 rounded-xl border border-text/10 bg-white py-4 text-sm font-bold text-text transition-all hover:bg-background">
-                <Download size={18} />
-                Download Invoice
-              </button>
             </div>
-          </div>
-        </div>
-      )}
-    </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 };
 
@@ -160,6 +226,7 @@ const OrdersPage = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const fetchOrders = async () => {
     try {
@@ -177,70 +244,94 @@ const OrdersPage = () => {
     fetchOrders();
   }, []);
 
-  const filteredOrders = orders.filter(order => {
-    if (activeTab === 'All Orders') return true;
-    if (activeTab === 'Active') return ['Pending', 'Processing', 'Shipped'].includes(order.status);
-    if (activeTab === 'Completed') return order.status === 'Delivered';
-    if (activeTab === 'Cancelled') return order.status === 'Cancelled';
-    return true;
-  });
+  const filteredOrders = useMemo(() => {
+    return orders.filter(order => {
+      const normSearch = searchTerm.toLowerCase().trim();
+      const matchesSearch = !normSearch || 
+        order.orderNumber?.toLowerCase().includes(normSearch) || 
+        order.shopName?.toLowerCase().includes(normSearch);
+
+      if (!matchesSearch) return false;
+
+      if (activeTab === 'All Orders') return true;
+      if (activeTab === 'Active') return ['Pending', 'Processing', 'Shipped'].includes(order.status);
+      if (activeTab === 'Completed') return order.status === 'Delivered';
+      if (activeTab === 'Cancelled') return order.status === 'Cancelled';
+      return true;
+    });
+  }, [orders, activeTab, searchTerm]);
 
   return (
-    <div className="mx-auto max-w-[1600px] px-6 py-8">
+    <div className="mx-auto max-w-[1600px] px-6 py-10 pb-16">
       <PageHeader
-        title="Orders"
-        subtitle="Track and manage every purchase order with status, payment, and return context."
-        breadcrumbs={['Dashboard', 'Orders']}
+        title="Purchase Orders"
+        subtitle="Command center for incoming inventory, fulfillment logistics, and supplier transactions."
+        breadcrumbs={['Retail', 'Orders']}
         actions={
           <PremiumButton icon={Plus} onClick={() => setShowCreateModal(true)}>
-            Create order
+            Draft new order
           </PremiumButton>
         }
       />
 
-      <div className="mb-8 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-text/5 bg-white p-2 shadow-sm">
-        <div className="flex items-center rounded-xl bg-background/50 p-1">
+      <div className="mb-10 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-4">
+        <div className="relative">
+          <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-text/30" size={18} />
+          <input
+            type="text"
+            placeholder="Search by order ID or supplier name..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full rounded-full border border-text/5 bg-white py-4 pl-14 pr-6 text-sm font-bold text-text shadow-sm transition-all placeholder:text-text/30 focus:border-primary/20 focus:outline-none focus:ring-4 focus:ring-primary/5"
+          />
+        </div>
+
+        <div className="flex items-center gap-3 bg-white p-2 rounded-full border border-text/5 shadow-sm overflow-x-auto custom-scrollbar">
           {tabs.map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`rounded-lg px-6 py-2 text-xs font-bold transition-all ${
-                activeTab === tab ? 'bg-white text-text shadow-sm' : 'text-text/30 hover:text-text'
+              className={`rounded-full px-6 py-2.5 text-[10px] font-black uppercase tracking-widest whitespace-nowrap transition-all ${
+                activeTab === tab 
+                  ? 'bg-text text-white shadow-md' 
+                  : 'text-text/40 hover:text-text hover:bg-background'
               }`}
             >
               {tab}
             </button>
           ))}
         </div>
-
-        <div className="flex items-center gap-3 px-2">
-          <button className="flex items-center gap-2 rounded-xl border border-text/5 px-3 py-2 text-[10px] font-bold text-text/40 transition-all hover:border-primary/20">
-            <span>Filter</span>
-            <ChevronDown size={14} />
-          </button>
-          <button className="rounded-xl border border-text/5 p-2 text-text/30 transition-colors hover:text-primary">
-            <Filter size={18} />
-          </button>
-        </div>
       </div>
 
       {loading ? (
-        <div className="flex flex-col items-center justify-center py-20 gap-4">
-          <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-          <p className="text-[10px] font-black uppercase tracking-widest text-text/30">Loading your orders...</p>
+        <div className="flex flex-col items-center justify-center py-32 gap-6">
+          <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent shadow-lg shadow-primary/20" />
+          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-text/30">Synchronizing Ledger...</p>
         </div>
       ) : (
-        <div className="space-y-2">
-          {filteredOrders.length > 0 ? (
-            filteredOrders.map((order) => (
-              <OrderCard key={order._id} order={order} />
-            ))
-          ) : (
-            <div className="flex flex-col items-center justify-center py-20 border border-dashed border-text/10 rounded-[40px]">
-              <Package size={40} className="text-text/10 mb-4" />
-              <p className="text-sm font-bold text-text/30">No orders found in this category.</p>
-            </div>
-          )}
+        <div className="space-y-4">
+          <AnimatePresence mode="popLayout">
+            {filteredOrders.length > 0 ? (
+              filteredOrders.map((order) => (
+                <OrderCard key={order._id || order.orderNumber} order={order} />
+              ))
+            ) : (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex flex-col items-center justify-center py-32 rounded-[40px] border border-dashed border-text/10 bg-[#FAF5F0]/30"
+              >
+                <div className="w-20 h-20 rounded-3xl bg-white border border-text/5 shadow-sm flex items-center justify-center mb-6 text-text/20">
+                  <Search size={32} />
+                </div>
+                <h3 className="text-xl font-bold text-text mb-2">No manifests found</h3>
+                <p className="text-sm font-medium text-text/40">Try adjusting your filters or search criteria.</p>
+                <PremiumButton variant="secondary" className="mt-8" onClick={() => {setSearchTerm(''); setActiveTab('All Orders');}}>
+                  Clear Filters
+                </PremiumButton>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       )}
 
@@ -250,8 +341,15 @@ const OrdersPage = () => {
           onSuccess={fetchOrders}
         />
       )}
+      
+      <style dangerouslySetInnerHTML={{ __html: `
+        .custom-scrollbar::-webkit-scrollbar { height: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.05); border-radius: 10px; }
+      ` }} />
     </div>
   );
 };
 
 export default OrdersPage;
+
