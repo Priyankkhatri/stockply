@@ -36,10 +36,12 @@ const StatCard = ({ title, value, icon: Icon, trend, trendValue, colorClass }) =
 
 const SupplierDashboardPage = () => {
   const navigate = useNavigate();
-  const { products, orders, partners, loading, summary } = useSupplier();
+  const { products, orders, partners, loading, analytics } = useSupplier();
 
-  const trendHeights = [45, 60, 40, 75, 50, 90, 65];
-  const trendDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  // Use dynamic trends from backend or fallback to empty
+  const trendData = analytics?.trends || [];
+  const growth = analytics?.growth || {};
+  const stats = analytics?.summary || {};
 
   // Low stock items derived from products
   const lowStockItems = useMemo(() =>
@@ -47,14 +49,9 @@ const SupplierDashboardPage = () => {
     [products]
   );
 
-  const totalRevenue = useMemo(() =>
-    orders.reduce((sum, o) => sum + (o.totalAmount || 0), 0),
-    [orders]
-  );
+  const activeOrdersCount = stats.activeOrders ?? orders.filter(o => o.status === 'Pending' || o.status === 'Processing').length;
 
-  const activeOrdersCount = orders.filter(o => o.status === 'Pending' || o.status === 'Processing').length;
-
-  if (loading) {
+  if (loading || !analytics) {
     return (
       <div className="flex h-[80vh] items-center justify-center">
         <div className="flex flex-col items-center gap-4">
@@ -77,10 +74,10 @@ const SupplierDashboardPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
         <StatCard
           title="Total Revenue"
-          value={`Rs. ${totalRevenue.toLocaleString()}`}
+          value={`Rs. ${(stats.totalRevenue || 0).toLocaleString()}`}
           icon={IndianRupee}
           trend="up"
-          trendValue="12.5%"
+          trendValue={growth.revenue || "0%"}
           colorClass="bg-amber-500 text-amber-500"
         />
         <StatCard
@@ -88,15 +85,15 @@ const SupplierDashboardPage = () => {
           value={activeOrdersCount}
           icon={ShoppingCart}
           trend="up"
-          trendValue="8.2%"
+          trendValue={growth.orders || "0%"}
           colorClass="bg-teal-500 text-teal-500"
         />
         <StatCard
           title="Stock Items"
-          value={summary?.totalProducts ?? products.length}
+          value={stats.totalProducts ?? products.length}
           icon={Package}
           trend="down"
-          trendValue="2.1%"
+          trendValue={growth.stock || "0%"}
           colorClass="bg-blue-500 text-blue-500"
         />
         <StatCard
@@ -104,7 +101,7 @@ const SupplierDashboardPage = () => {
           value={partners.length}
           icon={Users}
           trend="up"
-          trendValue="5.4%"
+          trendValue={growth.partners || "0%"}
           colorClass="bg-purple-500 text-purple-500"
         />
       </div>
@@ -121,17 +118,17 @@ const SupplierDashboardPage = () => {
                 <p className="text-[10px] font-black uppercase tracking-widest text-text/30">Weekly order volume</p>
               </div>
               <div className="flex items-center gap-1 text-xs font-bold text-teal-600">
-                <ArrowUpRight size={14} /> 12%
+                <ArrowUpRight size={14} /> {growth.orders || "0%"}
               </div>
             </div>
             <div className="h-48 flex items-end justify-between gap-4 px-2">
-              {trendHeights.map((h, i) => (
+              {trendData.map((data, i) => (
                 <div key={i} className="flex-1 flex flex-col items-center gap-3 group">
                   <div
-                    className={`w-full rounded-2xl transition-all duration-700 ${i === 5 ? 'bg-primary shadow-[0_0_20px_rgba(192,133,82,0.3)]' : 'bg-primary/10 group-hover:bg-primary/30'}`}
-                    style={{ height: `${h}%` }}
+                    className={`w-full rounded-2xl transition-all duration-700 ${data.count > 0 ? 'bg-primary shadow-[0_0_20px_rgba(192,133,82,0.3)]' : 'bg-primary/10 group-hover:bg-primary/30'}`}
+                    style={{ height: `${Math.max(5, (data.count / (Math.max(...trendData.map(d => d.count)) || 1)) * 100)}%` }}
                   />
-                  <span className="text-[10px] font-black uppercase tracking-widest text-text/20 group-hover:text-text transition-colors">{trendDays[i]}</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-text/20 group-hover:text-text transition-colors">{data.day}</span>
                 </div>
               ))}
             </div>

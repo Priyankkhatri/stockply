@@ -60,4 +60,8 @@ export const orderAPI = {
   delete: (id) => api.delete(`/orders/${id}`),
 };
 
+export const analyticsAPI = {
+  getSupplierOverview: () => api.get('/analytics/supplier-overview'),
+};
+
 export default api;
