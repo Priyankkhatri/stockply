@@ -1,16 +1,42 @@
 import React, { useMemo, useState } from 'react';
-import { ChevronDown, Plus, Search, Filter, Package, ArrowRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  ChevronDown, 
+  Plus, 
+  Search, 
+  Filter, 
+  Package, 
+  ArrowRight, 
+  ArrowUpRight, 
+  Layers, 
+  ShoppingBag,
+  MoreVertical,
+  History,
+  TrendingUp,
+  X
+} from 'lucide-react';
 import StatusBadge from '../components/StatusBadge';
 import ProductDetailPanel from '../components/ProductDetailPanel';
 import PremiumButton from '../components/PremiumButton';
+import GlassCard from '../components/GlassCard';
 
 const products = [
-  { name: 'Paracetamol 500mg', supplier: 'PharmaCorp Inc.', category: 'Analgesics', stock: '12 units', status: 'Low Stock', action: 'Reorder', price: 'Rs. 4.50' },
-  { name: 'Ibuprofen 400mg', supplier: 'BioHealth Labs', category: 'Analgesics', stock: '450 units', status: 'In Stock', action: 'Manage', price: 'Rs. 6.20' },
-  { name: 'Amoxicillin 250mg', supplier: 'PharmaCorp Inc.', category: 'Antibiotics', stock: '85 units', status: 'In Stock', action: 'Manage', price: 'Rs. 12.00' },
-  { name: 'Vitamin C Drops', supplier: 'NatureWell', category: 'Supplements', stock: '0 units', status: 'Out of Stock', action: 'Urgent Reorder', price: 'Rs. 8.40' },
-  { name: 'Cough Syrup Adult', supplier: 'MediCore', category: 'Respiratory', stock: '28 units', status: 'Low Stock', action: 'Reorder', price: 'Rs. 5.90' },
+  { id: '1', name: 'Paracetamol 500mg', supplier: 'PharmaCorp Inc.', category: 'Analgesics', stock: '12 units', status: 'Low Stock', action: 'Reorder', price: 'Rs. 4.50', code: 'SKU-001' },
+  { id: '2', name: 'Ibuprofen 400mg', supplier: 'BioHealth Labs', category: 'Analgesics', stock: '450 units', status: 'In Stock', action: 'Manage', price: 'Rs. 6.20', code: 'SKU-002' },
+  { id: '3', name: 'Amoxicillin 250mg', supplier: 'PharmaCorp Inc.', category: 'Antibiotics', stock: '85 units', status: 'In Stock', action: 'Manage', price: 'Rs. 12.00', code: 'SKU-003' },
+  { id: '4', name: 'Vitamin C Drops', supplier: 'NatureWell', category: 'Supplements', stock: '0 units', status: 'Out of Stock', action: 'Urgent Reorder', price: 'Rs. 8.40', code: 'SKU-004' },
+  { id: '5', name: 'Cough Syrup Adult', supplier: 'MediCore', category: 'Respiratory', stock: '28 units', status: 'Low Stock', action: 'Reorder', price: 'Rs. 5.90', code: 'SKU-005' },
 ];
+
+const container = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.05 } }
+};
+
+const rowAnim = {
+  hidden: { opacity: 0, x: -10 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } }
+};
 
 const InventoryPage = () => {
   const [selectedProduct, setSelectedProduct] = useState(products[0]);
@@ -22,7 +48,8 @@ const InventoryPage = () => {
       const matchesSearch =
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         product.supplier.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.category.toLowerCase().includes(searchTerm.toLowerCase());
+        product.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.code.toLowerCase().includes(searchTerm.toLowerCase());
 
       const matchesStatus = activeStatus === 'All' || product.status === activeStatus;
       return matchesSearch && matchesStatus;
@@ -30,173 +57,192 @@ const InventoryPage = () => {
   }, [searchTerm, activeStatus]);
 
   return (
-    <div className="max-w-[1600px] mx-auto px-6 py-8">
-      <div className="flex flex-col gap-6 mb-8">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
-          <div>
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text-muted mb-2">Inventory</p>
-            <h1 className="text-4xl font-display font-bold text-text mb-3">Current Stock</h1>
-            <p className="text-text-muted text-lg max-w-2xl">
-              Manage stock levels, monitor supplier coverage, and jump into reorder actions from a single table.
-            </p>
+    <motion.div 
+      initial="hidden"
+      animate="show"
+      variants={container}
+      className="max-w-[1600px] mx-auto px-6 py-10"
+    >
+      {/* ─── Header Section ─── */}
+      <motion.div variants={rowAnim} className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-8">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+            <span className="text-[10px] font-black text-text/30 uppercase tracking-[0.3em]">Stock Intelligence</span>
           </div>
-
-          <div className="flex flex-wrap gap-3">
-            <PremiumButton variant="secondary" icon={ArrowRight}>
-              Bulk reorder
-            </PremiumButton>
-            <PremiumButton variant="primary" icon={Plus}>
-              Add product
-            </PremiumButton>
-          </div>
+          <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">The <span className="text-primary italic font-normal serif">Ledger.</span></h1>
+          <p className="text-text/40 text-sm font-medium">Precision tracking for your entire inventory ecosystem.</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_0.8fr_0.8fr] gap-4">
-          <div className="relative">
-            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-text-light" size={18} />
-            <input
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search SKU, product name, or supplier..."
-              className="w-full rounded-2xl border border-text/5 bg-white px-12 py-4 text-sm font-medium text-text shadow-sm outline-none transition-all placeholder:text-text-light focus:border-primary/20 focus:ring-4 focus:ring-primary/5"
-            />
-          </div>
-
-          <button className="flex items-center justify-between rounded-2xl border border-text/5 bg-white px-4 py-4 text-sm font-bold text-text hover:border-primary/20 transition-all">
-            All Categories
-            <ChevronDown size={16} className="text-text-light" />
+        <div className="flex items-center gap-4">
+          <button className="px-6 py-4 bg-white border border-text/5 rounded-[20px] text-[10px] font-black uppercase tracking-widest text-text/60 hover:text-text transition-all flex items-center gap-3">
+            <History size={16} /> Activity Log
           </button>
-
-          <button className="flex items-center justify-between rounded-2xl border border-text/5 bg-white px-4 py-4 text-sm font-bold text-text hover:border-primary/20 transition-all">
-            Stock Status
-            <ChevronDown size={16} className="text-text-light" />
-          </button>
+          <motion.button 
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="px-8 py-4 bg-text text-white rounded-[22px] text-[10px] font-black uppercase tracking-widest hover:bg-primary transition-all flex items-center gap-3 shadow-2xl shadow-text/10"
+          >
+            <Plus size={18} /> Register Asset
+          </motion.button>
         </div>
+      </motion.div>
 
-        <div className="flex flex-wrap gap-3">
-          {['All', 'In Stock', 'Low Stock', 'Out of Stock'].map((status) => (
-            <button
-              key={status}
-              onClick={() => setActiveStatus(status)}
-              className={`rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.2em] transition-all ${
-                activeStatus === status
-                  ? 'border-primary/20 bg-primary/10 text-primary'
-                  : 'border-text/5 bg-white text-text-muted hover:border-primary/20 hover:text-primary'
-              }`}
-            >
-              {status}
-            </button>
-          ))}
-        </div>
+      {/* ─── Stats & Highlights ─── */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        {[
+          { label: 'Total Inventory SKU', value: '1,248', icon: Layers, trend: '↑ 4 new' },
+          { label: 'Asset Valuation', value: 'Rs. 4.2M', icon: TrendingUp, trend: '↑ 12%' },
+          { label: 'Stock Health', value: '92.4%', icon: Package, trend: 'Stable' },
+        ].map((stat) => (
+          <motion.div key={stat.label} variants={rowAnim}>
+            <GlassCard className="p-6 flex items-center justify-between group hover:shadow-2xl transition-all duration-500">
+              <div className="flex items-center gap-5">
+                <div className="w-12 h-12 bg-text/5 rounded-2xl flex items-center justify-center text-text/40 group-hover:bg-primary group-hover:text-white transition-all duration-500">
+                  <stat.icon size={20} />
+                </div>
+                <div>
+                  <p className="text-[9px] font-black text-text/20 uppercase tracking-widest mb-1">{stat.label}</p>
+                  <p className="text-2xl font-bold text-text tracking-tight">{stat.value}</p>
+                </div>
+              </div>
+              <span className="text-[9px] font-bold text-teal-600 bg-teal-50 px-2 py-1 rounded-full">{stat.trend}</span>
+            </GlassCard>
+          </motion.div>
+        ))}
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-[1fr_400px] gap-8 items-start">
-        <div className="bg-white rounded-[32px] border border-text/5 shadow-sm overflow-hidden">
-          <div className="px-8 py-5 border-b border-text/5 flex items-center justify-between bg-background/20">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
-                <Package size={18} />
-              </div>
-              <div>
-                <h2 className="font-bold text-text">Inventory Table</h2>
-                <p className="text-[10px] uppercase tracking-[0.2em] font-black text-text-muted">
-                  {visibleProducts.length} products visible
-                </p>
-              </div>
-            </div>
-            <div className="text-[10px] uppercase tracking-[0.2em] font-black text-text-muted flex items-center gap-2">
-              <Filter size={14} />
-              Live filters
-            </div>
-          </div>
+      {/* ─── Controls & Filters ─── */}
+      <motion.div variants={rowAnim} className="bg-white rounded-[32px] border border-text/5 p-8 mb-10 shadow-sm flex flex-col xl:flex-row gap-8 items-start xl:items-center justify-between">
+        <div className="relative w-full max-w-2xl group">
+          <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-text/20 group-focus-within:text-primary transition-colors" size={20} />
+          <input
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="SEARCH BY SKU, PRODUCT, OR SUPPLIER..."
+            className="w-full bg-background/50 border border-transparent rounded-[24px] py-5 pl-16 pr-6 text-[10px] font-black uppercase tracking-widest text-text placeholder:text-text/20 outline-none transition-all focus:bg-white focus:border-primary/20"
+          />
+        </div>
 
-          <div className="overflow-x-auto lg:overflow-x-visible">
-            {/* Desktop Table */}
-            <table className="hidden lg:table w-full text-left border-collapse">
+        <div className="flex flex-wrap gap-4">
+          <div className="flex items-center p-1.5 bg-background rounded-[20px] border border-text/5">
+            {['All', 'In Stock', 'Low Stock', 'Out of Stock'].map((status) => (
+              <button
+                key={status}
+                onClick={() => setActiveStatus(status)}
+                className={`px-6 py-3.5 rounded-[16px] text-[9px] font-black uppercase tracking-widest transition-all duration-500 ${
+                  activeStatus === status
+                    ? 'bg-white text-text shadow-sm border border-text/5'
+                    : 'text-text/30 hover:text-text/60'
+                }`}
+              >
+                {status}
+              </button>
+            ))}
+          </div>
+          
+          <button className="p-5 bg-background rounded-2xl border border-text/5 text-text/40 hover:text-text transition-colors">
+            <Filter size={18} />
+          </button>
+        </div>
+      </motion.div>
+
+      {/* ─── Main Ledger ─── */}
+      <div className="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-10 items-start">
+        <motion.div variants={rowAnim} className="bg-white rounded-[40px] border border-text/5 shadow-premium overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
               <thead>
-                <tr className="bg-background/40 border-b border-text/5">
-                  <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text-muted">Product</th>
-                  <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text-muted">Category</th>
-                  <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text-muted">Current Stock</th>
-                  <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text-muted">Status</th>
-                  <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text-muted text-right">Actions</th>
+                <tr className="bg-text/[0.02] border-b border-text/5">
+                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/20">Product Details</th>
+                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/20">Category</th>
+                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/20">Inventory</th>
+                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/20">Status</th>
+                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/20 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-text/5">
-                {visibleProducts.map((product) => (
-                  <tr
-                    key={product.name}
-                    onClick={() => setSelectedProduct(product)}
-                    className={`group cursor-pointer transition-colors hover:bg-background/30 ${
-                      selectedProduct?.name === product.name ? 'bg-background/20' : ''
-                    }`}
-                  >
-                    <td className="px-8 py-5">
-                      <div className="flex items-center gap-3">
-                        <div className="h-10 w-1 rounded-full bg-primary/20 transition-colors group-hover:bg-primary" />
-                        <div>
-                          <p className="font-bold text-text text-sm">{product.name}</p>
-                          <p className="text-[10px] uppercase tracking-[0.18em] font-bold text-text-muted mt-1">
-                            {product.supplier}
-                          </p>
+                <AnimatePresence mode="popLayout">
+                  {visibleProducts.map((product) => (
+                    <motion.tr
+                      key={product.id}
+                      layout
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      onClick={() => setSelectedProduct(product)}
+                      className={`group cursor-pointer transition-all duration-500 hover:bg-text/[0.01] ${
+                        selectedProduct?.id === product.id ? 'bg-text/[0.02]' : ''
+                      }`}
+                    >
+                      <td className="px-10 py-7">
+                        <div className="flex items-center gap-4">
+                          <div className={`w-1 h-12 rounded-full transition-all duration-500 ${selectedProduct?.id === product.id ? 'bg-primary' : 'bg-text/5 group-hover:bg-text/10'}`} />
+                          <div className="flex flex-col">
+                            <span className="font-bold text-text text-base tracking-tight">{product.name}</span>
+                            <span className="text-[10px] font-bold text-text/30 mt-1 uppercase tracking-widest">{product.code} • {product.supplier}</span>
+                          </div>
                         </div>
-                      </div>
-                    </td>
-                    <td className="px-8 py-5 text-sm font-medium text-text-muted">{product.category}</td>
-                    <td className="px-8 py-5 text-sm font-bold text-text">{product.stock}</td>
-                    <td className="px-8 py-5">
-                      <StatusBadge status={product.status} />
-                    </td>
-                    <td className="px-8 py-5 text-right">
-                      <button className={`text-xs font-bold transition-colors ${product.status === 'Out of Stock' ? 'text-red-500 hover:text-red-600' : 'text-text/40 hover:text-primary'}`}>
-                        {product.action}
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                      </td>
+                      <td className="px-10 py-7">
+                        <span className="text-xs font-bold text-text/40 uppercase tracking-widest">{product.category}</span>
+                      </td>
+                      <td className="px-10 py-7">
+                        <div className="flex flex-col">
+                          <span className="text-sm font-bold text-text tracking-tight">{product.stock}</span>
+                          <span className="text-[9px] font-black text-text/20 uppercase tracking-widest mt-1">Valuation: {product.price}</span>
+                        </div>
+                      </td>
+                      <td className="px-10 py-7">
+                        <StatusBadge status={product.status} />
+                      </td>
+                      <td className="px-10 py-7 text-right">
+                        <div className="flex items-center justify-end gap-2">
+                          <button className="p-3 text-text/20 hover:text-primary transition-colors">
+                            <ShoppingBag size={18} />
+                          </button>
+                          <button className="p-3 text-text/20 hover:text-text transition-colors">
+                            <MoreVertical size={18} />
+                          </button>
+                        </div>
+                      </td>
+                    </motion.tr>
+                  ))}
+                </AnimatePresence>
               </tbody>
             </table>
-
-            {/* Mobile List */}
-            <div className="lg:hidden divide-y divide-text/5">
-              {visibleProducts.map((product) => (
-                <div
-                  key={product.name}
-                  onClick={() => setSelectedProduct(product)}
-                  className={`p-6 space-y-4 active:bg-background/20 transition-colors ${
-                    selectedProduct?.name === product.name ? 'bg-background/10' : ''
-                  }`}
-                >
-                  <div className="flex justify-between items-start">
-                    <div className="flex items-center gap-3">
-                      <div className="h-8 w-1 rounded-full bg-primary" />
-                      <div>
-                        <p className="font-bold text-text text-sm">{product.name}</p>
-                        <p className="text-[10px] uppercase tracking-widest font-bold text-text-muted">{product.category}</p>
-                      </div>
-                    </div>
-                    <StatusBadge status={product.status} />
-                  </div>
-                  <div className="flex justify-between items-end">
-                    <div>
-                      <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1">Stock</p>
-                      <p className="text-sm font-bold text-text">{product.stock}</p>
-                    </div>
-                    <button className={`text-[10px] font-black uppercase tracking-widest transition-colors ${product.status === 'Out of Stock' ? 'text-red-500' : 'text-primary'}`}>
-                      {product.action}
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="sticky top-32">
-          <ProductDetailPanel product={selectedProduct} onClose={() => setSelectedProduct(null)} />
-        </div>
+        {/* ─── Detail Panel ─── */}
+        <AnimatePresence mode="wait">
+          {selectedProduct && (
+            <motion.div 
+              key={selectedProduct.id}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              className="sticky top-32"
+            >
+              <GlassCard className="p-0 overflow-hidden border-none shadow-2xl shadow-text/10 relative">
+                <button 
+                  onClick={() => setSelectedProduct(null)}
+                  className="absolute top-6 right-6 z-10 p-2 bg-text/5 hover:bg-text/10 rounded-full transition-colors xl:hidden"
+                >
+                  <X size={16} className="text-text/40" />
+                </button>
+                <ProductDetailPanel product={selectedProduct} onClose={() => setSelectedProduct(null)} />
+              </GlassCard>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
-    </div>
+      
+      <style dangerouslySetInnerHTML={{ __html: `
+        .serif { font-family: "Playfair Display", serif; }
+        .shadow-premium { box-shadow: 0 20px 80px -20px rgba(0,0,0,0.06); }
+      ` }} />
+    </motion.div>
   );
 };
 
