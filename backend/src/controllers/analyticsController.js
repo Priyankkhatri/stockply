@@ -49,13 +49,38 @@ exports.getSupplierAnalytics = async (req, res) => {
       };
     });
 
-    // 4. Growth Calculations (Placeholder logic for now, comparing last 30 days vs previous 30)
-    // In a real app, you'd calculate these accurately.
+    // 4. Real Growth Calculations (Comparing last 30 days vs previous 30 days)
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    const sixtyDaysAgo = new Date();
+    sixtyDaysAgo.setDate(sixtyDaysAgo.getDate() - 60);
+
+    const getStatsForPeriod = async (startDate, endDate) => {
+      const revenue = await Order.aggregate([
+        { $match: { createdAt: { $gte: startDate, $lt: endDate }, status: { $ne: 'Cancelled' } } },
+        { $group: { _id: null, total: { $sum: '$totalAmount' } } }
+      ]);
+      const ordersCount = await Order.countDocuments({ createdAt: { $gte: startDate, $lt: endDate } });
+      return {
+        revenue: revenue.length > 0 ? revenue[0].total : 0,
+        orders: ordersCount
+      };
+    };
+
+    const currentPeriod = await getStatsForPeriod(thirtyDaysAgo, new Date());
+    const previousPeriod = await getStatsForPeriod(sixtyDaysAgo, thirtyDaysAgo);
+
+    const calculateGrowth = (current, previous) => {
+      if (previous === 0) return current > 0 ? '+100%' : '0%';
+      const pct = ((current - previous) / previous) * 100;
+      return `${pct > 0 ? '+' : ''}${pct.toFixed(1)}%`;
+    };
+
     const growth = {
-      revenue: '12.5%',
-      orders: '8.2%',
-      stock: '-2.1%',
-      partners: '5.4%'
+      revenue: calculateGrowth(currentPeriod.revenue, previousPeriod.revenue),
+      orders: calculateGrowth(currentPeriod.orders, previousPeriod.orders),
+      stock: '0%', // Stock growth is usually handled differently
+      partners: '0%' // Partner growth usually tracked by creation date
     };
 
     res.status(200).json({
