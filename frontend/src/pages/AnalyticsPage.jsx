@@ -36,7 +36,11 @@ const AnalyticsPage = () => {
   return (
     <div className="mx-auto max-w-[1600px] px-6 py-8">
       <PageHeader
-        title="Performance Analytics"
+        title={
+          <>
+            Performance <span className="text-primary italic font-normal serif">Analytics.</span>
+          </>
+        }
         subtitle="Real-time visibility into stock health, procurement pressure, and spend trends."
         breadcrumbs={['Dashboard', 'Analytics']}
         actions={
@@ -54,10 +58,10 @@ const AnalyticsPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
           >
-            <GlassCard className="h-[220px] flex flex-col justify-between group">
+            <GlassCard className="h-[190px] flex flex-col justify-between group">
               <div className="flex items-start justify-between">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-50 text-primary shadow-inner-soft transition-transform duration-500 group-hover:scale-110">
-                  <stat.icon size={26} strokeWidth={2.5} />
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-50 text-primary shadow-inner-soft transition-transform duration-500 group-hover:scale-110">
+                  <stat.icon size={22} strokeWidth={2.5} />
                 </div>
                 {stat.up !== null && (
                   <div
@@ -89,7 +93,7 @@ const AnalyticsPage = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4 }}
         >
-          <GlassCard className="h-[500px] flex flex-col overflow-hidden p-0" hover={false}>
+          <GlassCard className="h-[440px] flex flex-col overflow-hidden p-0" hover={false}>
             <div className="flex items-center justify-between border-b border-text/5 bg-white/50 px-10 py-8">
               <div>
                 <h3 className="text-xl font-display font-bold text-text">Inventory Flux</h3>
@@ -151,7 +155,7 @@ const AnalyticsPage = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5 }}
           >
-            <GlassCard className="flex h-[240px] items-center gap-6">
+            <GlassCard className="flex h-[210px] items-center gap-6">
               <div className="h-full w-1/2">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
@@ -191,7 +195,7 @@ const AnalyticsPage = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.6 }}
           >
-            <GlassCard className="relative flex h-[235px] flex-col justify-between overflow-hidden border-accent-emerald/10 bg-accent-emerald/5">
+            <GlassCard className="relative flex h-[210px] flex-col justify-between overflow-hidden border-accent-emerald/10 bg-accent-emerald/5">
               <div className="absolute -right-0 top-0 -mr-16 -mt-16 h-32 w-32 blur-3xl bg-accent-emerald/10" />
               <div className="relative z-10">
                 <div className="mb-4 flex items-center gap-3">

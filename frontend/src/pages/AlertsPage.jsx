@@ -316,10 +316,6 @@ export default function AlertsPage() {
         )}
       </div>
 
-      <style dangerouslySetInnerHTML={{ __html: `
-        .serif { font-family: "Playfair Display", serif; }
-        .shadow-premium { box-shadow: 0 20px 80px -20px rgba(0,0,0,0.06); }
-      ` }} />
     </motion.div>
   );
 }
