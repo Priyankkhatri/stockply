@@ -27,16 +27,16 @@ const LandingPage = () => {
   }, []);
 
   const navLinks = [
-    { label: 'Intelligence', href: '#features' },
-    { label: 'Ecosystem', href: '#ecosystem' },
-    { label: 'Philosophy', href: '#philosophy' },
+    { label: 'Features', href: '#features' },
+    { label: 'Network', href: '#ecosystem' },
+    { label: 'Vision', href: '#philosophy' },
   ];
 
   return (
     <div className="min-h-screen bg-[#FDFCFB] font-sans overflow-x-hidden selection:bg-primary/20 selection:text-primary">
       <SEOHead
-        title="Stockply — The Digital Atelier for Supply Chain Mastery"
-        description="Stockply transforms complex logistics into a curated inventory experience. Real-time tracking, artisanal analytics, and seamless fulfillment for the modern retail world."
+        title="Stockply — Advanced Supply Chain & Inventory Management"
+        description="Stockply simplifies complex logistics with a high-performance inventory management platform. Real-time tracking, actionable analytics, and seamless fulfillment for the modern retail ecosystem."
         path="/"
       />
 
@@ -103,12 +103,12 @@ const LandingPage = () => {
               </motion.div>
               
               <motion.h1 variants={fadeUp} className="text-6xl md:text-8xl font-bold text-text tracking-[-0.05em] leading-[0.9] lg:max-w-xl">
-                Master the <br />
-                <span className="text-primary italic font-normal serif">Flow.</span>
+                Scale Your <br />
+                <span className="text-primary italic font-normal serif">Supply Chain.</span>
               </motion.h1>
               
               <motion.p variants={fadeUp} className="text-xl text-text/50 max-w-lg leading-relaxed font-medium">
-                Stockply refines the chaos of global logistics into a curated digital experience. Built for those who value precision as much as performance.
+                Stockply simplifies complex logistics with a high-performance inventory management platform. Built for businesses that value speed, precision, and efficiency.
               </motion.p>
               
               <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center gap-8 pt-4">
@@ -181,11 +181,11 @@ const LandingPage = () => {
         <div className="max-w-[1400px] mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-start">
             <div className="lg:col-span-5 sticky top-48">
-              <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary mb-10">Intelligence</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary mb-10">Advanced Features</p>
               <h2 className="text-5xl md:text-7xl font-bold text-text tracking-tighter leading-[0.95] mb-12">
-                Designed for <br />
-                the 1% of <br />
-                <span className="text-text/20">Supply Chains.</span>
+                Built for the <br />
+                Future of <br />
+                <span className="text-text/20">Retail Logistics.</span>
               </h2>
               <p className="text-lg text-text/50 font-medium leading-relaxed max-w-md">
                 We don't build features. We build experiences that empower decisions. Every interaction in Stockply is calibrated for absolute clarity.
@@ -207,9 +207,9 @@ const LandingPage = () => {
 
             <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-10">
               {[
-                { icon: Package, title: 'Artisanal Inventory', desc: 'A ledger system that feels like a handcrafted notebook. Track SKU movements with pinpoint accuracy and zero latency.' },
-                { icon: BarChart3, title: 'Curated Analytics', desc: 'Visual data that tells a story. We transform raw numbers into elegant charts that highlight opportunities instantly.' },
-                { icon: Shield, title: 'Ironclad Security', desc: 'Enterprise-grade protection with JWT-state management and role-based access that never compromises on speed.' },
+                { icon: Package, title: 'Smart Inventory', desc: 'A sophisticated ledger system for precision tracking. Monitor SKU movements with absolute accuracy and zero latency.' },
+                { icon: BarChart3, title: 'Actionable Insights', desc: 'Visual data that drives growth. We transform raw numbers into intuitive dashboards that highlight opportunities instantly.' },
+                { icon: Shield, title: 'Secure Infrastructure', desc: 'Enterprise-grade protection with JWT authentication and role-based access control built for performance.' },
                 { icon: Zap, title: 'Hyper-Fulfillment', desc: 'The fastest path from order to arrival. Automated routing that eliminates the bottlenecks of traditional logistics.' },
                 { icon: Users, title: 'Partner Network', desc: 'Connect your entire ecosystem. Manage suppliers and retailers through a unified portal built for synergy.' },
                 { icon: Globe, title: 'Global Backbone', desc: 'Cloud-native architecture that scales with your ambition. Consistent performance across any geography.' },
@@ -239,11 +239,11 @@ const LandingPage = () => {
         <div className="max-w-[1400px] mx-auto relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
             <div className="space-y-12">
-              <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary">The Scale</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary">Our Impact</p>
               <h2 className="text-5xl md:text-8xl font-bold tracking-tighter leading-[0.85]">
-                Empowering <br />
-                the New <br />
-                Artisans.
+                Driving <br />
+                Growth for <br />
+                Modern Retail.
               </h2>
               <div className="grid grid-cols-2 gap-16 pt-12">
                 {[
@@ -300,10 +300,10 @@ const LandingPage = () => {
       {/* ─── Philosophy: The Stockply Way ─── */}
       <section id="philosophy" className="py-48 px-8">
         <div className="max-w-[1400px] mx-auto text-center">
-          <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary mb-12">Philosophy</p>
+          <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary mb-12">Our Vision</p>
           <h2 className="text-6xl md:text-9xl font-bold text-text tracking-tighter leading-none mb-24 max-w-5xl mx-auto">
-            Supply chain <br />
-            <span className="text-text/10">is an art form.</span>
+            Efficiency <br />
+            <span className="text-text/10">at any scale.</span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16 text-left">
             {[
