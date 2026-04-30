@@ -11,42 +11,6 @@ import Logo from '../components/Logo';
 
 const fadeUp = { hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0 } };
 
-const FeatureCard = ({ icon: Icon, title, desc, color }) => (
-  <motion.div variants={fadeUp} className="group relative bg-white rounded-[32px] p-8 border border-text/5 shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden">
-    <div className={`absolute top-0 right-0 w-40 h-40 -mr-16 -mt-16 rounded-full opacity-[0.06] group-hover:scale-125 transition-transform duration-700 ${color}`} />
-    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 ${color} bg-opacity-10`}>
-      <Icon size={26} />
-    </div>
-    <h3 className="text-lg font-bold text-text mb-2">{title}</h3>
-    <p className="text-sm text-text/50 leading-relaxed">{desc}</p>
-  </motion.div>
-);
-
-const StatBlock = ({ value, label }) => {
-  const [displayed, setDisplayed] = useState(value);
-  const numericValue = parseInt(value.replace(/[^0-9]/g, ''));
-  
-  useEffect(() => {
-    if (isNaN(numericValue)) { setDisplayed(value); return; }
-    let current = 0;
-    const step = Math.max(1, Math.floor(numericValue / 40));
-    const suffix = value.replace(/[0-9]/g, '');
-    const timer = setInterval(() => {
-      current += step;
-      if (current >= numericValue) { setDisplayed(value); clearInterval(timer); }
-      else { setDisplayed(current + suffix); }
-    }, 30);
-    return () => clearInterval(timer);
-  }, []);
-
-  return (
-    <div className="text-center">
-      <p className="text-4xl lg:text-5xl font-black text-white tracking-tighter">{displayed}</p>
-      <p className="text-[10px] font-black uppercase tracking-[0.25em] text-white/30 mt-2">{label}</p>
-    </div>
-  );
-};
-
 const LandingPage = () => {
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -110,7 +74,6 @@ const LandingPage = () => {
             </div>
           </motion.div>
         )}
-      </nav>
       </nav>
 
       {/* ─── Hero ─── */}
@@ -238,208 +201,212 @@ const LandingPage = () => {
         </motion.div>
       </section>
 
-      {/* ─── Features ─── */}
-      <section id="features" className="py-24 px-6 lg:px-12 max-w-7xl mx-auto">
+      {/* ─── Features Section ─── */}
+      <section id="features" className="py-32 px-6 lg:px-12 max-w-7xl mx-auto relative overflow-hidden">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }}
           variants={{ visible: { transition: { staggerChildren: 0.1 } } }}>
-          <motion.div variants={fadeUp} className="text-center mb-16">
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary mb-4">Capabilities</p>
-            <h2 className="text-4xl lg:text-5xl font-black text-text tracking-tighter">Everything you need to scale.</h2>
-          </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <FeatureCard icon={Package} title="Smart Inventory" desc="Real-time stock tracking with automated low-stock alerts and intelligent categorisation." color="bg-teal-500 text-teal-500" />
-            <FeatureCard icon={BarChart3} title="Analytics Engine" desc="Visualize supply chain performance with data-driven dashboards and actionable insights." color="bg-blue-500 text-blue-500" />
-            <FeatureCard icon={Shield} title="Secure Auth" desc="JWT-powered authentication with role-based access for shop owners and suppliers." color="bg-purple-500 text-purple-500" />
-            <FeatureCard icon={Zap} title="Instant Fulfillment" desc="Manage the entire order lifecycle — from placement to delivery — in one unified interface." color="bg-amber-500 text-amber-500" />
-            <FeatureCard icon={Users} title="Partner Network" desc="Connect and manage your retail partners with trust metrics and geographic insights." color="bg-rose-500 text-rose-500" />
-            <FeatureCard icon={Globe} title="Cloud-Native" desc="Deployed on Vercel and Render with MongoDB Atlas for 99.9% uptime reliability." color="bg-emerald-500 text-emerald-500" />
+          
+          <div className="flex flex-col lg:flex-row items-end justify-between gap-8 mb-24">
+            <motion.div variants={fadeUp} className="max-w-2xl">
+              <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary mb-6">Capabilities</p>
+              <h2 className="text-4xl lg:text-6xl font-bold text-text tracking-[-0.03em] leading-tight">
+                Crafting tools for the <br />
+                <span className="text-text/20">modern supply chain.</span>
+              </h2>
+            </motion.div>
+            <motion.p variants={fadeUp} className="max-w-xs text-sm text-text/40 leading-relaxed font-medium mb-2">
+              Every feature is meticulously designed to provide maximum clarity with minimal friction.
+            </motion.p>
           </div>
-        </motion.div>
-      </section>
 
-      {/* ─── How It Works ─── */}
-      <section id="how" className="py-24 px-6 lg:px-12 max-w-7xl mx-auto">
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}
-          variants={{ visible: { transition: { staggerChildren: 0.15 } } }}>
-          <motion.div variants={fadeUp} className="text-center mb-16">
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary mb-4">Workflow</p>
-            <h2 className="text-4xl lg:text-5xl font-black text-text tracking-tighter">Three steps to clarity.</h2>
-          </motion.div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             {[
-              { step: '01', title: 'Sign Up', desc: 'Create your account as a Shop Owner or Supplier in seconds.', icon: Star },
-              { step: '02', title: 'Connect', desc: 'Link your inventory, partners, and logistics into one dashboard.', icon: Truck },
-              { step: '03', title: 'Scale', desc: 'Automate procurement, track orders, and grow with confidence.', icon: ChevronRight },
-            ].map((item) => (
-              <motion.div key={item.step} variants={fadeUp} className="relative bg-white rounded-[32px] p-10 border border-text/5 group hover:shadow-xl transition-all">
-                <span className="text-8xl font-black text-text/[0.03] absolute top-6 right-8 group-hover:text-primary/[0.06] transition-colors">{item.step}</span>
-                <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-6">
-                  <item.icon size={22} />
+              { icon: Package, title: "Smart Inventory", desc: "Real-time stock tracking with automated alerts and category intelligence." },
+              { icon: BarChart3, title: "Deep Analytics", desc: "Visualize supply chain performance with high-fidelity, actionable data." },
+              { icon: Shield, title: "Secure Trust", desc: "JWT-powered security with enterprise-grade role management." },
+              { icon: Zap, title: "Instant Flow", desc: "Fulfillment journeys that move as fast as your business does." },
+              { icon: Users, title: "Partner Studio", desc: "Manage your retail network with sophisticated partner metrics." },
+              { icon: Globe, title: "Global Cloud", desc: "Built on a world-class infrastructure for total reliability." },
+            ].map((f, i) => (
+              <motion.div key={f.title} variants={fadeUp} className="group space-y-6">
+                <div className="w-12 h-12 rounded-2xl bg-surface-muted border border-text/5 flex items-center justify-center text-text/40 group-hover:bg-primary/10 group-hover:text-primary group-hover:border-primary/20 transition-all duration-500">
+                  <f.icon size={20} />
                 </div>
-                <h3 className="text-xl font-bold text-text mb-2">{item.title}</h3>
-                <p className="text-sm text-text/50 leading-relaxed">{item.desc}</p>
+                <div className="space-y-3">
+                  <h3 className="text-lg font-bold text-text tracking-tight flex items-center gap-2">
+                    {f.title}
+                    <div className="w-1 h-1 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </h3>
+                  <p className="text-sm text-text/40 leading-relaxed font-medium">{f.desc}</p>
+                </div>
               </motion.div>
             ))}
           </div>
         </motion.div>
       </section>
 
-      {/* ─── Testimonials ─── */}
-      <section id="testimonials" className="py-24 px-6 lg:px-12 bg-white/50">
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}
-          variants={{ visible: { transition: { staggerChildren: 0.12 } } }}
-          className="max-w-7xl mx-auto">
-          <motion.div variants={fadeUp} className="text-center mb-16">
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary mb-4">Testimonials</p>
-            <h2 className="text-4xl lg:text-5xl font-black text-text tracking-tighter">Loved by supply chains everywhere.</h2>
-          </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* ─── How It Works Section ─── */}
+      <section id="how" className="py-32 px-6 bg-surface-muted/30">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-24">
+            <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary mb-6">The Journey</p>
+            <h2 className="text-4xl lg:text-6xl font-bold text-text tracking-[-0.03em]">Seamlessly connected.</h2>
+          </div>
+
+          <div className="space-y-24 relative">
+            {/* Vertical Line */}
+            <div className="absolute top-0 bottom-0 left-[2.45rem] md:left-1/2 w-px bg-text/5 -translate-x-1/2" />
+            
             {[
-              { name: 'Aarav Mehta', role: 'Shop Owner, Mumbai', quote: 'Stockply replaced three tools for us. Inventory, orders, and partner management — all in one beautiful interface.' },
-              { name: 'Priya Sharma', role: 'Supplier, Delhi', quote: 'The fulfillment dashboard is a game changer. I can track every order from placement to delivery in real-time.' },
-              { name: 'Rohan Patel', role: 'Operations Lead, Bangalore', quote: 'We reduced stock-outs by 40% in the first month. The low-stock alerts are incredibly accurate.' },
-            ].map((t, i) => (
-              <motion.div key={i} variants={fadeUp} className="bg-background rounded-[32px] p-8 border border-text/5 relative group hover:shadow-lg transition-all">
-                <div className="flex gap-1 mb-6">
-                  {[...Array(5)].map((_, s) => <Star key={s} size={14} className="text-primary fill-primary" />)}
+              { step: '01', title: 'Onboard your Hub', desc: 'Initialize your supply chain by connecting your shop or warehouse to the Stockply cloud.', icon: Globe },
+              { step: '02', title: 'Curate your Catalog', desc: 'Define your inventory with high-fidelity attributes and real-time stock intelligence.', icon: Package },
+              { step: '03', title: 'Sustain the Flow', desc: 'Enable intelligent fulfillment cycles that automatically balance your business.', icon: Zap },
+            ].map((s, i) => (
+              <motion.div key={s.step} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className={`flex flex-col md:flex-row gap-8 md:gap-24 items-start md:items-center ${i % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}>
+                <div className="w-full md:w-1/2 flex md:justify-end items-center gap-6">
+                  <div className={`hidden md:block w-full text-right space-y-2 ${i % 2 !== 0 ? 'hidden' : ''}`}>
+                    <h3 className="text-xl font-bold text-text">{s.title}</h3>
+                    <p className="text-xs text-text/40 font-medium leading-relaxed max-w-xs ml-auto">{s.desc}</p>
+                  </div>
+                  <div className="relative z-10">
+                    <div className="w-20 h-20 rounded-[2rem] bg-white border border-text/5 shadow-2xl flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                      <s.icon size={28} />
+                    </div>
+                    <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-text text-white text-[10px] font-bold flex items-center justify-center border-4 border-white">{s.step}</div>
+                  </div>
                 </div>
-                <p className="text-sm text-text/70 leading-relaxed mb-8 italic">"{t.quote}"</p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-black">{t.name.split(' ').map(n => n[0]).join('')}</div>
-                  <div>
-                    <p className="text-sm font-bold text-text">{t.name}</p>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-text/30">{t.role}</p>
+                <div className="w-full md:w-1/2 space-y-4 text-left">
+                  <div className="md:hidden space-y-2">
+                    <h3 className="text-xl font-bold text-text">{s.title}</h3>
+                    <p className="text-xs text-text/40 font-medium leading-relaxed">{s.desc}</p>
+                  </div>
+                  <div className={`hidden md:block space-y-2 ${i % 2 === 0 ? 'hidden' : ''}`}>
+                    <h3 className="text-xl font-bold text-text">{s.title}</h3>
+                    <p className="text-xs text-text/40 font-medium leading-relaxed max-w-xs">{s.desc}</p>
                   </div>
                 </div>
               </motion.div>
             ))}
           </div>
-        </motion.div>
-      </section>
-
-      {/* ─── Trusted By ─── */}
-      <section className="py-16 px-6 lg:px-12 border-y border-text/5">
-        <div className="max-w-7xl mx-auto text-center">
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-text/20 mb-8">Trusted by businesses across India</p>
-          <div className="flex flex-wrap items-center justify-center gap-12 opacity-30">
-            {['RetailMax', 'UrbanGoods', 'FreshMart', 'TechSupply', 'MetroWare'].map((brand) => (
-              <span key={brand} className="text-xl font-black text-text tracking-tighter">{brand}</span>
-            ))}
-          </div>
         </div>
       </section>
 
-      {/* ─── Stats Bar ─── */}
-      <section id="stats" className="mx-6 lg:mx-12 mb-24">
-        <div className="max-w-7xl mx-auto bg-text rounded-[40px] p-16 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-primary opacity-10 blur-[120px] -mr-48 -mt-48" />
-          <div className="relative z-10 grid grid-cols-2 lg:grid-cols-4 gap-12">
-            <StatBlock value="10K+" label="Products Tracked" />
-            <StatBlock value="500+" label="Active Users" />
-            <StatBlock value="99.9%" label="Uptime SLA" />
-            <StatBlock value="24/7" label="Support" />
-          </div>
-        </div>
-      </section>
-
-      {/* ─── FAQ ─── */}
-      <section className="py-24 px-6 lg:px-12 max-w-4xl mx-auto">
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}
-          variants={{ visible: { transition: { staggerChildren: 0.1 } } }}>
-          <motion.div variants={fadeUp} className="text-center mb-16">
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary mb-4">FAQ</p>
-            <h2 className="text-4xl lg:text-5xl font-black text-text tracking-tighter">Common questions.</h2>
-          </motion.div>
-          <div className="space-y-4">
-            {[
-              { q: 'Is Stockply free to use?', a: 'Yes! Stockply offers a free tier with all core features. Premium plans are available for high-volume businesses.' },
-              { q: 'Can I use it as both a shop and supplier?', a: 'Each account is tied to a single role for security. You can create separate accounts for each role.' },
-              { q: 'How is my data protected?', a: 'All data is encrypted in transit and at rest. We use JWT authentication and MongoDB Atlas with enterprise-grade security.' },
-              { q: 'Does it work on mobile?', a: 'Absolutely. Stockply is fully responsive and works beautifully on phones, tablets, and desktops.' },
-            ].map((faq, i) => (
-              <motion.details key={i} variants={fadeUp} className="group bg-white rounded-2xl border border-text/5 overflow-hidden hover:shadow-md transition-all">
-                <summary className="flex items-center justify-between cursor-pointer px-8 py-6 text-sm font-bold text-text list-none">
-                  {faq.q}
-                  <ChevronRight size={16} className="text-text/20 group-open:rotate-90 transition-transform" />
-                </summary>
-                <div className="px-8 pb-6 text-sm text-text/50 leading-relaxed">{faq.a}</div>
-              </motion.details>
-            ))}
-          </div>
-        </motion.div>
-      </section>
-
-      {/* ─── CTA ─── */}
-      <section className="py-24 px-6 lg:px-12">
-        <div className="max-w-5xl mx-auto relative bg-gradient-to-br from-primary to-primary-dark rounded-[48px] p-16 lg:p-20 text-center overflow-hidden">
-          <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -ml-32 -mt-32" />
-          <div className="absolute bottom-0 right-0 w-80 h-80 bg-black/10 rounded-full blur-3xl -mr-40 -mb-40" />
-          <div className="relative z-10">
-            <h2 className="text-4xl lg:text-5xl font-black text-white tracking-tighter mb-6">
-              Ready to transform your<br />supply chain?
-            </h2>
-            <p className="text-white/60 mb-10 text-lg max-w-xl mx-auto">Join hundreds of businesses already using Stockply to streamline their operations.</p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <button onClick={() => navigate('/login')} className="group px-12 py-5 bg-white text-primary font-black text-xs uppercase tracking-widest rounded-2xl shadow-xl hover:shadow-2xl transition-all inline-flex items-center gap-3">
-                Get Started Free <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button onClick={() => navigate('/login')} className="px-12 py-5 border-2 border-white/20 text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-white/10 transition-all">
-                Log In
-              </button>
+      {/* ─── Testimonials ─── */}
+      <section id="testimonials" className="py-32 px-6 lg:px-12 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+          <div className="lg:col-span-4">
+            <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary mb-6">Voices</p>
+            <h2 className="text-4xl font-bold text-text tracking-tight mb-8">Trusted by India's finest retail artisans.</h2>
+            <div className="flex -space-x-4">
+              {[1, 2, 3, 4].map(i => (
+                <div key={i} className="w-12 h-12 rounded-full border-4 border-white bg-surface-muted flex items-center justify-center text-[10px] font-bold text-text/20">U{i}</div>
+              ))}
+              <div className="w-12 h-12 rounded-full border-4 border-white bg-primary text-white flex items-center justify-center text-[10px] font-bold">+500</div>
             </div>
           </div>
+          <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+            {[
+              { name: "Rahul Sharma", role: "Wholesale Distributor", text: "Stockply has transformed how we manage our 12 warehouses. The clarity is unparalleled." },
+              { name: "Priya Patel", role: "Retail Shop Owner", text: "Finally, an inventory tool that feels premium and works even faster than I do." },
+            ].map((t, i) => (
+              <motion.div key={t.name} whileHover={{ y: -5 }} className="p-10 rounded-[40px] bg-white border border-text/5 shadow-sm hover:shadow-xl transition-all duration-500">
+                <div className="flex gap-1 mb-6 text-primary">
+                  {[1, 2, 3, 4, 5].map(s => <Star key={s} size={12} fill="currentColor" />)}
+                </div>
+                <p className="text-lg font-medium text-text italic serif leading-relaxed mb-8">"{t.text}"</p>
+                <div className="space-y-1">
+                  <p className="text-sm font-bold text-text">{t.name}</p>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-text/20">{t.role}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
-      </main>
+
+      {/* ─── Growth Section ─── */}
+      <section id="stats" className="py-32 px-6 bg-text text-white rounded-t-[60px] relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <div className="absolute top-0 left-0 w-full h-full" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+        </div>
+        
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 text-center lg:text-left">
+            {[
+              { l: 'Total Volume', v: '₹840Cr+' },
+              { l: 'Retail Partners', v: '12,400' },
+              { l: 'Cities Covered', v: '142' },
+              { l: 'Orders Daily', v: '45,000' },
+            ].map(s => (
+              <div key={s.l} className="space-y-2">
+                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/30">{s.l}</p>
+                <p className="text-4xl lg:text-5xl font-bold tracking-tight">{s.v}</p>
+              </div>
+            ))}
+          </div>
+          
+          <div className="mt-32 pt-32 border-t border-white/5 flex flex-col lg:flex-row items-center justify-between gap-12">
+            <div className="text-center lg:text-left space-y-4">
+              <h2 className="text-4xl lg:text-6xl font-bold tracking-tight">Ready to craft your flow?</h2>
+              <p className="text-lg text-white/40 max-w-xl">Join the elite network of supply chain professionals building the future of Indian retail.</p>
+            </div>
+            <button onClick={() => navigate('/login')} className="px-12 py-6 bg-primary text-white font-bold text-[11px] uppercase tracking-[0.2em] rounded-full hover:bg-white hover:text-text transition-all duration-500 shadow-2xl shadow-primary/20">
+              Create your account
+            </button>
+          </div>
+        </div>
+      </section>
 
       {/* ─── Footer ─── */}
-      <footer className="border-t border-text/5 bg-white/50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
-            <div className="col-span-2 md:col-span-1">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20">
-                  <Logo size={18} />
-                </div>
-                <span className="font-display font-black text-lg text-text tracking-tighter uppercase">Stockply</span>
-              </div>
-              <p className="text-xs text-text/40 leading-relaxed">The Digital Atelier for modern supply chain management.</p>
+      <footer className="bg-text text-white/40 py-24 px-6 border-t border-white/5">
+        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-12">
+          <div className="col-span-2 space-y-6">
+            <div className="flex items-center gap-2 text-white">
+              <Logo size={20} />
+              <span className="font-bold text-sm tracking-tight uppercase">Stockply</span>
             </div>
-            <div>
-              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-text/30 mb-4">Product</h4>
-              <div className="space-y-3">
-                <a href="#features" className="block text-sm text-text/50 hover:text-primary transition-colors">Features</a>
-                <a href="#how" className="block text-sm text-text/50 hover:text-primary transition-colors">How It Works</a>
-                <a href="#stats" className="block text-sm text-text/50 hover:text-primary transition-colors">Stats</a>
-              </div>
-            </div>
-            <div>
-              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-text/30 mb-4">Company</h4>
-              <div className="space-y-3">
-                <a href="#" className="block text-sm text-text/50 hover:text-primary transition-colors">About</a>
-                <a href="#" className="block text-sm text-text/50 hover:text-primary transition-colors">Careers</a>
-                <a href="#" className="block text-sm text-text/50 hover:text-primary transition-colors">Blog</a>
-              </div>
-            </div>
-            <div>
-              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-text/30 mb-4">Connect</h4>
-              <div className="space-y-3">
-                <a href="https://github.com/Priyankkhatri/stockply" target="_blank" className="block text-sm text-text/50 hover:text-primary transition-colors">GitHub</a>
-                <a href="#" className="block text-sm text-text/50 hover:text-primary transition-colors">Twitter</a>
-                <a href="#" className="block text-sm text-text/50 hover:text-primary transition-colors">LinkedIn</a>
-              </div>
+            <p className="text-xs leading-relaxed max-w-xs font-medium">
+              The Digital Atelier for modern supply chains. Beautifully simple, powerfully connected.
+            </p>
+          </div>
+          
+          <div className="space-y-6">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white">Platform</p>
+            <ul className="space-y-4 text-[11px] font-medium">
+              <li><a href="#features" className="hover:text-primary transition-colors">Features</a></li>
+              <li><a href="#how" className="hover:text-primary transition-colors">Journey</a></li>
+              <li><a href="#" className="hover:text-primary transition-colors">Integrations</a></li>
+            </ul>
+          </div>
+          
+          <div className="space-y-6">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white">Resources</p>
+            <ul className="space-y-4 text-[11px] font-medium">
+              <li><a href="#" className="hover:text-primary transition-colors">Documentation</a></li>
+              <li><a href="#" className="hover:text-primary transition-colors">API Reference</a></li>
+              <li><a href="#" className="hover:text-primary transition-colors">Community</a></li>
+            </ul>
+          </div>
+          
+          <div className="col-span-2 space-y-6 lg:text-right">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white">Newsletter</p>
+            <div className="relative max-w-sm lg:ml-auto">
+              <input type="text" placeholder="atelier@stockply.com" className="w-full bg-white/5 border border-white/10 rounded-full px-6 py-4 text-xs font-medium focus:border-primary outline-none transition-all" />
+              <button className="absolute right-2 top-2 bottom-2 px-4 bg-primary text-white rounded-full"><ArrowRight size={14} /></button>
             </div>
           </div>
-          <div className="pt-8 border-t border-text/5 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-[10px] font-black uppercase tracking-widest text-text/20">© 2026 Stockply. Built by Priyank Khatri.</p>
-            <div className="flex gap-6">
-              <a href="#" className="text-[10px] font-bold text-text/20 hover:text-primary transition-colors">Terms</a>
-              <a href="#" className="text-[10px] font-bold text-text/20 hover:text-primary transition-colors">Privacy</a>
-              <a href="#" className="text-[10px] font-bold text-text/20 hover:text-primary transition-colors">Cookies</a>
-            </div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto mt-24 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-[10px] font-bold uppercase tracking-widest">&copy; 2025 Stockply Tech Pvt Ltd. All rights reserved.</p>
+          <div className="flex gap-8 text-[10px] font-bold uppercase tracking-widest">
+            <a href="#" className="hover:text-white transition-colors">Privacy</a>
+            <a href="#" className="hover:text-white transition-colors">Terms</a>
+            <a href="#" className="hover:text-white transition-colors">Security</a>
           </div>
         </div>
       </footer>
+      </main>
     </div>
   );
 };
