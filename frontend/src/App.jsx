@@ -1,4 +1,5 @@
 import React, { Suspense, lazy } from "react";
+import { motion } from "framer-motion";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { SupplierProvider } from "./context/SupplierContext";
 import DashboardLayout from "./layouts/DashboardLayout";
