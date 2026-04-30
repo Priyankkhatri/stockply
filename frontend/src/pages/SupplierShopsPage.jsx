@@ -95,7 +95,7 @@ const SupplierShopsPage = () => {
       <div className="flex h-[80vh] items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-          <p className="text-xs font-black uppercase tracking-widest text-text/40">Syncing Network Directory...</p>
+          <p className="text-xs font-black uppercase tracking-widest text-text/60">Syncing Network Directory...</p>
         </div>
       </div>
     );
@@ -118,10 +118,10 @@ const SupplierShopsPage = () => {
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-            <span className="text-[10px] font-black text-text/30 uppercase tracking-[0.3em]">Supplier / Shops</span>
+            <span className="text-[10px] font-black text-text/50 uppercase tracking-[0.3em]">Supplier / Shops</span>
           </div>
           <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">Retail <span className="text-primary italic font-normal serif">Partners.</span></h1>
-          <p className="text-text/40 text-sm font-medium">Manage your connected shop network, order volume, geography, and trust signals.</p>
+          <p className="text-text/60 text-sm font-medium">Manage your connected shop network, order volume, geography, and trust signals.</p>
         </div>
         <PremiumButton onClick={() => setIsAddModalOpen(true)} icon={Plus}>
           Add partner
@@ -132,23 +132,23 @@ const SupplierShopsPage = () => {
       <motion.div variants={rowAnim}>
         <GlassCard className="p-6 mb-8 flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between" hover={false}>
           <div className="relative w-full max-w-2xl group">
-            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-text/20 group-focus-within:text-primary transition-colors" size={18} />
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-text/40 group-focus-within:text-primary transition-colors" size={18} />
             <input
               value={searchTerm}
               onChange={(event) => setSearchTerm(event.target.value)}
               type="text"
               placeholder="Find a partner by name, category, or city..."
-              className="w-full rounded-2xl border border-transparent bg-background/50 py-4 pl-14 pr-6 text-sm font-bold text-text placeholder:text-text/30 focus:border-primary/20 focus:bg-white focus:outline-none transition-all"
+              className="w-full rounded-2xl border border-transparent bg-background/50 py-4 pl-14 pr-6 text-sm font-bold text-text placeholder:text-text/50 focus:border-primary/20 focus:bg-white focus:outline-none transition-all"
             />
           </div>
 
           <div className="flex items-center gap-3 flex-shrink-0">
-            <button className="flex items-center gap-3 rounded-2xl border border-text/5 bg-white/80 px-5 py-4 text-[10px] font-black uppercase tracking-widest text-text/50 transition-all hover:border-primary/20 hover:text-text">
+            <button className="flex items-center gap-3 rounded-2xl border border-text/5 bg-white/80 px-5 py-4 text-[10px] font-black uppercase tracking-widest text-text/60 transition-all hover:border-primary/20 hover:text-text">
               <Tag size={14} className="text-primary" />
               Categories
               <ChevronDown size={14} />
             </button>
-            <button className="rounded-2xl border border-text/5 bg-white/80 p-4 text-text/30 transition-all hover:text-primary hover:border-primary/20">
+            <button className="rounded-2xl border border-text/5 bg-white/80 p-4 text-text/50 transition-all hover:text-primary hover:border-primary/20">
               <Filter size={18} />
             </button>
           </div>
@@ -163,7 +163,7 @@ const SupplierShopsPage = () => {
             className={`rounded-full border px-5 py-2.5 text-xs font-black uppercase tracking-[0.2em] transition-all ${
               activeFilter === filter
                 ? 'border-primary/20 bg-primary/10 text-primary shadow-sm'
-                : 'border-text/5 bg-white text-text/40 hover:border-primary/20 hover:text-primary'
+                : 'border-text/5 bg-white text-text/60 hover:border-primary/20 hover:text-primary'
             }`}
           >
             {filter}
@@ -178,12 +178,12 @@ const SupplierShopsPage = () => {
             <table className="w-full border-collapse text-left">
               <thead>
                 <tr className="border-b border-[#F0E5D8] bg-[#FAF5F0]/80">
-                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Partner Identity</th>
-                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Industry</th>
-                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Geography</th>
-                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Financials</th>
-                  <th className="px-10 py-6 text-center text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Trust Metric</th>
-                  <th className="px-10 py-6 text-center text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Status</th>
+                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/50">Partner Identity</th>
+                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/50">Industry</th>
+                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/50">Geography</th>
+                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/50">Financials</th>
+                  <th className="px-10 py-6 text-center text-[10px] font-black uppercase tracking-[0.2em] text-text/50">Trust Metric</th>
+                  <th className="px-10 py-6 text-center text-[10px] font-black uppercase tracking-[0.2em] text-text/50">Status</th>
                   <th className="px-10 py-6 text-right text-[10px] font-black uppercase tracking-[0.2em] text-text/30" />
                 </tr>
               </thead>
@@ -203,7 +203,7 @@ const SupplierShopsPage = () => {
                           </div>
                           <div>
                             <span className="block text-base font-bold text-text transition-colors group-hover:text-primary">{shop.name}</span>
-                            <span className="mt-1 block text-[10px] font-black uppercase tracking-widest text-text/30">Partner since {new Date(shop.createdAt).getFullYear() || 2024}</span>
+                            <span className="mt-1 block text-[10px] font-black uppercase tracking-widest text-text/50">Partner since {new Date(shop.createdAt).getFullYear() || 2024}</span>
                           </div>
                         </div>
                       </td>
@@ -220,7 +220,7 @@ const SupplierShopsPage = () => {
                       </td>
                       <td className="px-10 py-8">
                         <p className="text-sm font-black tracking-tight text-text">{shop.revenue || 'Rs. 0'}</p>
-                        <p className="text-[10px] font-bold tracking-widest text-text/30">{shop.totalOrders || 0} Orders</p>
+                        <p className="text-[10px] font-bold tracking-widest text-text/50">{shop.totalOrders || 0} Orders</p>
                       </td>
                       <td className="px-10 py-8 text-center">
                         <span className={`rounded-full border px-4 py-1 text-[9px] font-black uppercase tracking-widest ${behaviorStyles[shop.behavior] || behaviorStyles['On-time']}`}>
@@ -248,14 +248,14 @@ const SupplierShopsPage = () => {
           </div>
 
           <div className="flex items-center justify-between border-t border-text/5 bg-[#FAF5F0]/40 px-10 py-8">
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text/20">
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text/40">
               Showing <span className="font-black text-text">{visibleShops.length}</span> of <span className="font-black text-text">{partners.length}</span> partners
             </p>
             <div className="flex items-center gap-4">
-              <button className="flex h-12 w-12 items-center justify-center rounded-2xl border border-text/5 bg-white/50 text-text/20 transition-all hover:bg-white hover:text-primary hover:shadow-md">
+              <button className="flex h-12 w-12 items-center justify-center rounded-2xl border border-text/5 bg-white/50 text-text/40 transition-all hover:bg-white hover:text-primary hover:shadow-md">
                 <ChevronLeft size={20} />
               </button>
-              <button className="flex h-12 w-12 items-center justify-center rounded-2xl border border-text/5 bg-white text-text/20 shadow-sm transition-all hover:text-primary hover:shadow-md">
+              <button className="flex h-12 w-12 items-center justify-center rounded-2xl border border-text/5 bg-white text-text/40 shadow-sm transition-all hover:text-primary hover:shadow-md">
                 <ChevronRight size={20} />
               </button>
             </div>
@@ -281,7 +281,7 @@ const SupplierShopsPage = () => {
                   </div>
                   <div>
                     <h3 className="text-sm font-bold text-text group-hover:text-primary transition-colors">{shop.name}</h3>
-                    <p className="text-[9px] font-black uppercase tracking-widest text-text/30">Partner since {new Date(shop.createdAt).getFullYear() || 2024}</p>
+                    <p className="text-[9px] font-black uppercase tracking-widest text-text/50">Partner since {new Date(shop.createdAt).getFullYear() || 2024}</p>
                   </div>
                 </div>
                 <div className={`flex flex-col items-end gap-1`}>
@@ -294,22 +294,22 @@ const SupplierShopsPage = () => {
 
               <div className="grid grid-cols-2 gap-4 mb-6">
                 <div className="space-y-1">
-                  <p className="text-[8px] font-black uppercase tracking-widest text-text/30">Industry</p>
+                  <p className="text-[8px] font-black uppercase tracking-widest text-text/50">Industry</p>
                   <p className="text-xs font-bold text-text">{shop.category || 'General'}</p>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-[8px] font-black uppercase tracking-widest text-text/30">Financials</p>
+                  <p className="text-[8px] font-black uppercase tracking-widest text-text/50">Financials</p>
                   <p className="text-xs font-black text-text">{shop.revenue || 'Rs. 0'}</p>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-[8px] font-black uppercase tracking-widest text-text/30">Location</p>
+                  <p className="text-[8px] font-black uppercase tracking-widest text-text/50">Location</p>
                   <p className="flex items-center gap-1 text-xs font-bold text-text">
                     <MapPin size={10} className="text-primary" />
                     {shop.location}
                   </p>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-[8px] font-black uppercase tracking-widest text-text/30">Total Orders</p>
+                  <p className="text-[8px] font-black uppercase tracking-widest text-text/50">Total Orders</p>
                   <p className="text-xs font-bold text-text">{shop.totalOrders || 0} Units</p>
                 </div>
               </div>
@@ -329,7 +329,7 @@ const SupplierShopsPage = () => {
               <Search size={24} />
             </div>
             <h3 className="text-base font-bold text-text">No partners found</h3>
-            <p className="text-xs text-text/40 mt-2">Try refining your search or filter criteria.</p>
+            <p className="text-xs text-text/60 mt-2">Try refining your search or filter criteria.</p>
           </div>
         )}
       </div>
@@ -347,7 +347,7 @@ const SupplierShopsPage = () => {
           </div>
           <div className="flex flex-wrap items-center gap-8">
             <div>
-              <p className="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-white/30">Network Reach</p>
+              <p className="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-white/50">Network Reach</p>
               <p className="flex items-center gap-3 text-4xl font-black text-white">
                 12 Cities <ArrowUpRight className="text-primary" size={24} />
               </p>
@@ -379,11 +379,11 @@ const SupplierShopsPage = () => {
               <div className="p-10 border-b border-text/5 flex justify-between items-center bg-background/50">
                 <div>
                   <h2 className="text-2xl font-display font-bold text-text">New Partner Entry</h2>
-                  <p className="text-[10px] font-black text-text/30 uppercase tracking-[0.2em] mt-1">Establishing shop connection</p>
+                  <p className="text-[10px] font-black text-text/50 uppercase tracking-[0.2em] mt-1">Establishing shop connection</p>
                 </div>
                 <button 
                   onClick={() => setIsAddModalOpen(false)}
-                  className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-text/20 hover:text-text transition-colors shadow-sm"
+                  className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-text/40 hover:text-text transition-colors shadow-sm"
                 >
                   <Plus className="rotate-45" size={20} />
                 </button>
@@ -391,7 +391,7 @@ const SupplierShopsPage = () => {
 
               <div className="p-10 grid grid-cols-2 gap-8">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-text/40 uppercase tracking-widest ml-1">Shop Name</label>
+                  <label className="text-[10px] font-black text-text/60 uppercase tracking-widest ml-1">Shop Name</label>
                   <input 
                     type="text" 
                     placeholder="e.g. Urban Boutique" 
@@ -401,7 +401,7 @@ const SupplierShopsPage = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-text/40 uppercase tracking-widest ml-1">Geography (City)</label>
+                  <label className="text-[10px] font-black text-text/60 uppercase tracking-widest ml-1">Geography (City)</label>
                   <input 
                     type="text" 
                     placeholder="e.g. Mumbai, IND" 
@@ -411,7 +411,7 @@ const SupplierShopsPage = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-text/40 uppercase tracking-widest ml-1">Industry Category</label>
+                  <label className="text-[10px] font-black text-text/60 uppercase tracking-widest ml-1">Industry Category</label>
                   <select 
                     value={newPartner.category}
                     onChange={(e) => setNewPartner({...newPartner, category: e.target.value})}
@@ -424,7 +424,7 @@ const SupplierShopsPage = () => {
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-text/40 uppercase tracking-widest ml-1">Initial Status</label>
+                  <label className="text-[10px] font-black text-text/60 uppercase tracking-widest ml-1">Initial Status</label>
                   <select 
                     value={newPartner.status}
                     onChange={(e) => setNewPartner({...newPartner, status: e.target.value})}
@@ -439,7 +439,7 @@ const SupplierShopsPage = () => {
               <div className="px-10 py-8 bg-background/50 border-t border-text/5 flex items-center justify-end gap-4">
                 <button 
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-8 py-4 text-xs font-black uppercase tracking-widest text-text/40 hover:text-text transition-colors"
+                  className="px-8 py-4 text-xs font-black uppercase tracking-widest text-text/60 hover:text-text transition-colors"
                 >
                   Discard
                 </button>
