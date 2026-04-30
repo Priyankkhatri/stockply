@@ -31,9 +31,10 @@ const OrderCard = ({ order }) => {
   };
 
   return (
+  return (
     <div className="mb-4 overflow-hidden rounded-[28px] border border-text/5 bg-white shadow-sm hover:shadow-md transition-shadow">
       <div
-        className="flex cursor-pointer items-center justify-between px-8 py-6 hover:bg-background/10"
+        className="flex flex-col md:flex-row cursor-pointer items-stretch md:items-center justify-between px-6 lg:px-8 py-5 lg:py-6 hover:bg-background/10 gap-4"
         onClick={() => setIsExpanded((value) => !value)}
       >
         <div className="flex-1">
@@ -43,32 +44,38 @@ const OrderCard = ({ order }) => {
           </p>
         </div>
 
-        <div className="flex-1 text-center">
-          <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-text/30">Amount</p>
-          <p className="font-bold text-text">Rs. {order.totalAmount?.toLocaleString()}</p>
+        <div className="flex flex-row md:flex-col items-center md:items-center justify-between md:justify-center flex-1 border-y md:border-y-0 border-text/5 py-3 md:py-0">
+          <div className="text-left md:text-center">
+            <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-text/30">Amount</p>
+            <p className="font-bold text-text text-sm lg:text-base">Rs. {order.totalAmount?.toLocaleString()}</p>
+          </div>
+          <div className="md:hidden">
+             <StatusBadge status={order.status} />
+          </div>
         </div>
 
-        <div className="flex-1 text-center">
+        <div className="hidden md:block flex-1 text-center">
           <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-text/30">Status</p>
-          <span className={`rounded-lg border px-2 py-0.5 text-[10px] font-bold ${statusClasses[order.status]}`}>
-            {order.status}
-          </span>
+          <StatusBadge status={order.status} />
         </div>
 
-        <div className="flex-1 text-center">
+        <div className="flex-1 text-left md:text-center">
           <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-text/30">Created At</p>
           <p className="text-xs font-bold text-text/60">
             {new Date(order.createdAt).toLocaleDateString()}
           </p>
         </div>
 
-        <div className="flex items-center gap-4 border-l border-text/5 pl-4">
-          <button className="text-text/20 transition-colors hover:text-text">
-            {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-          </button>
-          <button className="text-text/20 transition-colors hover:text-text">
-            <MoreVertical size={20} />
-          </button>
+        <div className="flex items-center justify-between md:justify-end gap-4 border-t md:border-t-0 md:border-l border-text/5 pt-4 md:pt-0 md:pl-4">
+          <p className="md:hidden text-[10px] font-bold text-text/30 uppercase tracking-widest">Tap to view details</p>
+          <div className="flex items-center gap-4">
+            <button className="text-text/20 transition-colors hover:text-text">
+              {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+            </button>
+            <button className="text-text/20 transition-colors hover:text-text">
+              <MoreVertical size={20} />
+            </button>
+          </div>
         </div>
       </div>
 

@@ -7,7 +7,7 @@ const ProductDetailPanel = ({ product, onClose }) => {
   if (!product) return null;
 
   return (
-    <div className="fixed inset-y-0 right-0 w-[400px] bg-white shadow-2xl z-50 flex flex-col border-l border-text/5 animate-in slide-in-from-right duration-300">
+    <div className="fixed inset-y-0 right-0 w-full sm:w-[400px] bg-white shadow-2xl z-50 flex flex-col border-l border-text/5 animate-in slide-in-from-right duration-300">
       {/* Header */}
       <div className="p-6 border-b border-text/5 flex justify-between items-start">
         <div>

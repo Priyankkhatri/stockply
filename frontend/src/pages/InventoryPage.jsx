@@ -110,8 +110,9 @@ const InventoryPage = () => {
             </div>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+          <div className="overflow-x-auto lg:overflow-x-visible">
+            {/* Desktop Table */}
+            <table className="hidden lg:table w-full text-left border-collapse">
               <thead>
                 <tr className="bg-background/40 border-b border-text/5">
                   <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text-muted">Product</th>
@@ -155,6 +156,39 @@ const InventoryPage = () => {
                 ))}
               </tbody>
             </table>
+
+            {/* Mobile List */}
+            <div className="lg:hidden divide-y divide-text/5">
+              {visibleProducts.map((product) => (
+                <div
+                  key={product.name}
+                  onClick={() => setSelectedProduct(product)}
+                  className={`p-6 space-y-4 active:bg-background/20 transition-colors ${
+                    selectedProduct?.name === product.name ? 'bg-background/10' : ''
+                  }`}
+                >
+                  <div className="flex justify-between items-start">
+                    <div className="flex items-center gap-3">
+                      <div className="h-8 w-1 rounded-full bg-primary" />
+                      <div>
+                        <p className="font-bold text-text text-sm">{product.name}</p>
+                        <p className="text-[10px] uppercase tracking-widest font-bold text-text-muted">{product.category}</p>
+                      </div>
+                    </div>
+                    <StatusBadge status={product.status} />
+                  </div>
+                  <div className="flex justify-between items-end">
+                    <div>
+                      <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1">Stock</p>
+                      <p className="text-sm font-bold text-text">{product.stock}</p>
+                    </div>
+                    <button className={`text-[10px] font-black uppercase tracking-widest transition-colors ${product.status === 'Out of Stock' ? 'text-red-500' : 'text-primary'}`}>
+                      {product.action}
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 

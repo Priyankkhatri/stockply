@@ -11,19 +11,17 @@ import {
   Plus,
   HelpCircle,
   LogOut,
+  X,
 } from 'lucide-react';
 
-const Sidebar = ({ role }) => {
+const Sidebar = ({ role, isOpen, onClose }) => {
     const location = useLocation();
     const navigate = useNavigate();
   
     const handleLogout = () => {
-      // Clear session data if any (e.g., localStorage.clear())
       localStorage.removeItem('userRole');
       localStorage.removeItem('isLoggedIn');
       localStorage.removeItem('authToken');
-      
-      // Navigate to login page
       navigate('/login');
     };
 
@@ -47,8 +45,12 @@ const Sidebar = ({ role }) => {
         ];
   
     return (
-      <aside className="w-80 h-screen bg-white/50 backdrop-blur-xl flex flex-col sticky top-0 border-r border-text/5 z-20">
-        <div className="p-10">
+      <aside className={`
+        fixed inset-y-0 left-0 z-50 w-80 bg-white/80 backdrop-blur-2xl border-r border-text/5 flex flex-col transition-transform duration-500 ease-in-out
+        lg:translate-x-0 lg:static lg:h-screen lg:sticky lg:top-0
+        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+      `}>
+        <div className="p-10 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 bg-primary rounded-3xl flex items-center justify-center text-white shadow-xl shadow-primary/20">
               <Logo size={28} />
@@ -58,6 +60,13 @@ const Sidebar = ({ role }) => {
               <span className="text-[10px] font-black text-text/30 tracking-[0.3em] uppercase mt-0.5 opacity-60">Digital Atelier</span>
             </div>
           </div>
+          
+          <button 
+            onClick={onClose}
+            className="lg:hidden p-2 text-text/40 hover:text-text transition-colors"
+          >
+            <X size={24} />
+          </button>
         </div>
 
         <nav className="flex-1 px-8 py-4 overflow-y-auto custom-scrollbar">
@@ -69,6 +78,9 @@ const Sidebar = ({ role }) => {
                   key={link.name}
                   to={link.path}
                   end
+                  onClick={() => {
+                    if (window.innerWidth < 1024) onClose();
+                  }}
                   className={`group relative flex items-center gap-4 px-6 py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition-all ${
                     isActive
                        ? 'text-text'

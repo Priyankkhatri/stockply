@@ -6,6 +6,7 @@ import {
   Users, ShoppingCart, Truck, Star, ChevronRight, Globe,
   Menu, X
 } from 'lucide-react';
+import { AnimatePresence } from 'framer-motion';
 import SEOHead from '../components/SEOHead';
 import Logo from '../components/Logo';
 
@@ -62,18 +63,26 @@ const LandingPage = () => {
         </div>
         
         {/* Mobile menu overlay */}
-        {mobileOpen && (
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="md:hidden mt-4 mx-auto max-w-sm bg-white/95 backdrop-blur-xl rounded-3xl border border-text/10 p-6 shadow-2xl pointer-events-auto">
-            <div className="flex flex-col gap-4">
-              {navLinks.map(l => (
-                <a key={l.label} href={l.href} onClick={() => setMobileOpen(false)} className="px-4 py-2 text-xs font-bold uppercase tracking-widest text-text/65 hover:text-primary transition-all">{l.label}</a>
-              ))}
-              <div className="pt-4 border-t border-text/5">
-                <button onClick={() => { navigate('/login'); setMobileOpen(false); }} className="w-full py-4 bg-text text-white text-xs font-bold uppercase tracking-widest rounded-2xl shadow-lg">Get Started</button>
+        <AnimatePresence>
+          {mobileOpen && (
+            <motion.div 
+              initial={{ opacity: 0, y: -20 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              exit={{ opacity: 0, y: -20 }}
+              className="md:hidden mt-4 mx-auto max-w-sm bg-white/95 backdrop-blur-xl rounded-3xl border border-text/10 p-6 shadow-2xl pointer-events-auto"
+            >
+              <div className="flex flex-col gap-4">
+                {navLinks.map(l => (
+                  <a key={l.label} href={l.href} onClick={() => setMobileOpen(false)} className="px-4 py-2 text-xs font-bold uppercase tracking-widest text-text/65 hover:text-primary transition-all">{l.label}</a>
+                ))}
+                <div className="pt-4 border-t border-text/5 flex flex-col gap-3">
+                  <button onClick={() => { navigate('/login'); setMobileOpen(false); }} className="w-full py-4 text-xs font-bold uppercase tracking-widest text-text/60">Log In</button>
+                  <button onClick={() => { navigate('/login'); setMobileOpen(false); }} className="w-full py-4 bg-text text-white text-xs font-bold uppercase tracking-widest rounded-2xl shadow-lg">Get Started</button>
+                </div>
               </div>
-            </div>
-          </motion.div>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
       {/* ─── Hero ─── */}
@@ -88,7 +97,7 @@ const LandingPage = () => {
             Digital Atelier for Supply Chains
           </motion.div>
           
-          <motion.h1 variants={fadeUp} className="text-6xl md:text-8xl font-bold text-text tracking-[-0.04em] leading-[0.95] mb-8">
+          <motion.h1 variants={fadeUp} className="text-5xl md:text-7xl lg:text-8xl font-bold text-text tracking-[-0.04em] leading-[0.95] mb-8">
             Clarity in every<br />
             <span className="italic font-normal serif text-primary/80">movement.</span>
           </motion.h1>
