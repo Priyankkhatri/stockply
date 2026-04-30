@@ -94,10 +94,10 @@ export default function CompareSuppliersPage() {
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-            <span className="text-[10px] font-black text-text/30 uppercase tracking-[0.3em]">Supplier Intelligence</span>
+            <span className="text-[10px] font-black text-text/60 uppercase tracking-[0.3em]">Supplier Intelligence</span>
           </div>
           <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">Compare <span className="text-primary italic font-normal serif">Suppliers.</span></h1>
-          <p className="text-text/40 text-sm font-medium">Analyze supplier intelligence and fulfill restock requirements with confidence.</p>
+          <p className="text-text/60 text-sm font-medium">Analyze supplier intelligence and fulfill restock requirements with confidence.</p>
         </div>
 
         <div className="flex items-center gap-4">
@@ -125,10 +125,10 @@ export default function CompareSuppliersPage() {
                         Pharmacy
                       </span>
                     </div>
-                    <div className="flex items-center gap-2 text-xs text-text/40 font-bold">
+                    <div className="flex items-center gap-2 text-xs text-text/60 font-bold">
                       <ShieldCheck size={16} className="text-primary" strokeWidth={2.5} />
                       <span>
-                        Current Stock: <span className="text-rose-500 font-black">12 units left</span>
+                        Current Stock: <span className="text-rose-600 font-black">12 units left</span>
                       </span>
                     </div>
                   </div>
@@ -152,14 +152,14 @@ export default function CompareSuppliersPage() {
           <motion.div variants={itemVariants}>
             <section className="flex flex-col md:flex-row items-stretch md:items-center justify-between bg-white rounded-[24px] border border-text/5 shadow-premium p-3 gap-4">
               <div className="flex items-center gap-4 lg:gap-6 px-4">
-                <span className="text-[10px] lg:text-xs font-black text-text/30 uppercase tracking-[0.2em]">Sort:</span>
+                <span className="text-[10px] lg:text-xs font-black text-text/60 uppercase tracking-[0.2em]">Sort:</span>
                 <div className="flex gap-2">
                   {["Price", "Delivery", "Rating"].map((sort) => (
                     <button
                       key={sort}
                       type="button"
                       className={`text-[11px] font-bold px-5 py-2.5 rounded-xl transition-all duration-300 ${
-                        sort === "Price" ? "bg-text/5 text-text shadow-sm border border-text/5" : "text-text/40 hover:bg-background hover:text-text border border-transparent"
+                        sort === "Price" ? "bg-text/5 text-text shadow-sm border border-text/10" : "text-text/50 hover:bg-background hover:text-text border border-transparent"
                       }`}
                     >
                       {sort}
@@ -168,13 +168,13 @@ export default function CompareSuppliersPage() {
                 </div>
               </div>
               <div className="flex items-center gap-6 px-4 py-3 md:py-0 border-t md:border-t-0 md:border-l border-text/5">
-                <label className="flex items-center gap-2.5 text-[11px] font-bold text-text/40 cursor-pointer hover:text-text group transition-colors">
+                <label className="flex items-center gap-2.5 text-[11px] font-bold text-text/60 cursor-pointer hover:text-text group transition-colors">
                   <div className="w-5 h-5 border-2 border-text/20 rounded-md bg-white group-hover:border-primary transition-colors flex items-center justify-center">
                     <CheckCircle2 size={12} className="text-primary opacity-0" />
                   </div>
                   Returnable
                 </label>
-                <label className="flex items-center gap-2.5 text-[11px] font-bold text-text/40 cursor-pointer hover:text-text group transition-colors">
+                <label className="flex items-center gap-2.5 text-[11px] font-bold text-text/60 cursor-pointer hover:text-text group transition-colors">
                   <div className="w-5 h-5 border-2 border-text/20 rounded-md bg-white group-hover:border-primary transition-colors flex items-center justify-center">
                     <CheckCircle2 size={12} className="text-primary opacity-0" />
                   </div>
@@ -186,7 +186,7 @@ export default function CompareSuppliersPage() {
 
           <motion.div variants={itemVariants} className="space-y-4">
             {/* Table Header - Desktop Only */}
-            <div className="hidden lg:grid grid-cols-6 px-8 py-2 text-[10px] font-black text-text/30 uppercase tracking-[0.2em]">
+            <div className="hidden lg:grid grid-cols-6 px-8 py-2 text-[10px] font-black text-text/60 uppercase tracking-[0.2em]">
               <span className="col-span-2">Supplier Profile</span>
               <span>Price/Unit</span>
               <span>Logistics</span>
@@ -210,17 +210,17 @@ export default function CompareSuppliersPage() {
                           {supplier.tag}
                         </span>
                       </div>
-                      <p className="text-[11px] text-text/40 font-bold">Capacity: <span className="text-text/70">{supplier.available}</span></p>
+                      <p className="text-[11px] text-text/60 font-bold">Capacity: <span className="text-text/80">{supplier.available}</span></p>
                     </div>
                   </div>
 
                   <div className="flex lg:block items-baseline gap-3 w-full lg:w-auto py-3 lg:py-0 border-y lg:border-0 border-text/5 lg:border-none">
-                    <span className="lg:hidden text-[10px] font-black text-text/30 uppercase tracking-widest mr-auto">Price:</span>
+                    <span className="lg:hidden text-[10px] font-black text-text/60 uppercase tracking-widest mr-auto">Price:</span>
                     <div className="text-2xl font-bold text-text tracking-tight">{supplier.price}</div>
                   </div>
 
                   <div className="flex items-center gap-2.5 text-sm font-bold text-text/70 w-full lg:w-auto bg-background/50 lg:bg-transparent p-3 lg:p-0 rounded-xl">
-                    <span className="lg:hidden text-[10px] font-black text-text/30 uppercase tracking-widest mr-auto">Shipping:</span>
+                    <span className="lg:hidden text-[10px] font-black text-text/60 uppercase tracking-widest mr-auto">Shipping:</span>
                     <div className="w-10 h-10 rounded-xl bg-white lg:bg-background flex items-center justify-center border border-text/5 lg:border-transparent shadow-sm lg:shadow-none">
                       <supplier.deliveryIcon size={18} className="text-primary" strokeWidth={2.5} />
                     </div>
@@ -240,7 +240,7 @@ export default function CompareSuppliersPage() {
                           </div>
                         ))}
                       </div>
-                      <div className="text-[9px] font-black text-text/30 uppercase tracking-[0.2em]">{supplier.moq}</div>
+                      <div className="text-[9px] font-black text-text/60 uppercase tracking-[0.2em]">{supplier.moq}</div>
                     </div>
 
                     <button
@@ -285,7 +285,7 @@ export default function CompareSuppliersPage() {
                   </div>
                   <div>
                     <p className="text-sm font-black text-text tracking-tight">Saves ₹ 120</p>
-                    <p className="text-[11px] font-bold text-text/40 mt-0.5">vs. Rapid Care premium</p>
+                    <p className="text-[11px] font-bold text-text/60 mt-0.5">vs. Rapid Care premium</p>
                   </div>
                 </div>
                 
@@ -295,7 +295,7 @@ export default function CompareSuppliersPage() {
                   </div>
                   <div>
                     <p className="text-sm font-black text-text tracking-tight">48hr Dispatch</p>
-                    <p className="text-[11px] font-bold text-text/40 mt-0.5">Matches SLA requirements</p>
+                    <p className="text-[11px] font-bold text-text/60 mt-0.5">Matches SLA requirements</p>
                   </div>
                 </div>
               </div>
