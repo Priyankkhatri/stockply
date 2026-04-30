@@ -3,9 +3,13 @@
 
 @layer base {
   :root {
-    --background: #FFF8F0;
-    --text: #4B2E2B;
+    --background: #FFFBF7;
+    --text: #1A1211;
     --primary: #C08552;
+    --primary-dark: #A66B3F;
+    --primary-light: #E0C1A8;
+    --surface: #FFFFFF;
+    --surface-muted: #F8F3EE;
   }
 }
 
