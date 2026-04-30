@@ -27,21 +27,21 @@ const AlertCard = ({ type, category, name, value, threshold, color }) => {
   };
 
   return (
-    <GlassCard className="flex flex-col justify-between h-[240px] group">
+    <GlassCard className="flex flex-col justify-between h-[220px] p-6 group">
       <div className="flex justify-between items-start">
         <div className="space-y-1">
-          <p className={`text-[10px] font-black uppercase tracking-widest ${color === 'rose' ? 'text-rose-500' : 'text-orange-400'}`}>{category}</p>
-          <p className="font-bold text-text text-xl">{name}</p>
+          <p className={`text-[9px] font-black uppercase tracking-widest ${color === 'rose' ? 'text-rose-500' : 'text-orange-400'}`}>{category}</p>
+          <h4 className="font-bold text-text text-lg tracking-tight">{name}</h4>
         </div>
-        <div className={`px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-tighter border ${colors[color]}`}>
+        <div className={`px-2 py-0.5 rounded-lg text-[8px] font-black uppercase tracking-tighter border ${colors[color]}`}>
           {type}
         </div>
       </div>
       <div className="mt-4">
-        <p className="text-4xl font-bold text-text mb-1">{value}</p>
-        <p className="text-[10px] font-black text-text/40 uppercase tracking-widest">{threshold}</p>
+        <p className="text-3xl font-bold text-text mb-1 tracking-tighter">{value}</p>
+        <p className="text-[9px] font-black text-text/40 uppercase tracking-widest">{threshold}</p>
       </div>
-      <PremiumButton variant={color === 'rose' ? 'primary' : 'secondary'} size="sm" className="w-full mt-4">
+      <PremiumButton variant={color === 'rose' ? 'primary' : 'secondary'} size="sm" className="w-full mt-4 h-10 text-[10px]">
         {color === 'rose' ? 'Urgent Order' : 'Manage Stock'}
       </PremiumButton>
     </GlassCard>
@@ -63,19 +63,19 @@ const InventoryRow = ({ product, isEditing, onUpdateStock }) => {
           : 'hover:bg-background/40'
       }`}
     >
-      <td className="px-10 py-8">
-        <div className="flex items-center gap-5">
+      <td className="px-6 py-5">
+        <div className="flex items-center gap-4">
           <div className="relative">
-            <img src={product.img || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=100&auto=format&fit=crop'} alt={product.name} className="w-16 h-16 rounded-2xl object-cover border-2 border-white shadow-sm group-hover:scale-105 transition-transform duration-500" />
+            <img src={product.img || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=100&auto=format&fit=crop'} alt={product.name} className="w-12 h-12 rounded-xl object-cover border border-text/5 shadow-sm group-hover:scale-105 transition-transform duration-500" />
           </div>
           <div>
-            <p className="font-bold text-text text-lg mb-1 leading-tight">{product.name}</p>
-            <p className="text-[10px] text-text/30 font-black uppercase tracking-widest">SKU: {product.sku}</p>
+            <p className="font-bold text-text text-sm mb-0.5 leading-tight tracking-tight">{product.name}</p>
+            <p className="text-[9px] text-text/30 font-black uppercase tracking-widest">SKU: {product.sku}</p>
           </div>
         </div>
       </td>
-      <td className="px-10 py-8">
-        <span className={`px-3 py-1.5 rounded-xl text-[10px] font-black border uppercase tracking-widest ${
+      <td className="px-6 py-5">
+        <span className={`px-2.5 py-1 rounded-lg text-[9px] font-black border uppercase tracking-widest ${
           product.category === 'Fabric' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
           product.category === 'Leather' ? 'bg-orange-50 text-orange-600 border-orange-100' :
           'bg-blue-50 text-blue-600 border-blue-100'
@@ -83,34 +83,34 @@ const InventoryRow = ({ product, isEditing, onUpdateStock }) => {
           {product.category}
         </span>
       </td>
-      <td className="px-10 py-8">
-        <div className="flex flex-col gap-2">
-          <p className="text-sm font-bold text-text">{product.stock} <span className="text-[10px] text-text/40 font-medium uppercase ml-1">{product.unit || 'units'}</span></p>
-          <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+      <td className="px-6 py-5">
+        <div className="flex flex-col">
+          <p className="text-sm font-bold text-text tracking-tight">{product.stock} <span className="text-[9px] text-text/40 font-medium uppercase ml-1">{product.unit || 'units'}</span></p>
+          <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity mt-1">
             <input 
               type="number" 
               value={adjustmentValue}
               onChange={(e) => setAdjustmentValue(parseInt(e.target.value) || 0)}
-              className="w-12 px-2 py-1 bg-background border border-text/5 rounded-lg text-[10px] font-bold"
+              className="w-10 px-2 py-0.5 bg-background border border-text/5 rounded-md text-[10px] font-bold"
             />
-            <button onClick={() => onUpdateStock(product._id, adjustmentValue, 'IN')} className="p-1 text-emerald-600 hover:bg-emerald-50 rounded-md transition-colors">
-              <Plus size={14} />
+            <button onClick={() => onUpdateStock(product._id, adjustmentValue, 'IN')} className="p-0.5 text-emerald-600 hover:bg-emerald-50 rounded transition-colors">
+              <Plus size={12} />
             </button>
-            <button onClick={() => onUpdateStock(product._id, adjustmentValue, 'OUT')} className="p-1 text-rose-600 hover:bg-rose-50 rounded-md transition-colors">
-              <X size={14} />
+            <button onClick={() => onUpdateStock(product._id, adjustmentValue, 'OUT')} className="p-0.5 text-rose-600 hover:bg-rose-50 rounded transition-colors">
+              <X size={12} />
             </button>
           </div>
         </div>
       </td>
-      <td className="px-10 py-8">
-        <p className="text-sm font-bold text-text">Rs. {product.price}</p>
+      <td className="px-6 py-5">
+        <p className="text-sm font-bold text-text tracking-tight">Rs. {product.price}</p>
       </td>
-      <td className="px-10 py-8 text-sm font-bold text-text/40">{product.moq}</td>
-      <td className="px-10 py-8 text-sm font-bold text-text/40">{product.leadTime}</td>
-      <td className="px-10 py-8">
+      <td className="px-6 py-5 text-xs font-bold text-text/40">{product.moq}</td>
+      <td className="px-6 py-5 text-xs font-bold text-text/40">{product.leadTime}</td>
+      <td className="px-6 py-5">
         <StatusBadge status={product.status || 'In Stock'} />
       </td>
-      <td className="px-10 py-8 text-right">
+      <td className="px-6 py-5 text-right">
         <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <button className="p-2.5 text-text/40 hover:text-text transition-colors">
             <MoreHorizontal size={20} />
@@ -191,21 +191,30 @@ export default function SupplierInventoryPage() {
 
   return (
     <div className="max-w-[1600px] mx-auto pb-10 px-10 pt-10">
-      <PageHeader 
-        title="Inventory Ledger"
-        subtitle="Manage and track your raw materials with real-time visibility and precision."
-        breadcrumbs={['Inventory', 'Ledger']}
-        actions={
-          <>
-            <PremiumButton variant="secondary" icon={Upload}>
-              Export Data
-            </PremiumButton>
-            <PremiumButton icon={Plus} onClick={() => setIsAddModalOpen(true)}>
-              Add Product
-            </PremiumButton>
-          </>
-        }
-      />
+      <div className="mb-12 flex flex-col md:flex-row items-start md:items-end justify-between gap-8">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+            <span className="text-[10px] font-black text-text/30 uppercase tracking-[0.3em]">Stock Intelligence</span>
+          </div>
+          <h1 className="text-4xl font-bold text-text tracking-tighter leading-none">The <span className="text-primary italic font-normal serif">Ledger.</span></h1>
+          <p className="text-text/40 text-xs font-medium">Precision tracking for your entire inventory ecosystem.</p>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <button className="px-6 py-4 bg-white border border-text/5 rounded-[20px] text-[10px] font-black uppercase tracking-widest text-text/60 hover:text-text transition-all flex items-center gap-3">
+            <Upload size={16} /> Export
+          </button>
+          <motion.button 
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => setIsAddModalOpen(true)}
+            className="px-8 py-4 bg-text text-white rounded-[22px] text-[10px] font-black uppercase tracking-widest hover:bg-primary transition-all flex items-center gap-3 shadow-2xl shadow-text/10"
+          >
+            <Plus size={18} /> Register SKU
+          </motion.button>
+        </div>
+      </div>
 
       <AnimatePresence>
         {isAddModalOpen && (
@@ -318,15 +327,15 @@ export default function SupplierInventoryPage() {
         
         <div className="flex items-center justify-between mb-8 relative z-10">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-rose-500 shadow-sm border border-rose-100">
-              <AlertTriangle size={24} strokeWidth={2.5} />
+            <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-rose-500 shadow-sm border border-rose-100">
+              <AlertTriangle size={22} strokeWidth={2.5} />
             </div>
             <div>
-              <h3 className="font-bold text-text text-2xl">Critical Alerts</h3>
+              <h3 className="font-bold text-text text-xl tracking-tight">Critical Alerts</h3>
               <p className="text-[10px] font-black text-text/40 uppercase tracking-[0.2em]">{summary?.lowStockCount + summary?.outOfStockCount || 0} items require immediate replenishment</p>
             </div>
           </div>
-          <button className="text-xs font-bold text-primary hover:text-primary/80 transition-colors">
+          <button className="text-[10px] font-black uppercase tracking-widest text-primary hover:text-primary/80 transition-colors">
             View All
           </button>
         </div>
@@ -348,17 +357,17 @@ export default function SupplierInventoryPage() {
             threshold="Resupply in 2 days" 
             color="orange"
           />
-          <GlassCard className="flex flex-col justify-between h-[240px]">
+          <GlassCard className="flex flex-col justify-between h-[220px] p-6">
             <div>
-              <div className="w-14 h-14 bg-background rounded-3xl flex items-center justify-center mb-5 text-text/20">
-                <Truck size={28} />
+              <div className="w-12 h-12 bg-background rounded-2xl flex items-center justify-center mb-4 text-text/20">
+                <Truck size={24} />
               </div>
-              <h4 className="font-bold text-text text-lg mb-2">Delayed Shipment</h4>
-              <p className="text-xs text-text/40 font-medium max-w-[220px]">
+              <h4 className="font-bold text-text text-lg tracking-tight mb-1">Delayed Shipment</h4>
+              <p className="text-[11px] text-text/40 font-medium max-w-[220px] leading-relaxed">
                 PO #4029 from Linen Co. is overdue by 3 days.
               </p>
             </div>
-            <PremiumButton variant="ghost" size="sm" className="border border-text/10 uppercase tracking-widest mt-6">
+            <PremiumButton variant="ghost" size="sm" className="border border-text/10 uppercase tracking-widest mt-4 h-10 text-[10px]">
               Track ID
             </PremiumButton>
           </GlassCard>
@@ -462,19 +471,19 @@ export default function SupplierInventoryPage() {
         <div className="hidden lg:block overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="text-[10px] font-black text-text/30 uppercase tracking-[0.25em] bg-background/30">
-                <th className="px-10 py-6">
+              <tr className="text-[9px] font-black text-text/30 uppercase tracking-[0.25em] bg-background/30">
+                <th className="px-6 py-5">
                   <div className="flex items-center gap-2 cursor-pointer hover:text-text transition-colors">
                     Product <ArrowUpDown size={12} />
                   </div>
                 </th>
-                <th className="px-10 py-6">Category</th>
-                <th className="px-10 py-6">Stock Level</th>
-                <th className="px-10 py-6">Price</th>
-                <th className="px-10 py-6">MOQ</th>
-                <th className="px-10 py-6">Lead Time</th>
-                <th className="px-10 py-6">Status</th>
-                <th className="px-10 py-6 text-right">Actions</th>
+                <th className="px-6 py-5">Category</th>
+                <th className="px-6 py-5">Stock Level</th>
+                <th className="px-6 py-5">Price</th>
+                <th className="px-6 py-5">MOQ</th>
+                <th className="px-6 py-5">Lead Time</th>
+                <th className="px-6 py-5">Status</th>
+                <th className="px-6 py-5 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-text/5">
@@ -516,7 +525,6 @@ export default function SupplierInventoryPage() {
             </button>
           </div>
         </div>
-      </section>
     </div>
   );
 }
