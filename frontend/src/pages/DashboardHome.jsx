@@ -93,10 +93,10 @@ const DashboardHome = () => {
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            <span className="text-[10px] font-black text-text/30 uppercase tracking-[0.3em]">System Overview</span>
+            <span className="text-[10px] font-black text-text/60 uppercase tracking-[0.3em]">System Overview</span>
           </div>
           <h1 className="text-4xl font-bold text-text tracking-tighter leading-none">Command <span className="text-primary italic font-normal serif">Center.</span></h1>
-          <p className="text-text/40 text-xs font-medium">Real-time intelligence for your retail ecosystem.</p>
+          <p className="text-text/60 text-xs font-medium">Real-time intelligence for your retail ecosystem.</p>
         </div>
         
         <div className="flex items-center gap-4">
@@ -115,8 +115,8 @@ const DashboardHome = () => {
           <motion.div key={stat.label} variants={itemAnim}>
             <GlassCard className="p-8 group hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500">
               <div className="flex justify-between items-start mb-6">
-                <p className="text-[10px] font-black text-text/30 uppercase tracking-[0.2em]">{stat.label}</p>
-                {stat.icon && <stat.icon size={16} className="text-text/20 group-hover:text-primary transition-colors" />}
+                <p className="text-[10px] font-black text-text/60 uppercase tracking-[0.2em]">{stat.label}</p>
+                {stat.icon && <stat.icon size={16} className="text-text/40 group-hover:text-primary transition-colors" />}
               </div>
               <div className="flex items-end justify-between">
                 <span className={`text-2xl font-bold text-text tracking-tighter ${stat.colorClass || ''}`}>{stat.value}</span>
@@ -140,7 +140,7 @@ const DashboardHome = () => {
                 </div>
                 <div>
                   <h2 className="text-xl font-bold text-text tracking-tight">Critical Inventory</h2>
-                  <p className="text-[10px] font-bold text-text/30 uppercase tracking-widest mt-0.5">Urgent Procurement Required</p>
+                  <p className="text-[10px] font-bold text-text/60 uppercase tracking-widest mt-0.5">Urgent Procurement Required</p>
                 </div>
               </div>
               <button
@@ -156,11 +156,11 @@ const DashboardHome = () => {
                 <table className="w-full text-left">
                   <thead>
                     <tr className="bg-text/[0.02] border-b border-text/5">
-                      <th className="px-8 py-5 text-[10px] font-black text-text/30 uppercase tracking-[0.2em]">Asset Details</th>
-                      <th className="px-8 py-5 text-[10px] font-black text-text/30 uppercase tracking-[0.2em]">Inventory</th>
-                      <th className="px-8 py-5 text-[10px] font-black text-text/30 uppercase tracking-[0.2em]">Valuation</th>
-                      <th className="px-8 py-5 text-[10px] font-black text-text/30 uppercase tracking-[0.2em]">Forecast</th>
-                      <th className="px-8 py-5 text-[10px] font-black text-text/30 uppercase tracking-[0.2em] text-right">Actions</th>
+                      <th className="px-8 py-5 text-[10px] font-black text-text/50 uppercase tracking-[0.2em]">Asset Details</th>
+                      <th className="px-8 py-5 text-[10px] font-black text-text/50 uppercase tracking-[0.2em]">Inventory</th>
+                      <th className="px-8 py-5 text-[10px] font-black text-text/50 uppercase tracking-[0.2em]">Valuation</th>
+                      <th className="px-8 py-5 text-[10px] font-black text-text/50 uppercase tracking-[0.2em]">Forecast</th>
+                      <th className="px-8 py-5 text-[10px] font-black text-text/50 uppercase tracking-[0.2em] text-right">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-text/5">
@@ -169,7 +169,7 @@ const DashboardHome = () => {
                         <td className="px-8 py-6">
                           <div className="flex flex-col">
                             <span className="font-bold text-text text-sm tracking-tight">{item.name}</span>
-                            <span className="text-[10px] font-medium text-text/40 mt-1 uppercase tracking-widest">{item.category} • {item.supplier}</span>
+                            <span className="text-[10px] font-bold text-text/60 mt-1 uppercase tracking-widest">{item.category} • {item.supplier}</span>
                           </div>
                         </td>
                         <td className="px-8 py-6">
@@ -190,7 +190,7 @@ const DashboardHome = () => {
                         <td className="px-8 py-6 text-right">
                           <button
                             onClick={() => navigate('/dashboard/inventory/compare')}
-                            className="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-text/5 text-text/20 hover:text-primary hover:border-primary/20 transition-all"
+                            className="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-text/10 text-text/40 hover:text-primary hover:border-primary/20 transition-all shadow-sm"
                           >
                             <ShoppingCart size={18} />
                           </button>
@@ -227,7 +227,10 @@ const DashboardHome = () => {
             <p className="text-sm font-medium leading-relaxed text-white/60 mb-8 italic">
               "Inventory velocity for <span className="text-white font-bold">Pain Relief</span> categories has increased by 24% this week. Consider adjusting reorder points for Paracetamol."
             </p>
-            <button className="w-full py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest text-white transition-all flex items-center justify-center gap-3">
+            <button 
+              className="w-full py-4 bg-white/10 hover:bg-white/20 border border-white/20 rounded-2xl text-[10px] font-black uppercase tracking-widest text-white transition-all flex items-center justify-center gap-3"
+              onClick={() => alert("Optimization logic initiated. Analyzing supplier mix...")}
+            >
               Apply Optimization <Sparkles size={14} />
             </button>
           </GlassCard>
@@ -236,10 +239,10 @@ const DashboardHome = () => {
           <GlassCard className="p-8">
             <div className="flex justify-between items-start mb-8">
               <div>
-                <p className="text-[10px] font-black text-text/30 uppercase tracking-[0.2em] mb-2">Ecosystem Health</p>
+                <p className="text-[10px] font-black text-text/60 uppercase tracking-[0.2em] mb-2">Ecosystem Health</p>
                 <div className="flex items-center gap-3">
                   <span className="text-4xl font-bold text-text tracking-tighter">82%</span>
-                  <span className="text-teal-500 text-[10px] font-black bg-teal-50 px-2 py-1 rounded-full">OPTIMAL</span>
+                  <span className="text-teal-600 text-[10px] font-black bg-teal-50 px-2 py-1 rounded-full border border-teal-100">OPTIMAL</span>
                 </div>
               </div>
               <div className="relative w-16 h-16">
@@ -251,7 +254,7 @@ const DashboardHome = () => {
             </div>
             <div className="space-y-4">
               <div className="flex justify-between items-center text-[10px] font-bold">
-                <span className="text-text/40 uppercase tracking-widest">Service Level</span>
+                <span className="text-text/60 uppercase tracking-widest">Service Level</span>
                 <span className="text-text">94.2%</span>
               </div>
               <div className="w-full h-1.5 bg-text/5 rounded-full overflow-hidden">
