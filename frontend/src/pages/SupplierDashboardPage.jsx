@@ -70,7 +70,7 @@ const SupplierDashboardPage = () => {
 
   const activeOrdersCount = stats.activeOrders ?? orders.filter(o => o.status === 'Pending' || o.status === 'Processing').length;
 
-  if (loading || !analytics) {
+  if (loading) {
     return (
       <div className="flex h-[80vh] items-center justify-center">
         <div className="flex flex-col items-center gap-4">

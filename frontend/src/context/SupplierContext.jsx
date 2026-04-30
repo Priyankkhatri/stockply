@@ -44,6 +44,8 @@ export const SupplierProvider = ({ children }) => {
     } catch (err) {
       console.error('Error fetching initial data:', err);
       setError(err.message);
+      // Ensure we don't stay in loading state if one of the secondary endpoints fails
+      if (!analytics) setAnalytics({});
     } finally {
       setLoading(false);
     }
