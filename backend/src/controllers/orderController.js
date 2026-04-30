@@ -1,9 +1,13 @@
 const Order = require('../models/Order');
 
-// Get all orders
+// Get all orders (filtered by role)
 exports.getOrders = async (req, res) => {
   try {
-    const orders = await Order.find().sort({ createdAt: -1 });
+    const filter = req.user.role === 'supplier' 
+      ? { supplierId: req.user.id } 
+      : { shopId: req.user.id };
+
+    const orders = await Order.find(filter).sort({ createdAt: -1 });
     res.status(200).json({
       status: 'success',
       results: orders.length,
@@ -22,6 +26,10 @@ exports.createOrder = async (req, res) => {
       const count = await Order.countDocuments();
       req.body.orderNumber = `ORD-${String(count + 1).padStart(4, '0')}`;
     }
+
+    // Assign shopId from current user
+    req.body.shopId = req.user.id;
+
     const order = await Order.create(req.body);
     res.status(201).json({
       status: 'success',
