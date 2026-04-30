@@ -230,7 +230,7 @@ const SupplierDashboardPage = () => {
                     ))
                   ) : (
                     <div className="py-20 text-center flex flex-col items-center">
-                      <div className="w-16 h-16 rounded-3xl bg-background flex items-center justify-center mb-6 text-text/40">
+                      <div className="w-16 h-16 rounded-3xl bg-background flex items-center justify-center mb-6 text-text/70">
                         <Clock size={32} strokeWidth={1.5} />
                       </div>
                       <p className="text-[11px] font-black text-text/70 uppercase tracking-widest">No Active Orders</p>
@@ -299,7 +299,7 @@ const SupplierDashboardPage = () => {
                             <p className="text-[10px] font-black text-rose-500/70 uppercase tracking-widest">{item.status}: {item.stock} units</p>
                           </div>
                         </div>
-                        <ChevronRight size={16} className="text-text/40 group-hover:text-primary transition-all" />
+                        <ChevronRight size={16} className="text-text/70 group-hover:text-primary transition-all" />
                       </div>
                     ))
                   ) : (

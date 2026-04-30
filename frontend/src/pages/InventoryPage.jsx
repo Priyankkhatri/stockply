@@ -54,7 +54,10 @@ const InventoryPage = () => {
         product.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
         product.code.toLowerCase().includes(searchTerm.toLowerCase());
 
-      const matchesStatus = activeStatus === 'All' || product.status === activeStatus;
+      const matchesStatus = 
+        activeStatus === 'All' || 
+        product.status === activeStatus || 
+        product.category === activeStatus;
       return matchesSearch && matchesStatus;
     });
   }, [searchTerm, activeStatus]);
@@ -122,16 +125,24 @@ const InventoryPage = () => {
       {/* ─── Controls & Filters ─── */}
       <motion.div variants={rowAnim} className="bg-white rounded-[32px] border border-text/5 p-8 mb-10 shadow-sm flex flex-col xl:flex-row gap-8 items-start xl:items-center justify-between">
         <div className="relative w-full max-w-2xl group">
-          <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-text/60 group-focus-within:text-primary transition-colors" size={20} />
+          <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-text/70 group-focus-within:text-primary transition-colors" size={20} />
           <input
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="SEARCH BY SKU, PRODUCT, OR SUPPLIER..."
-            className="w-full bg-background/50 border border-transparent rounded-[24px] py-5 pl-16 pr-6 text-[10px] font-black uppercase tracking-widest text-text placeholder:text-text/60 outline-none transition-all focus:bg-white focus:border-primary/20"
+            className="w-full bg-background/50 border border-transparent rounded-[24px] py-5 pl-16 pr-6 text-[10px] font-black uppercase tracking-widest text-text placeholder:text-text/70 outline-none transition-all focus:bg-white focus:border-primary/20"
           />
         </div>
 
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-4 items-center">
+          {!['All', 'In Stock', 'Low Stock', 'Out of Stock'].includes(activeStatus) && (
+            <div className="flex items-center gap-2 px-4 py-3 bg-primary/5 text-primary rounded-[16px] border border-primary/20">
+              <span className="text-[9px] font-black uppercase tracking-widest">{activeStatus}</span>
+              <button onClick={() => setActiveStatus('All')} className="p-1 hover:bg-primary/10 rounded-full transition-colors">
+                <X size={14} />
+              </button>
+            </div>
+          )}
           <div className="flex items-center p-1.5 bg-background rounded-[20px] border border-text/5">
             {['All', 'In Stock', 'Low Stock', 'Out of Stock'].map((status) => (
               <button
@@ -205,10 +216,10 @@ const InventoryPage = () => {
                       </td>
                       <td className="px-6 py-5 text-right">
                         <div className="flex items-center justify-end gap-2">
-                          <button className="p-3 text-text/60 hover:text-primary transition-colors">
+                          <button className="p-3 text-text/70 hover:text-primary transition-colors">
                             <ShoppingBag size={18} />
                           </button>
-                          <button className="p-3 text-text/60 hover:text-text transition-colors">
+                          <button className="p-3 text-text/70 hover:text-text transition-colors">
                             <MoreVertical size={18} />
                           </button>
                         </div>
@@ -253,7 +264,7 @@ const InventoryPage = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsAddModalOpen(false)}
-              className="absolute inset-0 bg-text/40 backdrop-blur-md"
+              className="absolute inset-0 bg-text/70 backdrop-blur-md"
             />
             <motion.div 
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -266,7 +277,7 @@ const InventoryPage = () => {
                   <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">Inventory Integration</span>
                   <h2 className="text-3xl font-bold text-text tracking-tighter italic serif">Asset Registration.</h2>
                 </div>
-                <button onClick={() => setIsAddModalOpen(false)} className="w-12 h-12 flex items-center justify-center rounded-2xl hover:bg-background transition-colors text-text/40">
+                <button onClick={() => setIsAddModalOpen(false)} className="w-12 h-12 flex items-center justify-center rounded-2xl hover:bg-background transition-colors text-text/70">
                   <X size={24} />
                 </button>
               </div>

@@ -108,7 +108,7 @@ const OrderDetailPanel = ({ order, onClose, onUpdateStatus }) => {
                 }`}>
                   {step.done ? <Check size={16} /> : <div className="w-1.5 h-1.5 rounded-full bg-text/10" />}
                 </div>
-                <span className={`mt-3 text-[8px] font-black uppercase tracking-widest ${step.done ? 'text-text' : 'text-text/30'}`}>{step.label}</span>
+                <span className={`mt-3 text-[8px] font-black uppercase tracking-widest ${step.done ? 'text-text' : 'text-text/70'}`}>{step.label}</span>
               </div>
             ))}
           </div>
@@ -125,7 +125,7 @@ const OrderDetailPanel = ({ order, onClose, onUpdateStatus }) => {
               {order.paymentStatus || 'Unpaid'}
             </span>
           </div>
-          <div className="pt-4 border-t border-[#F0E5D8] flex items-center justify-between text-[10px] font-bold text-text/50">
+          <div className="pt-4 border-t border-[#F0E5D8] flex items-center justify-between text-[10px] font-bold text-text/70">
             <span>Payment Method</span>
             <span className="text-text tracking-tight uppercase">Bank Transfer</span>
           </div>
@@ -134,7 +134,7 @@ const OrderDetailPanel = ({ order, onClose, onUpdateStatus }) => {
         {/* Items List */}
         <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <p className="text-[10px] font-black text-text/40 uppercase tracking-[0.2em]">Consignment Manifest</p>
+            <p className="text-[10px] font-black text-text/70 uppercase tracking-[0.2em]">Consignment Manifest</p>
             <span className="text-[10px] font-black text-primary uppercase tracking-widest bg-primary/10 px-2 py-0.5 rounded">
               {order.items?.length || 0} Products
             </span>
@@ -148,12 +148,12 @@ const OrderDetailPanel = ({ order, onClose, onUpdateStatus }) => {
                   </div>
                   <div>
                     <h4 className="font-bold text-text text-sm">{item.name}</h4>
-                    <p className="text-[9px] text-text/40 font-black uppercase tracking-widest mt-0.5">QTY: {item.quantity}</p>
+                    <p className="text-[9px] text-text/70 font-black uppercase tracking-widest mt-0.5">QTY: {item.quantity}</p>
                   </div>
                 </div>
                 <div className="text-right">
                   <p className="text-sm font-bold text-text tracking-tight">₹ {(item.price * item.quantity).toLocaleString()}</p>
-                  <p className="text-[9px] text-text/30 font-bold uppercase tracking-widest mt-0.5">₹ {item.price}/unit</p>
+                  <p className="text-[9px] text-text/70 font-bold uppercase tracking-widest mt-0.5">₹ {item.price}/unit</p>
                 </div>
               </div>
             ))}
@@ -162,17 +162,17 @@ const OrderDetailPanel = ({ order, onClose, onUpdateStatus }) => {
 
         {/* Logistics Details */}
         <div className="space-y-6">
-          <p className="text-[10px] font-black text-text/40 uppercase tracking-[0.2em]">Logistics Intelligence</p>
+          <p className="text-[10px] font-black text-text/70 uppercase tracking-[0.2em]">Logistics Intelligence</p>
           <div className="grid grid-cols-2 gap-4">
             <div className="p-5 rounded-2xl border border-text/5 bg-background/50">
-              <p className="text-[9px] font-black text-text/30 uppercase tracking-widest mb-2">Priority</p>
+              <p className="text-[9px] font-black text-text/70 uppercase tracking-widest mb-2">Priority</p>
               <div className="flex items-center gap-2">
                 <div className={`w-1.5 h-1.5 rounded-full ${order.priority === 'High' ? 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.5)]' : 'bg-primary'}`} />
                 <span className="text-xs font-bold text-text">{order.priority || 'Standard'}</span>
               </div>
             </div>
             <div className="p-5 rounded-2xl border border-text/5 bg-background/50">
-              <p className="text-[9px] font-black text-text/30 uppercase tracking-widest mb-2">Carrier Sync</p>
+              <p className="text-[9px] font-black text-text/70 uppercase tracking-widest mb-2">Carrier Sync</p>
               <span className="text-xs font-bold text-text">Safe Express</span>
             </div>
           </div>
@@ -260,14 +260,14 @@ const OrderRow = ({ order, isActive, onClick }) => {
           <Package size={18} />
         </div>
         <div>
-          <p className="text-[9px] font-black text-text/30 uppercase tracking-[0.2em] mb-0.5">{order.orderNumber}</p>
+          <p className="text-[9px] font-black text-text/70 uppercase tracking-[0.2em] mb-0.5">{order.orderNumber}</p>
           <h4 className="font-bold text-text text-sm transition-colors group-hover:text-primary">{order.shopName}</h4>
         </div>
       </div>
 
       <div className="flex-1 px-4">
-        <p className="text-[10px] text-text/40 font-black uppercase tracking-widest">{new Date(order.createdAt).toLocaleDateString()}</p>
-        <p className="text-[9px] text-text/30 font-bold uppercase tracking-widest mt-0.5">{order.items?.length || 0} Products • {order.items?.reduce((acc, curr) => acc + curr.quantity, 0) || 0} units</p>
+        <p className="text-[10px] text-text/70 font-black uppercase tracking-widest">{new Date(order.createdAt).toLocaleDateString()}</p>
+        <p className="text-[9px] text-text/70 font-bold uppercase tracking-widest mt-0.5">{order.items?.length || 0} Products • {order.items?.reduce((acc, curr) => acc + curr.quantity, 0) || 0} units</p>
       </div>
 
       <div className="flex-1 text-center">
@@ -330,7 +330,7 @@ export default function SupplierOrdersPage() {
             <div className="absolute inset-0 rounded-2xl border-4 border-primary/20 border-t-primary animate-spin" />
             <div className="absolute inset-0 flex items-center justify-center text-[10px] font-black italic serif text-primary">S.</div>
           </div>
-          <p className="text-[10px] font-black uppercase tracking-[0.4em] text-text/40 animate-pulse">Syncing Order Manifests...</p>
+          <p className="text-[10px] font-black uppercase tracking-[0.4em] text-text/70 animate-pulse">Syncing Order Manifests...</p>
         </div>
       </div>
     );
@@ -355,10 +355,10 @@ export default function SupplierOrdersPage() {
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(192,133,82,0.5)]" />
-            <span className="text-[10px] font-black text-text/40 uppercase tracking-[0.3em]">Supplier / Fulfillment Queue</span>
+            <span className="text-[10px] font-black text-text/70 uppercase tracking-[0.3em]">Supplier / Fulfillment Queue</span>
           </div>
           <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">Order <span className="text-primary italic font-normal serif">Logistics.</span></h1>
-          <p className="text-text/50 text-sm font-medium">Coordinate restock fulfillment and manage global retail partner requests.</p>
+          <p className="text-text/70 text-sm font-medium">Coordinate restock fulfillment and manage global retail partner requests.</p>
         </div>
 
         <div className="flex items-center gap-4">
@@ -389,7 +389,7 @@ export default function SupplierOrdersPage() {
                 className={`px-6 py-2.5 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all flex items-center gap-3 ${
                   activeTab === tab
                     ? 'bg-white text-text shadow-md shadow-text/5 border border-text/5'
-                    : 'text-text/40 hover:text-text hover:bg-white/30'
+                    : 'text-text/70 hover:text-text hover:bg-white/30'
                 }`}
               >
                 {tab}
@@ -404,7 +404,7 @@ export default function SupplierOrdersPage() {
 
           <div className="flex items-center gap-4 px-2 flex-1 max-w-md">
             <div className="relative w-full group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-text/30 group-focus-within:text-primary transition-colors" size={16} />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-text/70 group-focus-within:text-primary transition-colors" size={16} />
               <input
                 type="text"
                 value={searchTerm}
@@ -413,7 +413,7 @@ export default function SupplierOrdersPage() {
                 className="w-full pl-12 pr-6 py-3.5 bg-background border border-text/5 rounded-2xl text-[11px] font-bold focus:outline-none focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/5 transition-all placeholder:text-text/20 shadow-inner-soft"
               />
             </div>
-            <button className="p-3.5 text-text/40 hover:text-primary transition-all bg-background rounded-2xl border border-text/5 hover:border-primary/10 hover:shadow-sm">
+            <button className="p-3.5 text-text/70 hover:text-primary transition-all bg-background rounded-2xl border border-text/5 hover:border-primary/10 hover:shadow-sm">
               <Filter size={18} />
             </button>
           </div>
@@ -436,7 +436,7 @@ export default function SupplierOrdersPage() {
                   <Package size={40} strokeWidth={1} />
                 </div>
                 <h3 className="text-2xl font-display font-bold text-text mb-3">No Orders Tracked</h3>
-                <p className="text-text/40 text-sm max-w-xs text-center font-medium">Your current filter parameters yielded zero results from the live queue.</p>
+                <p className="text-text/70 text-sm max-w-xs text-center font-medium">Your current filter parameters yielded zero results from the live queue.</p>
                 <button onClick={() => {setActiveTab('All'); setSearchTerm('');}} className="mt-8 text-[10px] font-black uppercase tracking-widest text-primary hover:underline">Reset Intelligence Filters</button>
               </motion.div>
             ) : (
@@ -454,8 +454,8 @@ export default function SupplierOrdersPage() {
           {/* Pagination */}
           {filtered.length > 0 && (
             <motion.div variants={rowAnim} className="mt-16 flex items-center justify-between px-4">
-              <p className="text-[10px] font-black text-text/30 uppercase tracking-[0.2em]">
-                Live Board <span className="text-text/60">1–{filtered.length}</span> of <span className="text-text/60">{orders.length}</span>
+              <p className="text-[10px] font-black text-text/70 uppercase tracking-[0.2em]">
+                Live Board <span className="text-text/70">1–{filtered.length}</span> of <span className="text-text/70">{orders.length}</span>
               </p>
               <div className="flex gap-4">
                 <button 
@@ -466,7 +466,7 @@ export default function SupplierOrdersPage() {
                 </button>
                 <button 
                   onClick={() => alert("Loading next manifests...")}
-                  className="w-12 h-12 rounded-2xl border border-text/5 bg-white shadow-sm flex items-center justify-center text-text/40 hover:text-primary hover:border-primary/20 hover:shadow-md transition-all"
+                  className="w-12 h-12 rounded-2xl border border-text/5 bg-white shadow-sm flex items-center justify-center text-text/70 hover:text-primary hover:border-primary/20 hover:shadow-md transition-all"
                 >
                   <ChevronRight size={20} />
                 </button>

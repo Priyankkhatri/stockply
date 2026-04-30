@@ -13,7 +13,7 @@ const PremiumButton = ({
   const variants = {
     primary: "bg-primary text-white hover:bg-primary-dark shadow-lg shadow-primary/20",
     secondary: "bg-white border border-text/10 text-text hover:bg-background shadow-sm",
-    ghost: "bg-transparent text-text/60 hover:text-text hover:bg-background",
+    ghost: "bg-transparent text-text/70 hover:text-text hover:bg-background",
     accent: "bg-accent-violet text-white shadow-lg shadow-accent-violet/20 hover:bg-accent-violet/90"
   };
 

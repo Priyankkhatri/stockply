@@ -56,10 +56,10 @@ export default function SettingsPage() {
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-            <span className="text-[10px] font-black text-text/30 uppercase tracking-[0.3em]">Settings</span>
+            <span className="text-[10px] font-black text-text/70 uppercase tracking-[0.3em]">Settings</span>
           </div>
           <h1 className="text-4xl font-bold text-text tracking-tighter leading-none">System <span className="text-primary italic font-normal serif">Preferences.</span></h1>
-          <p className="text-text/40 text-xs font-medium">Manage your store profile, financials, and system configurations.</p>
+          <p className="text-text/70 text-xs font-medium">Manage your store profile, financials, and system configurations.</p>
         </div>
 
         <div className="flex items-center gap-4">
@@ -76,7 +76,7 @@ export default function SettingsPage() {
               <div className="flex justify-between items-start mb-10 border-b border-text/5 pb-6">
                 <div>
                   <h2 className="text-2xl font-display font-bold text-text mb-1">Artisan Ledger Studio</h2>
-                  <p className="text-text/40 text-sm font-medium">Primary Operations Center</p>
+                  <p className="text-text/70 text-sm font-medium">Primary Operations Center</p>
                 </div>
                 <button
                   className="bg-[#8C5A3C] hover:bg-[#8C5A3C]/90 text-white px-6 py-2.5 rounded-xl font-bold text-sm transition-all shadow-md shadow-[#8C5A3C]/10"
@@ -88,28 +88,28 @@ export default function SettingsPage() {
 
               <div className="grid grid-cols-2 gap-y-8 gap-x-12">
                 <div className="space-y-1.5">
-                  <p className="text-[10px] font-bold text-text/30 uppercase tracking-widest flex items-center gap-2">
+                  <p className="text-[10px] font-bold text-text/70 uppercase tracking-widest flex items-center gap-2">
                     <User size={12} /> Owner
                   </p>
                   <p className="font-bold text-text">Arthur Pendelton</p>
                 </div>
                 <div className="space-y-1.5">
-                  <p className="text-[10px] font-bold text-text/30 uppercase tracking-widest flex items-center gap-2">
+                  <p className="text-[10px] font-bold text-text/70 uppercase tracking-widest flex items-center gap-2">
                     <Phone size={12} /> Phone
                   </p>
                   <p className="font-bold text-text">+91 98765 43210</p>
                 </div>
                 <div className="space-y-1.5">
-                  <p className="text-[10px] font-bold text-text/30 uppercase tracking-widest flex items-center gap-2">
+                  <p className="text-[10px] font-bold text-text/70 uppercase tracking-widest flex items-center gap-2">
                     <MapPin size={12} /> Pincode
                   </p>
                   <p className="font-bold text-text">560001</p>
                 </div>
                 <div className="space-y-1.5">
-                  <p className="text-[10px] font-bold text-text/30 uppercase tracking-widest flex items-center gap-2">
+                  <p className="text-[10px] font-bold text-text/70 uppercase tracking-widest flex items-center gap-2">
                     <Store size={12} /> Shop Type
                   </p>
-                  <span className="inline-block bg-white/50 text-text/60 text-[10px] font-bold px-3 py-1 rounded-full border border-text/5">
+                  <span className="inline-block bg-white/50 text-text/70 text-[10px] font-bold px-3 py-1 rounded-full border border-text/5">
                     Premium Materials
                   </span>
                 </div>
@@ -138,13 +138,13 @@ export default function SettingsPage() {
                       </div>
                       <div>
                         <h4 className="font-display font-bold text-text text-sm">{supplier.name}</h4>
-                        <p className="text-[10px] text-text/30 font-bold uppercase tracking-widest">
+                        <p className="text-[10px] text-text/70 font-bold uppercase tracking-widest">
                           {supplier.category} • {supplier.status}
                         </p>
                       </div>
                     </div>
                     <div className="flex items-center gap-6">
-                      <button className="text-[11px] font-bold text-text/40 hover:text-text transition-colors" type="button">
+                      <button className="text-[11px] font-bold text-text/70 hover:text-text transition-colors" type="button">
                         View
                       </button>
                       <button className="text-[11px] font-bold text-red-400 hover:text-red-500 transition-colors" type="button">
@@ -173,7 +173,7 @@ export default function SettingsPage() {
 
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
-                  <div className="flex items-center gap-2 text-text/60">
+                  <div className="flex items-center gap-2 text-text/70">
                     <CreditCard size={16} />
                     <span className="text-xs font-bold">Payment Methods</span>
                   </div>
@@ -185,7 +185,7 @@ export default function SettingsPage() {
                   {["UPI", "Net Banking", "Pay Later"].map((method) => (
                     <span
                       key={method}
-                      className="px-3 py-1 bg-white/50 text-text/60 text-[9px] font-bold rounded-lg border border-text/5 shadow-sm"
+                      className="px-3 py-1 bg-white/50 text-text/70 text-[9px] font-bold rounded-lg border border-text/5 shadow-sm"
                     >
                       {method}
                     </span>
@@ -195,7 +195,7 @@ export default function SettingsPage() {
                 <div className="pt-6 border-t border-text/5 flex items-center justify-between">
                   <div>
                     <p className="text-xs font-bold text-text">Auto-pay</p>
-                    <p className="text-[10px] text-text/30 font-medium">Deduct automatically for trusted suppliers</p>
+                    <p className="text-[10px] text-text/70 font-medium">Deduct automatically for trusted suppliers</p>
                   </div>
                   <button
                     onClick={() => setAutoPay(!autoPay)}
@@ -215,7 +215,7 @@ export default function SettingsPage() {
 
               <div className="space-y-8">
                 <div>
-                  <p className="text-[10px] font-bold text-text/30 uppercase tracking-widest mb-4">Alert Channels</p>
+                  <p className="text-[10px] font-bold text-text/70 uppercase tracking-widest mb-4">Alert Channels</p>
                   <div className="flex items-center gap-6">
                     {["Push", "WhatsApp", "SMS"].map((channel) => (
                       <label key={channel} className="flex items-center gap-2 cursor-pointer group">
@@ -228,7 +228,7 @@ export default function SettingsPage() {
                         </div>
                         <span
                           className={`text-[11px] font-bold ${
-                            channel !== "SMS" ? "text-text" : "text-text/30 group-hover:text-text/40"
+                            channel !== "SMS" ? "text-text" : "text-text/70 group-hover:text-text/70"
                           }`}
                         >
                           {channel}
@@ -239,7 +239,7 @@ export default function SettingsPage() {
                 </div>
 
                 <div>
-                  <p className="text-[10px] font-bold text-text/30 uppercase tracking-widest mb-4">Reorder Logic</p>
+                  <p className="text-[10px] font-bold text-text/70 uppercase tracking-widest mb-4">Reorder Logic</p>
                   <div className="relative">
                     <select className="w-full bg-white/50 border border-text/5 rounded-xl px-4 py-3 text-xs font-bold text-text focus:outline-none focus:border-primary/30 appearance-none cursor-pointer">
                       <option>AI Predictive (Recommended)</option>

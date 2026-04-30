@@ -72,15 +72,15 @@ const CreateOrderModal = ({ onClose, onSuccess }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-text/60 backdrop-blur-sm p-4">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-text/70 backdrop-blur-sm p-4">
       <div className="w-full max-w-4xl bg-white rounded-[40px] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in fade-in zoom-in-95 duration-300">
         <div className="flex items-center justify-between p-8 border-b border-text/5 bg-background/50">
           <div>
             <h3 className="text-2xl font-bold text-text">Create Consignment</h3>
-            <p className="text-[10px] font-black uppercase tracking-widest text-text/30 mt-1">Direct Procurement Flow</p>
+            <p className="text-[10px] font-black uppercase tracking-widest text-text/70 mt-1">Direct Procurement Flow</p>
           </div>
           <button onClick={onClose} className="p-2 hover:bg-text/5 rounded-xl transition-colors">
-            <X size={24} className="text-text/40" />
+            <X size={24} className="text-text/70" />
           </button>
         </div>
 
@@ -119,7 +119,7 @@ const CreateOrderModal = ({ onClose, onSuccess }) => {
                         </div>
                         <div>
                           <p className="font-bold text-text text-sm">{s.businessName || s.name}</p>
-                          <p className="text-[10px] text-text/30 font-bold">{s.email}</p>
+                          <p className="text-[10px] text-text/70 font-bold">{s.email}</p>
                         </div>
                       </div>
                       <Plus size={20} className="text-text/10 group-hover:text-primary" />

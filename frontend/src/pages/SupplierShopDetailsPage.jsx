@@ -59,7 +59,7 @@ const SupplierShopDetailsPage = () => {
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-            <span className="text-[10px] font-black text-text/30 uppercase tracking-[0.3em]">Supplier / Shops</span>
+            <span className="text-[10px] font-black text-text/70 uppercase tracking-[0.3em]">Supplier / Shops</span>
           </div>
           <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">{shop.name.split(' ')[0]} <span className="text-primary italic font-normal serif">{shop.name.split(' ').slice(1).join(' ')}.</span></h1>
           <p className="text-text/80 text-sm font-medium">Shop profile, recent activity, and operational insights for supplier planning.</p>
@@ -88,20 +88,20 @@ const SupplierShopDetailsPage = () => {
           <span className="h-2 w-2 rounded-full bg-teal-500 animate-pulse" />
           Active
         </div>
-        <div className="flex flex-wrap items-center gap-6 text-xs font-medium text-text/50">
+        <div className="flex flex-wrap items-center gap-6 text-xs font-medium text-text/70">
           <span className="flex items-center gap-1.5">
-            <Store size={14} className="text-text/30" /> {shop.category}
+            <Store size={14} className="text-text/70" /> {shop.category}
           </span>
           <span className="flex items-center gap-1.5">
-            <MapPin size={14} className="text-text/30" /> {shop.location || shop.city}
+            <MapPin size={14} className="text-text/70" /> {shop.location || shop.city}
           </span>
           <span className="flex items-center gap-1.5">
-            <Phone size={14} className="text-text/30" /> {shop.phone || '+91 90000 00000'}
+            <Phone size={14} className="text-text/70" /> {shop.phone || '+91 90000 00000'}
           </span>
         </div>
         <button
           onClick={() => navigate('/supplier/shops')}
-          className="ml-auto text-[10px] font-black uppercase tracking-[0.2em] text-text/40 transition-colors hover:text-primary"
+          className="ml-auto text-[10px] font-black uppercase tracking-[0.2em] text-text/70 transition-colors hover:text-primary"
         >
           Back to partners
         </button>
@@ -111,13 +111,13 @@ const SupplierShopDetailsPage = () => {
         {[
           { label: 'Total Orders', value: shopOrders.length.toString(), trend: '+12% this month', accent: 'text-teal-600' },
           { label: 'Revenue Generated', value: `Rs. ${totalShopRevenue.toLocaleString()}`, trend: '+5.4% this month', accent: 'text-teal-600' },
-          { label: 'Avg Order Value', value: `Rs. ${(totalShopRevenue / (shopOrders.length || 1)).toFixed(0)}`, trend: 'Stable', accent: 'text-text/30' },
-          { label: 'Status', value: shop.status, trend: 'Operational', accent: 'text-text/30' },
+          { label: 'Avg Order Value', value: `Rs. ${(totalShopRevenue / (shopOrders.length || 1)).toFixed(0)}`, trend: 'Stable', accent: 'text-text/70' },
+          { label: 'Status', value: shop.status, trend: 'Operational', accent: 'text-text/70' },
         ].map((stat) => (
           <motion.div key={stat.label} variants={rowAnim}>
             <GlassCard className="relative overflow-hidden p-6 group hover:shadow-premium transition-all duration-500">
               <div className="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-primary/5 transition-transform duration-500 group-hover:scale-150" />
-              <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-text/60">{stat.label}</p>
+              <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-text/70">{stat.label}</p>
               <h3 className="mb-1 text-2xl font-display font-bold text-text">{stat.value}</h3>
               <p className={`text-[10px] font-bold ${stat.accent}`}>{stat.trend}</p>
             </GlassCard>
@@ -137,7 +137,7 @@ const SupplierShopDetailsPage = () => {
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead>
-                  <tr className="text-[10px] font-black uppercase tracking-widest text-text/30 border-b border-text/5 bg-white/30">
+                  <tr className="text-[10px] font-black uppercase tracking-widest text-text/70 border-b border-text/5 bg-white/30">
                     <th className="px-8 py-5">Order ID</th>
                     <th className="px-8 py-5">Date</th>
                     <th className="px-8 py-5">Items</th>
@@ -149,8 +149,8 @@ const SupplierShopDetailsPage = () => {
                   {shopOrders.map((order) => (
                     <tr key={order.id} className="transition-colors hover:bg-white/50">
                       <td className="px-8 py-5 text-sm font-bold text-text/80">{order.orderNumber}</td>
-                      <td className="px-8 py-5 text-sm font-medium text-text/40">{new Date(order.createdAt).toLocaleDateString()}</td>
-                      <td className="px-8 py-5 text-sm font-bold text-text/60">{order.items?.length || 0} items</td>
+                      <td className="px-8 py-5 text-sm font-medium text-text/70">{new Date(order.createdAt).toLocaleDateString()}</td>
+                      <td className="px-8 py-5 text-sm font-bold text-text/70">{order.items?.length || 0} items</td>
                       <td className="px-8 py-5 text-sm font-bold text-text">Rs. {order.totalAmount.toLocaleString()}</td>
                       <td className="px-8 py-5">
                         <span className={`rounded-lg border px-2 py-0.5 text-[9px] font-bold uppercase tracking-tighter ${
@@ -208,7 +208,7 @@ const SupplierShopDetailsPage = () => {
           <motion.div variants={rowAnim}>
             <GlassCard className="p-8" hover={false}>
               <h3 className="mb-6 text-sm font-display font-bold text-text">Demand Insights</h3>
-              <p className="mb-4 text-[9px] font-black uppercase tracking-widest text-text/30">Top 3 Products</p>
+              <p className="mb-4 text-[9px] font-black uppercase tracking-widest text-text/70">Top 3 Products</p>
               <div className="mb-8 space-y-4">
                 {[
                   { id: 1, name: 'Artisan Sourdough', percent: 42, color: 'bg-orange-100 text-orange-600' },
@@ -220,14 +220,14 @@ const SupplierShopDetailsPage = () => {
                       <span className={`flex h-6 w-6 items-center justify-center rounded-lg text-[10px] font-bold ${item.color}`}>
                         {item.id}
                       </span>
-                      <span className="text-xs font-bold text-text/60 transition-colors group-hover:text-text">{item.name}</span>
+                      <span className="text-xs font-bold text-text/70 transition-colors group-hover:text-text">{item.name}</span>
                     </div>
-                    <span className="text-xs font-bold text-text/30">{item.percent}%</span>
+                    <span className="text-xs font-bold text-text/70">{item.percent}%</span>
                   </div>
                 ))}
               </div>
               <div className="flex items-center justify-between border-t border-text/5 pt-6">
-                <span className="text-[10px] font-black uppercase tracking-widest text-text/30">Avg. Order Quantity</span>
+                <span className="text-[10px] font-black uppercase tracking-widest text-text/70">Avg. Order Quantity</span>
                 <span className="font-bold text-text">45 units</span>
               </div>
             </GlassCard>
@@ -242,7 +242,7 @@ const SupplierShopDetailsPage = () => {
                 </div>
                 <div>
                   <p className="text-sm font-bold text-text">Excellent Standing</p>
-                  <p className="text-[9px] font-black uppercase tracking-widest text-text/30">Low risk customer</p>
+                  <p className="text-[9px] font-black uppercase tracking-widest text-text/70">Low risk customer</p>
                 </div>
               </div>
               <div className="space-y-3">
@@ -253,9 +253,9 @@ const SupplierShopDetailsPage = () => {
                   <div key={row.label} className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <div className={`h-2 w-2 rounded-full ${row.color}`} />
-                      <span className="text-[10px] font-black uppercase tracking-widest text-text/40">{row.label}</span>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-text/70">{row.label}</span>
                     </div>
-                    <span className="text-xs font-bold text-text/60">{row.value}</span>
+                    <span className="text-xs font-bold text-text/70">{row.value}</span>
                   </div>
                 ))}
               </div>

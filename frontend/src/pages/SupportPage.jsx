@@ -71,14 +71,14 @@ export default function SupportPage() {
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-            <span className="text-[10px] font-black text-text/30 uppercase tracking-[0.3em]">Support Center</span>
+            <span className="text-[10px] font-black text-text/70 uppercase tracking-[0.3em]">Support Center</span>
           </div>
           <h1 className="text-5xl font-bold tracking-tighter text-text leading-none">Help & <span className="text-primary italic font-normal serif">Support.</span></h1>
-          <p className="text-text/40 text-sm font-medium">Get assistance with orders, inventory workflows, and account operations.</p>
+          <p className="text-text/70 text-sm font-medium">Get assistance with orders, inventory workflows, and account operations.</p>
         </div>
 
         <GlassCard className="px-6 py-5" hover={false}>
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Current Status</p>
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text/70">Current Status</p>
           <div className="mt-2 flex items-center gap-3">
             <span className="h-3 w-3 rounded-full bg-emerald-500 animate-pulse" />
             <span className="text-sm font-bold text-text">All systems operational</span>
@@ -112,12 +112,12 @@ export default function SupportPage() {
           <motion.div variants={rowAnim}>
             <GlassCard className="p-10" hover={false}>
               <div className="mb-8 flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/50 shadow-sm border border-text/5 text-text/40">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/50 shadow-sm border border-text/5 text-text/70">
                   <HelpCircle size={22} />
                 </div>
                 <div>
                   <h2 className="text-2xl font-display font-bold text-text">Frequently Asked Questions</h2>
-                  <p className="text-[11px] font-black uppercase tracking-[0.2em] text-text/30">High-signal guidance</p>
+                  <p className="text-[11px] font-black uppercase tracking-[0.2em] text-text/70">High-signal guidance</p>
                 </div>
               </div>
 
@@ -140,7 +140,7 @@ export default function SupportPage() {
                 <ShieldCheck size={22} />
               </div>
               <h3 className="text-xl font-display font-bold text-text">Escalation Desk</h3>
-              <p className="mt-3 text-sm leading-7 text-text/60">
+              <p className="mt-3 text-sm leading-7 text-text/70">
                 Billing failures, access lockouts, and live fulfillment blockers are routed through the priority desk.
               </p>
               <PremiumButton variant="primary" className="w-full mt-6 bg-accent-emerald hover:bg-accent-emerald/90 shadow-accent-emerald/20">
@@ -152,12 +152,12 @@ export default function SupportPage() {
           <motion.div variants={rowAnim}>
             <GlassCard className="p-8" hover={false}>
               <div className="mb-6 flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/50 border border-text/5 shadow-sm text-text/40">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/50 border border-text/5 shadow-sm text-text/70">
                   <BookOpen size={22} />
                 </div>
                 <div>
                   <h3 className="text-lg font-display font-bold text-text">Guided Resources</h3>
-                  <p className="text-[11px] font-black uppercase tracking-[0.2em] text-text/30">Common workflows</p>
+                  <p className="text-[11px] font-black uppercase tracking-[0.2em] text-text/70">Common workflows</p>
                 </div>
               </div>
 
@@ -165,7 +165,7 @@ export default function SupportPage() {
                 {["Order status tracking", "Inventory sync setup", "Supplier connection review"].map((item) => (
                   <div key={item} className="group flex cursor-pointer items-center justify-between rounded-2xl border border-text/5 bg-white/50 px-4 py-4 text-sm font-bold text-text transition-all hover:bg-white hover:shadow-sm">
                     <span>{item}</span>
-                    <ArrowUpRight size={16} className="text-text/30 group-hover:text-primary transition-colors" />
+                    <ArrowUpRight size={16} className="text-text/70 group-hover:text-primary transition-colors" />
                   </div>
                 ))}
               </div>

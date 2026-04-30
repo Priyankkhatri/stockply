@@ -76,7 +76,7 @@ const AlertItem = ({ alert, onRemove }) => {
             </span>
           </div>
           <p className="text-sm text-text/80 font-medium mb-2">{alert.description}</p>
-          <div className="flex items-center gap-2 text-[10px] text-text/60 font-black uppercase tracking-widest">
+          <div className="flex items-center gap-2 text-[10px] text-text/70 font-black uppercase tracking-widest">
             <Calendar size={12} />
             <span>{alert.time}</span>
           </div>
@@ -96,12 +96,12 @@ const AlertItem = ({ alert, onRemove }) => {
             {alert.action}
           </button>
         ) : null}
-        <button className="p-3 bg-background rounded-full text-text/40 hover:text-text hover:bg-white border border-transparent hover:border-text/5 hover:shadow-sm transition-all" type="button">
+        <button className="p-3 bg-background rounded-full text-text/70 hover:text-text hover:bg-white border border-transparent hover:border-text/5 hover:shadow-sm transition-all" type="button">
           <Eye size={18} />
         </button>
         <button 
           onClick={onRemove}
-          className="p-3 bg-background rounded-full text-text/40 hover:text-red-500 hover:bg-red-50 border border-transparent hover:border-red-100 transition-all" 
+          className="p-3 bg-background rounded-full text-text/70 hover:text-red-500 hover:bg-red-50 border border-transparent hover:border-red-100 transition-all" 
           type="button"
         >
           <X size={18} />
@@ -214,7 +214,7 @@ export default function AlertsPage() {
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-            <span className="text-[10px] font-black text-text/60 uppercase tracking-[0.3em]">Notifications</span>
+            <span className="text-[10px] font-black text-text/70 uppercase tracking-[0.3em]">Notifications</span>
           </div>
           <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">System <span className="text-primary italic font-normal serif">Alerts.</span></h1>
           <p className="text-text/70 text-sm font-medium">Stay updated on stock, orders, and operational risks.</p>
@@ -253,7 +253,7 @@ export default function AlertsPage() {
               key={tab.label}
               onClick={() => setActiveTab(tab.label)}
               className={`px-6 py-3.5 rounded-[16px] text-[9px] font-black uppercase tracking-widest transition-all duration-500 flex items-center gap-2 ${
-                activeTab === tab.label ? "bg-white text-text shadow-sm border border-text/5" : "text-text/60 hover:text-text/90"
+                activeTab === tab.label ? "bg-white text-text shadow-sm border border-text/5" : "text-text/70 hover:text-text/90"
               }`}
               type="button"
             >
@@ -279,14 +279,14 @@ export default function AlertsPage() {
             type="button"
           >
             All Types
-            <ChevronDown size={14} className="text-text/60" />
+            <ChevronDown size={14} className="text-text/70" />
           </button>
           <button
             className="flex items-center justify-between px-6 py-4 bg-background border border-text/5 rounded-2xl text-[9px] font-black uppercase tracking-widest text-text/70 hover:text-text hover:bg-white hover:shadow-sm transition-all w-48"
             type="button"
           >
             Status: Unread
-            <ChevronDown size={14} className="text-text/60" />
+            <ChevronDown size={14} className="text-text/70" />
           </button>
         </div>
       </motion.div>
@@ -307,7 +307,7 @@ export default function AlertsPage() {
         ))}
         {Object.keys(groupedAlerts).length === 0 && (
           <motion.div variants={rowAnim} className="py-32 flex flex-col items-center justify-center rounded-[40px] border border-dashed border-text/10 bg-[#FAF5F0]/30">
-            <div className="w-20 h-20 rounded-3xl bg-white border border-text/5 shadow-sm flex items-center justify-center mb-6 text-text/40">
+            <div className="w-20 h-20 rounded-3xl bg-white border border-text/5 shadow-sm flex items-center justify-center mb-6 text-text/70">
               <Bell size={32} />
             </div>
             <h3 className="text-xl font-bold text-text mb-2">No alerts found</h3>
