@@ -72,7 +72,6 @@ const OrderCard = ({ order, isExpanded, onToggle, onUpdateStatus }) => {
                     Accept Order
                   </PremiumButton>
                 </>
-              )}
               {order.status === 'Processing' && (
                 <PremiumButton 
                   onClick={() => onUpdateStatus(order._id, 'Shipped')}
@@ -80,6 +79,15 @@ const OrderCard = ({ order, isExpanded, onToggle, onUpdateStatus }) => {
                   className="px-10"
                 >
                   Mark as Shipped
+                </PremiumButton>
+              )}
+              {order.status === 'Shipped' && (
+                <PremiumButton 
+                  onClick={() => onUpdateStatus(order._id, 'Delivered')}
+                  variant="primary" 
+                  className="px-10"
+                >
+                  Mark as Delivered
                 </PremiumButton>
               )}
             </div>
@@ -116,12 +124,19 @@ const OrderCard = ({ order, isExpanded, onToggle, onUpdateStatus }) => {
             <p className="text-[10px] font-black text-text/20 uppercase tracking-[0.3em] text-center">Fulfillment Journey</p>
             <div className="relative flex justify-between items-start px-12">
               <div className="absolute top-[22px] left-[15%] right-[15%] h-[2px] bg-text/5">
-                <div className={`h-full bg-primary shadow-[0_0_10px_rgba(192,133,82,0.4)] transition-all duration-1000 ${order.status === 'Dispatched' ? 'w-2/3' : 'w-1/3'}`}></div>
+                <div 
+                  className="h-full bg-primary shadow-[0_0_10px_rgba(192,133,82,0.4)] transition-all duration-1000"
+                  style={{ 
+                    width: order.status === 'Pending' ? '0%' : 
+                           order.status === 'Processing' ? '33%' : 
+                           order.status === 'Shipped' ? '66%' : '100%' 
+                  }}
+                ></div>
               </div>
               {[
                 { label: 'Received', active: true, done: true },
                 { label: 'Processing', active: order.status !== 'Pending', done: ['Shipped', 'Delivered'].includes(order.status) },
-                { label: 'Shipped', active: order.status === 'Shipped', done: order.status === 'Delivered' },
+                { label: 'Shipped', active: order.status === 'Shipped' || order.status === 'Delivered', done: order.status === 'Delivered' },
                 { label: 'Delivered', active: order.status === 'Delivered', done: order.status === 'Delivered' }
               ].map((step, i) => (
                 <div key={i} className="relative z-10 flex flex-col items-center w-24">
@@ -160,7 +175,7 @@ const OrderCard = ({ order, isExpanded, onToggle, onUpdateStatus }) => {
                     <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 group-hover:scale-110 transition-all">
                       <Package size={24} className="text-white/20" />
                     </div>
-                    <div className="absolute -top-2 -right-2 bg-primary text-white text-[9px] font-black w-6 h-6 rounded-full flex items-center justify-center border-2 border-text">{item.qty}</div>
+                    <div className="absolute -top-2 -right-2 bg-primary text-white text-[9px] font-black w-6 h-6 rounded-full flex items-center justify-center border-2 border-text">{item.quantity}</div>
                   </div>
                   <div>
                     <h4 className="font-bold text-white text-sm group-hover:text-primary transition-colors">{item.name}</h4>
