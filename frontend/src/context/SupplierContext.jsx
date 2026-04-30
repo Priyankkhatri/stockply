@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { productAPI, transactionAPI, alertAPI, partnerAPI, orderAPI } from '../services/api';
+import { productAPI, transactionAPI, alertAPI, partnerAPI, orderAPI, analyticsAPI } from '../services/api';
 
 const SupplierContext = createContext();
 
@@ -14,6 +14,7 @@ export const SupplierProvider = ({ children }) => {
   const [orders, setOrders] = useState([]);
   const [partners, setPartners] = useState([]);
   const [summary, setSummary] = useState(null);
+  const [analytics, setAnalytics] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -22,11 +23,12 @@ export const SupplierProvider = ({ children }) => {
       setLoading(true);
       setError(null);
 
-      const [prodRes, summaryRes, partnersRes, ordersRes] = await Promise.all([
+      const [prodRes, summaryRes, partnersRes, ordersRes, analyticsRes] = await Promise.all([
         productAPI.getAll(),
         alertAPI.getSummary(),
         partnerAPI.getAll(),
-        orderAPI.getAll()
+        orderAPI.getAll(),
+        analyticsAPI.getSupplierOverview()
       ]);
 
       // Products: { data: { products: [...] } }
@@ -37,6 +39,8 @@ export const SupplierProvider = ({ children }) => {
       setPartners(partnersRes.data?.data?.partners ?? []);
       // Orders: { data: { orders: [...] } }
       setOrders(ordersRes.data?.data?.orders ?? []);
+      // Analytics: { data: { summary, trends, growth } }
+      setAnalytics(analyticsRes.data?.data ?? {});
     } catch (err) {
       console.error('Error fetching initial data:', err);
       setError(err.message);
@@ -112,6 +116,7 @@ export const SupplierProvider = ({ children }) => {
     orders,
     partners,
     summary,
+    analytics,
     loading,
     error,
     // Products
