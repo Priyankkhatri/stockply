@@ -219,24 +219,24 @@ const DashboardHome = () => {
         {/* ─── Sidebar: Insights & Health ─── */}
         <motion.div variants={itemAnim} className="space-y-8">
           {/* Smart Insight Card */}
-          <GlassCard className="p-8 relative overflow-hidden bg-text text-white border-none shadow-2xl shadow-text/20">
+          <div className="rounded-[40px] p-8 relative overflow-hidden bg-text text-white border-none shadow-2xl shadow-text/20">
             <div className="absolute top-0 right-0 w-48 h-48 bg-primary/10 rounded-full blur-[60px] -mr-24 -mt-24" />
-            <div className="flex items-center gap-3 mb-8">
+            <div className="flex items-center gap-3 mb-8 relative z-10">
               <div className="p-2.5 bg-white/10 backdrop-blur-xl rounded-xl text-primary">
                 <Lightbulb size={20} />
               </div>
               <h3 className="text-sm font-black uppercase tracking-[0.2em] text-white">Strategic Insight</h3>
             </div>
-            <p className="text-sm font-medium leading-relaxed text-white/80 mb-8 italic">
+            <p className="text-sm font-medium leading-relaxed text-white/80 mb-8 italic relative z-10">
               "Inventory velocity for <span className="text-white font-bold">Pain Relief</span> categories has increased by 24% this week. Consider adjusting reorder points for Paracetamol."
             </p>
             <button 
-              className="w-full py-4 bg-white/10 hover:bg-white/20 border border-white/20 rounded-2xl text-[10px] font-black uppercase tracking-widest text-white transition-all flex items-center justify-center gap-3 group"
+              className="w-full relative z-10 py-4 bg-white/10 hover:bg-white/20 border border-white/20 rounded-2xl text-[10px] font-black uppercase tracking-widest text-white transition-all flex items-center justify-center gap-3 group"
               onClick={() => navigate('/dashboard/analytics')}
             >
               Apply Optimization <Sparkles size={14} className="group-hover:animate-pulse" />
             </button>
-          </GlassCard>
+          </div>
 
           {/* Health Gauge */}
           <GlassCard className="p-8">
