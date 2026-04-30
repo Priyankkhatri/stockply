@@ -73,22 +73,22 @@ const OrderCard = ({ order }) => {
         </div>
 
         <div className="flex-1 flex flex-col md:items-center justify-center border-y md:border-y-0 border-text/5 py-4 md:py-0">
-          <p className="mb-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Order Value</p>
+          <p className="mb-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-text/50">Order Value</p>
           <p className="font-bold text-text text-xl flex items-center gap-1 tracking-tight">
-            <IndianRupee size={18} className="text-text/40" />
+            <IndianRupee size={18} className="text-text/50" />
             {(order.totalAmount || 0).toLocaleString()}
           </p>
         </div>
 
         <div className="hidden md:flex flex-1 flex-col items-center justify-center">
-          <p className="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Current State</p>
+          <p className="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-text/50">Current State</p>
           <StatusBadge status={order.status || 'Pending'} />
         </div>
 
         <div className="flex-1 flex flex-col items-start md:items-center">
-          <p className="mb-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Initiated</p>
-          <p className="text-sm font-bold text-text/60 flex items-center gap-2">
-            <Calendar size={14} className="text-text/30" />
+          <p className="mb-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-text/50">Initiated</p>
+          <p className="text-sm font-bold text-text/70 flex items-center gap-2">
+            <Calendar size={14} className="text-text/40" />
             {new Date(order.createdAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}
           </p>
         </div>
@@ -135,10 +135,10 @@ const OrderCard = ({ order }) => {
                         <table className="w-full text-left">
                           <thead>
                             <tr className="bg-[#FAF5F0] border-b border-[#F0E5D8]">
-                              <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Item Description</th>
-                              <th className="px-8 py-5 text-right text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Qty</th>
-                              <th className="px-8 py-5 text-right text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Unit Price</th>
-                              <th className="px-8 py-5 text-right text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Total</th>
+                              <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/60">Item Description</th>
+                              <th className="px-8 py-5 text-right text-[10px] font-black uppercase tracking-[0.2em] text-text/60">Qty</th>
+                              <th className="px-8 py-5 text-right text-[10px] font-black uppercase tracking-[0.2em] text-text/60">Unit Price</th>
+                              <th className="px-8 py-5 text-right text-[10px] font-black uppercase tracking-[0.2em] text-text/60">Total</th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-text/5">
@@ -177,7 +177,7 @@ const OrderCard = ({ order }) => {
                       </div>
                       <div>
                         <h5 className="text-sm font-black uppercase tracking-[0.2em] text-text">Logistics Profile</h5>
-                        <p className="text-[10px] font-medium text-text/40 mt-1">Delivery & Routing</p>
+                        <p className="text-[10px] font-bold text-text/60 mt-1">Delivery & Routing</p>
                       </div>
                     </div>
                     
@@ -282,10 +282,10 @@ const OrdersPage = () => {
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-            <span className="text-[10px] font-black text-text/30 uppercase tracking-[0.3em]">Purchase Orders</span>
+            <span className="text-[10px] font-black text-text/60 uppercase tracking-[0.3em]">Purchase Orders</span>
           </div>
           <h1 className="text-4xl font-bold text-text tracking-tighter leading-none">The <span className="text-primary italic font-normal serif">Manifests.</span></h1>
-          <p className="text-text/40 text-xs font-medium">Command center for incoming inventory, fulfillment logistics, and supplier transactions.</p>
+          <p className="text-text/60 text-xs font-medium">Command center for incoming inventory, fulfillment logistics, and supplier transactions.</p>
         </div>
 
         <div className="flex items-center gap-4">

@@ -78,7 +78,7 @@ const AnalyticsPage = () => {
               </div>
 
               <div className="mt-4">
-                <p className="mb-1 text-[10px] font-black uppercase tracking-[0.2em] text-text-muted">{stat.label}</p>
+                <p className="mb-1 text-[10px] font-black uppercase tracking-[0.2em] text-text/60">{stat.label}</p>
                 <p className="text-4xl font-display font-bold text-text">{stat.value}</p>
               </div>
             </GlassCard>
@@ -97,7 +97,7 @@ const AnalyticsPage = () => {
             <div className="flex items-center justify-between border-b border-text/5 bg-white/50 px-10 py-8">
               <div>
                 <h3 className="text-xl font-display font-bold text-text">Inventory Flux</h3>
-                <p className="text-[10px] font-black uppercase tracking-widest text-text-muted">Movement trends across all categories</p>
+                <p className="text-[10px] font-black uppercase tracking-widest text-text/60">Movement trends across all categories</p>
               </div>
               <div className="flex items-center gap-3">
                 <div className="h-3 w-3 rounded-full bg-primary animate-pulse" />
@@ -118,13 +118,13 @@ const AnalyticsPage = () => {
                     dataKey="name" 
                     axisLine={false} 
                     tickLine={false} 
-                    tick={{ fill: '#BAADAC', fontSize: 10, fontWeight: 900 }} 
+                    tick={{ fill: '#4B2E2B80', fontSize: 10, fontWeight: 900 }} 
                     dy={10}
                   />
                   <YAxis 
                     axisLine={false} 
                     tickLine={false} 
-                    tick={{ fill: '#BAADAC', fontSize: 10, fontWeight: 900 }}
+                    tick={{ fill: '#4B2E2B80', fontSize: 10, fontWeight: 900 }}
                   />
                   <Tooltip 
                     contentStyle={{ 
@@ -180,7 +180,7 @@ const AnalyticsPage = () => {
                     <div key={item.name} className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <div className="h-2 w-2 rounded-full" style={{ backgroundColor: COLORS[i] }} />
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-text-muted">{item.name}</span>
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-text/60">{item.name}</span>
                       </div>
                       <span className="text-xs font-black text-text">{item.value}%</span>
                     </div>
@@ -204,7 +204,7 @@ const AnalyticsPage = () => {
                   </div>
                   <h4 className="text-lg font-display font-bold text-text">AI Optimizer</h4>
                 </div>
-                <p className="text-xs font-medium leading-relaxed text-text-muted">
+                <p className="text-xs font-medium leading-relaxed text-text/60">
                   You can save <span className="font-black text-accent-emerald">Rs. 24,500</span> this month by switching to a better supplier mix.
                 </p>
               </div>
