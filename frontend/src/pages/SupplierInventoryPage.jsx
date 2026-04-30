@@ -48,7 +48,7 @@ const AlertCard = ({ type, category, name, value, threshold, color }) => {
   );
 };
 
-const InventoryRow = ({ product, isEditing, onEdit, onCancel, onUpdateStock }) => {
+const InventoryRow = ({ product, isEditing, onUpdateStock }) => {
   const [adjustmentValue, setAdjustmentValue] = useState(1);
 
   return (
@@ -165,6 +165,18 @@ export default function SupplierInventoryPage() {
     });
   };
 
+  const filteredProducts = useMemo(() => {
+    if (!products) return [];
+    return products.filter(product => {
+      const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                           product.sku.toLowerCase().includes(searchQuery.toLowerCase());
+      
+      if (activeTab === 'All Items') return matchesSearch;
+      if (activeTab === 'Raw Materials') return matchesSearch && (product.category === 'Fabric' || product.category === 'Leather');
+      return matchesSearch && product.category === activeTab;
+    });
+  }, [products, searchQuery, activeTab]);
+
   if (loading) {
     return (
       <div className="flex h-[80vh] items-center justify-center">
@@ -175,17 +187,6 @@ export default function SupplierInventoryPage() {
       </div>
     );
   }
-
-  const filteredProducts = useMemo(() => {
-    return products.filter(product => {
-      const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                           product.sku.toLowerCase().includes(searchQuery.toLowerCase());
-      
-      if (activeTab === 'All Items') return matchesSearch;
-      if (activeTab === 'Raw Materials') return matchesSearch && (product.category === 'Fabric' || product.category === 'Leather');
-      return matchesSearch && product.category === activeTab;
-    });
-  }, [products, searchQuery, activeTab]);
 
 
   return (

@@ -60,18 +60,6 @@ const SupplierShopsPage = () => {
     });
   };
 
-  if (loading) {
-    return (
-      <div className="flex h-[80vh] items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-          <p className="text-xs font-black uppercase tracking-widest text-text/40">Syncing Network Directory...</p>
-        </div>
-      </div>
-    );
-  }
-
-
   const visibleShops = useMemo(() => {
     return partners.filter((shop) => {
       const matchesSearch =
@@ -87,12 +75,24 @@ const SupplierShopsPage = () => {
       }
       if (activeFilter === 'New') {
         const createdAt = new Date(shop.createdAt);
+        // eslint-disable-next-line react-hooks/purity
         const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
         return matchesSearch && createdAt > thirtyDaysAgo;
       }
       return matchesSearch;
     });
   }, [activeFilter, searchTerm, partners]);
+
+  if (loading) {
+    return (
+      <div className="flex h-[80vh] items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <p className="text-xs font-black uppercase tracking-widest text-text/40">Syncing Network Directory...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto max-w-[1600px] px-6 py-8 pb-12">

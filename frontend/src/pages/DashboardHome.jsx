@@ -281,7 +281,7 @@ const DashboardHome = () => {
               Manage Expirations
             </button>
           </GlassCard>
-        </div>
+        </motion.div>
       </div>
       
       <style dangerouslySetInnerHTML={{ __html: `

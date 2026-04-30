@@ -262,23 +262,6 @@ export default function SupplierOrdersPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [expandedOrder, setExpandedOrder] = useState(null);
 
-  if (loading) {
-    return (
-      <div className="flex h-[80vh] items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-          <p className="text-xs font-black uppercase tracking-widest text-text/40">Fetching Order Manifests...</p>
-        </div>
-      </div>
-    );
-  }
-
-
-  const handleStatusUpdate = (id, newStatus) => {
-    updateOrderStatus(id, newStatus);
-  };
-
-
   const filtered = useMemo(() => {
     const norm = searchTerm.trim().toLowerCase();
     return (orders || []).filter((order) => {
@@ -292,6 +275,21 @@ export default function SupplierOrdersPage() {
       );
     });
   }, [activeTab, orders, searchTerm]);
+
+  if (loading) {
+    return (
+      <div className="flex h-[80vh] items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <p className="text-xs font-black uppercase tracking-widest text-text/40">Fetching Order Manifests...</p>
+        </div>
+      </div>
+    );
+  }
+
+  const handleStatusUpdate = (id, newStatus) => {
+    updateOrderStatus(id, newStatus);
+  };
 
 
   return (
