@@ -24,7 +24,7 @@ const SupplierShopDetailsPage = () => {
     // Find by slugified name or ID
     return partners.find((candidate) => 
       candidate.name.toLowerCase().replace(/\s+/g, '-') === id || 
-      candidate.initials.toLowerCase() === id
+      candidate._id === id
     ) || partners[0];
   }, [id, partners]);
 
@@ -33,7 +33,7 @@ const SupplierShopDetailsPage = () => {
   }, [orders, shop]);
 
   const totalShopRevenue = shopOrders.reduce((sum, o) => {
-    const val = parseInt(o.amount.replace(/[^0-9]/g, '')) || 0;
+    const val = o.totalAmount || 0;
     return sum + val;
   }, 0);
 
@@ -123,10 +123,10 @@ const SupplierShopDetailsPage = () => {
               <tbody className="divide-y divide-text/5">
                 {shopOrders.map((order) => (
                   <tr key={order.id} className="transition-colors hover:bg-background/10">
-                    <td className="px-8 py-5 text-sm font-bold text-text/80">{order.id}</td>
-                    <td className="px-8 py-5 text-sm font-medium text-text/40">{order.date}</td>
-                    <td className="px-8 py-5 text-sm font-bold text-text/60">{order.itemsCount} units</td>
-                    <td className="px-8 py-5 text-sm font-bold text-text">{order.amount}</td>
+                    <td className="px-8 py-5 text-sm font-bold text-text/80">{order.orderNumber}</td>
+                    <td className="px-8 py-5 text-sm font-medium text-text/40">{new Date(order.createdAt).toLocaleDateString()}</td>
+                    <td className="px-8 py-5 text-sm font-bold text-text/60">{order.items?.length || 0} items</td>
+                    <td className="px-8 py-5 text-sm font-bold text-text">Rs. {order.totalAmount.toLocaleString()}</td>
                     <td className="px-8 py-5">
                       <span className={`rounded-lg border px-2 py-0.5 text-[9px] font-bold uppercase tracking-tighter ${
                         order.status === 'Pending' ? 'bg-orange-50 text-orange-500 border-orange-100' : 

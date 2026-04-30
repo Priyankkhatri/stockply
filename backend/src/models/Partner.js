@@ -8,6 +8,8 @@ const partnerSchema = new mongoose.Schema({
   revenue: { type: String, default: 'Rs. 0' },
   lastOrder: { type: String, default: 'No orders yet' },
   address: { type: String },
+  city: { type: String },
+  location: { type: String },
   email: { type: String },
   phone: { type: String }
 }, { timestamps: true });

@@ -64,8 +64,9 @@ export const SupplierProvider = ({ children }) => {
     return product;
   };
 
-  const updateStock = async (id, adjustment) => {
-    const res = await productAPI.updateStock(id, adjustment);
+  const updateStock = async (id, adjustment, type = 'IN') => {
+    const value = type === 'OUT' ? -Math.abs(adjustment) : Math.abs(adjustment);
+    const res = await productAPI.updateStock(id, value);
     const product = res.data?.data?.product;
     setProducts(prev => prev.map(p => p._id === id ? product : p));
     // Refresh summary after stock change

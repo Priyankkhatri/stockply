@@ -206,32 +206,48 @@ const OrderCard = ({ order, isExpanded, onToggle, onUpdateStatus }) => {
   return (
     <div 
       onClick={onToggle}
-      className="bg-white rounded-[32px] border border-text/5 shadow-sm px-10 py-7 flex items-center justify-between cursor-pointer hover:shadow-xl hover:border-primary/20 transition-all group relative overflow-hidden mb-4"
+      className="bg-white rounded-[32px] border border-text/5 shadow-sm px-6 lg:px-10 py-7 flex flex-col lg:flex-row items-start lg:items-center justify-between cursor-pointer hover:shadow-xl hover:border-primary/20 transition-all group relative overflow-hidden mb-4 gap-6 lg:gap-0"
     >
       <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary scale-y-0 group-hover:scale-y-100 transition-transform origin-top"></div>
-      <div className="flex-[0.8]">
-        <p className="text-[10px] font-black text-text/20 uppercase tracking-[0.2em] mb-1">{order.orderNumber}</p>
-        <h4 className="font-bold text-text text-sm group-hover:text-primary transition-colors">{new Date(order.createdAt).toLocaleDateString()}</h4>
+      
+      <div className="flex flex-row lg:flex-col items-center lg:items-start justify-between lg:justify-start w-full lg:w-auto lg:flex-[0.8] gap-4">
+        <div>
+          <p className="text-[10px] font-black text-text/20 uppercase tracking-[0.2em] mb-1">{order.orderNumber}</p>
+          <h4 className="font-bold text-text text-sm group-hover:text-primary transition-colors">{new Date(order.createdAt).toLocaleDateString()}</h4>
+        </div>
+        <div className="lg:hidden">
+          <span className={`px-3 py-1 rounded-full border font-black text-[9px] uppercase tracking-widest ${paymentClasses[order.paymentStatus] || paymentClasses.Pending}`}>
+            {order.paymentStatus || 'Pending'}
+          </span>
+        </div>
       </div>
-      <div className="flex-1">
+
+      <div className="w-full lg:flex-1">
         <h4 className="font-bold text-text text-base">{order.shopName}</h4>
         <p className="text-[10px] text-text/30 font-black uppercase tracking-widest mt-1 italic">{order.items?.length || 0} Items • {order.items?.reduce((acc, curr) => acc + curr.quantity, 0) || 0} units</p>
       </div>
-      <div className="flex-1 text-center">
+
+      <div className="hidden lg:block flex-1 text-center">
         <p className="text-base font-bold text-text mb-2 tracking-tight">Rs. {order.totalAmount.toLocaleString()}</p>
-        <span className={`px-2.5 py-0.5 rounded-md border font-black text-[9px] uppercase tracking-widest ${paymentClasses[order.payment] || paymentClasses.Pending}`}>
-          Pending
+        <span className={`px-2.5 py-0.5 rounded-md border font-black text-[9px] uppercase tracking-widest ${paymentClasses[order.paymentStatus] || paymentClasses.Pending}`}>
+          {order.paymentStatus || 'Pending'}
         </span>
       </div>
-      <div className="flex-1 flex justify-center">
+
+      <div className="flex w-full lg:w-auto lg:flex-1 items-center justify-between lg:justify-center">
+        <div className="lg:hidden flex flex-col">
+          <p className="text-[10px] font-black text-text/20 uppercase tracking-[0.2em] mb-1">TOTAL AMOUNT</p>
+          <p className="text-lg font-bold text-text tracking-tight">Rs. {order.totalAmount.toLocaleString()}</p>
+        </div>
         <span className={`px-5 py-2 rounded-full border font-black text-[10px] uppercase tracking-[0.15em] flex items-center gap-3 transition-all ${
-          order.status === 'Shipped' ? 'bg-teal-50 text-teal-600 border-teal-100 group-hover:bg-teal-600 group-hover:text-white' : 'bg-orange-50 text-orange-600 border-orange-100 group-hover:bg-orange-500 group-hover:text-white'
+          order.status === 'Shipped' || order.status === 'Delivered' ? 'bg-teal-50 text-teal-600 border-teal-100 group-hover:bg-teal-600 group-hover:text-white' : 'bg-orange-50 text-orange-600 border-orange-100 group-hover:bg-orange-500 group-hover:text-white'
         }`}>
-          <div className={`w-1.5 h-1.5 rounded-full ${order.status === 'Shipped' ? 'bg-teal-500' : 'bg-orange-500'} group-hover:bg-white`}></div>
+          <div className={`w-1.5 h-1.5 rounded-full ${order.status === 'Shipped' || order.status === 'Delivered' ? 'bg-teal-500' : 'bg-orange-500'} group-hover:bg-white`}></div>
           {order.status}
         </span>
       </div>
-      <div className="w-12 flex justify-end">
+
+      <div className="hidden lg:flex w-12 justify-end">
         <button className="text-text/10 group-hover:text-text transition-all transform group-hover:rotate-90">
           <MoreHorizontal size={20} />
         </button>

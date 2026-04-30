@@ -403,7 +403,62 @@ export default function SupplierInventoryPage() {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="lg:hidden divide-y divide-text/5 bg-white">
+          {filteredProducts.map(product => (
+            <div key={product._id || product.sku} className="p-6 space-y-5">
+              <div className="flex justify-between items-start">
+                <div className="flex items-center gap-4">
+                  <img 
+                    src={product.img || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=100&auto=format&fit=crop'} 
+                    alt={product.name} 
+                    className="w-14 h-14 rounded-xl object-cover border border-text/5"
+                  />
+                  <div>
+                    <h4 className="font-bold text-text text-base leading-tight">{product.name}</h4>
+                    <p className="text-[10px] text-text/30 font-black uppercase tracking-widest mt-1">SKU: {product.sku}</p>
+                  </div>
+                </div>
+                <StatusBadge status={product.status || 'In Stock'} />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 py-2">
+                <div className="p-4 bg-background/50 rounded-2xl border border-text/5">
+                  <p className="text-[9px] font-black text-text/30 uppercase tracking-widest mb-1">Stock Level</p>
+                  <p className="text-sm font-bold text-text">{product.stock} <span className="text-[9px] text-text/40">{product.unit || 'units'}</span></p>
+                </div>
+                <div className="p-4 bg-background/50 rounded-2xl border border-text/5">
+                  <p className="text-[9px] font-black text-text/30 uppercase tracking-widest mb-1">Price / Unit</p>
+                  <p className="text-sm font-bold text-text">Rs. {product.price}</p>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1 bg-background border border-text/5 rounded-xl px-2 py-1">
+                    <button 
+                      onClick={() => updateStock(product._id, 1, 'IN')}
+                      className="p-1.5 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
+                    >
+                      <Plus size={14} />
+                    </button>
+                    <span className="text-xs font-bold px-2 text-text">1</span>
+                    <button 
+                      onClick={() => updateStock(product._id, 1, 'OUT')}
+                      className="p-1.5 text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
+                    >
+                      <X size={14} />
+                    </button>
+                  </div>
+                </div>
+                <PremiumButton variant="secondary" size="sm" className="flex-1">
+                  Manage Item
+                </PremiumButton>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="hidden lg:block overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="text-[10px] font-black text-text/30 uppercase tracking-[0.25em] bg-background/30">
