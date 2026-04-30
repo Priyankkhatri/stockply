@@ -1,85 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronDown, ChevronUp, Plus, MoreVertical, Download, Package, Clock, Filter, ChevronRight } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
 import PremiumButton from '../components/PremiumButton';
 import OrderTimeline from '../components/OrderTimeline';
-
-const orders = [
-  {
-    id: '#ORD-10234',
-    supplier: 'MedTech Inc.',
-    itemsCount: 3,
-    amount: 'Rs. 4,500',
-    payment: 'Pending',
-    status: 'Confirmed',
-    expected: '12 May 2024',
-    journeyStep: 'confirmed',
-    items: [{ name: 'Paracetamol 500mg', sku: 'MED-500-P', qty: 60, price: '75.00' }],
-  },
-  {
-    id: '#ORD-10233',
-    supplier: 'PharmaCorp',
-    itemsCount: 12,
-    amount: 'Rs. 24,150',
-    payment: 'Paid',
-    status: 'Delivered',
-    expected: '05 May 2024',
-    journeyStep: 'delivered',
-    items: [],
-  },
-  {
-    id: '#ORD-10232',
-    supplier: 'SurgiSupplies',
-    itemsCount: 1,
-    amount: 'Rs. 1,200',
-    payment: 'Failed',
-    status: 'Cancelled',
-    expected: null,
-    journeyStep: 'submitted',
-    items: [],
-  },
-];
+import { orderAPI } from '../services/api';
 
 const tabs = ['All Orders', 'Active', 'Completed', 'Cancelled'];
 
 const OrderCard = ({ order }) => {
-  const [isExpanded, setIsExpanded] = useState(order.id === '#ORD-10234');
-
-  const paymentClasses = {
-    Pending: 'bg-orange-50 text-orange-600 border-orange-100',
-    Paid: 'bg-teal-50 text-teal-600 border-teal-100',
-    Failed: 'bg-red-50 text-red-600 border-red-100',
-  };
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const statusClasses = {
-    Confirmed: 'bg-blue-50 text-blue-600 border-blue-100',
-    Delivered: 'bg-teal-50 text-teal-600 border-teal-100',
-    Cancelled: 'bg-red-50 text-red-600 border-red-100',
+    'Pending': 'bg-orange-50 text-orange-600 border-orange-100',
+    'Processing': 'bg-blue-50 text-blue-600 border-blue-100',
+    'Shipped': 'bg-purple-50 text-purple-600 border-purple-100',
+    'Delivered': 'bg-teal-50 text-teal-600 border-teal-100',
+    'Cancelled': 'bg-red-50 text-red-600 border-red-100',
+  };
+
+  const getJourneyStep = (status) => {
+    switch (status) {
+      case 'Pending': return 'submitted';
+      case 'Processing': return 'confirmed';
+      case 'Shipped': return 'shipped';
+      case 'Delivered': return 'delivered';
+      default: return 'submitted';
+    }
   };
 
   return (
-    <div className="mb-4 overflow-hidden rounded-[28px] border border-text/5 bg-white shadow-sm">
+    <div className="mb-4 overflow-hidden rounded-[28px] border border-text/5 bg-white shadow-sm hover:shadow-md transition-shadow">
       <div
         className="flex cursor-pointer items-center justify-between px-8 py-6 hover:bg-background/10"
         onClick={() => setIsExpanded((value) => !value)}
       >
         <div className="flex-1">
-          <h4 className="text-base font-bold text-text">{order.id}</h4>
+          <h4 className="text-base font-bold text-text">{order.orderNumber}</h4>
           <p className="mt-0.5 text-[10px] font-bold uppercase tracking-widest text-text/40">
-            {order.supplier} - {order.itemsCount} items
+            {order.shopName} - {order.items?.length || 0} items
           </p>
         </div>
 
         <div className="flex-1 text-center">
           <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-text/30">Amount</p>
-          <p className="font-bold text-text">{order.amount}</p>
-        </div>
-
-        <div className="flex-1 text-center">
-          <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-text/30">Payment</p>
-          <span className={`rounded-lg border px-2 py-0.5 text-[10px] font-bold ${paymentClasses[order.payment]}`}>
-            {order.payment}
-          </span>
+          <p className="font-bold text-text">Rs. {order.totalAmount?.toLocaleString()}</p>
         </div>
 
         <div className="flex-1 text-center">
@@ -90,9 +54,9 @@ const OrderCard = ({ order }) => {
         </div>
 
         <div className="flex-1 text-center">
-          <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-text/30">Expected</p>
-          <p className={`text-xs font-bold ${order.status === 'Cancelled' ? 'text-text/20' : 'text-text/60'}`}>
-            {order.expected || '-'}
+          <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-text/30">Created At</p>
+          <p className="text-xs font-bold text-text/60">
+            {new Date(order.createdAt).toLocaleDateString()}
           </p>
         </div>
 
@@ -112,26 +76,26 @@ const OrderCard = ({ order }) => {
             <div className="space-y-8 lg:col-span-2">
               <div>
                 <h5 className="mb-4 text-sm font-bold text-text">Order Journey</h5>
-                <OrderTimeline currentStep={order.journeyStep} />
+                <OrderTimeline currentStep={getJourneyStep(order.status)} />
               </div>
 
               <div>
                 <h5 className="mb-4 text-sm font-bold text-text">Item Breakdown</h5>
                 <div className="overflow-hidden rounded-xl border border-text/5 bg-white">
-                  {order.items.length > 0 ? (
-                    order.items.map((item) => (
-                      <div key={item.sku} className="flex items-center justify-between border-b border-text/5 px-6 py-4 last:border-0">
+                  {order.items && order.items.length > 0 ? (
+                    order.items.map((item, idx) => (
+                      <div key={idx} className="flex items-center justify-between border-b border-text/5 px-6 py-4 last:border-0">
                         <div className="flex items-center gap-4">
                           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-background text-text/30">
                             <Package size={20} />
                           </div>
                           <div>
                             <p className="text-sm font-bold text-text">{item.name}</p>
-                            <p className="text-[10px] font-bold uppercase tracking-widest text-text/30">SKU: {item.sku}</p>
+                            <p className="text-[10px] font-bold uppercase tracking-widest text-text/30">Qty: {item.quantity}</p>
                           </div>
                         </div>
                         <div className="text-right">
-                          <p className="text-sm font-bold text-text">{item.qty} units</p>
+                          <p className="text-sm font-bold text-text">₹{(item.price * item.quantity).toLocaleString()}</p>
                           <p className="text-[10px] font-bold uppercase tracking-widest text-text/30">₹{item.price} / unit</p>
                         </div>
                       </div>
@@ -139,9 +103,6 @@ const OrderCard = ({ order }) => {
                   ) : (
                     <div className="px-6 py-10 text-sm text-text-muted">No item breakdown available for this order.</div>
                   )}
-                  <button className="w-full py-3 text-[10px] font-bold uppercase tracking-widest text-primary transition-colors hover:bg-background/50">
-                    + 2 more items
-                  </button>
                 </div>
               </div>
             </div>
@@ -152,21 +113,17 @@ const OrderCard = ({ order }) => {
                   <div className="rounded-lg bg-blue-50 p-2 text-blue-600">
                     <Clock size={18} />
                   </div>
-                  <h5 className="text-sm font-bold text-text">Return Policy</h5>
+                  <h5 className="text-sm font-bold text-text">Logistics</h5>
                 </div>
                 <div className="space-y-4">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="font-bold uppercase tracking-widest text-text/40">Return allowed till</span>
-                    <span className="font-bold text-text">12 May</span>
+                    <span className="font-bold uppercase tracking-widest text-text/40">Expected By</span>
+                    <span className="font-bold text-text">{order.deliveryDate ? new Date(order.deliveryDate).toLocaleDateString() : 'TBD'}</span>
                   </div>
                   <div className="flex items-center justify-between text-xs">
-                    <span className="font-bold uppercase tracking-widest text-text/40">Time remaining</span>
-                    <span className="font-bold text-text">7 days left</span>
-                  </div>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-bold uppercase tracking-widest text-text/40">Status</span>
-                    <span className="rounded border border-teal-100 bg-teal-50 px-2 py-0.5 text-[8px] font-bold uppercase tracking-widest text-teal-600">
-                      Safe
+                    <span className="font-bold uppercase tracking-widest text-text/40">Priority</span>
+                    <span className={`rounded border px-2 py-0.5 text-[8px] font-bold uppercase tracking-widest ${order.priority === 'High' ? 'bg-red-50 text-red-600 border-red-100' : 'bg-blue-50 text-blue-600 border-blue-100'}`}>
+                      {order.priority}
                     </span>
                   </div>
                 </div>
@@ -186,6 +143,31 @@ const OrderCard = ({ order }) => {
 
 const OrdersPage = () => {
   const [activeTab, setActiveTab] = useState('All Orders');
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        setLoading(true);
+        const res = await orderAPI.getAll();
+        setOrders(res.data?.data?.orders || []);
+      } catch (err) {
+        console.error('Error fetching orders:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchOrders();
+  }, []);
+
+  const filteredOrders = orders.filter(order => {
+    if (activeTab === 'All Orders') return true;
+    if (activeTab === 'Active') return ['Pending', 'Processing', 'Shipped'].includes(order.status);
+    if (activeTab === 'Completed') return order.status === 'Delivered';
+    if (activeTab === 'Cancelled') return order.status === 'Cancelled';
+    return true;
+  });
 
   return (
     <div className="mx-auto max-w-[1600px] px-6 py-8">
@@ -216,48 +198,39 @@ const OrdersPage = () => {
         </div>
 
         <div className="flex items-center gap-3 px-2">
-          {['All Suppliers', 'Payment Status', 'Order Status'].map((label) => (
-            <button
-              key={label}
-              className="flex items-center gap-2 rounded-xl border border-text/5 px-3 py-2 text-[10px] font-bold text-text/40 transition-all hover:border-primary/20"
-            >
-              <span>{label}</span>
-              <ChevronDown size={14} />
-            </button>
-          ))}
+          <button className="flex items-center gap-2 rounded-xl border border-text/5 px-3 py-2 text-[10px] font-bold text-text/40 transition-all hover:border-primary/20">
+            <span>Filter</span>
+            <ChevronDown size={14} />
+          </button>
           <button className="rounded-xl border border-text/5 p-2 text-text/30 transition-colors hover:text-primary">
             <Filter size={18} />
           </button>
         </div>
       </div>
 
-      <div className="space-y-2">
-        {orders.map((order) => (
-          <OrderCard key={order.id} order={order} />
-        ))}
-      </div>
-
-      <div className="mt-10 flex items-center justify-between">
-        <p className="text-xs font-bold text-text/30">
-          Showing <span className="text-text/60">1</span> to <span className="text-text/60">3</span> of <span className="text-text/60">45</span> orders
-        </p>
-        <div className="flex items-center gap-2">
-          <button className="flex items-center gap-1 px-4 py-2 text-xs font-bold text-text/40 transition-colors hover:text-text">
-            <ChevronRight size={16} className="rotate-180" /> Previous
-          </button>
-          <div className="flex items-center gap-1">
-            <button className="h-8 w-8 rounded-lg bg-primary/10 text-xs font-bold text-primary">1</button>
-            <button className="h-8 w-8 rounded-lg text-xs font-bold text-text/40 transition-colors hover:bg-background">2</button>
-            <button className="h-8 w-8 rounded-lg text-xs font-bold text-text/40 transition-colors hover:bg-background">3</button>
-            <span className="px-2 font-bold text-text/20">...</span>
-          </div>
-          <button className="flex items-center gap-1 px-4 py-2 text-xs font-bold text-text/40 transition-colors hover:text-primary">
-            Next <ChevronRight size={16} />
-          </button>
+      {loading ? (
+        <div className="flex flex-col items-center justify-center py-20 gap-4">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <p className="text-[10px] font-black uppercase tracking-widest text-text/30">Loading your orders...</p>
         </div>
-      </div>
+      ) : (
+        <div className="space-y-2">
+          {filteredOrders.length > 0 ? (
+            filteredOrders.map((order) => (
+              <OrderCard key={order._id} order={order} />
+            ))
+          ) : (
+            <div className="flex flex-col items-center justify-center py-20 border border-dashed border-text/10 rounded-[40px]">
+              <Package size={40} className="text-text/10 mb-4" />
+              <p className="text-sm font-bold text-text/30">No orders found in this category.</p>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
+
+export default OrdersPage;
 
 export default OrdersPage;
