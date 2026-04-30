@@ -525,6 +525,7 @@ export default function SupplierInventoryPage() {
             </button>
           </div>
         </div>
+      </section>
     </div>
   );
 }
