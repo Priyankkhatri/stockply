@@ -6,9 +6,9 @@ import {
   Clock3,
   FileText,
   IndianRupee,
-  Sparkles,
   TrendingUp,
 } from "lucide-react";
+import Logo from "../components/Logo";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { motion } from 'framer-motion';
 import { useSupplier } from "../context/SupplierContext";
@@ -220,7 +220,7 @@ export default function SupplierAnalyticsPage() {
               <div className="relative z-10">
                 <div className="mb-4 flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-accent-emerald shadow-sm">
-                    <Sparkles size={20} />
+                    <Logo size={20} />
                   </div>
                   <h4 className="text-lg font-display font-bold text-text">Dispatch Optimizer</h4>
                 </div>

@@ -1,10 +1,11 @@
 import React from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { motion } from 'framer-motion';
-import { ArrowDownRight, ArrowUpRight, AlertTriangle, FileText, Package, Sparkles, Wallet, Zap } from 'lucide-react';
+import { ArrowDownRight, ArrowUpRight, AlertTriangle, FileText, Package, Wallet, Zap } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
 import GlassCard from '../components/GlassCard';
 import PremiumButton from '../components/PremiumButton';
+import Logo from '../components/Logo';
 
 const lineData = [
   { name: 'Mon', value: 4000 },
@@ -195,7 +196,7 @@ const AnalyticsPage = () => {
               <div className="relative z-10">
                 <div className="mb-4 flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-accent-emerald shadow-sm">
-                    <Sparkles size={20} />
+                    <Logo size={20} />
                   </div>
                   <h4 className="text-lg font-display font-bold text-text">AI Optimizer</h4>
                 </div>

@@ -1,4 +1,5 @@
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import Logo from './Logo';
 import { 
   LayoutDashboard, 
   Package, 
@@ -10,7 +11,6 @@ import {
   Plus,
   HelpCircle,
   LogOut,
-  Sparkles
 } from 'lucide-react';
 
 const Sidebar = ({ role }) => {
@@ -50,8 +50,8 @@ const Sidebar = ({ role }) => {
       <aside className="w-80 h-screen bg-white/50 backdrop-blur-xl flex flex-col sticky top-0 border-r border-text/5 z-20">
         <div className="p-10">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 bg-primary rounded-3xl flex items-center justify-center text-white font-bold text-2xl shadow-xl shadow-primary/20">
-              <Sparkles size={28} />
+            <div className="w-14 h-14 bg-primary rounded-3xl flex items-center justify-center text-white shadow-xl shadow-primary/20">
+              <Logo size={28} />
             </div>
             <div className="flex flex-col">
               <span className="text-text font-display font-black text-xl leading-tight tracking-tighter uppercase">Stockply</span>
