@@ -53,14 +53,12 @@ const Topbar = ({ role, onMenuClick }) => {
             placeholder="Search SKU, Product..."
             className="w-full rounded-2xl lg:rounded-3xl border border-transparent bg-background/50 py-3 lg:py-4.5 pl-12 lg:pl-16 pr-4 lg:pr-8 text-xs lg:text-sm font-bold placeholder:text-text-light transition-all focus:border-primary/20 focus:bg-white focus:outline-none"
           />
+        <div className="absolute right-6 top-1/2 hidden lg:flex -translate-y-1/2 items-center gap-1.5 rounded-lg border border-text/5 bg-background px-2 py-1">
+          <span className="text-[10px] font-black tracking-tighter text-text-light">Ctrl</span>
+          <span className="text-[10px] font-black tracking-tighter text-text-light">K</span>
         </div>
       </div>
-          <div className="absolute right-6 top-1/2 hidden lg:flex -translate-y-1/2 items-center gap-1.5 rounded-lg border border-text/5 bg-background px-2 py-1">
-            <span className="text-[10px] font-black tracking-tighter text-text-light">Ctrl</span>
-            <span className="text-[10px] font-black tracking-tighter text-text-light">K</span>
-          </div>
-        </div>
-      </div>
+    </div>
 
       <div className="flex items-center gap-4 lg:gap-10">
         <div className="flex items-center gap-4 lg:gap-8 border-r border-text/10 pr-4 lg:pr-10">
