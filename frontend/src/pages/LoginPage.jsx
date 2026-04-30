@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Package, Store, Truck, ArrowRight } from 'lucide-react';
+import { Store, Truck, ArrowRight } from 'lucide-react';
 import { authAPI } from '../services/api';
 import SEOHead from '../components/SEOHead';
+import Logo from '../components/Logo';
 
 const LoginPage = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -60,7 +61,7 @@ const LoginPage = () => {
         <div>
           {/* Logo */}
           <div className="flex items-center gap-2 text-primary font-bold text-xl mb-12">
-            <Package size={24} />
+            <Logo size={24} />
             <span>Stockply</span>
           </div>
 

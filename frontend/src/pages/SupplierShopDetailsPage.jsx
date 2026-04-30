@@ -6,10 +6,10 @@ import {
   MapPin,
   MessageSquare,
   Phone,
-  Sparkles,
   Store,
   Zap,
 } from 'lucide-react';
+import Logo from '../components/Logo';
 import { useSupplier } from '../context/SupplierContext';
 import PageHeader from '../components/PageHeader';
 
@@ -155,7 +155,7 @@ const SupplierShopDetailsPage = () => {
           <div className="relative overflow-hidden rounded-[28px] border border-teal-100 bg-[#F4F9F8] p-8">
             <div className="absolute -right-16 -top-16 h-32 w-32 rounded-full bg-teal-500/5" />
             <div className="mb-6 flex items-center gap-2 text-teal-600">
-              <Sparkles size={18} />
+              <Logo size={18} />
               <h3 className="text-sm font-bold">AI Insights</h3>
             </div>
             <div className="space-y-6">

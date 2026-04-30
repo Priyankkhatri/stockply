@@ -11,6 +11,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import PageHeader from "../components/PageHeader";
+import Logo from "../components/Logo";
 
 const XCircle = ({ size, className }) => (
   <svg
@@ -110,7 +111,7 @@ export default function CompareSuppliersPage() {
             </div>
 
             <div className="bg-[#FAF5F0] rounded-xl p-4 border border-[#F0E5D8] flex items-center gap-3 text-xs text-[#C08552]">
-              <Sparkles size={16} />
+              <Logo size={16} />
               <p>Analysis based on recommendation scoring and previous purchasing patterns.</p>
             </div>
           </section>
@@ -213,7 +214,7 @@ export default function CompareSuppliersPage() {
           <section className="bg-white rounded-2xl border border-text/5 shadow-sm p-6 flex flex-col h-fit sticky top-24">
             <div className="flex items-center gap-2 mb-6">
               <div className="p-2 bg-primary/10 rounded-lg text-primary">
-                <Sparkles size={18} />
+                <Logo size={18} />
               </div>
               <h3 className="font-bold text-text">Smart Suggestion</h3>
             </div>

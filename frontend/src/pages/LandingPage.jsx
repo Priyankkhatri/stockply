@@ -7,6 +7,7 @@ import {
   Menu, X
 } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
+import Logo from '../components/Logo';
 
 const fadeUp = { hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0 } };
 
@@ -76,7 +77,7 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20">
-              <Sparkles size={20} />
+              <Logo size={20} />
             </div>
             <span className="font-display font-black text-xl text-text tracking-tighter uppercase">Stockply</span>
           </div>
@@ -118,7 +119,7 @@ const LandingPage = () => {
         <div className="absolute bottom-20 left-1/4 w-40 h-40 bg-accent-cyan/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
         <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.12 } } }} className="text-center max-w-4xl mx-auto">
           <motion.div variants={fadeUp} className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/5 text-primary text-[10px] font-black uppercase tracking-widest mb-8">
-            <Sparkles size={12} /> The Digital Atelier for Supply Chains
+            <Logo size={12} /> The Digital Atelier for Supply Chains
           </motion.div>
           <motion.h1 variants={fadeUp} className="text-5xl lg:text-7xl font-black text-text tracking-tighter leading-[1.05] mb-6">
             Supply chain clarity,<br />
@@ -343,7 +344,9 @@ const LandingPage = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
             <div className="col-span-2 md:col-span-1">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20"><Sparkles size={18} /></div>
+                <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20">
+                  <Logo size={18} />
+                </div>
                 <span className="font-display font-black text-lg text-text tracking-tighter uppercase">Stockply</span>
               </div>
               <p className="text-xs text-text/40 leading-relaxed">The Digital Atelier for modern supply chain management.</p>

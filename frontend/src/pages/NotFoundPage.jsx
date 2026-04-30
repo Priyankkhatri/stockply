@@ -1,7 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Home, ArrowLeft, Sparkles } from 'lucide-react';
+import { Home, ArrowLeft } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
+import Logo from '../components/Logo';
 
 const NotFoundPage = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const NotFoundPage = () => {
       />
       <div className="text-center max-w-md">
         <div className="w-20 h-20 bg-primary/10 rounded-3xl flex items-center justify-center mx-auto mb-8">
-          <Sparkles size={36} className="text-primary" />
+          <Logo size={36} className="text-primary" />
         </div>
         <h1 className="text-8xl font-black text-text/10 tracking-tighter mb-2">404</h1>
         <h2 className="text-2xl font-bold text-text mb-4">Page not found</h2>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import Logo from '../components/Logo';
 import GlassCard from '../components/GlassCard';
 import PremiumButton from '../components/PremiumButton';
 
@@ -13,7 +14,7 @@ const SectionPlaceholder = ({ title, description }) => {
         <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-primary/10 blur-3xl" />
         <div className="relative z-10">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/10 bg-primary/5 px-3 py-1 text-[10px] font-black uppercase tracking-[0.2em] text-primary">
-            <Sparkles size={12} />
+            <Logo size={12} />
             In progress
           </div>
           <h1 className="text-4xl font-display font-bold text-text mb-3">{title}</h1>
