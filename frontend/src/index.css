@@ -11,6 +11,14 @@
     --surface: #FFFFFF;
     --surface-muted: #F8F3EE;
   }
+
+  .serif {
+    font-family: 'Playfair Display', serif;
+  }
+
+  .shadow-premium {
+    box-shadow: 0 20px 80px -20px rgba(75, 46, 43, 0.08);
+  }
 }
 
 body {

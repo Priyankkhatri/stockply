@@ -36,7 +36,11 @@ const AnalyticsPage = () => {
   return (
     <div className="mx-auto max-w-[1600px] px-6 py-8">
       <PageHeader
-        title="Performance Analytics"
+        title={
+          <>
+            Performance <span className="text-primary italic font-normal serif">Analytics.</span>
+          </>
+        }
         subtitle="Real-time visibility into stock health, procurement pressure, and spend trends."
         breadcrumbs={['Dashboard', 'Analytics']}
         actions={
