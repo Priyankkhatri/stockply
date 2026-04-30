@@ -286,16 +286,24 @@ export default function SupplierInventoryPage() {
       {/* ─── Controls ─── */}
       <motion.div variants={rowAnim} className="bg-white rounded-[32px] border border-text/5 p-6 md:p-8 mb-10 shadow-sm flex flex-col xl:flex-row gap-8 items-start xl:items-center justify-between">
         <div className="relative w-full max-w-2xl group">
-          <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-text/60 group-focus-within:text-primary transition-colors" size={20} />
+          <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-text/70 group-focus-within:text-primary transition-colors" size={20} />
           <input
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="SEARCH BY SKU, PRODUCT, OR CODE..."
-            className="w-full bg-background/50 border border-transparent rounded-[24px] py-5 pl-16 pr-6 text-[10px] font-black uppercase tracking-widest text-text placeholder:text-text/60 outline-none transition-all focus:bg-white focus:border-primary/20"
+            className="w-full bg-background/50 border border-transparent rounded-[24px] py-5 pl-16 pr-6 text-[10px] font-black uppercase tracking-widest text-text placeholder:text-text/70 outline-none transition-all focus:bg-white focus:border-primary/20"
           />
         </div>
 
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-4 items-center">
+          {!['All Items', 'Fabric', 'Leather', 'Hardware'].includes(activeTab) && (
+            <div className="flex items-center gap-2 px-4 py-3 bg-primary/5 text-primary rounded-[16px] border border-primary/20">
+              <span className="text-[9px] font-black uppercase tracking-widest">{activeTab}</span>
+              <button onClick={() => setActiveTab('All Items')} className="p-1 hover:bg-primary/10 rounded-full transition-colors">
+                <X size={14} />
+              </button>
+            </div>
+          )}
           <div className="flex items-center p-1.5 bg-background rounded-[20px] border border-text/5">
             {['All Items', 'Fabric', 'Leather', 'Hardware'].map((tab) => (
               <button
@@ -376,7 +384,7 @@ export default function SupplierInventoryPage() {
                         <p className="text-sm font-bold text-text tracking-tight">Rs. {product.price}</p>
                       </td>
                       <td className="px-8 py-6 text-right">
-                        <button className="p-3 text-text/60 hover:text-text transition-colors">
+                        <button className="p-3 text-text/70 hover:text-text transition-colors">
                           <ChevronRight size={18} />
                         </button>
                       </td>
@@ -412,11 +420,11 @@ export default function SupplierInventoryPage() {
               animate={{ opacity: 1 }}
               className="sticky top-32 h-[calc(100vh-160px)] flex flex-col items-center justify-center text-center p-10 bg-white/40 rounded-[40px] border border-dashed border-text/10"
             >
-              <div className="w-16 h-16 bg-text/5 rounded-3xl flex items-center justify-center text-text/60 mb-6">
+              <div className="w-16 h-16 bg-text/5 rounded-3xl flex items-center justify-center text-text/70 mb-6">
                 <Package size={32} strokeWidth={1} />
               </div>
               <p className="text-[11px] font-black uppercase tracking-widest text-text/70 mb-2">No Asset Selected</p>
-              <p className="text-xs text-text/60 font-medium leading-relaxed">Select an item from the ledger to view detailed analytics and manage stock.</p>
+              <p className="text-xs text-text/70 font-medium leading-relaxed">Select an item from the ledger to view detailed analytics and manage stock.</p>
             </motion.div>
           )}
         </AnimatePresence>
@@ -431,7 +439,7 @@ export default function SupplierInventoryPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsAddModalOpen(false)}
-              className="absolute inset-0 bg-text/40 backdrop-blur-md"
+              className="absolute inset-0 bg-text/70 backdrop-blur-md"
             />
             <motion.div 
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -507,7 +515,7 @@ export default function SupplierInventoryPage() {
                       onChange={(e) => setNewProduct({...newProduct, stock: e.target.value})}
                       className="flex-1 px-6 py-4 bg-background border border-transparent rounded-2xl text-sm font-bold focus:outline-none focus:bg-white focus:border-primary/20 transition-all" 
                     />
-                    <span className="text-[10px] font-black text-text/60 uppercase mr-2">Units</span>
+                    <span className="text-[10px] font-black text-text/70 uppercase mr-2">Units</span>
                   </div>
                 </div>
                 <div className="space-y-2">

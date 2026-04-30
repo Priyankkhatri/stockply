@@ -42,11 +42,11 @@ const OrderTimeline = ({ currentStep }) => {
               )}
             </div>
             <div className="mt-3 text-center">
-              <p className={`text-[10px] font-bold uppercase tracking-widest ${isActive ? 'text-text' : 'text-text/30'}`}>
+              <p className={`text-[10px] font-bold uppercase tracking-widest ${isActive ? 'text-text' : 'text-text/70'}`}>
                 {step.label}
               </p>
               {step.date && (
-                <p className="text-[9px] font-bold text-text/40 mt-0.5">{step.date}</p>
+                <p className="text-[9px] font-bold text-text/70 mt-0.5">{step.date}</p>
               )}
             </div>
           </div>

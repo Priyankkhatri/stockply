@@ -60,7 +60,7 @@ const LandingPage = () => {
 
             <div className="hidden lg:flex items-center gap-12">
               {navLinks.map(l => (
-                <a key={l.label} href={l.href} className="text-[10px] font-bold uppercase tracking-[0.3em] text-text/40 hover:text-primary transition-all relative group">
+                <a key={l.label} href={l.href} className="text-[10px] font-bold uppercase tracking-[0.3em] text-text/70 hover:text-primary transition-all relative group">
                   {l.label}
                   <span className="absolute -bottom-1 left-0 w-0 h-px bg-primary transition-all group-hover:w-full" />
                 </a>
@@ -70,7 +70,7 @@ const LandingPage = () => {
             <div className="flex items-center gap-4">
               <button 
                 onClick={() => navigate('/login')}
-                className="hidden sm:flex items-center gap-2 px-8 py-3.5 text-[10px] font-bold uppercase tracking-[0.2em] text-text/60 hover:text-text transition-all"
+                className="hidden sm:flex items-center gap-2 px-8 py-3.5 text-[10px] font-bold uppercase tracking-[0.2em] text-text/70 hover:text-text transition-all"
               >
                 Sign In
               </button>
@@ -107,7 +107,7 @@ const LandingPage = () => {
                 <span className="text-primary italic font-normal serif">Supply Chain.</span>
               </motion.h1>
               
-              <motion.p variants={fadeUp} className="text-xl text-text/50 max-w-lg leading-relaxed font-medium">
+              <motion.p variants={fadeUp} className="text-xl text-text/70 max-w-lg leading-relaxed font-medium">
                 Stockply simplifies complex logistics with a high-performance inventory management platform. Built for businesses that value speed, precision, and efficiency.
               </motion.p>
               
@@ -119,17 +119,17 @@ const LandingPage = () => {
                   <div className="w-16 h-16 rounded-full border border-text/5 bg-white flex items-center justify-center text-primary group-hover:scale-110 transition-transform shadow-sm">
                     <Play size={20} fill="currentColor" />
                   </div>
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-text/40 group-hover:text-text transition-colors">Watch Film</span>
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-text/70 group-hover:text-text transition-colors">Watch Film</span>
                 </button>
               </motion.div>
 
               <motion.div variants={fadeUp} className="pt-12 flex items-center gap-10">
                 <div className="flex -space-x-3">
                   {[1,2,3].map(i => (
-                    <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-background/50 flex items-center justify-center text-[8px] font-bold text-text/40">U{i}</div>
+                    <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-background/50 flex items-center justify-center text-[8px] font-bold text-text/70">U{i}</div>
                   ))}
                 </div>
-                <p className="text-[10px] font-bold text-text/30 uppercase tracking-widest italic leading-relaxed">
+                <p className="text-[10px] font-bold text-text/70 uppercase tracking-widest italic leading-relaxed">
                   Trusted by 500+ premium <br /> retail partners across India.
                 </p>
               </motion.div>
@@ -187,7 +187,7 @@ const LandingPage = () => {
                 Future of <br />
                 <span className="text-text/20">Retail Logistics.</span>
               </h2>
-              <p className="text-lg text-text/50 font-medium leading-relaxed max-w-md">
+              <p className="text-lg text-text/70 font-medium leading-relaxed max-w-md">
                 We don't build features. We build experiences that empower decisions. Every interaction in Stockply is calibrated for absolute clarity.
               </p>
               <div className="mt-16 space-y-8">
@@ -199,7 +199,7 @@ const LandingPage = () => {
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-6 group cursor-default">
                     <div className="w-1.5 h-1.5 rounded-full bg-primary group-hover:scale-[3] transition-transform" />
-                    <span className="text-[10px] font-black uppercase tracking-widest text-text/60 group-hover:text-text transition-colors">{item}</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-text/70 group-hover:text-text transition-colors">{item}</span>
                   </div>
                 ))}
               </div>
@@ -219,7 +219,7 @@ const LandingPage = () => {
                     <f.icon size={28} />
                   </div>
                   <h3 className="text-2xl font-bold text-text mb-6 tracking-tight">{f.title}</h3>
-                  <p className="text-sm text-text/40 font-medium leading-relaxed italic">{f.desc}</p>
+                  <p className="text-sm text-text/70 font-medium leading-relaxed italic">{f.desc}</p>
                   <div className="mt-10 pt-10 border-t border-text/5 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-700">
                     <span className="text-[9px] font-black uppercase tracking-widest text-primary">Learn Mastery</span>
                     <ArrowUpRight size={16} className="text-primary" />
@@ -313,7 +313,7 @@ const LandingPage = () => {
             ].map((p, i) => (
               <div key={i} className="space-y-6">
                 <h3 className="text-xl font-bold text-text tracking-tight">{p.t}</h3>
-                <p className="text-sm text-text/40 font-medium leading-relaxed italic">{p.d}</p>
+                <p className="text-sm text-text/70 font-medium leading-relaxed italic">{p.d}</p>
               </div>
             ))}
           </div>
@@ -334,14 +334,14 @@ const LandingPage = () => {
                   <span className="text-[9px] font-black text-text/20 tracking-[0.4em] uppercase mt-1">Digital Atelier</span>
                 </div>
               </div>
-              <p className="text-sm text-text/40 font-medium max-w-xs leading-relaxed italic">
+              <p className="text-sm text-text/70 font-medium max-w-xs leading-relaxed italic">
                 Defining the new standard for premium supply chain management. Beautifully simple, powerfully connected.
               </p>
             </div>
 
             <div className="col-span-1 md:col-span-2 space-y-8">
               <p className="text-[10px] font-black uppercase tracking-widest text-text">Explore</p>
-              <ul className="space-y-4 text-[11px] font-bold text-text/40 uppercase tracking-widest">
+              <ul className="space-y-4 text-[11px] font-bold text-text/70 uppercase tracking-widest">
                 <li><a href="#features" className="hover:text-primary transition-colors">Intelligence</a></li>
                 <li><a href="#ecosystem" className="hover:text-primary transition-colors">Ecosystem</a></li>
                 <li><a href="#philosophy" className="hover:text-primary transition-colors">Philosophy</a></li>
@@ -350,7 +350,7 @@ const LandingPage = () => {
 
             <div className="col-span-1 md:col-span-2 space-y-8">
               <p className="text-[10px] font-black uppercase tracking-widest text-text">Portal</p>
-              <ul className="space-y-4 text-[11px] font-bold text-text/40 uppercase tracking-widest">
+              <ul className="space-y-4 text-[11px] font-bold text-text/70 uppercase tracking-widest">
                 <li><button onClick={() => navigate('/login')} className="hover:text-primary transition-colors">Sign In</button></li>
                 <li><button onClick={() => navigate('/login')} className="hover:text-primary transition-colors">Register</button></li>
                 <li><a href="#" className="hover:text-primary transition-colors">Support</a></li>
@@ -359,7 +359,7 @@ const LandingPage = () => {
 
             <div className="col-span-2 md:col-span-4 space-y-8 md:text-right">
               <p className="text-[10px] font-black uppercase tracking-widest text-text">Journal</p>
-              <p className="text-sm text-text/40 font-medium italic">Subscribe to the Stockply monthly dispatch.</p>
+              <p className="text-sm text-text/70 font-medium italic">Subscribe to the Stockply monthly dispatch.</p>
               <div className="relative max-w-sm md:ml-auto">
                 <input 
                   type="email" 

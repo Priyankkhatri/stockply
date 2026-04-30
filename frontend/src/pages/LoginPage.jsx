@@ -145,7 +145,7 @@ const LoginPage = () => {
             <motion.h1 variants={fadeUp} className="text-4xl md:text-5xl font-bold text-text tracking-tighter leading-none">
               {isLogin ? 'Welcome Back.' : 'Join the Network.'}
             </motion.h1>
-            <motion.p variants={fadeUp} className="text-text/40 text-sm font-medium">
+            <motion.p variants={fadeUp} className="text-text/70 text-sm font-medium">
               {isLogin 
                 ? 'Sign in to manage your high-performance inventory.' 
                 : 'Create an account to scale your logistics operations.'}
@@ -154,14 +154,14 @@ const LoginPage = () => {
 
           {/* Role Switcher */}
           <motion.div variants={fadeUp} className="space-y-4">
-            <label className="text-[10px] font-black tracking-[0.3em] text-text/30 uppercase">Select Portal</label>
+            <label className="text-[10px] font-black tracking-[0.3em] text-text/70 uppercase">Select Portal</label>
             <div className="grid grid-cols-2 gap-4 p-1.5 bg-background rounded-[24px] border border-text/5">
               <button
                 onClick={() => setRole('shop')}
                 className={`flex items-center justify-center gap-3 py-4 rounded-[20px] text-[10px] font-black uppercase tracking-widest transition-all duration-500 ${
                   role === 'shop' 
                     ? 'bg-white text-text shadow-sm border border-text/5' 
-                    : 'text-text/30 hover:text-text/60'
+                    : 'text-text/70 hover:text-text/70'
                 }`}
               >
                 <Store size={14} className={role === 'shop' ? 'text-primary' : ''} /> Shop Owner
@@ -171,7 +171,7 @@ const LoginPage = () => {
                 className={`flex items-center justify-center gap-3 py-4 rounded-[20px] text-[10px] font-black uppercase tracking-widest transition-all duration-500 ${
                   role === 'supplier' 
                     ? 'bg-white text-text shadow-sm border border-text/5' 
-                    : 'text-text/30 hover:text-text/60'
+                    : 'text-text/70 hover:text-text/70'
                 }`}
               >
                 <Truck size={14} className={role === 'supplier' ? 'text-primary' : ''} /> Supplier
@@ -257,17 +257,17 @@ const LoginPage = () => {
                 setIsLogin(!isLogin);
                 setError(null);
               }}
-              className="text-[10px] font-black uppercase tracking-[0.2em] text-text/40 hover:text-text transition-colors"
+              className="text-[10px] font-black uppercase tracking-[0.2em] text-text/70 hover:text-text transition-colors"
             >
               {isLogin ? "New to the system? Sign Up" : 'Returning user? Log In'}
             </button>
 
             <div className="flex items-center gap-8 text-[9px] font-bold text-text/20 uppercase tracking-widest">
-              <a href="#" className="hover:text-text/40 transition-colors">Privacy</a>
+              <a href="#" className="hover:text-text/70 transition-colors">Privacy</a>
               <div className="w-1 h-1 rounded-full bg-text/10" />
-              <a href="#" className="hover:text-text/40 transition-colors">Security</a>
+              <a href="#" className="hover:text-text/70 transition-colors">Security</a>
               <div className="w-1 h-1 rounded-full bg-text/10" />
-              <a href="#" className="hover:text-text/40 transition-colors">Support</a>
+              <a href="#" className="hover:text-text/70 transition-colors">Support</a>
             </div>
           </motion.div>
         </motion.div>

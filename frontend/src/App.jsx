@@ -44,7 +44,7 @@ const PageLoader = () => (
       <div className="space-y-4 text-center">
         <div className="space-y-1">
           <p className="text-[11px] font-black uppercase tracking-[0.5em] text-text">Stockply <span className="text-primary italic font-normal serif lowercase">v2.0</span></p>
-          <p className="text-[9px] font-bold text-text/30 uppercase tracking-[0.3em]">Synchronizing Assets</p>
+          <p className="text-[9px] font-bold text-text/70 uppercase tracking-[0.3em]">Synchronizing Assets</p>
         </div>
         
         <div className="w-48 h-1 bg-text/5 rounded-full overflow-hidden relative">

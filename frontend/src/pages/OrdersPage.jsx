@@ -75,7 +75,7 @@ const OrderCard = ({ order }) => {
         <div className="flex-1 flex flex-col md:items-center justify-center border-y md:border-y-0 border-text/5 py-4 md:py-0">
           <p className="mb-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-text/70">Order Value</p>
           <p className="font-bold text-text text-xl flex items-center gap-1 tracking-tight">
-            <IndianRupee size={18} className="text-text/60" />
+            <IndianRupee size={18} className="text-text/70" />
             {(order.totalAmount || 0).toLocaleString()}
           </p>
         </div>
@@ -88,7 +88,7 @@ const OrderCard = ({ order }) => {
         <div className="flex-1 flex flex-col items-start md:items-center">
           <p className="mb-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-text/70">Initiated</p>
           <p className="text-sm font-bold text-text/80 flex items-center gap-2">
-            <Calendar size={14} className="text-text/60" />
+            <Calendar size={14} className="text-text/70" />
             {new Date(order.createdAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}
           </p>
         </div>
@@ -98,7 +98,7 @@ const OrderCard = ({ order }) => {
              <StatusBadge status={order.status || 'Pending'} />
           </div>
           <div className="flex items-center gap-3">
-            <button className="h-10 w-10 flex items-center justify-center rounded-full bg-background text-text/60 hover:bg-white hover:text-text hover:shadow-sm border border-transparent hover:border-text/5 transition-all">
+            <button className="h-10 w-10 flex items-center justify-center rounded-full bg-background text-text/70 hover:bg-white hover:text-text hover:shadow-sm border border-transparent hover:border-text/5 transition-all">
               <MoreVertical size={18} />
             </button>
             <button className="h-10 w-10 flex items-center justify-center rounded-full bg-white text-text/70 hover:text-primary hover:shadow-md border border-text/5 transition-all">
@@ -146,7 +146,7 @@ const OrderCard = ({ order }) => {
                               <tr key={idx} className="group hover:bg-background/20 transition-colors">
                                 <td className="px-8 py-6">
                                   <div className="flex items-center gap-4">
-                                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-background text-text/60 group-hover:text-primary transition-colors">
+                                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-background text-text/70 group-hover:text-primary transition-colors">
                                       <Package size={18} />
                                     </div>
                                     <span className="font-bold text-text text-sm">{item.name || item.product?.name}</span>
@@ -161,7 +161,7 @@ const OrderCard = ({ order }) => {
                         </table>
                       ) : (
                         <div className="px-8 py-16 flex flex-col items-center justify-center text-center">
-                          <Package size={32} className="text-text/40 mb-4" />
+                          <Package size={32} className="text-text/70 mb-4" />
                           <p className="text-sm font-bold text-text/70">No items available in this manifest.</p>
                         </div>
                       )}
@@ -313,12 +313,12 @@ const OrdersPage = () => {
       {/* ─── Controls & Filters ─── */}
       <motion.div variants={rowAnim} className="bg-white rounded-[32px] border border-text/5 p-8 mb-10 shadow-sm flex flex-col xl:flex-row gap-8 items-start xl:items-center justify-between">
         <div className="relative w-full max-w-2xl group">
-          <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-text/40 group-focus-within:text-primary transition-colors" size={20} />
+          <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-text/70 group-focus-within:text-primary transition-colors" size={20} />
           <input
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="SEARCH BY ORDER ID OR SUPPLIER..."
-            className="w-full bg-background/50 border border-transparent rounded-[24px] py-5 pl-16 pr-6 text-[10px] font-black uppercase tracking-widest text-text placeholder:text-text/40 outline-none transition-all focus:bg-white focus:border-primary/20"
+            className="w-full bg-background/50 border border-transparent rounded-[24px] py-5 pl-16 pr-6 text-[10px] font-black uppercase tracking-widest text-text placeholder:text-text/70 outline-none transition-all focus:bg-white focus:border-primary/20"
           />
         </div>
 
@@ -331,7 +331,7 @@ const OrdersPage = () => {
                 className={`px-6 py-3.5 rounded-[16px] text-[9px] font-black uppercase tracking-widest transition-all duration-500 ${
                   activeTab === tab
                     ? 'bg-white text-text shadow-sm border border-text/5'
-                    : 'text-text/60 hover:text-text/90'
+                    : 'text-text/70 hover:text-text/90'
                 }`}
               >
                 {tab}
@@ -348,7 +348,7 @@ const OrdersPage = () => {
       {loading ? (
         <div className="flex flex-col items-center justify-center py-32 gap-6">
           <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent shadow-lg shadow-primary/20" />
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-text/60">Synchronizing Manifests...</p>
+          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-text/70">Synchronizing Manifests...</p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -363,7 +363,7 @@ const OrdersPage = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 className="flex flex-col items-center justify-center py-32 rounded-[40px] border border-dashed border-text/10 bg-[#FAF5F0]/30"
               >
-                <div className="w-20 h-20 rounded-3xl bg-white border border-text/5 shadow-sm flex items-center justify-center mb-6 text-text/60">
+                <div className="w-20 h-20 rounded-3xl bg-white border border-text/5 shadow-sm flex items-center justify-center mb-6 text-text/70">
                   <Search size={32} />
                 </div>
                 <h3 className="text-xl font-bold text-text mb-2">No manifests found</h3>

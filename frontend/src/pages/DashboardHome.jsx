@@ -193,7 +193,7 @@ const DashboardHome = () => {
                         <td className="px-8 py-6 text-right">
                           <button
                             onClick={() => navigate('/dashboard/inventory/compare')}
-                            className="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-text/10 text-text/60 hover:text-primary hover:border-primary/20 transition-all shadow-sm"
+                            className="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-text/10 text-text/70 hover:text-primary hover:border-primary/20 transition-all shadow-sm"
                           >
                             <ShoppingCart size={18} />
                           </button>
@@ -277,7 +277,7 @@ const DashboardHome = () => {
                 <div key={item.name} className="flex justify-between items-center group cursor-pointer">
                   <div className="flex flex-col">
                     <span className="text-xs font-bold text-text group-hover:text-primary transition-colors">{item.name}</span>
-                    <span className="text-[9px] font-medium text-text/60 uppercase tracking-widest mt-1">{item.days}</span>
+                    <span className="text-[9px] font-medium text-text/70 uppercase tracking-widest mt-1">{item.days}</span>
                   </div>
                   <div className={`w-1.5 h-1.5 rounded-full ${item.severity === 'high' ? 'bg-red-500' : 'bg-primary'}`} />
                 </div>

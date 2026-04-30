@@ -4,14 +4,14 @@ const StatCard = ({ label, value, trend, icon: Icon, colorClass = 'text-text' })
   return (
     <div className="bg-white p-6 rounded-xl border border-text/5 shadow-sm flex justify-between items-start">
       <div>
-        <p className="text-[10px] font-bold text-text/40 uppercase tracking-widest mb-1">{label}</p>
+        <p className="text-[10px] font-bold text-text/70 uppercase tracking-widest mb-1">{label}</p>
         <h3 className={`text-2xl font-bold ${colorClass} mb-1`}>{value}</h3>
         {trend && (
           <div className="flex items-center gap-1 text-[10px] font-bold">
             <span className={trend.isUp ? 'text-teal-500' : 'text-red-500'}>
               {trend.isUp ? '↗' : '↘'} {trend.value}
             </span>
-            <span className="text-text/40 font-normal">{trend.label}</span>
+            <span className="text-text/70 font-normal">{trend.label}</span>
           </div>
         )}
       </div>

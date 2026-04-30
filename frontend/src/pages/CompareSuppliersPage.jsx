@@ -152,7 +152,7 @@ export default function CompareSuppliersPage() {
           <motion.div variants={itemVariants}>
             <section className="flex flex-col md:flex-row items-stretch md:items-center justify-between bg-white rounded-[24px] border border-text/5 shadow-premium p-3 gap-4">
               <div className="flex items-center gap-4 lg:gap-6 px-4">
-                <span className="text-[10px] lg:text-xs font-black text-text/60 uppercase tracking-[0.2em]">Sort:</span>
+                <span className="text-[10px] lg:text-xs font-black text-text/70 uppercase tracking-[0.2em]">Sort:</span>
                 <div className="flex gap-2">
                   {["Price", "Delivery", "Rating"].map((sort) => (
                     <button
@@ -168,13 +168,13 @@ export default function CompareSuppliersPage() {
                 </div>
               </div>
               <div className="flex items-center gap-6 px-4 py-3 md:py-0 border-t md:border-t-0 md:border-l border-text/5">
-                <label className="flex items-center gap-2.5 text-[11px] font-bold text-text/60 cursor-pointer hover:text-text group transition-colors">
+                <label className="flex items-center gap-2.5 text-[11px] font-bold text-text/70 cursor-pointer hover:text-text group transition-colors">
                   <div className="w-5 h-5 border-2 border-text/20 rounded-md bg-white group-hover:border-primary transition-colors flex items-center justify-center">
                     <CheckCircle2 size={12} className="text-primary opacity-0" />
                   </div>
                   Returnable
                 </label>
-                <label className="flex items-center gap-2.5 text-[11px] font-bold text-text/60 cursor-pointer hover:text-text group transition-colors">
+                <label className="flex items-center gap-2.5 text-[11px] font-bold text-text/70 cursor-pointer hover:text-text group transition-colors">
                   <div className="w-5 h-5 border-2 border-text/20 rounded-md bg-white group-hover:border-primary transition-colors flex items-center justify-center">
                     <CheckCircle2 size={12} className="text-primary opacity-0" />
                   </div>
@@ -304,7 +304,7 @@ export default function CompareSuppliersPage() {
                 Execute Order <ArrowRight size={18} strokeWidth={2.5} className="group-hover/btn:translate-x-1 transition-transform" />
               </button>
 
-              <p className="mt-8 text-[9px] text-center font-black uppercase tracking-[0.2em] text-text/60 flex items-center justify-center gap-1.5">
+              <p className="mt-8 text-[9px] text-center font-black uppercase tracking-[0.2em] text-text/70 flex items-center justify-center gap-1.5">
                 <ShieldCheck size={14} /> Cryptographically Audited
               </p>
             </div>

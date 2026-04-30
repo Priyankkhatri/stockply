@@ -15,11 +15,11 @@ const ProductDetailPanel = ({ product, onClose }) => {
             {product.category}
           </span>
           <h2 className="text-xl font-bold text-text tracking-tight">{product.name}</h2>
-          <p className="text-xs text-text/40 font-medium flex items-center gap-1 mt-1">
+          <p className="text-xs text-text/70 font-medium flex items-center gap-1 mt-1">
             <Store className="w-3 h-3" /> {product.supplier}
           </p>
         </div>
-        <button onClick={onClose} className="p-2 hover:bg-background rounded-full transition-colors text-text/40">
+        <button onClick={onClose} className="p-2 hover:bg-background rounded-full transition-colors text-text/70">
           <X size={20} />
         </button>
       </div>
@@ -29,11 +29,11 @@ const ProductDetailPanel = ({ product, onClose }) => {
         {/* Quick Stats */}
         <div className="grid grid-cols-2 gap-4">
           <div className="bg-background/50 p-4 rounded-xl border border-text/5">
-            <p className="text-[10px] font-bold text-text/40 uppercase tracking-widest mb-1">Current Stock</p>
+            <p className="text-[10px] font-bold text-text/70 uppercase tracking-widest mb-1">Current Stock</p>
             <p className="text-2xl font-bold text-text">{product.stock.split(' ')[0]}</p>
           </div>
           <div className="bg-background/50 p-4 rounded-xl border border-text/5">
-            <p className="text-[10px] font-bold text-text/40 uppercase tracking-widest mb-1">Daily Sales</p>
+            <p className="text-[10px] font-bold text-text/70 uppercase tracking-widest mb-1">Daily Sales</p>
             <p className="text-2xl font-bold text-text">~20</p>
           </div>
         </div>
@@ -54,15 +54,15 @@ const ProductDetailPanel = ({ product, onClose }) => {
           <h3 className="font-bold text-text text-sm">Supplier Details</h3>
           <div className="space-y-3">
             <div className="flex justify-between items-center text-xs">
-              <span className="text-text/40 font-medium">Contact</span>
+              <span className="text-text/70 font-medium">Contact</span>
               <span className="text-text font-bold">Jane Doe</span>
             </div>
             <div className="flex justify-between items-center text-xs">
-              <span className="text-text/40 font-medium">Lead Time</span>
+              <span className="text-text/70 font-medium">Lead Time</span>
               <span className="text-text font-bold">2-3 Business Days</span>
             </div>
             <div className="flex justify-between items-center text-xs">
-              <span className="text-text/40 font-medium">Unit Price</span>
+              <span className="text-text/70 font-medium">Unit Price</span>
               <span className="text-text font-bold">Rs. 1.45</span>
             </div>
           </div>

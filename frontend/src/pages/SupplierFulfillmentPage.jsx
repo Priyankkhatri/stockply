@@ -84,7 +84,7 @@ const FulfillmentDetailPanel = ({ order, onClose, onUpdateStatus }) => {
             ].map((step, i) => (
               <div key={step.label} className="flex gap-4 relative">
                 {i < 3 && <div className={`absolute left-2.5 top-6 w-0.5 h-10 ${step.done ? 'bg-primary' : 'bg-text/5'}`} />}
-                <div className={`w-5 h-5 rounded-full flex items-center justify-center relative z-10 ${step.done ? 'bg-primary text-white' : 'bg-background border border-text/5 text-text/60'}`}>
+                <div className={`w-5 h-5 rounded-full flex items-center justify-center relative z-10 ${step.done ? 'bg-primary text-white' : 'bg-background border border-text/5 text-text/70'}`}>
                   {step.done ? <CheckCircle2 size={10} /> : <div className="w-1.5 h-1.5 rounded-full bg-current" />}
                 </div>
                 <div className="flex flex-col">
@@ -103,7 +103,7 @@ const FulfillmentDetailPanel = ({ order, onClose, onUpdateStatus }) => {
             {order.items?.map((item, i) => (
               <div key={i} className="flex items-center justify-between p-4 bg-background/50 rounded-2xl border border-text/5 group hover:bg-white hover:shadow-premium transition-all">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-text/60 group-hover:text-primary transition-colors">
+                  <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-text/70 group-hover:text-primary transition-colors">
                     <Box size={18} />
                   </div>
                   <div>
@@ -282,11 +282,11 @@ export default function SupplierFulfillmentPage() {
             </AnimatePresence>
             {fulfillmentQueue.length === 0 && (
               <div className="px-8 py-20 text-center flex flex-col items-center justify-center">
-                <div className="w-16 h-16 bg-text/5 rounded-3xl flex items-center justify-center text-text/60 mb-6">
+                <div className="w-16 h-16 bg-text/5 rounded-3xl flex items-center justify-center text-text/70 mb-6">
                   <CheckCircle2 size={32} strokeWidth={1} />
                 </div>
                 <p className="text-[11px] font-black uppercase tracking-widest text-text/70 mb-2">Queue Clear</p>
-                <p className="text-xs text-text/60 font-medium leading-relaxed">All outbound orders have been processed and dispatched.</p>
+                <p className="text-xs text-text/70 font-medium leading-relaxed">All outbound orders have been processed and dispatched.</p>
               </div>
             )}
           </div>
@@ -316,11 +316,11 @@ export default function SupplierFulfillmentPage() {
               animate={{ opacity: 1 }}
               className="sticky top-32 h-[calc(100vh-160px)] flex flex-col items-center justify-center text-center p-10 bg-white/40 rounded-[40px] border border-dashed border-text/10"
             >
-              <div className="w-16 h-16 bg-text/5 rounded-3xl flex items-center justify-center text-text/60 mb-6">
+              <div className="w-16 h-16 bg-text/5 rounded-3xl flex items-center justify-center text-text/70 mb-6">
                 <Truck size={32} strokeWidth={1} />
               </div>
               <p className="text-[11px] font-black uppercase tracking-widest text-text/70 mb-2">Awaiting Selection</p>
-              <p className="text-xs text-text/60 font-medium leading-relaxed">Select an order from the queue to begin the fulfillment and dispatch workflow.</p>
+              <p className="text-xs text-text/70 font-medium leading-relaxed">Select an order from the queue to begin the fulfillment and dispatch workflow.</p>
             </motion.div>
           )}
         </AnimatePresence>
