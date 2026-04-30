@@ -70,8 +70,8 @@ const InventoryPage = () => {
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
             <span className="text-[10px] font-black text-text/30 uppercase tracking-[0.3em]">Stock Intelligence</span>
           </div>
-          <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">The <span className="text-primary italic font-normal serif">Ledger.</span></h1>
-          <p className="text-text/40 text-sm font-medium">Precision tracking for your entire inventory ecosystem.</p>
+          <h1 className="text-4xl font-bold text-text tracking-tighter leading-none">The <span className="text-primary italic font-normal serif">Ledger.</span></h1>
+          <p className="text-text/40 text-xs font-medium">Precision tracking for your entire inventory ecosystem.</p>
         </div>
 
         <div className="flex items-center gap-4">
@@ -154,11 +154,11 @@ const InventoryPage = () => {
             <table className="w-full text-left">
               <thead>
                 <tr className="bg-text/[0.02] border-b border-text/5">
-                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/20">Product Details</th>
-                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/20">Category</th>
-                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/20">Inventory</th>
-                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/20">Status</th>
-                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/20 text-right">Actions</th>
+                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/20">Product Details</th>
+                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/20">Category</th>
+                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/20">Inventory</th>
+                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/20">Status</th>
+                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/20 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-text/5">
@@ -175,28 +175,28 @@ const InventoryPage = () => {
                         selectedProduct?.id === product.id ? 'bg-text/[0.02]' : ''
                       }`}
                     >
-                      <td className="px-10 py-7">
+                      <td className="px-6 py-5">
                         <div className="flex items-center gap-4">
-                          <div className={`w-1 h-12 rounded-full transition-all duration-500 ${selectedProduct?.id === product.id ? 'bg-primary' : 'bg-text/5 group-hover:bg-text/10'}`} />
+                          <div className={`w-1 h-10 rounded-full transition-all duration-500 ${selectedProduct?.id === product.id ? 'bg-primary' : 'bg-text/5 group-hover:bg-text/10'}`} />
                           <div className="flex flex-col">
-                            <span className="font-bold text-text text-base tracking-tight">{product.name}</span>
+                            <span className="font-bold text-text text-sm tracking-tight">{product.name}</span>
                             <span className="text-[10px] font-bold text-text/30 mt-1 uppercase tracking-widest">{product.code} • {product.supplier}</span>
                           </div>
                         </div>
                       </td>
-                      <td className="px-10 py-7">
+                      <td className="px-6 py-5">
                         <span className="text-xs font-bold text-text/40 uppercase tracking-widest">{product.category}</span>
                       </td>
-                      <td className="px-10 py-7">
+                      <td className="px-6 py-5">
                         <div className="flex flex-col">
                           <span className="text-sm font-bold text-text tracking-tight">{product.stock}</span>
                           <span className="text-[9px] font-black text-text/20 uppercase tracking-widest mt-1">Valuation: {product.price}</span>
                         </div>
                       </td>
-                      <td className="px-10 py-7">
+                      <td className="px-6 py-5">
                         <StatusBadge status={product.status} />
                       </td>
-                      <td className="px-10 py-7 text-right">
+                      <td className="px-6 py-5 text-right">
                         <div className="flex items-center justify-end gap-2">
                           <button className="p-3 text-text/20 hover:text-primary transition-colors">
                             <ShoppingBag size={18} />
@@ -238,10 +238,6 @@ const InventoryPage = () => {
         </AnimatePresence>
       </div>
       
-      <style dangerouslySetInnerHTML={{ __html: `
-        .serif { font-family: "Playfair Display", serif; }
-        .shadow-premium { box-shadow: 0 20px 80px -20px rgba(0,0,0,0.06); }
-      ` }} />
     </motion.div>
   );
 };
