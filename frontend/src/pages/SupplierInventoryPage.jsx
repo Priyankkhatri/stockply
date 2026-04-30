@@ -91,7 +91,7 @@ const SupplierProductDetailPanel = ({ product, onClose, onUpdateStock }) => {
           
           <div className="bg-[#FAF5F0] rounded-[24px] p-6 border border-[#F0E5D8] space-y-6">
             <div className="flex flex-col gap-2">
-              <label className="text-[9px] font-black text-text/40 uppercase tracking-widest ml-1">Adjustment Amount</label>
+              <label className="text-[9px] font-black text-text/70 uppercase tracking-widest ml-1">Adjustment Amount</label>
               <input 
                 type="number" 
                 value={adjustmentValue}
