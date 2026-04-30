@@ -53,10 +53,10 @@ export default function SupplierFulfillmentPage() {
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-            <span className="text-[10px] font-black text-text/30 uppercase tracking-[0.3em]">Supplier / Fulfillment</span>
+            <span className="text-[10px] font-black text-text/60 uppercase tracking-[0.3em]">Supplier / Fulfillment</span>
           </div>
           <h1 className="text-4xl font-bold tracking-tighter text-text leading-none">Order <span className="text-primary italic font-normal serif">Fulfillment.</span></h1>
-          <p className="text-text/40 text-xs font-medium">Process outbound orders, monitor dispatch windows, and keep the queue moving.</p>
+          <p className="text-text/60 text-xs font-medium">Process outbound orders, monitor dispatch windows, and keep the queue moving.</p>
         </div>
         <PremiumButton variant="primary" icon={PackageCheck}>
           Create dispatch batch
@@ -70,7 +70,7 @@ export default function SupplierFulfillmentPage() {
               <div className={`mb-4 flex h-12 w-12 items-center justify-center rounded-xl border transition-transform duration-500 group-hover:scale-110 ${stage.tone}`}>
                 <stage.icon size={20} />
               </div>
-              <p className="mb-1 text-[10px] font-black uppercase tracking-[0.2em] text-text/30">{stage.label}</p>
+              <p className="mb-1 text-[10px] font-black uppercase tracking-[0.2em] text-text/60">{stage.label}</p>
               <p className="text-3xl font-display font-bold text-text">{stage.count}</p>
             </GlassCard>
           </motion.div>
@@ -83,9 +83,9 @@ export default function SupplierFulfillmentPage() {
             <div className="flex items-center justify-between border-b border-text/5 bg-white/50 px-8 py-6">
               <div>
                 <h2 className="text-xl font-display font-bold text-text">Today&apos;s Queue</h2>
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Dispatch operations</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text/60">Dispatch operations</p>
               </div>
-              <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-text/40">
+              <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-text/60">
                 <Clock3 size={14} />
                 Live board
               </div>
@@ -95,7 +95,7 @@ export default function SupplierFulfillmentPage() {
               {queue.map((item) => (
                 <div key={item.id} className="flex items-center justify-between gap-6 px-8 py-6 transition-all hover:bg-white/50">
                   <div>
-                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text/25">{item.id}</p>
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text/50">{item.id}</p>
                     <h3 className="mt-1 text-sm font-display font-bold text-text">{item.shop}</h3>
                     <p className="mt-1 text-xs font-medium text-text/50">{item.items}</p>
                   </div>
@@ -132,11 +132,11 @@ export default function SupplierFulfillmentPage() {
 
             <div className="mt-8 space-y-4">
               <div className="rounded-2xl border border-text/5 bg-white/80 px-5 py-4 backdrop-blur-md">
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Batches on track</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text/60">Batches on track</p>
                 <p className="mt-2 text-2xl font-display font-bold text-text">84%</p>
               </div>
               <div className="rounded-2xl border border-text/5 bg-white/80 px-5 py-4 backdrop-blur-md">
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Next carrier cutoff</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text/60">Next carrier cutoff</p>
                 <p className="mt-2 text-2xl font-display font-bold text-text">4:30 PM</p>
               </div>
             </div>

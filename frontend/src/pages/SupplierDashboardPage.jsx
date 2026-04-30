@@ -46,7 +46,7 @@ const StatCard = ({ title, value, icon: Icon, trend, trendValue, colorClass }) =
         </div>
       </div>
       <div>
-        <p className="text-[10px] font-black text-text/60 uppercase tracking-[0.2em] mb-1">{title}</p>
+        <p className="text-[10px] font-black text-text/70 uppercase tracking-[0.2em] mb-1">{title}</p>
         <h3 className="text-3xl font-black text-text tracking-tighter">{value}</h3>
       </div>
     </GlassCard>
@@ -92,10 +92,10 @@ const SupplierDashboardPage = () => {
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-            <span className="text-[10px] font-black text-text/50 uppercase tracking-[0.3em]">Supplier Portal</span>
+            <span className="text-[10px] font-black text-text/60 uppercase tracking-[0.3em]">Supplier Portal</span>
           </div>
           <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">Global <span className="text-primary italic font-normal serif">Dashboard.</span></h1>
-          <p className="text-text/60 text-sm font-medium">Logistics, inventory, and supply chain intelligence.</p>
+          <p className="text-text/70 text-sm font-medium">Logistics, inventory, and supply chain intelligence.</p>
         </div>
 
         <div className="flex items-center gap-4">
