@@ -35,7 +35,7 @@ const Topbar = ({ role, onMenuClick }) => {
   };
 
   return (
-    <header className="sticky top-0 z-40 flex h-20 lg:h-28 items-center justify-between border-b border-text/5 bg-white/70 px-6 lg:px-12 backdrop-blur-xl supports-[backdrop-filter]:bg-white/50">
+    <header className="sticky top-0 z-40 flex h-16 lg:h-20 items-center justify-between border-b border-text/5 bg-white/70 px-6 lg:px-8 backdrop-blur-xl supports-[backdrop-filter]:bg-white/50">
       <div className="flex items-center gap-4 flex-1 max-w-2xl">
         <button 
           onClick={onMenuClick}
@@ -53,6 +53,11 @@ const Topbar = ({ role, onMenuClick }) => {
           <input
             type="text"
             placeholder="Search SKU, Product..."
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                alert(`Searching for: ${e.target.value}...`);
+              }
+            }}
             className="w-full rounded-2xl lg:rounded-[32px] border border-text/5 bg-white/40 py-3 lg:py-4 pl-12 lg:pl-16 pr-4 lg:pr-8 text-xs lg:text-sm font-bold text-text placeholder:text-text/50 transition-all focus:border-primary/20 focus:bg-white focus:shadow-[0_8px_30px_rgb(0,0,0,0.04)] focus:outline-none"
           />
           <div className="absolute right-4 top-1/2 hidden lg:flex -translate-y-1/2 items-center gap-1.5 rounded-lg border border-text/5 bg-background/50 px-2 py-1">
@@ -131,7 +136,13 @@ const Topbar = ({ role, onMenuClick }) => {
                       ))
                     )}
                   </div>
-                  <div className="p-4 bg-background/30 text-center border-t border-text/5 hover:bg-background/50 transition-colors cursor-pointer">
+                  <div 
+                    onClick={() => {
+                      navigate(role === 'supplier' ? '/supplier/dashboard' : '/dashboard');
+                      setShowNotifications(false);
+                    }}
+                    className="p-4 bg-background/30 text-center border-t border-text/5 hover:bg-background/50 transition-colors cursor-pointer"
+                  >
                     <button className="text-[10px] font-black uppercase tracking-[0.2em] text-text/60 hover:text-primary transition-colors">
                       Open Command Center
                     </button>

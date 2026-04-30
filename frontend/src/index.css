@@ -4,7 +4,9 @@
 @layer base {
   :root {
     --background: #FFFBF7;
-    --text: #1A1211;
+    --text: #120D0C;
+    --text-muted: #5C4B49;
+    --text-dim: #998785;
     --primary: #C08552;
     --primary-dark: #A66B3F;
     --primary-light: #E0C1A8;
@@ -18,6 +20,14 @@
 
   .shadow-premium {
     box-shadow: 0 20px 80px -20px rgba(75, 46, 43, 0.08);
+  }
+
+  .text-high {
+    @apply text-[#120D0C] font-bold;
+  }
+
+  .text-medium {
+    @apply text-[#5C4B49] font-medium;
   }
 }
 

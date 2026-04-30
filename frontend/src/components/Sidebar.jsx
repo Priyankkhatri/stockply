@@ -51,24 +51,24 @@ const Sidebar = ({ role, isOpen, onClose }) => {
   
     return (
       <aside className={`
-        fixed inset-y-0 left-0 z-[60] w-72 bg-[#FDFCFB]/80 backdrop-blur-3xl border-r border-text/5 flex flex-col transition-all duration-700 ease-[0.22,1,0.36,1]
+        fixed inset-y-0 left-0 z-[60] w-64 bg-[#FDFCFB]/80 backdrop-blur-3xl border-r border-text/5 flex flex-col transition-all duration-700 ease-[0.22,1,0.36,1]
         lg:translate-x-0 lg:static lg:h-screen lg:sticky lg:top-0
         ${isOpen ? 'translate-x-0' : '-translate-x-full shadow-none'}
         ${isOpen ? 'shadow-[40px_0_80px_-20px_rgba(0,0,0,0.1)]' : ''}
       `}>
         {/* ─── Header: Brand Identity ─── */}
-        <div className="p-8 pt-10 flex items-center justify-between">
+        <div className="p-6 pt-8 flex items-center justify-between">
           <motion.div 
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             className="flex items-center gap-3.5 group cursor-pointer"
             onClick={() => navigate('/')}
           >
-            <div className="w-12 h-12 bg-text rounded-[18px] flex items-center justify-center text-white shadow-2xl shadow-text/20 group-hover:bg-primary transition-all duration-500 transform group-hover:rotate-6">
+            <div className="w-10 h-10 bg-text rounded-[15px] flex items-center justify-center text-white shadow-2xl shadow-text/20 group-hover:bg-primary transition-all duration-500 transform group-hover:rotate-6">
               <Logo size={24} />
             </div>
             <div className="flex flex-col">
-              <span className="text-text font-bold text-lg tracking-tighter uppercase leading-none">Stockply</span>
+              <span className="text-text font-bold text-base tracking-tighter uppercase leading-none">Stockply</span>
               <span className="text-[7px] font-black text-text/50 tracking-[0.4em] uppercase mt-1.5 flex items-center gap-1.5">
                 <div className="w-1 h-1 rounded-full bg-primary animate-pulse" />
                 Atelier v2
@@ -97,7 +97,7 @@ const Sidebar = ({ role, isOpen, onClose }) => {
                   onClick={() => {
                     if (window.innerWidth < 1024) onClose();
                   }}
-                  className={`group relative flex items-center justify-between px-5 py-3.5 rounded-[20px] transition-all duration-500 ${
+                  className={`group relative flex items-center justify-between px-4 py-3 rounded-[18px] transition-all duration-500 ${
                     isActive
                        ? 'text-text'
                       : 'text-text/50 hover:text-text/80 hover:bg-text/[0.02]'
@@ -106,7 +106,7 @@ const Sidebar = ({ role, isOpen, onClose }) => {
                   {isActive && (
                     <motion.div 
                       layoutId="sidebar-active"
-                      className="absolute inset-0 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-text/5 rounded-[20px] z-0"
+                      className="absolute inset-0 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-text/5 rounded-[18px] z-0"
                       transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                     />
                   )}
@@ -138,14 +138,24 @@ const Sidebar = ({ role, isOpen, onClose }) => {
 
         {/* ─── Footer: Actions & System ─── */}
         <div className="p-6 space-y-4">
-          <div className="p-5 bg-text rounded-[28px] relative overflow-hidden group cursor-pointer transition-all duration-500 hover:shadow-2xl hover:shadow-text/20">
+          <div 
+            onClick={() => {
+              if (role === 'supplier') {
+                navigate('/supplier/inventory');
+              } else {
+                navigate('/dashboard/orders');
+              }
+              if (window.innerWidth < 1024) onClose();
+            }}
+            className="p-5 bg-text rounded-[28px] relative overflow-hidden group cursor-pointer transition-all duration-500 hover:shadow-2xl hover:shadow-text/20"
+          >
             <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
             <div className="relative z-10 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white">
                   <Plus size={16} />
                 </div>
-                <span className="text-[9px] font-black text-white uppercase tracking-[0.2em]">New Action</span>
+                <span className="text-[9px] font-black text-white uppercase tracking-[0.2em]">Quick Action</span>
               </div>
               <ChevronRight size={14} className="text-white/20 group-hover:text-white transition-all transform group-hover:translate-x-1" />
             </div>

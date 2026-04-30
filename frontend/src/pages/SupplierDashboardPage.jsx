@@ -75,7 +75,7 @@ const SupplierDashboardPage = () => {
       <div className="flex h-[80vh] items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-          <p className="text-[10px] font-black uppercase tracking-widest text-text/60">Syncing Intelligence...</p>
+          <p className="text-[10px] font-black uppercase tracking-widest text-text/80">Syncing Intelligence...</p>
         </div>
       </div>
     );
@@ -92,10 +92,10 @@ const SupplierDashboardPage = () => {
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-            <span className="text-[10px] font-black text-text/60 uppercase tracking-[0.3em]">Supplier Portal</span>
+            <span className="text-[10px] font-black text-text/80 uppercase tracking-[0.3em]">Supplier Portal</span>
           </div>
           <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">Global <span className="text-primary italic font-normal serif">Dashboard.</span></h1>
-          <p className="text-text/70 text-sm font-medium">Logistics, inventory, and supply chain intelligence.</p>
+          <p className="text-text/80 text-sm font-medium">Logistics, inventory, and supply chain intelligence.</p>
         </div>
 
         <div className="flex items-center gap-4">
@@ -167,7 +167,7 @@ const SupplierDashboardPage = () => {
                 <div className="mb-10 flex items-center justify-between">
                   <div>
                     <h3 className="text-xl font-bold text-text">Demand Matrix</h3>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-text/50">Weekly order volume</p>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-text/80">Weekly order volume</p>
                   </div>
                   <div className="flex items-center gap-1 text-[11px] font-black uppercase tracking-widest text-teal-600">
                     <ArrowUpRight size={14} strokeWidth={3} /> {growth.orders || "0%"}
@@ -180,7 +180,7 @@ const SupplierDashboardPage = () => {
                         className={`w-full rounded-2xl transition-all duration-700 ${data.count > 0 ? 'bg-primary shadow-[0_0_20px_rgba(192,133,82,0.3)]' : 'bg-primary/10 group-hover:bg-primary/30'}`}
                         style={{ height: `${Math.max(5, (data.count / (Math.max(...trendData.map(d => d.count)) || 1)) * 100)}%` }}
                       />
-                      <span className="text-[10px] font-black uppercase tracking-widest text-text/40 group-hover:text-text transition-colors">{data.day}</span>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-text/70 group-hover:text-text transition-colors">{data.day}</span>
                     </div>
                   ))}
                 </div>
@@ -193,7 +193,7 @@ const SupplierDashboardPage = () => {
                 <div className="mb-8 flex items-center justify-between">
                   <div>
                     <h3 className="text-xl font-bold text-text">Live Queue</h3>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-text/50">Active fulfillments</p>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-text/80">Active fulfillments</p>
                   </div>
                   <PremiumButton variant="secondary" onClick={() => navigate('/supplier/orders')} className="px-6 py-2">
                     View All
@@ -214,7 +214,7 @@ const SupplierDashboardPage = () => {
                           </div>
                           <div>
                             <p className="text-sm font-bold text-text group-hover:text-primary transition-colors">{order.shopName}</p>
-                            <p className="text-[10px] font-black text-text/50 uppercase tracking-[0.2em] mt-0.5">{order.orderNumber}</p>
+                            <p className="text-[10px] font-black text-text/80 uppercase tracking-[0.2em] mt-0.5">{order.orderNumber}</p>
                           </div>
                         </div>
                         <div className="text-right">
@@ -230,10 +230,10 @@ const SupplierDashboardPage = () => {
                     ))
                   ) : (
                     <div className="py-20 text-center flex flex-col items-center">
-                      <div className="w-16 h-16 rounded-3xl bg-background flex items-center justify-center mb-6 text-text/10">
+                      <div className="w-16 h-16 rounded-3xl bg-background flex items-center justify-center mb-6 text-text/40">
                         <Clock size={32} strokeWidth={1.5} />
                       </div>
-                      <p className="text-[11px] font-black text-text/40 uppercase tracking-widest">No Active Orders</p>
+                      <p className="text-[11px] font-black text-text/70 uppercase tracking-widest">No Active Orders</p>
                     </div>
                   )}
                 </div>
@@ -252,12 +252,12 @@ const SupplierDashboardPage = () => {
                     <Activity size={28} className="text-primary" strokeWidth={1.5} />
                   </div>
                   <h3 className="text-2xl font-bold mb-3 tracking-tight">Logistics Hub</h3>
-                  <p className="text-white/40 text-xs font-medium leading-relaxed mb-8">
+                  <p className="text-white/70 text-xs font-medium leading-relaxed mb-8">
                     Your supply chain is operating at <span className="text-primary font-black">94% efficiency</span>. Next dispatch window opens in 4 hours.
                   </p>
                   <div className="space-y-3 mb-8">
                     <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest">
-                      <span className="text-white/30">Warehouse Capacity</span>
+                      <span className="text-white/60">Warehouse Capacity</span>
                       <span className="text-primary">78%</span>
                     </div>
                     <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
@@ -280,7 +280,7 @@ const SupplierDashboardPage = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-text tracking-tight">Critical Alerts</h3>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-text/50">Action Required</p>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-text/80">Action Required</p>
                   </div>
                 </div>
 
@@ -299,7 +299,7 @@ const SupplierDashboardPage = () => {
                             <p className="text-[10px] font-black text-rose-500/70 uppercase tracking-widest">{item.status}: {item.stock} units</p>
                           </div>
                         </div>
-                        <ChevronRight size={16} className="text-text/10 group-hover:text-primary transition-all" />
+                        <ChevronRight size={16} className="text-text/40 group-hover:text-primary transition-all" />
                       </div>
                     ))
                   ) : (

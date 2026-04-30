@@ -64,7 +64,7 @@ const OrderCard = ({ order }) => {
           </div>
           <div>
             <h4 className="text-xl font-bold text-text group-hover:text-primary transition-colors tracking-tight">{order.orderNumber}</h4>
-            <p className="mt-1 text-[10px] font-black uppercase tracking-[0.2em] text-text/40 flex items-center gap-2">
+            <p className="mt-1 text-[10px] font-black uppercase tracking-[0.2em] text-text/70 flex items-center gap-2">
               <span>{order.items?.length || 0} ITEMS</span>
               <span className="w-1 h-1 rounded-full bg-text/20" />
               <span>{order.shopName || order.supplierName || 'Unknown Supplier'}</span>
@@ -73,22 +73,22 @@ const OrderCard = ({ order }) => {
         </div>
 
         <div className="flex-1 flex flex-col md:items-center justify-center border-y md:border-y-0 border-text/5 py-4 md:py-0">
-          <p className="mb-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-text/50">Order Value</p>
+          <p className="mb-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-text/70">Order Value</p>
           <p className="font-bold text-text text-xl flex items-center gap-1 tracking-tight">
-            <IndianRupee size={18} className="text-text/50" />
+            <IndianRupee size={18} className="text-text/60" />
             {(order.totalAmount || 0).toLocaleString()}
           </p>
         </div>
 
         <div className="hidden md:flex flex-1 flex-col items-center justify-center">
-          <p className="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-text/50">Current State</p>
+          <p className="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-text/70">Current State</p>
           <StatusBadge status={order.status || 'Pending'} />
         </div>
 
         <div className="flex-1 flex flex-col items-start md:items-center">
-          <p className="mb-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-text/50">Initiated</p>
-          <p className="text-sm font-bold text-text/70 flex items-center gap-2">
-            <Calendar size={14} className="text-text/40" />
+          <p className="mb-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-text/70">Initiated</p>
+          <p className="text-sm font-bold text-text/80 flex items-center gap-2">
+            <Calendar size={14} className="text-text/60" />
             {new Date(order.createdAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}
           </p>
         </div>
@@ -98,10 +98,10 @@ const OrderCard = ({ order }) => {
              <StatusBadge status={order.status || 'Pending'} />
           </div>
           <div className="flex items-center gap-3">
-            <button className="h-10 w-10 flex items-center justify-center rounded-full bg-background text-text/30 hover:bg-white hover:text-text hover:shadow-sm border border-transparent hover:border-text/5 transition-all">
+            <button className="h-10 w-10 flex items-center justify-center rounded-full bg-background text-text/60 hover:bg-white hover:text-text hover:shadow-sm border border-transparent hover:border-text/5 transition-all">
               <MoreVertical size={18} />
             </button>
-            <button className="h-10 w-10 flex items-center justify-center rounded-full bg-white text-text/40 hover:text-primary hover:shadow-md border border-text/5 transition-all">
+            <button className="h-10 w-10 flex items-center justify-center rounded-full bg-white text-text/70 hover:text-primary hover:shadow-md border border-text/5 transition-all">
               <motion.div animate={{ rotate: isExpanded ? 180 : 0 }}>
                 <ChevronDown size={18} />
               </motion.div>
@@ -135,10 +135,10 @@ const OrderCard = ({ order }) => {
                         <table className="w-full text-left">
                           <thead>
                             <tr className="bg-[#FAF5F0] border-b border-[#F0E5D8]">
-                              <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/60">Item Description</th>
-                              <th className="px-8 py-5 text-right text-[10px] font-black uppercase tracking-[0.2em] text-text/60">Qty</th>
-                              <th className="px-8 py-5 text-right text-[10px] font-black uppercase tracking-[0.2em] text-text/60">Unit Price</th>
-                              <th className="px-8 py-5 text-right text-[10px] font-black uppercase tracking-[0.2em] text-text/60">Total</th>
+                              <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/80">Item Description</th>
+                              <th className="px-8 py-5 text-right text-[10px] font-black uppercase tracking-[0.2em] text-text/80">Qty</th>
+                              <th className="px-8 py-5 text-right text-[10px] font-black uppercase tracking-[0.2em] text-text/80">Unit Price</th>
+                              <th className="px-8 py-5 text-right text-[10px] font-black uppercase tracking-[0.2em] text-text/80">Total</th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-text/5">
@@ -146,14 +146,14 @@ const OrderCard = ({ order }) => {
                               <tr key={idx} className="group hover:bg-background/20 transition-colors">
                                 <td className="px-8 py-6">
                                   <div className="flex items-center gap-4">
-                                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-background text-text/20 group-hover:text-primary transition-colors">
+                                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-background text-text/60 group-hover:text-primary transition-colors">
                                       <Package size={18} />
                                     </div>
                                     <span className="font-bold text-text text-sm">{item.name || item.product?.name}</span>
                                   </div>
                                 </td>
-                                <td className="px-8 py-6 text-right font-black text-text/80 text-sm">{item.quantity}</td>
-                                <td className="px-8 py-6 text-right font-medium text-text/60 text-sm">₹{item.price?.toLocaleString()}</td>
+                                <td className="px-8 py-6 text-right font-black text-text/90 text-sm">{item.quantity}</td>
+                                <td className="px-8 py-6 text-right font-medium text-text/80 text-sm">₹{item.price?.toLocaleString()}</td>
                                 <td className="px-8 py-6 text-right font-bold text-text text-sm">₹{((item.price || 0) * (item.quantity || 0)).toLocaleString()}</td>
                               </tr>
                             ))}
@@ -161,8 +161,8 @@ const OrderCard = ({ order }) => {
                         </table>
                       ) : (
                         <div className="px-8 py-16 flex flex-col items-center justify-center text-center">
-                          <Package size={32} className="text-text/10 mb-4" />
-                          <p className="text-sm font-bold text-text/40">No items available in this manifest.</p>
+                          <Package size={32} className="text-text/40 mb-4" />
+                          <p className="text-sm font-bold text-text/70">No items available in this manifest.</p>
                         </div>
                       )}
                     </div>
@@ -177,13 +177,13 @@ const OrderCard = ({ order }) => {
                       </div>
                       <div>
                         <h5 className="text-sm font-black uppercase tracking-[0.2em] text-text">Logistics Profile</h5>
-                        <p className="text-[10px] font-bold text-text/60 mt-1">Delivery & Routing</p>
+                        <p className="text-[10px] font-bold text-text/80 mt-1">Delivery & Routing</p>
                       </div>
                     </div>
                     
                     <div className="space-y-6">
                       <div className="flex items-center justify-between border-b border-text/5 pb-6">
-                        <div className="flex items-center gap-2 text-text/40">
+                        <div className="flex items-center gap-2 text-text/70">
                           <Calendar size={16} />
                           <span className="text-[10px] font-black uppercase tracking-widest">Expected By</span>
                         </div>
@@ -193,7 +193,7 @@ const OrderCard = ({ order }) => {
                       </div>
                       
                       <div className="flex items-center justify-between border-b border-text/5 pb-6">
-                        <div className="flex items-center gap-2 text-text/40">
+                        <div className="flex items-center gap-2 text-text/70">
                           <MapPin size={16} />
                           <span className="text-[10px] font-black uppercase tracking-widest">Destination</span>
                         </div>
@@ -203,7 +203,7 @@ const OrderCard = ({ order }) => {
                       </div>
 
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2 text-text/40">
+                        <div className="flex items-center gap-2 text-text/70">
                           <Zap size={16} />
                           <span className="text-[10px] font-black uppercase tracking-widest">Priority</span>
                         </div>
@@ -214,7 +214,11 @@ const OrderCard = ({ order }) => {
                     </div>
                   </GlassCard>
 
-                  <PremiumButton variant="secondary" className="w-full flex justify-center py-5 rounded-2xl">
+                  <PremiumButton 
+                    variant="secondary" 
+                    className="w-full flex justify-center py-5 rounded-2xl"
+                    onClick={() => alert(`Generating Invoice for Order ${order.orderNumber}...`)}
+                  >
                     <span className="flex items-center gap-2">
                       <Download size={16} />
                       Download Invoice PDF
@@ -282,15 +286,18 @@ const OrdersPage = () => {
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-            <span className="text-[10px] font-black text-text/60 uppercase tracking-[0.3em]">Purchase Orders</span>
+            <span className="text-[10px] font-black text-text/80 uppercase tracking-[0.3em]">Purchase Orders</span>
           </div>
           <h1 className="text-4xl font-bold text-text tracking-tighter leading-none">The <span className="text-primary italic font-normal serif">Manifests.</span></h1>
-          <p className="text-text/60 text-xs font-medium">Command center for incoming inventory, fulfillment logistics, and supplier transactions.</p>
+          <p className="text-text/80 text-xs font-medium">Command center for incoming inventory, fulfillment logistics, and supplier transactions.</p>
         </div>
 
         <div className="flex items-center gap-4">
-          <button className="px-6 py-4 bg-white border border-text/5 rounded-[20px] text-[10px] font-black uppercase tracking-widest text-text/60 hover:text-text transition-all flex items-center gap-3">
-            <History size={16} /> Activity Log
+          <button 
+            onClick={() => alert("Activity Log: Syncing with fulfillment history...")}
+            className="px-6 py-4 bg-white border border-text/5 rounded-[20px] text-[10px] font-black uppercase tracking-widest text-text/80 hover:text-text hover:border-primary/20 transition-all flex items-center gap-3 group"
+          >
+            <History size={16} className="group-hover:text-primary transition-colors" /> Activity Log
           </button>
           <motion.button 
             whileHover={{ scale: 1.02 }}
@@ -306,12 +313,12 @@ const OrdersPage = () => {
       {/* ─── Controls & Filters ─── */}
       <motion.div variants={rowAnim} className="bg-white rounded-[32px] border border-text/5 p-8 mb-10 shadow-sm flex flex-col xl:flex-row gap-8 items-start xl:items-center justify-between">
         <div className="relative w-full max-w-2xl group">
-          <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-text/20 group-focus-within:text-primary transition-colors" size={20} />
+          <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-text/40 group-focus-within:text-primary transition-colors" size={20} />
           <input
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="SEARCH BY ORDER ID OR SUPPLIER..."
-            className="w-full bg-background/50 border border-transparent rounded-[24px] py-5 pl-16 pr-6 text-[10px] font-black uppercase tracking-widest text-text placeholder:text-text/20 outline-none transition-all focus:bg-white focus:border-primary/20"
+            className="w-full bg-background/50 border border-transparent rounded-[24px] py-5 pl-16 pr-6 text-[10px] font-black uppercase tracking-widest text-text placeholder:text-text/40 outline-none transition-all focus:bg-white focus:border-primary/20"
           />
         </div>
 
@@ -324,7 +331,7 @@ const OrdersPage = () => {
                 className={`px-6 py-3.5 rounded-[16px] text-[9px] font-black uppercase tracking-widest transition-all duration-500 ${
                   activeTab === tab
                     ? 'bg-white text-text shadow-sm border border-text/5'
-                    : 'text-text/30 hover:text-text/60'
+                    : 'text-text/60 hover:text-text/90'
                 }`}
               >
                 {tab}
@@ -332,7 +339,7 @@ const OrdersPage = () => {
             ))}
           </div>
           
-          <button className="p-5 bg-background rounded-2xl border border-text/5 text-text/40 hover:text-text transition-colors">
+          <button className="p-5 bg-background rounded-2xl border border-text/5 text-text/70 hover:text-text transition-colors">
             <Filter size={18} />
           </button>
         </div>
@@ -341,7 +348,7 @@ const OrdersPage = () => {
       {loading ? (
         <div className="flex flex-col items-center justify-center py-32 gap-6">
           <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent shadow-lg shadow-primary/20" />
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-text/30">Synchronizing Manifests...</p>
+          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-text/60">Synchronizing Manifests...</p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -356,11 +363,11 @@ const OrdersPage = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 className="flex flex-col items-center justify-center py-32 rounded-[40px] border border-dashed border-text/10 bg-[#FAF5F0]/30"
               >
-                <div className="w-20 h-20 rounded-3xl bg-white border border-text/5 shadow-sm flex items-center justify-center mb-6 text-text/20">
+                <div className="w-20 h-20 rounded-3xl bg-white border border-text/5 shadow-sm flex items-center justify-center mb-6 text-text/60">
                   <Search size={32} />
                 </div>
                 <h3 className="text-xl font-bold text-text mb-2">No manifests found</h3>
-                <p className="text-sm font-medium text-text/40">Try adjusting your filters or search criteria.</p>
+                <p className="text-sm font-medium text-text/70">Try adjusting your filters or search criteria.</p>
                 <PremiumButton variant="secondary" className="mt-8" onClick={() => {setSearchTerm(''); setActiveTab('All Orders');}}>
                   Clear Filters
                 </PremiumButton>
