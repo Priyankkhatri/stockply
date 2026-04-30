@@ -1,3 +1,26 @@
+# Pull Request #106: Systemic UI Contrast Enhancement and Dynamic Filter Tags
+
+## Status: Merged ✅
+**Branch**: `main`  
+**Date**: April 30, 2026  
+**Author**: Antigravity AI
+
+---
+
+### 1. Executive Summary
+Conducted a massive global update to resolve low-contrast text visibility issues. Additionally, resolved layout and functional issues regarding dynamic filtering on Inventory modules, achieving complete parity with the established high-fidelity design standards.
+
+### 2. Key Changes
+- **Global Text Contrast Audit**: Identified over 160 instances of `text/30`, `text/40`, `text/50`, and `text/60` opacity classes across the entire codebase and successfully upgraded them to `text/70` or higher to ensure accessibility compliance.
+- **Dynamic Filter Tags**: Added missing logic to render dynamic filter tags when selecting non-default categories (e.g. "Analgesics") in the Inventory and Supplier Inventory screens. 
+- **Filter Resolution**: Fixed the logic in `visibleProducts` filter conditions to ensure that custom categories actively filter items instead of hiding them.
+
+### 3. Design & Accessibility
+- **High Contrast**: Achieved optimal legibility without losing the "Digital Atelier" aesthetic.
+- **Interactive State**: Filter tags are now easily dismissable with an integrated `X` button.
+
+---
+
 # Pull Request #94: UI/UX Parity & Interactive Refinement
 
 ## Status: Merged ✅
