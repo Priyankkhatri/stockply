@@ -59,8 +59,8 @@ const OrderCard = ({ order }) => {
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <div className="flex-1 flex items-center gap-6">
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#FAF5F0] text-primary/40 border border-text/5 group-hover:bg-white transition-colors shadow-sm">
-            <Package size={24} />
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FAF5F0] text-primary/40 border border-text/5 group-hover:bg-white transition-colors shadow-sm">
+            <Package size={22} />
           </div>
           <div>
             <h4 className="text-xl font-bold text-text group-hover:text-primary transition-colors tracking-tight">{order.orderNumber}</h4>
@@ -284,8 +284,8 @@ const OrdersPage = () => {
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
             <span className="text-[10px] font-black text-text/30 uppercase tracking-[0.3em]">Purchase Orders</span>
           </div>
-          <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">The <span className="text-primary italic font-normal serif">Manifests.</span></h1>
-          <p className="text-text/40 text-sm font-medium">Command center for incoming inventory, fulfillment logistics, and supplier transactions.</p>
+          <h1 className="text-4xl font-bold text-text tracking-tighter leading-none">The <span className="text-primary italic font-normal serif">Manifests.</span></h1>
+          <p className="text-text/40 text-xs font-medium">Command center for incoming inventory, fulfillment logistics, and supplier transactions.</p>
         </div>
 
         <div className="flex items-center gap-4">
@@ -377,10 +377,6 @@ const OrdersPage = () => {
         />
       )}
       
-      <style dangerouslySetInnerHTML={{ __html: `
-        .serif { font-family: "Playfair Display", serif; }
-        .shadow-premium { box-shadow: 0 20px 80px -20px rgba(0,0,0,0.06); }
-      ` }} />
     </motion.div>
   );
 };
