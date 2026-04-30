@@ -68,10 +68,10 @@ const InventoryPage = () => {
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-            <span className="text-[10px] font-black text-text/30 uppercase tracking-[0.3em]">Stock Intelligence</span>
+            <span className="text-[10px] font-black text-text/60 uppercase tracking-[0.3em]">Stock Intelligence</span>
           </div>
           <h1 className="text-4xl font-bold text-text tracking-tighter leading-none">The <span className="text-primary italic font-normal serif">Ledger.</span></h1>
-          <p className="text-text/40 text-xs font-medium">Precision tracking for your entire inventory ecosystem.</p>
+          <p className="text-text/60 text-xs font-medium">Precision tracking for your entire inventory ecosystem.</p>
         </div>
 
         <div className="flex items-center gap-4">
@@ -98,11 +98,11 @@ const InventoryPage = () => {
           <motion.div key={stat.label} variants={rowAnim}>
             <GlassCard className="p-6 flex items-center justify-between group hover:shadow-2xl transition-all duration-500">
               <div className="flex items-center gap-5">
-                <div className="w-12 h-12 bg-text/5 rounded-2xl flex items-center justify-center text-text/40 group-hover:bg-primary group-hover:text-white transition-all duration-500">
+                <div className="w-12 h-12 bg-text/5 rounded-2xl flex items-center justify-center text-text/40 group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-sm group-hover:shadow-lg">
                   <stat.icon size={20} />
                 </div>
                 <div>
-                  <p className="text-[9px] font-black text-text/20 uppercase tracking-widest mb-1">{stat.label}</p>
+                  <p className="text-[9px] font-black text-text/50 uppercase tracking-widest mb-1">{stat.label}</p>
                   <p className="text-2xl font-bold text-text tracking-tight">{stat.value}</p>
                 </div>
               </div>
@@ -132,8 +132,8 @@ const InventoryPage = () => {
                 onClick={() => setActiveStatus(status)}
                 className={`px-6 py-3.5 rounded-[16px] text-[9px] font-black uppercase tracking-widest transition-all duration-500 ${
                   activeStatus === status
-                    ? 'bg-white text-text shadow-sm border border-text/5'
-                    : 'text-text/30 hover:text-text/60'
+                    ? 'bg-white text-text shadow-sm border border-text/10'
+                    : 'text-text/50 hover:text-text/80'
                 }`}
               >
                 {status}
@@ -154,11 +154,11 @@ const InventoryPage = () => {
             <table className="w-full text-left">
               <thead>
                 <tr className="bg-text/[0.02] border-b border-text/5">
-                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/20">Product Details</th>
-                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/20">Category</th>
-                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/20">Inventory</th>
-                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/20">Status</th>
-                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/20 text-right">Actions</th>
+                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/50">Product Details</th>
+                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/50">Category</th>
+                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/50">Inventory</th>
+                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/50">Status</th>
+                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/50 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-text/5">
@@ -180,17 +180,17 @@ const InventoryPage = () => {
                           <div className={`w-1 h-10 rounded-full transition-all duration-500 ${selectedProduct?.id === product.id ? 'bg-primary' : 'bg-text/5 group-hover:bg-text/10'}`} />
                           <div className="flex flex-col">
                             <span className="font-bold text-text text-sm tracking-tight">{product.name}</span>
-                            <span className="text-[10px] font-bold text-text/30 mt-1 uppercase tracking-widest">{product.code} • {product.supplier}</span>
+                            <span className="text-[10px] font-bold text-text/60 mt-1 uppercase tracking-widest">{product.code} • {product.supplier}</span>
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-5">
-                        <span className="text-xs font-bold text-text/40 uppercase tracking-widest">{product.category}</span>
+                        <span className="text-xs font-bold text-text/60 uppercase tracking-widest">{product.category}</span>
                       </td>
                       <td className="px-6 py-5">
                         <div className="flex flex-col">
                           <span className="text-sm font-bold text-text tracking-tight">{product.stock}</span>
-                          <span className="text-[9px] font-black text-text/20 uppercase tracking-widest mt-1">Valuation: {product.price}</span>
+                          <span className="text-[9px] font-black text-text/50 uppercase tracking-widest mt-1">Valuation: {product.price}</span>
                         </div>
                       </td>
                       <td className="px-6 py-5">

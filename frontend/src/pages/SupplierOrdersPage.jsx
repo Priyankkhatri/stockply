@@ -106,7 +106,7 @@ const OrderCard = ({ order, isExpanded, onToggle, onUpdateStatus }) => {
 
           <div className="grid grid-cols-3 gap-8 mb-12 bg-[#FAF5F0] rounded-[32px] p-8 border border-[#F0E5D8]">
             <div className="space-y-3">
-              <p className="text-[9px] font-black text-primary/40 uppercase tracking-[0.2em]">Shop Details</p>
+              <p className="text-[9px] font-black text-primary/60 uppercase tracking-[0.2em]">Shop Details</p>
               <h4 className="font-bold text-text text-base leading-tight">{order.shopName}</h4>
               <div className="space-y-1.5">
                 <p className="text-[11px] text-text/60 font-bold flex items-center gap-2"><MapPin size={12} className="text-primary" /> India</p>
@@ -114,15 +114,15 @@ const OrderCard = ({ order, isExpanded, onToggle, onUpdateStatus }) => {
               </div>
             </div>
             <div className="space-y-3 border-x border-[#F0E5D8] px-8">
-              <p className="text-[9px] font-black text-primary/40 uppercase tracking-[0.2em]">Financial Summary</p>
+              <p className="text-[9px] font-black text-primary/60 uppercase tracking-[0.2em]">Financial Summary</p>
               <h4 className="font-bold text-text text-2xl tracking-tighter flex items-center"><IndianRupee size={20} className="mr-0.5" />{order.totalAmount.toLocaleString()}</h4>
               <div className="flex items-center gap-3">
                 <span className={`text-[9px] font-black px-2 py-0.5 rounded border uppercase ${paymentClasses[order.payment] || paymentClasses.Pending}`}>Pending</span>
-                <span className="text-[10px] text-text/40 font-bold italic">via Bank Transfer</span>
+                <span className="text-[10px] text-text/60 font-bold italic">via Bank Transfer</span>
               </div>
             </div>
             <div className="space-y-3">
-              <p className="text-[9px] font-black text-primary/40 uppercase tracking-[0.2em]">Priority & Logistics</p>
+              <p className="text-[9px] font-black text-primary/60 uppercase tracking-[0.2em]">Priority & Logistics</p>
               <p className="text-[11px] text-text font-bold">Priority: <span className="font-medium text-text/60 underline decoration-primary/30 underline-offset-2">{order.priority}</span></p>
               <div className="flex items-center gap-3">
                 <span className="text-[11px] text-teal-600 font-bold italic">Ready for sync</span>
@@ -132,7 +132,7 @@ const OrderCard = ({ order, isExpanded, onToggle, onUpdateStatus }) => {
           </div>
 
           <div className="space-y-10">
-            <p className="text-[10px] font-black text-text/20 uppercase tracking-[0.3em] text-center">Fulfillment Journey</p>
+            <p className="text-[10px] font-black text-text/50 uppercase tracking-[0.3em] text-center">Fulfillment Journey</p>
             <div className="relative flex justify-between items-start px-12">
               <div className="absolute top-[22px] left-[15%] right-[15%] h-[2px] bg-text/5">
                 <div 
@@ -158,7 +158,7 @@ const OrderCard = ({ order, isExpanded, onToggle, onUpdateStatus }) => {
                   }`}>
                     {step.done ? <Check size={20} /> : <div className={`w-2.5 h-2.5 rounded-full ${step.active ? 'bg-primary animate-pulse' : 'bg-text/5'}`}></div>}
                   </div>
-                  <span className={`mt-4 text-[10px] font-black uppercase tracking-widest ${step.active || step.done ? 'text-text' : 'text-text/20'}`}>{step.label}</span>
+                  <span className={`mt-4 text-[10px] font-black uppercase tracking-widest ${step.active || step.done ? 'text-text' : 'text-text/50'}`}>{step.label}</span>
                 </div>
               ))}
             </div>
