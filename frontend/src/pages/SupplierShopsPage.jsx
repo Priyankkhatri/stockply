@@ -13,10 +13,9 @@ import {
   Tag,
 } from 'lucide-react';
 import { useSupplier } from '../context/SupplierContext';
-import PageHeader from '../components/PageHeader';
-
-import PremiumButton from '../components/PremiumButton';
 import { motion, AnimatePresence } from 'framer-motion';
+import PremiumButton from '../components/PremiumButton';
+import GlassCard from '../components/GlassCard';
 
 const behaviorStyles = {
   'On-time': 'bg-teal-50 text-teal-600 border-teal-100',
@@ -26,6 +25,15 @@ const behaviorStyles = {
 
 const filters = ['All Partners', 'High Volume', 'Frequent', 'New'];
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.05 } }
+};
+
+const rowAnim = {
+  hidden: { opacity: 0, x: -10 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } }
+};
 
 const SupplierShopsPage = () => {
   const navigate = useNavigate();
@@ -75,7 +83,6 @@ const SupplierShopsPage = () => {
       }
       if (activeFilter === 'New') {
         const createdAt = new Date(shop.createdAt);
-        // eslint-disable-next-line react-hooks/purity
         const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
         return matchesSearch && createdAt > thirtyDaysAgo;
       }
@@ -95,82 +102,99 @@ const SupplierShopsPage = () => {
   }
 
   return (
-    <div className="mx-auto max-w-[1600px] px-6 py-8 pb-12">
-      <PageHeader
-        title="Retail Partners"
-        subtitle="Manage your connected shop network, order volume, geography, and trust signals."
-        breadcrumbs={['Supplier', 'Shops']}
-        actions={
-          <PremiumButton onClick={() => setIsAddModalOpen(true)} icon={Plus}>
-            Add partner
-          </PremiumButton>
-        }
-      />
+    <motion.div
+      initial="hidden"
+      animate="show"
+      variants={containerVariants}
+      className="mx-auto max-w-[1600px] px-4 sm:px-10 py-6 sm:py-10"
+    >
+      <style dangerouslySetInnerHTML={{ __html: `
+        .serif { font-family: "Playfair Display", serif; }
+        .shadow-premium { box-shadow: 0 20px 80px -20px rgba(0,0,0,0.06); }
+      ` }} />
 
-
-      <div className="mb-8 grid grid-cols-1 gap-4 lg:grid-cols-[1fr_auto]">
-        <div className="relative">
-          <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-text-light" size={18} />
-          <input
-            value={searchTerm}
-            onChange={(event) => setSearchTerm(event.target.value)}
-            type="text"
-            placeholder="Find a partner by name, category, or city..."
-            className="w-full rounded-2xl border border-text/5 bg-white py-4 pl-12 pr-6 text-sm font-medium text-text shadow-sm transition-all placeholder:text-text-light focus:border-primary/20 focus:outline-none focus:ring-4 focus:ring-primary/5"
-          />
+      {/* ─── Header ─── */}
+      <motion.div variants={rowAnim} className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-8">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+            <span className="text-[10px] font-black text-text/30 uppercase tracking-[0.3em]">Supplier / Shops</span>
+          </div>
+          <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">Retail <span className="text-primary italic font-normal serif">Partners.</span></h1>
+          <p className="text-text/40 text-sm font-medium">Manage your connected shop network, order volume, geography, and trust signals.</p>
         </div>
+        <PremiumButton onClick={() => setIsAddModalOpen(true)} icon={Plus}>
+          Add partner
+        </PremiumButton>
+      </motion.div>
 
-        <div className="flex items-center gap-3">
-          <button className="flex items-center gap-3 rounded-2xl border border-text/5 bg-white px-5 py-4 text-[10px] font-black uppercase tracking-widest text-text/50 transition-all hover:border-primary/20 hover:text-text">
-            <Tag size={14} className="text-primary" />
-            Categories
-            <ChevronDown size={14} />
-          </button>
-          <button className="rounded-2xl border border-text/5 bg-white p-4 text-text/30 transition-all hover:bg-primary/5 hover:text-primary">
-            <Filter size={18} />
-          </button>
-        </div>
-      </div>
+      {/* ─── Search & Filters ─── */}
+      <motion.div variants={rowAnim}>
+        <GlassCard className="p-6 mb-8 flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between" hover={false}>
+          <div className="relative w-full max-w-2xl group">
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-text/20 group-focus-within:text-primary transition-colors" size={18} />
+            <input
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+              type="text"
+              placeholder="Find a partner by name, category, or city..."
+              className="w-full rounded-2xl border border-transparent bg-background/50 py-4 pl-14 pr-6 text-sm font-bold text-text placeholder:text-text/30 focus:border-primary/20 focus:bg-white focus:outline-none transition-all"
+            />
+          </div>
 
-      <div className="mb-8 flex flex-wrap gap-3">
+          <div className="flex items-center gap-3 flex-shrink-0">
+            <button className="flex items-center gap-3 rounded-2xl border border-text/5 bg-white/80 px-5 py-4 text-[10px] font-black uppercase tracking-widest text-text/50 transition-all hover:border-primary/20 hover:text-text">
+              <Tag size={14} className="text-primary" />
+              Categories
+              <ChevronDown size={14} />
+            </button>
+            <button className="rounded-2xl border border-text/5 bg-white/80 p-4 text-text/30 transition-all hover:text-primary hover:border-primary/20">
+              <Filter size={18} />
+            </button>
+          </div>
+        </GlassCard>
+      </motion.div>
+
+      <motion.div variants={rowAnim} className="mb-8 flex flex-wrap gap-3">
         {filters.map((filter) => (
           <button
             key={filter}
             onClick={() => setActiveFilter(filter)}
-            className={`rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.2em] transition-all ${
+            className={`rounded-full border px-5 py-2.5 text-xs font-black uppercase tracking-[0.2em] transition-all ${
               activeFilter === filter
-                ? 'border-primary/20 bg-primary/10 text-primary'
-                : 'border-text/5 bg-white text-text-muted hover:border-primary/20 hover:text-primary'
+                ? 'border-primary/20 bg-primary/10 text-primary shadow-sm'
+                : 'border-text/5 bg-white text-text/40 hover:border-primary/20 hover:text-primary'
             }`}
           >
             {filter}
           </button>
         ))}
-      </div>
+      </motion.div>
 
-      {/* Desktop Table View */}
-      <div className="hidden lg:block overflow-hidden rounded-[36px] border border-text/5 bg-white shadow-xl shadow-text/5">
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse text-left">
-            <thead>
-              <tr className="border-b border-[#F0E5D8] bg-[#FAF5F0]">
-                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Partner Identity</th>
-                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Industry</th>
-                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Geography</th>
-                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Financials</th>
-                <th className="px-10 py-6 text-center text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Trust Metric</th>
-                <th className="px-10 py-6 text-center text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Status</th>
-                <th className="px-10 py-6 text-right text-[10px] font-black uppercase tracking-[0.2em] text-text/30" />
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-text/5">
-               {visibleShops.map((shop) => {
+      {/* ─── Desktop Table ─── */}
+      <motion.div variants={rowAnim}>
+        <GlassCard className="hidden lg:block overflow-hidden p-0" hover={false}>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-left">
+              <thead>
+                <tr className="border-b border-[#F0E5D8] bg-[#FAF5F0]/80">
+                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Partner Identity</th>
+                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Industry</th>
+                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Geography</th>
+                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Financials</th>
+                  <th className="px-10 py-6 text-center text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Trust Metric</th>
+                  <th className="px-10 py-6 text-center text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Status</th>
+                  <th className="px-10 py-6 text-right text-[10px] font-black uppercase tracking-[0.2em] text-text/30" />
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-text/5">
+                {visibleShops.map((shop) => {
                   const initials = shop.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
                   return (
                     <tr
                       key={shop._id || shop.name}
                       onClick={() => navigate(`/supplier/shops/${shop.name.toLowerCase().replace(/\s+/g, '-')}`)}
-                      className="group cursor-pointer transition-all hover:bg-background/20"
+                      className="group cursor-pointer transition-all hover:bg-white/60"
                     >
                       <td className="px-10 py-8">
                         <div className="flex items-center gap-4">
@@ -205,50 +229,50 @@ const SupplierShopsPage = () => {
                       </td>
                       <td className="px-10 py-8 text-center">
                         <div className="flex flex-col items-center gap-1">
-                          <div className={`h-2 w-2 rounded-full ${shop.status === 'Active' ? 'bg-teal-500 shadow-[0_0_8px_rgba(20,184,166,0.5)]' : 'bg-orange-400 shadow-[0_0_8px_rgba(251,146,60,0.5)]'}`} />
+                          <div className={`h-2 w-2 rounded-full ${shop.status === 'Active' ? 'bg-teal-500 shadow-[0_0_8px_rgba(20,184,166,0.5)] animate-pulse' : 'bg-orange-400'}`} />
                           <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${shop.status === 'Active' ? 'text-teal-600' : 'text-orange-400'}`}>
                             {shop.status}
                           </span>
                         </div>
                       </td>
                       <td className="px-10 py-8 text-right">
-                        <button className="text-text/10 transition-all group-hover:text-text">
+                        <button className="text-text/10 transition-all group-hover:text-primary">
                           <MoreHorizontal size={24} />
                         </button>
                       </td>
                     </tr>
                   );
                 })}
-            </tbody>
-          </table>
-        </div>
-
-        <div className="flex items-center justify-between border-t border-text/5 bg-[#FAF5F0]/30 px-10 py-8">
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text/20">
-            Showing <span className="font-black text-text">{visibleShops.length}</span> of <span className="font-black text-text">{partners.length}</span> partners
-          </p>
-          <div className="flex items-center gap-4">
-            <button className="flex h-12 w-12 items-center justify-center rounded-2xl border border-text/5 bg-background/30 text-text/20 transition-all hover:bg-white hover:text-primary hover:shadow-md">
-              <ChevronLeft size={20} />
-            </button>
-            <button className="flex h-12 w-12 items-center justify-center rounded-2xl border border-text/5 bg-white text-text/20 shadow-sm transition-all hover:bg-white hover:text-primary hover:shadow-md">
-              <ChevronRight size={20} />
-            </button>
+              </tbody>
+            </table>
           </div>
-        </div>
-      </div>
 
-      {/* Mobile Card List View */}
+          <div className="flex items-center justify-between border-t border-text/5 bg-[#FAF5F0]/40 px-10 py-8">
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text/20">
+              Showing <span className="font-black text-text">{visibleShops.length}</span> of <span className="font-black text-text">{partners.length}</span> partners
+            </p>
+            <div className="flex items-center gap-4">
+              <button className="flex h-12 w-12 items-center justify-center rounded-2xl border border-text/5 bg-white/50 text-text/20 transition-all hover:bg-white hover:text-primary hover:shadow-md">
+                <ChevronLeft size={20} />
+              </button>
+              <button className="flex h-12 w-12 items-center justify-center rounded-2xl border border-text/5 bg-white text-text/20 shadow-sm transition-all hover:text-primary hover:shadow-md">
+                <ChevronRight size={20} />
+              </button>
+            </div>
+          </div>
+        </GlassCard>
+      </motion.div>
+
+      {/* ─── Mobile Card List ─── */}
       <div className="grid grid-cols-1 gap-4 lg:hidden">
         {visibleShops.map((shop) => {
           const initials = shop.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
           return (
             <motion.div
               key={shop._id || shop.name}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
+              variants={rowAnim}
               onClick={() => navigate(`/supplier/shops/${shop.name.toLowerCase().replace(/\s+/g, '-')}`)}
-              className="group overflow-hidden rounded-3xl border border-text/5 bg-white p-6 shadow-sm active:scale-[0.98] transition-all"
+              className="group overflow-hidden rounded-3xl border border-text/5 bg-white/70 backdrop-blur-sm p-6 shadow-sm active:scale-[0.98] transition-all hover:shadow-premium"
             >
               <div className="mb-6 flex items-start justify-between">
                 <div className="flex items-center gap-4">
@@ -261,7 +285,7 @@ const SupplierShopsPage = () => {
                   </div>
                 </div>
                 <div className={`flex flex-col items-end gap-1`}>
-                  <div className={`h-1.5 w-1.5 rounded-full ${shop.status === 'Active' ? 'bg-teal-500 shadow-[0_0_8px_rgba(20,184,166,0.5)]' : 'bg-orange-400 shadow-[0_0_8px_rgba(251,146,60,0.5)]'}`} />
+                  <div className={`h-1.5 w-1.5 rounded-full ${shop.status === 'Active' ? 'bg-teal-500 animate-pulse' : 'bg-orange-400'}`} />
                   <span className={`text-[8px] font-black uppercase tracking-widest ${shop.status === 'Active' ? 'text-teal-600' : 'text-orange-400'}`}>
                     {shop.status}
                   </span>
@@ -310,10 +334,15 @@ const SupplierShopsPage = () => {
         )}
       </div>
 
-      <div className="relative mt-10 overflow-hidden rounded-[36px] bg-text p-10 text-white">
+      {/* ─── Growth Banner ─── */}
+      <motion.div variants={rowAnim} className="relative mt-10 overflow-hidden rounded-[36px] bg-text p-10 text-white">
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary" />
+          <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-primary" />
+        </div>
         <div className="relative z-10 flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <h3 className="mb-2 text-2xl font-bold tracking-tight">Partner Network Growth</h3>
+            <h3 className="mb-2 text-2xl font-display font-bold tracking-tight">Partner Network Growth</h3>
             <p className="text-sm text-white/50">You expanded supplier reach to 2 new cities this quarter.</p>
           </div>
           <div className="flex flex-wrap items-center gap-8">
@@ -328,7 +357,9 @@ const SupplierShopsPage = () => {
             </button>
           </div>
         </div>
-      </div>
+      </motion.div>
+
+      {/* ─── Add Partner Modal ─── */}
       <AnimatePresence>
         {isAddModalOpen && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center px-6">
@@ -347,7 +378,7 @@ const SupplierShopsPage = () => {
             >
               <div className="p-10 border-b border-text/5 flex justify-between items-center bg-background/50">
                 <div>
-                  <h2 className="text-2xl font-bold text-text">New Partner Entry</h2>
+                  <h2 className="text-2xl font-display font-bold text-text">New Partner Entry</h2>
                   <p className="text-[10px] font-black text-text/30 uppercase tracking-[0.2em] mt-1">Establishing shop connection</p>
                 </div>
                 <button 
@@ -388,7 +419,7 @@ const SupplierShopsPage = () => {
                   >
                     <option>Electronics</option>
                     <option>Clothing</option>
-                    <option>Food & Beverage</option>
+                    <option>Food &amp; Beverage</option>
                     <option>Home Decor</option>
                   </select>
                 </div>
@@ -420,9 +451,8 @@ const SupplierShopsPage = () => {
           </div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 };
-
 
 export default SupplierShopsPage;
