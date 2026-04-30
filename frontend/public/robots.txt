@@ -9,8 +9,17 @@ Disallow: /supplier/*
 Disallow: /home
 Disallow: /support
 
+# Specific rules for AI crawlers
+User-agent: GPTBot
+Allow: /
+Disallow: /dashboard
+Disallow: /dashboard/*
+
+User-agent: ChatGPT-User
+Allow: /
+
 # Sitemaps
 Sitemap: https://stockply.vercel.app/sitemap.xml
 
-# Crawl-delay (optional, respected by some bots)
+# Crawl-delay
 Crawl-delay: 1
