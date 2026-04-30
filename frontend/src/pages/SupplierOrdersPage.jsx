@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useSupplier } from '../context/SupplierContext';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Plus, 
   Download, 
@@ -16,10 +17,19 @@ import {
   Calendar,
   IndianRupee,
   MoreHorizontal,
-  X
 } from 'lucide-react';
-import PageHeader from '../components/PageHeader';
 import PremiumButton from '../components/PremiumButton';
+import GlassCard from '../components/GlassCard';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.05 } }
+};
+
+const rowAnim = {
+  hidden: { opacity: 0, x: -10 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } }
+};
 
 const OrderCard = ({ order, isExpanded, onToggle, onUpdateStatus }) => {
 
@@ -39,12 +49,12 @@ const OrderCard = ({ order, isExpanded, onToggle, onUpdateStatus }) => {
 
   if (isExpanded) {
     return (
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 animate-in fade-in slide-in-from-bottom-4 duration-500 mb-8">
-        <div className="lg:col-span-2 bg-white rounded-[40px] border border-text/5 shadow-xl shadow-text/5 p-10">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+        <GlassCard className="lg:col-span-2 p-10" hover={false}>
           <div className="flex justify-between items-start mb-10">
             <div>
               <div className="flex items-center gap-4 mb-3">
-                <h2 className="text-3xl font-bold text-text tracking-tight">{order.orderNumber}</h2>
+                <h2 className="text-3xl font-display font-bold text-text tracking-tight">{order.orderNumber}</h2>
                 <span className={`text-[9px] font-black px-3 py-1 rounded-lg border uppercase tracking-widest flex items-center gap-2 ${statusClasses[order.status] || statusClasses.Pending}`}>
                   <div className={`w-1.5 h-1.5 rounded-full animate-pulse ${order.status === 'Pending' ? 'bg-orange-500' : 'bg-blue-500'}`}></div>
                   {order.status}
@@ -161,11 +171,11 @@ const OrderCard = ({ order, isExpanded, onToggle, onUpdateStatus }) => {
             <ChevronRight size={14} className="rotate-90" />
             Collapse Order View
           </button>
-        </div>
+        </GlassCard>
 
         <div className="bg-text rounded-[40px] border border-black/10 shadow-2xl shadow-black/10 overflow-hidden flex flex-col text-white">
           <div className="p-10 border-b border-white/5 bg-black/10">
-            <h3 className="text-2xl font-bold">Consignment</h3>
+            <h3 className="text-2xl font-display font-bold">Consignment</h3>
             <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest mt-1">Itemized Manifest</p>
           </div>
           <div className="flex-1 overflow-y-auto p-10 space-y-8 max-h-[500px] scrollbar-hide">
@@ -204,11 +214,12 @@ const OrderCard = ({ order, isExpanded, onToggle, onUpdateStatus }) => {
   }
 
   return (
-    <div 
+    <motion.div
+      variants={rowAnim}
       onClick={onToggle}
-      className="bg-white rounded-[32px] border border-text/5 shadow-sm px-6 lg:px-10 py-7 flex flex-col lg:flex-row items-start lg:items-center justify-between cursor-pointer hover:shadow-xl hover:border-primary/20 transition-all group relative overflow-hidden mb-4 gap-6 lg:gap-0"
+      className="group mb-4 overflow-hidden rounded-[32px] border border-text/5 bg-white/70 backdrop-blur-sm px-6 lg:px-10 py-7 flex flex-col lg:flex-row items-start lg:items-center justify-between cursor-pointer hover:shadow-premium hover:border-primary/10 transition-all relative gap-6 lg:gap-0"
     >
-      <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary scale-y-0 group-hover:scale-y-100 transition-transform origin-top"></div>
+      <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary scale-y-0 group-hover:scale-y-100 transition-transform origin-top rounded-l-full"></div>
       
       <div className="flex flex-row lg:flex-col items-center lg:items-start justify-between lg:justify-start w-full lg:w-auto lg:flex-[0.8] gap-4">
         <div>
@@ -248,11 +259,11 @@ const OrderCard = ({ order, isExpanded, onToggle, onUpdateStatus }) => {
       </div>
 
       <div className="hidden lg:flex w-12 justify-end">
-        <button className="text-text/10 group-hover:text-text transition-all transform group-hover:rotate-90">
+        <button className="text-text/10 group-hover:text-primary transition-all transform group-hover:rotate-90">
           <MoreHorizontal size={20} />
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -291,91 +302,115 @@ export default function SupplierOrdersPage() {
     updateOrderStatus(id, newStatus);
   };
 
-
   return (
-    <div className="max-w-[1600px] mx-auto px-10 pb-12 pt-10">
-      <PageHeader 
-        title="Order Management"
-        subtitle="Fulfilling the legacy of artisan retail partners worldwide."
-        breadcrumbs={['Supplier', 'Orders']}
-        actions={
-          <div className="flex gap-4">
-            <PremiumButton variant="secondary" icon={Download}>
-              Export Batch
-            </PremiumButton>
-            <PremiumButton icon={Plus}>
-              New Entry
-            </PremiumButton>
-          </div>
-        }
-      />
+    <motion.div
+      initial="hidden"
+      animate="show"
+      variants={containerVariants}
+      className="max-w-[1600px] mx-auto px-4 sm:px-10 pb-12 pt-6 sm:pt-10"
+    >
+      <style dangerouslySetInnerHTML={{ __html: `
+        .serif { font-family: "Playfair Display", serif; }
+        .shadow-premium { box-shadow: 0 20px 80px -20px rgba(0,0,0,0.06); }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+      ` }} />
 
-      <div className="mb-10 flex flex-wrap items-center justify-between gap-6 rounded-[32px] border border-text/5 bg-white p-3 shadow-sm">
-        <div className="flex items-center rounded-[20px] bg-background/50 p-1.5">
-          {['Pending', 'All', 'Processing', 'Shipped', 'Delivered'].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`px-8 py-2.5 rounded-[14px] text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-3 ${
-                activeTab === tab
-                  ? 'bg-white text-text shadow-md shadow-text/5 border border-text/5'
-                  : 'text-text/30 hover:text-text'
-              }`}
-            >
-              {tab}
-              {tab === 'Pending' && (
-                <span className="bg-primary/10 text-primary px-2 py-0.5 rounded-full text-[9px]">
-                  {orders.filter(o => o.status === 'Pending').length}
-                </span>
-              )}
-            </button>
-          ))}
+      {/* ─── Header ─── */}
+      <motion.div variants={rowAnim} className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-8">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+            <span className="text-[10px] font-black text-text/30 uppercase tracking-[0.3em]">Supplier / Orders</span>
+          </div>
+          <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">Order <span className="text-primary italic font-normal serif">Management.</span></h1>
+          <p className="text-text/40 text-sm font-medium">Fulfilling the legacy of artisan retail partners worldwide.</p>
         </div>
 
-        <div className="flex items-center gap-4 px-3">
-          <div className="relative group">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-text/20 group-focus-within:text-primary transition-colors" size={16} />
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search orders or shops..."
-              className="pl-12 pr-6 py-3 bg-background border border-transparent rounded-2xl text-xs font-bold focus:outline-none focus:bg-white focus:border-primary/20 transition-all w-80 placeholder:text-text/20"
-            />
+        <div className="flex items-center gap-4">
+          <PremiumButton variant="secondary" icon={Download}>
+            Export Batch
+          </PremiumButton>
+          <PremiumButton icon={Plus}>
+            New Entry
+          </PremiumButton>
+        </div>
+      </motion.div>
 
+      {/* ─── Filter Bar ─── */}
+      <motion.div variants={rowAnim}>
+        <GlassCard className="mb-10 flex flex-wrap items-center justify-between gap-6 p-4" hover={false}>
+          <div className="flex items-center rounded-[20px] bg-background/50 p-1.5">
+            {['Pending', 'All', 'Processing', 'Shipped', 'Delivered'].map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`px-6 py-2.5 rounded-[14px] text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-3 ${
+                  activeTab === tab
+                    ? 'bg-white text-text shadow-md shadow-text/5 border border-text/5'
+                    : 'text-text/30 hover:text-text'
+                }`}
+              >
+                {tab}
+                {tab === 'Pending' && (
+                  <span className="bg-primary/10 text-primary px-2 py-0.5 rounded-full text-[9px]">
+                    {orders.filter(o => o.status === 'Pending').length}
+                  </span>
+                )}
+              </button>
+            ))}
           </div>
 
-          <button className="p-3.5 text-text/40 hover:text-primary transition-all bg-background rounded-2xl border border-transparent hover:border-primary/10 hover:shadow-sm">
-            <Filter size={20} />
-          </button>
-        </div>
-      </div>
-
-      <div className="space-y-2">
-        {filtered.length === 0 ? (
-          <div className="bg-white rounded-[32px] border border-dashed border-text/10 py-20 flex flex-col items-center justify-center text-center">
-            <div className="w-20 h-20 rounded-full bg-background flex items-center justify-center mb-6 text-text/10">
-              <Package size={40} />
+          <div className="flex items-center gap-4 px-3">
+            <div className="relative group">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-text/20 group-focus-within:text-primary transition-colors" size={16} />
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search orders or shops..."
+                className="pl-12 pr-6 py-3 bg-background border border-transparent rounded-2xl text-xs font-bold focus:outline-none focus:bg-white focus:border-primary/20 transition-all w-72 placeholder:text-text/20"
+              />
             </div>
-            <h3 className="text-xl font-bold text-text mb-2">No Orders Found</h3>
-            <p className="text-text/40 text-sm max-w-xs">There are no active orders matching your current search or filter criteria.</p>
+            <button className="p-3.5 text-text/40 hover:text-primary transition-all bg-background rounded-2xl border border-transparent hover:border-primary/10 hover:shadow-sm">
+              <Filter size={20} />
+            </button>
           </div>
-        ) : (
-          filtered.map((order) => (
-            <OrderCard 
-              key={order._id || order.orderNumber} 
-              order={order} 
-              isExpanded={expandedOrder === (order._id || order.orderNumber)}
-              onToggle={() => setExpandedOrder(expandedOrder === (order._id || order.orderNumber) ? null : (order._id || order.orderNumber))}
-              onUpdateStatus={handleStatusUpdate}
-            />
-          ))
-        )}
+        </GlassCard>
+      </motion.div>
+
+      {/* ─── Orders List ─── */}
+      <div>
+        <AnimatePresence>
+          {filtered.length === 0 ? (
+            <motion.div
+              variants={rowAnim}
+              className="flex flex-col items-center justify-center py-32 rounded-[40px] border border-dashed border-text/10 bg-[#FAF5F0]/30"
+            >
+              <div className="w-20 h-20 rounded-3xl bg-white border border-text/5 shadow-sm flex items-center justify-center mb-6 text-text/20">
+                <Package size={32} />
+              </div>
+              <h3 className="text-xl font-display font-bold text-text mb-2">No Orders Found</h3>
+              <p className="text-text/40 text-sm max-w-xs text-center">There are no active orders matching your current search or filter criteria.</p>
+            </motion.div>
+          ) : (
+            filtered.map((order) => (
+              <OrderCard 
+                key={order._id || order.orderNumber} 
+                order={order} 
+                isExpanded={expandedOrder === (order._id || order.orderNumber)}
+                onToggle={() => setExpandedOrder(expandedOrder === (order._id || order.orderNumber) ? null : (order._id || order.orderNumber))}
+                onUpdateStatus={handleStatusUpdate}
+              />
+            ))
+          )}
+        </AnimatePresence>
       </div>
 
-      <div className="mt-16 flex items-center justify-between">
+      {/* ─── Pagination ─── */}
+      <motion.div variants={rowAnim} className="mt-16 flex items-center justify-between">
         <p className="text-[10px] font-black text-text/20 uppercase tracking-[0.2em]">
-          Records <span className="text-text/60">1–3</span> of <span className="text-text/60">45</span>
+          Records <span className="text-text/60">1–{filtered.length}</span> of <span className="text-text/60">{orders.length}</span>
         </p>
         <div className="flex gap-3">
           <button className="w-12 h-12 rounded-2xl border border-text/5 flex items-center justify-center text-text/20 cursor-not-allowed opacity-50 bg-background/30">
@@ -385,7 +420,7 @@ export default function SupplierOrdersPage() {
             <ChevronRight size={20} />
           </button>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
