@@ -65,16 +65,16 @@ const OrderDetailPanel = ({ order, onClose, onUpdateStatus }) => {
             <span className={`text-[9px] font-black px-2 py-0.5 rounded border uppercase tracking-widest ${statusClasses[order.status] || statusClasses.Pending}`}>
               {order.status}
             </span>
-            <span className="text-[10px] font-black text-text/40 uppercase tracking-widest">
+            <span className="text-[10px] font-black text-text/70 uppercase tracking-widest">
               #{order.orderNumber}
             </span>
           </div>
           <h2 className="text-2xl font-bold text-text tracking-tight">{order.shopName}</h2>
-          <p className="text-xs text-text/50 font-medium flex items-center gap-2 mt-1">
+          <p className="text-xs text-text/80 font-medium flex items-center gap-2 mt-1">
             <Calendar size={12} /> Placed on {new Date(order.createdAt).toLocaleDateString()}
           </p>
         </div>
-        <button onClick={onClose} className="p-2 hover:bg-rose-50 hover:text-rose-500 rounded-full transition-all text-text/40">
+        <button onClick={onClose} className="p-2 hover:bg-rose-50 hover:text-rose-500 rounded-full transition-all text-text/70">
           <X size={20} />
         </button>
       </div>
@@ -83,7 +83,7 @@ const OrderDetailPanel = ({ order, onClose, onUpdateStatus }) => {
       <div className="flex-1 overflow-y-auto p-8 space-y-10 scrollbar-hide">
         {/* Logistics Journey */}
         <div className="space-y-6">
-          <p className="text-[10px] font-black text-text/40 uppercase tracking-[0.2em]">Fulfillment Progress</p>
+          <p className="text-[10px] font-black text-text/70 uppercase tracking-[0.2em]">Fulfillment Progress</p>
           <div className="relative flex justify-between items-start px-4">
             <div className="absolute top-[18px] left-10 right-10 h-[2px] bg-text/5">
               <div 
