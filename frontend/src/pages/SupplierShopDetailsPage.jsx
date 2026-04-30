@@ -62,7 +62,7 @@ const SupplierShopDetailsPage = () => {
             <span className="text-[10px] font-black text-text/30 uppercase tracking-[0.3em]">Supplier / Shops</span>
           </div>
           <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">{shop.name.split(' ')[0]} <span className="text-primary italic font-normal serif">{shop.name.split(' ').slice(1).join(' ')}.</span></h1>
-          <p className="text-text/40 text-sm font-medium">Shop profile, recent activity, and operational insights for supplier planning.</p>
+          <p className="text-text/80 text-sm font-medium">Shop profile, recent activity, and operational insights for supplier planning.</p>
         </div>
 
         <div className="flex flex-wrap items-center gap-4">
@@ -117,7 +117,7 @@ const SupplierShopDetailsPage = () => {
           <motion.div key={stat.label} variants={rowAnim}>
             <GlassCard className="relative overflow-hidden p-6 group hover:shadow-premium transition-all duration-500">
               <div className="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-primary/5 transition-transform duration-500 group-hover:scale-150" />
-              <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-text/30">{stat.label}</p>
+              <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-text/60">{stat.label}</p>
               <h3 className="mb-1 text-2xl font-display font-bold text-text">{stat.value}</h3>
               <p className={`text-[10px] font-bold ${stat.accent}`}>{stat.trend}</p>
             </GlassCard>

@@ -121,7 +121,7 @@ const SupplierShopsPage = () => {
             <span className="text-[10px] font-black text-text/60 uppercase tracking-[0.3em]">Supplier / Shops</span>
           </div>
           <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">Retail <span className="text-primary italic font-normal serif">Partners.</span></h1>
-          <p className="text-text/70 text-sm font-medium">Manage your connected shop network, order volume, geography, and trust signals.</p>
+          <p className="text-text/80 text-sm font-medium">Manage your connected shop network, order volume, geography, and trust signals.</p>
         </div>
         <PremiumButton onClick={() => setIsAddModalOpen(true)} icon={Plus}>
           Add partner
@@ -143,7 +143,7 @@ const SupplierShopsPage = () => {
           </div>
 
           <div className="flex items-center gap-3 flex-shrink-0">
-            <button className="flex items-center gap-3 rounded-2xl border border-text/5 bg-white/80 px-5 py-4 text-[10px] font-black uppercase tracking-widest text-text/70 transition-all hover:border-primary/20 hover:text-text">
+            <button className="flex items-center gap-3 rounded-2xl border border-text/5 bg-white/80 px-5 py-4 text-[10px] font-black uppercase tracking-widest text-text/80 transition-all hover:border-primary/20 hover:text-text">
               <Tag size={14} className="text-primary" />
               Categories
               <ChevronDown size={14} />

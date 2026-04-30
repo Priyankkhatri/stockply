@@ -93,15 +93,18 @@ const DashboardHome = () => {
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            <span className="text-[10px] font-black text-text/60 uppercase tracking-[0.3em]">System Overview</span>
+            <span className="text-[10px] font-black text-text/80 uppercase tracking-[0.3em]">System Overview</span>
           </div>
           <h1 className="text-4xl font-bold text-text tracking-tighter leading-none">Command <span className="text-primary italic font-normal serif">Center.</span></h1>
-          <p className="text-text/60 text-xs font-medium">Real-time intelligence for your retail ecosystem.</p>
+          <p className="text-text/80 text-xs font-medium">Real-time intelligence for your retail ecosystem.</p>
         </div>
         
         <div className="flex items-center gap-4">
-          <button className="px-6 py-3.5 bg-white border border-text/5 rounded-2xl text-[10px] font-black uppercase tracking-widest text-text/60 hover:text-text transition-all flex items-center gap-3">
-            <Filter size={14} /> Filter View
+          <button 
+            onClick={() => navigate('/dashboard/inventory', { state: { filter: 'Low Stock' } })}
+            className="px-6 py-3.5 bg-white border border-text/5 rounded-2xl text-[10px] font-black uppercase tracking-widest text-text/80 hover:text-text hover:border-primary/20 transition-all flex items-center gap-3 group"
+          >
+            <Filter size={14} className="group-hover:text-primary transition-colors" /> Filter View
           </button>
           <button className="px-6 py-3.5 bg-text text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-primary transition-all flex items-center gap-3 shadow-xl shadow-text/10">
             Export Report <ArrowUpRight size={14} />
@@ -115,8 +118,8 @@ const DashboardHome = () => {
           <motion.div key={stat.label} variants={itemAnim}>
             <GlassCard className="p-8 group hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500">
               <div className="flex justify-between items-start mb-6">
-                <p className="text-[10px] font-black text-text/60 uppercase tracking-[0.2em]">{stat.label}</p>
-                {stat.icon && <stat.icon size={16} className="text-text/40 group-hover:text-primary transition-colors" />}
+                <p className="text-[10px] font-black text-text/80 uppercase tracking-[0.2em]">{stat.label}</p>
+                {stat.icon && <stat.icon size={16} className="text-text/70 group-hover:text-primary transition-colors" />}
               </div>
               <div className="flex items-end justify-between">
                 <span className={`text-2xl font-bold text-text tracking-tighter ${stat.colorClass || ''}`}>{stat.value}</span>
@@ -140,7 +143,7 @@ const DashboardHome = () => {
                 </div>
                 <div>
                   <h2 className="text-xl font-bold text-text tracking-tight">Critical Inventory</h2>
-                  <p className="text-[10px] font-bold text-text/60 uppercase tracking-widest mt-0.5">Urgent Procurement Required</p>
+                  <p className="text-[10px] font-bold text-text/80 uppercase tracking-widest mt-0.5">Urgent Procurement Required</p>
                 </div>
               </div>
               <button
@@ -156,11 +159,11 @@ const DashboardHome = () => {
                 <table className="w-full text-left">
                   <thead>
                     <tr className="bg-text/[0.02] border-b border-text/5">
-                      <th className="px-8 py-5 text-[10px] font-black text-text/50 uppercase tracking-[0.2em]">Asset Details</th>
-                      <th className="px-8 py-5 text-[10px] font-black text-text/50 uppercase tracking-[0.2em]">Inventory</th>
-                      <th className="px-8 py-5 text-[10px] font-black text-text/50 uppercase tracking-[0.2em]">Valuation</th>
-                      <th className="px-8 py-5 text-[10px] font-black text-text/50 uppercase tracking-[0.2em]">Forecast</th>
-                      <th className="px-8 py-5 text-[10px] font-black text-text/50 uppercase tracking-[0.2em] text-right">Actions</th>
+                      <th className="px-8 py-5 text-[10px] font-black text-text/70 uppercase tracking-[0.2em]">Asset Details</th>
+                      <th className="px-8 py-5 text-[10px] font-black text-text/70 uppercase tracking-[0.2em]">Inventory</th>
+                      <th className="px-8 py-5 text-[10px] font-black text-text/70 uppercase tracking-[0.2em]">Valuation</th>
+                      <th className="px-8 py-5 text-[10px] font-black text-text/70 uppercase tracking-[0.2em]">Forecast</th>
+                      <th className="px-8 py-5 text-[10px] font-black text-text/70 uppercase tracking-[0.2em] text-right">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-text/5">
@@ -169,7 +172,7 @@ const DashboardHome = () => {
                         <td className="px-8 py-6">
                           <div className="flex flex-col">
                             <span className="font-bold text-text text-sm tracking-tight">{item.name}</span>
-                            <span className="text-[10px] font-bold text-text/60 mt-1 uppercase tracking-widest">{item.category} • {item.supplier}</span>
+                            <span className="text-[10px] font-bold text-text/80 mt-1 uppercase tracking-widest">{item.category} • {item.supplier}</span>
                           </div>
                         </td>
                         <td className="px-8 py-6">
@@ -179,18 +182,18 @@ const DashboardHome = () => {
                           </div>
                         </td>
                         <td className="px-8 py-6">
-                          <span className="text-sm font-medium text-text/60">{item.price}</span>
+                          <span className="text-sm font-medium text-text/80">{item.price}</span>
                         </td>
                         <td className="px-8 py-6">
                           <div className="flex items-center gap-2">
-                            <span className={`text-sm font-bold ${item.status === 'In Stock' ? 'text-text/60' : 'text-primary'}`}>{item.daysLeft}</span>
+                            <span className={`text-sm font-bold ${item.status === 'In Stock' ? 'text-text/80' : 'text-primary'}`}>{item.daysLeft}</span>
                             <div className={`w-1 h-1 rounded-full ${item.velocity === 'High' ? 'bg-red-500' : item.velocity === 'Normal' ? 'bg-primary' : 'bg-teal-500'}`} title={`Velocity: ${item.velocity}`} />
                           </div>
                         </td>
                         <td className="px-8 py-6 text-right">
                           <button
                             onClick={() => navigate('/dashboard/inventory/compare')}
-                            className="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-text/10 text-text/40 hover:text-primary hover:border-primary/20 transition-all shadow-sm"
+                            className="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-text/10 text-text/60 hover:text-primary hover:border-primary/20 transition-all shadow-sm"
                           >
                             <ShoppingCart size={18} />
                           </button>
@@ -222,16 +225,16 @@ const DashboardHome = () => {
               <div className="p-2.5 bg-white/10 backdrop-blur-xl rounded-xl text-primary">
                 <Lightbulb size={20} />
               </div>
-              <h3 className="text-sm font-black uppercase tracking-[0.2em] text-white/90">Strategic Insight</h3>
+              <h3 className="text-sm font-black uppercase tracking-[0.2em] text-white">Strategic Insight</h3>
             </div>
-            <p className="text-sm font-medium leading-relaxed text-white/60 mb-8 italic">
+            <p className="text-sm font-medium leading-relaxed text-white/80 mb-8 italic">
               "Inventory velocity for <span className="text-white font-bold">Pain Relief</span> categories has increased by 24% this week. Consider adjusting reorder points for Paracetamol."
             </p>
             <button 
-              className="w-full py-4 bg-white/10 hover:bg-white/20 border border-white/20 rounded-2xl text-[10px] font-black uppercase tracking-widest text-white transition-all flex items-center justify-center gap-3"
-              onClick={() => alert("Optimization logic initiated. Analyzing supplier mix...")}
+              className="w-full py-4 bg-white/10 hover:bg-white/20 border border-white/20 rounded-2xl text-[10px] font-black uppercase tracking-widest text-white transition-all flex items-center justify-center gap-3 group"
+              onClick={() => navigate('/dashboard/analytics')}
             >
-              Apply Optimization <Sparkles size={14} />
+              Apply Optimization <Sparkles size={14} className="group-hover:animate-pulse" />
             </button>
           </GlassCard>
 
@@ -239,7 +242,7 @@ const DashboardHome = () => {
           <GlassCard className="p-8">
             <div className="flex justify-between items-start mb-8">
               <div>
-                <p className="text-[10px] font-black text-text/60 uppercase tracking-[0.2em] mb-2">Ecosystem Health</p>
+                <p className="text-[10px] font-black text-text/80 uppercase tracking-[0.2em] mb-2">Ecosystem Health</p>
                 <div className="flex items-center gap-3">
                   <span className="text-4xl font-bold text-text tracking-tighter">82%</span>
                   <span className="text-teal-600 text-[10px] font-black bg-teal-50 px-2 py-1 rounded-full border border-teal-100">OPTIMAL</span>
@@ -254,7 +257,7 @@ const DashboardHome = () => {
             </div>
             <div className="space-y-4">
               <div className="flex justify-between items-center text-[10px] font-bold">
-                <span className="text-text/60 uppercase tracking-widest">Service Level</span>
+                <span className="text-text/80 uppercase tracking-widest">Service Level</span>
                 <span className="text-text">94.2%</span>
               </div>
               <div className="w-full h-1.5 bg-text/5 rounded-full overflow-hidden">
@@ -274,13 +277,16 @@ const DashboardHome = () => {
                 <div key={item.name} className="flex justify-between items-center group cursor-pointer">
                   <div className="flex flex-col">
                     <span className="text-xs font-bold text-text group-hover:text-primary transition-colors">{item.name}</span>
-                    <span className="text-[9px] font-medium text-text/30 uppercase tracking-widest mt-1">{item.days}</span>
+                    <span className="text-[9px] font-medium text-text/60 uppercase tracking-widest mt-1">{item.days}</span>
                   </div>
                   <div className={`w-1.5 h-1.5 rounded-full ${item.severity === 'high' ? 'bg-red-500' : 'bg-primary'}`} />
                 </div>
               ))}
             </div>
-            <button className="w-full mt-8 py-4 border border-text/5 rounded-2xl text-[10px] font-black uppercase tracking-widest text-text/40 hover:text-text hover:bg-text/[0.02] transition-all">
+            <button 
+              onClick={() => navigate('/dashboard/inventory', { state: { filter: 'Expiring' } })}
+              className="w-full mt-8 py-4 border border-text/5 rounded-2xl text-[10px] font-black uppercase tracking-widest text-text/70 hover:text-text hover:bg-text/[0.02] hover:border-primary/10 transition-all"
+            >
               Manage Expirations
             </button>
           </GlassCard>

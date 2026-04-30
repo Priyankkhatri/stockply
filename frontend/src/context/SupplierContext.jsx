@@ -23,29 +23,30 @@ export const SupplierProvider = ({ children }) => {
       setLoading(true);
       setError(null);
 
-      const [prodRes, summaryRes, partnersRes, ordersRes, analyticsRes] = await Promise.all([
-        productAPI.getAll(),
-        alertAPI.getSummary(),
-        partnerAPI.getAll(),
-        orderAPI.getAll(),
-        analyticsAPI.getSupplierOverview()
+      // Fetch core data first
+      const [prodRes, summaryRes, partnersRes, ordersRes] = await Promise.all([
+        productAPI.getAll().catch(e => ({ data: { data: { products: [] } } })),
+        alertAPI.getSummary().catch(e => ({ data: { data: { summary: {} } } })),
+        partnerAPI.getAll().catch(e => ({ data: { data: { partners: [] } } })),
+        orderAPI.getAll().catch(e => ({ data: { data: { orders: [] } } })),
       ]);
 
-      // Products: { data: { products: [...] } }
       setProducts(prodRes.data?.data?.products ?? []);
-      // Summary: { data: { summary: {...} } }
       setSummary(summaryRes.data?.data?.summary ?? {});
-      // Partners: { data: { partners: [...] } }
       setPartners(partnersRes.data?.data?.partners ?? []);
-      // Orders: { data: { orders: [...] } }
       setOrders(ordersRes.data?.data?.orders ?? []);
-      // Analytics: { data: { summary, trends, growth } }
-      setAnalytics(analyticsRes.data?.data ?? {});
+
+      // Fetch analytics separately as it might be slow
+      analyticsAPI.getSupplierOverview()
+        .then(res => setAnalytics(res.data?.data ?? {}))
+        .catch(err => {
+          console.warn('Analytics fetch failed:', err);
+          setAnalytics({});
+        });
+
     } catch (err) {
-      console.error('Error fetching initial data:', err);
+      console.error('Error fetching core initial data:', err);
       setError(err.message);
-      // Ensure we don't stay in loading state if one of the secondary endpoints fails
-      if (!analytics) setAnalytics({});
     } finally {
       setLoading(false);
     }

@@ -76,10 +76,10 @@ export default function SupplierAnalyticsPage() {
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-            <span className="text-[10px] font-black text-text/60 uppercase tracking-[0.3em]">Analytics</span>
+            <span className="text-[10px] font-black text-text/80 uppercase tracking-[0.3em]">Analytics</span>
           </div>
           <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">Intelligence <span className="text-primary italic font-normal serif">Report.</span></h1>
-          <p className="text-text/70 text-sm font-medium">Track fulfillment velocity, demand pressure, and revenue movement across your partner network.</p>
+          <p className="text-text/80 text-sm font-medium">Track fulfillment velocity, demand pressure, and revenue movement across your partner network.</p>
         </div>
 
         <div className="flex items-center gap-4">
@@ -102,26 +102,26 @@ export default function SupplierAnalyticsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
           >
-            <GlassCard className="h-[220px] flex flex-col justify-between group">
+            <GlassCard className="h-[200px] flex flex-col justify-between group border-b-4" style={{ borderBottomColor: stat.up ? '#10B981' : '#F43F5E' }}>
               <div className="flex items-start justify-between">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-50 text-primary shadow-inner-soft transition-transform duration-500 group-hover:scale-110">
-                  <stat.icon size={24} strokeWidth={2.5} />
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-text text-white shadow-premium transition-transform duration-500 group-hover:scale-110 group-hover:bg-primary">
+                  <stat.icon size={22} strokeWidth={2} />
                 </div>
                 <div
-                  className={`flex items-center gap-1 rounded-lg border px-2 py-1 text-[10px] font-black uppercase tracking-widest ${
+                  className={`flex items-center gap-1 rounded-lg border px-2.5 py-1 text-[9px] font-black uppercase tracking-widest ${
                     stat.up
-                      ? "border-accent-emerald/10 bg-accent-emerald/5 text-accent-emerald"
-                      : "border-accent-rose/10 bg-accent-rose/5 text-accent-rose"
-                  }`}
+                      ? "border-teal-100 bg-teal-50 text-teal-600"
+                      : "border-rose-100 bg-rose-50 text-rose-500"
+                   }`}
                 >
                   {stat.up ? <ArrowUpRight size={12} /> : <ArrowDownRight size={12} />}
                   {stat.trend}
                 </div>
               </div>
 
-              <div className="mt-4">
-                <p className="mb-1 text-[10px] font-black uppercase tracking-[0.2em] text-text/70">{stat.label}</p>
-                <p className="text-4xl font-display font-bold text-text">{stat.value}</p>
+              <div>
+                <p className="mb-1 text-[10px] font-black uppercase tracking-[0.2em] text-text/80">{stat.label}</p>
+                <p className="text-4xl font-bold text-text tracking-tighter">{stat.value}</p>
               </div>
             </GlassCard>
           </motion.div>
@@ -131,53 +131,56 @@ export default function SupplierAnalyticsPage() {
       <div className="grid grid-cols-1 gap-8 xl:grid-cols-3">
         <motion.div
           className="xl:col-span-2"
-          initial={{ opacity: 0, scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4 }}
         >
-          <GlassCard className="h-[400px] sm:h-[520px] flex flex-col overflow-hidden p-0" hover={false}>
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-text/5 bg-white/50 px-6 sm:px-10 py-6 sm:py-8 gap-4">
+          <GlassCard className="h-[400px] sm:h-[500px] flex flex-col overflow-hidden p-0" hover={false}>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-text/5 bg-[#FAF5F0]/30 px-8 py-6 gap-4">
               <div>
-                <h3 className="text-xl font-display font-bold text-text">Demand Momentum</h3>
+                <h3 className="text-xl font-bold text-text tracking-tight">Demand Velocity</h3>
                 <p className="text-[10px] font-black uppercase tracking-widest text-text/70">
-                  Weekly order pull across connected shops
+                  Global order intensity (7-day window)
                 </p>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="h-3 w-3 rounded-full animate-pulse bg-primary" />
-                <span className="text-[10px] font-black uppercase tracking-widest text-text">Live forecast</span>
+              <div className="flex items-center gap-3 px-4 py-2 bg-white rounded-xl border border-text/5 shadow-sm">
+                <div className="h-2 w-2 rounded-full animate-pulse bg-primary" />
+                <span className="text-[10px] font-black uppercase tracking-widest text-text">Predictive Sync</span>
               </div>
             </div>
 
-            <div className="flex-1 p-6">
+            <div className="flex-1 p-8">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={weeklyDemand}>
                   <defs>
                     <linearGradient id="colorDemand" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#C08552" stopOpacity={0.3}/>
+                      <stop offset="5%" stopColor="#C08552" stopOpacity={0.4}/>
                       <stop offset="95%" stopColor="#C08552" stopOpacity={0}/>
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#4B2E2B10" />
+                  <CartesianGrid strokeDasharray="6 6" vertical={false} stroke="#1A121108" />
                   <XAxis 
                     dataKey="label" 
                     axisLine={false} 
                     tickLine={false} 
-                    tick={{ fill: '#6B4E4B', fontSize: 10, fontWeight: 900 }} 
-                    dy={10}
+                    tick={{ fill: '#1A121170', fontSize: 10, fontWeight: 900 }} 
+                    dy={15}
                   />
                   <YAxis 
                     axisLine={false} 
                     tickLine={false} 
-                    tick={{ fill: '#6B4E4B', fontSize: 10, fontWeight: 900 }}
+                    tick={{ fill: '#1A121170', fontSize: 10, fontWeight: 900 }}
                   />
                   <Tooltip 
+                    cursor={{ stroke: '#C0855220', strokeWidth: 20 }}
                     contentStyle={{ 
-                      borderRadius: '16px', 
-                      border: 'none', 
-                      boxShadow: '0 10px 40px -10px rgba(75, 46, 43, 0.1)',
-                      backgroundColor: '#FFF' 
+                      borderRadius: '24px', 
+                      border: '1px solid #1A121105', 
+                      boxShadow: '0 20px 40px -10px rgba(75, 46, 43, 0.1)',
+                      backgroundColor: '#FFF',
+                      padding: '16px'
                     }}
+                    itemStyle={{ fontSize: '12px', fontWeight: 'bold', color: '#1A1211' }}
                     labelStyle={{ display: 'none' }}
                   />
                   <Area 
@@ -187,6 +190,7 @@ export default function SupplierAnalyticsPage() {
                     strokeWidth={4}
                     fillOpacity={1} 
                     fill="url(#colorDemand)" 
+                    animationDuration={2000}
                   />
                 </AreaChart>
               </ResponsiveContainer>
@@ -225,7 +229,7 @@ export default function SupplierAnalyticsPage() {
                     <div key={item.label} className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <div className="h-2 w-2 rounded-full" style={{ backgroundColor: item.color }} />
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-text/70">{item.label}</span>
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-text/80">{item.label}</span>
                       </div>
                       <span className="text-xs font-black text-text">{item.value}%</span>
                     </div>
@@ -249,7 +253,7 @@ export default function SupplierAnalyticsPage() {
                   </div>
                   <h4 className="text-lg font-display font-bold text-text">Dispatch Optimizer</h4>
                 </div>
-                <p className="text-xs font-medium leading-relaxed text-text/70">
+                <p className="text-xs font-medium leading-relaxed text-text/80">
                   Shift tomorrow&apos;s packaging batch forward and you can improve on-time fulfillment by
                   <span className="font-black text-accent-emerald"> 6% </span>
                   across top-demand stores.
@@ -272,14 +276,14 @@ export default function SupplierAnalyticsPage() {
             transition={{ delay: 0.7 + i * 0.1 }}
           >
             <div className="rounded-[30px] border border-text/5 bg-white p-8 shadow-sm h-full">
-              <p className="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-text/60">{item.name}</p>
+              <p className="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-text/80">{item.name}</p>
               <div className="flex items-end justify-between">
                 <p className="text-3xl font-display font-bold text-text">{item.orders}</p>
                 <span className="rounded-full bg-primary/10 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-primary">
                   {item.change}
                 </span>
               </div>
-              <p className="mt-3 text-sm font-medium text-text/70">Order velocity over the current week.</p>
+              <p className="mt-3 text-sm font-medium text-text/80">Order velocity over the current week.</p>
             </div>
           </motion.div>
         ))}
