@@ -1,4 +1,5 @@
 const Order = require('../models/Order');
+const Notification = require('../models/Notification');
 
 // Get all orders (filtered by role)
 exports.getOrders = async (req, res) => {
@@ -50,6 +51,20 @@ exports.updateOrderStatus = async (req, res) => {
       { new: true, runValidators: true }
     );
     if (!order) return res.status(404).json({ status: 'fail', message: 'Order not found' });
+
+    // Create notification for the shop owner
+    try {
+      await Notification.create({
+        userId: order.shopId,
+        title: 'Order Status Update',
+        message: `Your order ${order.orderNumber} is now ${status}.`,
+        type: 'order_status',
+        orderId: order._id
+      });
+    } catch (notificationErr) {
+      console.error('Failed to create notification:', notificationErr);
+    }
+
     res.status(200).json({
       status: 'success',
       data: { order }

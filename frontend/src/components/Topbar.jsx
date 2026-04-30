@@ -1,12 +1,40 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Bell, Search, HelpCircle, ChevronDown } from 'lucide-react';
+import { Bell, Search, HelpCircle, ChevronDown, Clock, Package } from 'lucide-react';
+import { notificationAPI } from '../services/api';
 
 const Topbar = ({ role }) => {
   const navigate = useNavigate();
+  const [notifications, setNotifications] = useState([]);
+  const [showNotifications, setShowNotifications] = useState(false);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const res = await notificationAPI.getAll();
+        setNotifications(res.data?.data?.notifications || []);
+      } catch (err) {
+        console.error('Error fetching notifications:', err);
+      }
+    };
+    fetchNotifications();
+    const interval = setInterval(fetchNotifications, 60000); // Poll every minute
+    return () => clearInterval(interval);
+  }, []);
+
+  const unreadCount = notifications.filter(n => !n.isRead).length;
+
+  const handleMarkAsRead = async () => {
+    try {
+      await notificationAPI.markAllRead();
+      setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
+    } catch (err) {
+      console.error('Error marking read:', err);
+    }
+  };
 
   return (
-    <header className="sticky top-0 z-10 flex h-28 items-center justify-between border-b border-text/5 bg-transparent px-12 backdrop-blur-md">
+    <header className="sticky top-0 z-50 flex h-28 items-center justify-between border-b border-text/5 bg-transparent px-12 backdrop-blur-md">
       <div className="flex-1 max-w-2xl">
         <div className="group relative">
           <Search
@@ -34,10 +62,67 @@ const Topbar = ({ role }) => {
           >
             <HelpCircle size={22} />
           </button>
-          <button className="relative text-text-light transition-all hover:scale-110 hover:text-primary" type="button">
-            <Bell size={22} />
-            <span className="absolute -right-1 -top-1 h-3.5 w-3.5 animate-bounce rounded-full border-2 border-white bg-accent-rose" />
-          </button>
+          
+          <div className="relative">
+            <button 
+              className="relative text-text-light transition-all hover:scale-110 hover:text-primary" 
+              type="button"
+              onClick={() => {
+                setShowNotifications(!showNotifications);
+                if (!showNotifications && unreadCount > 0) handleMarkAsRead();
+              }}
+            >
+              <Bell size={22} />
+              {unreadCount > 0 && (
+                <span className="absolute -right-1 -top-1 h-3.5 w-3.5 animate-bounce rounded-full border-2 border-white bg-accent-rose flex items-center justify-center text-[8px] text-white font-bold">
+                  {unreadCount}
+                </span>
+              )}
+            </button>
+
+            {showNotifications && (
+              <div className="absolute right-0 mt-6 w-96 rounded-[32px] border border-text/5 bg-white shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-4 duration-300">
+                <div className="p-6 border-b border-text/5 bg-background/50 flex items-center justify-between">
+                  <h4 className="text-sm font-black uppercase tracking-widest text-text">Live Alerts</h4>
+                  <span className="text-[10px] font-bold text-text/40">{unreadCount} New</span>
+                </div>
+                <div className="max-h-[400px] overflow-y-auto scrollbar-hide">
+                  {notifications.length === 0 ? (
+                    <div className="p-12 text-center">
+                      <div className="w-12 h-12 bg-background rounded-full flex items-center justify-center mx-auto mb-4">
+                        <Bell size={20} className="text-text/10" />
+                      </div>
+                      <p className="text-xs font-bold text-text/30">No notifications yet</p>
+                    </div>
+                  ) : (
+                    notifications.map((n) => (
+                      <div key={n._id} className="p-5 border-b border-text/5 hover:bg-background/30 transition-colors flex gap-4 items-start group">
+                        <div className={`mt-1 h-2 w-2 rounded-full flex-shrink-0 ${n.isRead ? 'bg-text/5' : 'bg-primary shadow-[0_0_8px_rgba(192,133,82,0.4)]'}`} />
+                        <div className="flex-1">
+                          <p className={`text-[11px] font-bold leading-relaxed ${n.isRead ? 'text-text/40' : 'text-text'}`}>
+                            {n.message}
+                          </p>
+                          <div className="mt-2 flex items-center gap-3">
+                            <span className="text-[9px] font-black text-text/20 uppercase tracking-widest flex items-center gap-1.5">
+                              <Clock size={10} /> {new Date(n.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            </span>
+                            <span className="text-[9px] font-black text-primary/40 uppercase tracking-widest flex items-center gap-1.5">
+                              <Package size={10} /> Order Alert
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+                <div className="p-4 bg-background/50 text-center border-t border-text/5">
+                  <button className="text-[10px] font-black uppercase tracking-widest text-primary hover:underline">
+                    View All Notifications
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="group flex cursor-pointer items-center gap-4">
