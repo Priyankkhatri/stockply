@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ChevronDown, 
@@ -39,9 +40,11 @@ const rowAnim = {
 };
 
 const InventoryPage = () => {
+  const location = useLocation();
   const [selectedProduct, setSelectedProduct] = useState(products[0]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [activeStatus, setActiveStatus] = useState('All');
+  const [activeStatus, setActiveStatus] = useState(location.state?.filter || 'All');
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const visibleProducts = useMemo(() => {
     return products.filter((product) => {
@@ -68,19 +71,23 @@ const InventoryPage = () => {
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-            <span className="text-[10px] font-black text-text/60 uppercase tracking-[0.3em]">Stock Intelligence</span>
+            <span className="text-[10px] font-black text-text/80 uppercase tracking-[0.3em]">Stock Intelligence</span>
           </div>
           <h1 className="text-4xl font-bold text-text tracking-tighter leading-none">The <span className="text-primary italic font-normal serif">Ledger.</span></h1>
-          <p className="text-text/60 text-xs font-medium">Precision tracking for your entire inventory ecosystem.</p>
+          <p className="text-text/80 text-xs font-medium">Precision tracking for your entire inventory ecosystem.</p>
         </div>
 
         <div className="flex items-center gap-4">
-          <button className="px-6 py-4 bg-white border border-text/5 rounded-[20px] text-[10px] font-black uppercase tracking-widest text-text/60 hover:text-text transition-all flex items-center gap-3">
-            <History size={16} /> Activity Log
+          <button 
+            onClick={() => alert("Activity Log: Syncing with ledger history...")}
+            className="px-6 py-4 bg-white border border-text/5 rounded-[20px] text-[10px] font-black uppercase tracking-widest text-text/80 hover:text-text hover:border-primary/20 transition-all flex items-center gap-3 group"
+          >
+            <History size={16} className="group-hover:text-primary transition-colors" /> Activity Log
           </button>
           <motion.button 
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
+            onClick={() => setIsAddModalOpen(true)}
             className="px-8 py-4 bg-text text-white rounded-[22px] text-[10px] font-black uppercase tracking-widest hover:bg-primary transition-all flex items-center gap-3 shadow-2xl shadow-text/10"
           >
             <Plus size={18} /> Register Asset
@@ -98,11 +105,11 @@ const InventoryPage = () => {
           <motion.div key={stat.label} variants={rowAnim}>
             <GlassCard className="p-6 flex items-center justify-between group hover:shadow-2xl transition-all duration-500">
               <div className="flex items-center gap-5">
-                <div className="w-12 h-12 bg-text/5 rounded-2xl flex items-center justify-center text-text/40 group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-sm group-hover:shadow-lg">
+                <div className="w-12 h-12 bg-text/5 rounded-2xl flex items-center justify-center text-text/70 group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-sm group-hover:shadow-lg">
                   <stat.icon size={20} />
                 </div>
                 <div>
-                  <p className="text-[9px] font-black text-text/50 uppercase tracking-widest mb-1">{stat.label}</p>
+                  <p className="text-[9px] font-black text-text/70 uppercase tracking-widest mb-1">{stat.label}</p>
                   <p className="text-2xl font-bold text-text tracking-tight">{stat.value}</p>
                 </div>
               </div>
@@ -115,12 +122,12 @@ const InventoryPage = () => {
       {/* ─── Controls & Filters ─── */}
       <motion.div variants={rowAnim} className="bg-white rounded-[32px] border border-text/5 p-8 mb-10 shadow-sm flex flex-col xl:flex-row gap-8 items-start xl:items-center justify-between">
         <div className="relative w-full max-w-2xl group">
-          <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-text/20 group-focus-within:text-primary transition-colors" size={20} />
+          <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-text/60 group-focus-within:text-primary transition-colors" size={20} />
           <input
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="SEARCH BY SKU, PRODUCT, OR SUPPLIER..."
-            className="w-full bg-background/50 border border-transparent rounded-[24px] py-5 pl-16 pr-6 text-[10px] font-black uppercase tracking-widest text-text placeholder:text-text/20 outline-none transition-all focus:bg-white focus:border-primary/20"
+            className="w-full bg-background/50 border border-transparent rounded-[24px] py-5 pl-16 pr-6 text-[10px] font-black uppercase tracking-widest text-text placeholder:text-text/60 outline-none transition-all focus:bg-white focus:border-primary/20"
           />
         </div>
 
@@ -133,7 +140,7 @@ const InventoryPage = () => {
                 className={`px-6 py-3.5 rounded-[16px] text-[9px] font-black uppercase tracking-widest transition-all duration-500 ${
                   activeStatus === status
                     ? 'bg-white text-text shadow-sm border border-text/10'
-                    : 'text-text/50 hover:text-text/80'
+                    : 'text-text/70 hover:text-text'
                 }`}
               >
                 {status}
@@ -141,7 +148,7 @@ const InventoryPage = () => {
             ))}
           </div>
           
-          <button className="p-5 bg-background rounded-2xl border border-text/5 text-text/40 hover:text-text transition-colors">
+          <button className="p-5 bg-background rounded-2xl border border-text/5 text-text/70 hover:text-text transition-colors">
             <Filter size={18} />
           </button>
         </div>
@@ -154,11 +161,11 @@ const InventoryPage = () => {
             <table className="w-full text-left">
               <thead>
                 <tr className="bg-text/[0.02] border-b border-text/5">
-                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/50">Product Details</th>
-                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/50">Category</th>
-                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/50">Inventory</th>
-                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/50">Status</th>
-                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/50 text-right">Actions</th>
+                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/70">Product Details</th>
+                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/70">Category</th>
+                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/70">Inventory</th>
+                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/70">Status</th>
+                  <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-text/70 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-text/5">
@@ -180,17 +187,17 @@ const InventoryPage = () => {
                           <div className={`w-1 h-10 rounded-full transition-all duration-500 ${selectedProduct?.id === product.id ? 'bg-primary' : 'bg-text/5 group-hover:bg-text/10'}`} />
                           <div className="flex flex-col">
                             <span className="font-bold text-text text-sm tracking-tight">{product.name}</span>
-                            <span className="text-[10px] font-bold text-text/60 mt-1 uppercase tracking-widest">{product.code} • {product.supplier}</span>
+                            <span className="text-[10px] font-bold text-text/80 mt-1 uppercase tracking-widest">{product.code} • {product.supplier}</span>
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-5">
-                        <span className="text-xs font-bold text-text/60 uppercase tracking-widest">{product.category}</span>
+                        <span className="text-xs font-bold text-text/80 uppercase tracking-widest">{product.category}</span>
                       </td>
                       <td className="px-6 py-5">
                         <div className="flex flex-col">
                           <span className="text-sm font-bold text-text tracking-tight">{product.stock}</span>
-                          <span className="text-[9px] font-black text-text/50 uppercase tracking-widest mt-1">Valuation: {product.price}</span>
+                          <span className="text-[9px] font-black text-text/70 uppercase tracking-widest mt-1">Valuation: {product.price}</span>
                         </div>
                       </td>
                       <td className="px-6 py-5">
@@ -198,10 +205,10 @@ const InventoryPage = () => {
                       </td>
                       <td className="px-6 py-5 text-right">
                         <div className="flex items-center justify-end gap-2">
-                          <button className="p-3 text-text/20 hover:text-primary transition-colors">
+                          <button className="p-3 text-text/60 hover:text-primary transition-colors">
                             <ShoppingBag size={18} />
                           </button>
-                          <button className="p-3 text-text/20 hover:text-text transition-colors">
+                          <button className="p-3 text-text/60 hover:text-text transition-colors">
                             <MoreVertical size={18} />
                           </button>
                         </div>
@@ -229,7 +236,7 @@ const InventoryPage = () => {
                   onClick={() => setSelectedProduct(null)}
                   className="absolute top-6 right-6 z-10 p-2 bg-text/5 hover:bg-text/10 rounded-full transition-colors xl:hidden"
                 >
-                  <X size={16} className="text-text/40" />
+                  <X size={16} className="text-text/70" />
                 </button>
                 <ProductDetailPanel product={selectedProduct} onClose={() => setSelectedProduct(null)} />
               </GlassCard>
@@ -237,6 +244,76 @@ const InventoryPage = () => {
           )}
         </AnimatePresence>
       </div>
+      {/* ─── Add Product Modal ─── */}
+      <AnimatePresence>
+        {isAddModalOpen && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsAddModalOpen(false)}
+              className="absolute inset-0 bg-text/40 backdrop-blur-md"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-2xl bg-white rounded-[40px] shadow-2xl overflow-hidden"
+            >
+              <div className="p-10 border-b border-text/5 flex items-center justify-between bg-background/30">
+                <div className="space-y-1">
+                  <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">Inventory Integration</span>
+                  <h2 className="text-3xl font-bold text-text tracking-tighter italic serif">Asset Registration.</h2>
+                </div>
+                <button onClick={() => setIsAddModalOpen(false)} className="w-12 h-12 flex items-center justify-center rounded-2xl hover:bg-background transition-colors text-text/40">
+                  <X size={24} />
+                </button>
+              </div>
+
+              <div className="p-10 space-y-8">
+                <div className="grid grid-cols-2 gap-8">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-text/70 ml-1">Asset Name</label>
+                    <input type="text" className="w-full bg-background border border-text/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all" placeholder="e.g. Paracetamol 500mg" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-text/70 ml-1">SKU Code</label>
+                    <input type="text" className="w-full bg-background border border-text/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all" placeholder="SKU-8829" />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-8">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-text/70 ml-1">Category</label>
+                    <select className="w-full bg-background border border-text/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all appearance-none">
+                      <option>Analgesics</option>
+                      <option>Antibiotics</option>
+                      <option>Supplements</option>
+                    </select>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-text/70 ml-1">Supplier</label>
+                    <select className="w-full bg-background border border-text/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all appearance-none">
+                      <option>PharmaCorp Inc.</option>
+                      <option>BioHealth Labs</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="pt-6">
+                  <button 
+                    onClick={() => setIsAddModalOpen(false)}
+                    className="w-full py-6 bg-text text-white rounded-[24px] font-black text-[11px] uppercase tracking-[0.3em] shadow-2xl shadow-text/20 hover:bg-primary transition-all"
+                  >
+                    Integrate into Ledger
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
       
     </motion.div>
   );

@@ -138,14 +138,24 @@ const Sidebar = ({ role, isOpen, onClose }) => {
 
         {/* ─── Footer: Actions & System ─── */}
         <div className="p-6 space-y-4">
-          <div className="p-5 bg-text rounded-[28px] relative overflow-hidden group cursor-pointer transition-all duration-500 hover:shadow-2xl hover:shadow-text/20">
+          <div 
+            onClick={() => {
+              if (role === 'supplier') {
+                navigate('/supplier/inventory');
+              } else {
+                navigate('/dashboard/orders');
+              }
+              if (window.innerWidth < 1024) onClose();
+            }}
+            className="p-5 bg-text rounded-[28px] relative overflow-hidden group cursor-pointer transition-all duration-500 hover:shadow-2xl hover:shadow-text/20"
+          >
             <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
             <div className="relative z-10 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white">
                   <Plus size={16} />
                 </div>
-                <span className="text-[9px] font-black text-white uppercase tracking-[0.2em]">New Action</span>
+                <span className="text-[9px] font-black text-white uppercase tracking-[0.2em]">Quick Action</span>
               </div>
               <ChevronRight size={14} className="text-white/20 group-hover:text-white transition-all transform group-hover:translate-x-1" />
             </div>

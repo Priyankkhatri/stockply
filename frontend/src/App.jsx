@@ -26,24 +26,32 @@ const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 
 // Loading fallback component
 const PageLoader = () => (
-  <div className="min-h-screen bg-background flex flex-col items-center justify-center">
+  <div className="min-h-screen bg-[#FDFCFB] flex flex-col items-center justify-center relative overflow-hidden">
+    <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[100px] -mr-48 -mt-48 animate-pulse" />
+    <div className="absolute bottom-0 left-0 w-64 h-64 bg-text/5 rounded-full blur-[80px] -ml-32 -mb-32" />
+    
     <motion.div 
-      initial={{ opacity: 0, scale: 0.9 }}
+      initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="relative flex flex-col items-center gap-6"
+      className="relative flex flex-col items-center gap-8"
     >
-      <div className="relative w-16 h-16 bg-text rounded-2xl flex items-center justify-center text-white shadow-2xl shadow-text/20">
-        <div className="absolute inset-0 rounded-2xl border-4 border-primary/20 border-t-primary animate-spin" />
-        <span className="text-lg font-black tracking-tighter italic serif">S.</span>
+      <div className="relative w-20 h-20 bg-text rounded-[32px] flex items-center justify-center text-white shadow-2xl shadow-text/20">
+        <div className="absolute inset-0 rounded-[32px] border-[6px] border-primary/20 border-t-primary animate-spin" style={{ animationDuration: '0.8s' }} />
+        <span className="text-2xl font-black tracking-tighter italic serif">S.</span>
       </div>
-      <div className="space-y-1.5 text-center">
-        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-text/60 animate-pulse">Initializing Systems</p>
-        <div className="w-40 h-1 bg-text/5 rounded-full overflow-hidden">
+      
+      <div className="space-y-4 text-center">
+        <div className="space-y-1">
+          <p className="text-[11px] font-black uppercase tracking-[0.5em] text-text">Stockply <span className="text-primary italic font-normal serif lowercase">v2.0</span></p>
+          <p className="text-[9px] font-bold text-text/30 uppercase tracking-[0.3em]">Synchronizing Assets</p>
+        </div>
+        
+        <div className="w-48 h-1 bg-text/5 rounded-full overflow-hidden relative">
           <motion.div 
-            initial={{ x: "-100%" }}
-            animate={{ x: "100%" }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-            className="w-full h-full bg-primary"
+            initial={{ left: "-100%" }}
+            animate={{ left: "100%" }}
+            transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-0 w-24 h-full bg-primary shadow-[0_0_15px_rgba(192,133,82,0.8)]"
           />
         </div>
       </div>
