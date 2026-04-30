@@ -17,6 +17,16 @@ import PageHeader from "../components/PageHeader";
 import GlassCard from "../components/GlassCard";
 import PremiumButton from "../components/PremiumButton";
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.05 } }
+};
+
+const rowAnim = {
+  hidden: { opacity: 0, x: -10 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } }
+};
+
 export default function SupplierAnalyticsPage() {
   const { products, orders } = useSupplier();
 
@@ -56,17 +66,33 @@ export default function SupplierAnalyticsPage() {
   ];
 
   return (
-    <div className="mx-auto max-w-[1600px] px-4 sm:px-10 py-6 sm:py-10">
-      <PageHeader
-        title="Supplier Analytics"
-        subtitle="Track fulfillment velocity, demand pressure, and revenue movement across your partner network."
-        breadcrumbs={["Supplier", "Analytics"]}
-        actions={
+    <motion.div 
+      initial="hidden"
+      animate="show"
+      variants={containerVariants}
+      className="mx-auto max-w-[1600px] px-4 sm:px-10 py-6 sm:py-10"
+    >
+      <motion.div variants={rowAnim} className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-8">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+            <span className="text-[10px] font-black text-text/30 uppercase tracking-[0.3em]">Analytics</span>
+          </div>
+          <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">Intelligence <span className="text-primary italic font-normal serif">Report.</span></h1>
+          <p className="text-text/40 text-sm font-medium">Track fulfillment velocity, demand pressure, and revenue movement across your partner network.</p>
+        </div>
+
+        <div className="flex items-center gap-4">
           <PremiumButton variant="primary" icon={FileText}>
             Export insight pack
           </PremiumButton>
-        }
-      />
+        </div>
+      </motion.div>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        .serif { font-family: "Playfair Display", serif; }
+        .shadow-premium { box-shadow: 0 20px 80px -20px rgba(0,0,0,0.06); }
+      ` }} />
 
       <div className="mb-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat, i) => (
@@ -258,7 +284,7 @@ export default function SupplierAnalyticsPage() {
           </motion.div>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
