@@ -35,7 +35,7 @@ const Topbar = ({ role, onMenuClick }) => {
   };
 
   return (
-    <header className="sticky top-0 z-40 flex h-20 lg:h-28 items-center justify-between border-b border-text/5 bg-white/70 px-6 lg:px-12 backdrop-blur-xl supports-[backdrop-filter]:bg-white/50">
+    <header className="sticky top-0 z-40 flex h-16 lg:h-20 items-center justify-between border-b border-text/5 bg-white/70 px-6 lg:px-8 backdrop-blur-xl supports-[backdrop-filter]:bg-white/50">
       <div className="flex items-center gap-4 flex-1 max-w-2xl">
         <button 
           onClick={onMenuClick}
