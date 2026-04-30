@@ -83,11 +83,39 @@ const SupplierDashboardPage = () => {
 
   return (
     <div className="max-w-[1600px] mx-auto px-10 pb-12 pt-10">
-      <PageHeader
-        title="Supplier Dashboard"
-        subtitle="Global logistics and supply chain intelligence."
-        breadcrumbs={['Supplier', 'Dashboard']}
-      />
+      <motion.div 
+        variants={itemVariants}
+        initial="hidden"
+        animate="show"
+        className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-8"
+      >
+        <div className="space-y-1">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+            <span className="text-[10px] font-black text-text/30 uppercase tracking-[0.3em]">Supplier Portal</span>
+          </div>
+          <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">Global <span className="text-primary italic font-normal serif">Dashboard.</span></h1>
+          <p className="text-text/40 text-sm font-medium">Logistics, inventory, and supply chain intelligence.</p>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <PremiumButton variant="secondary" onClick={() => navigate('/supplier/analytics')} className="px-6 py-4">
+            Analytics Report
+          </PremiumButton>
+          <motion.button 
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => navigate('/supplier/orders')}
+            className="px-8 py-4 bg-text text-white rounded-[22px] text-[10px] font-black uppercase tracking-widest hover:bg-primary transition-all shadow-2xl shadow-text/10"
+          >
+            Manage Orders
+          </motion.button>
+        </div>
+      </motion.div>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        .serif { font-family: "Playfair Display", serif; }
+      ` }} />
 
       <motion.div 
         variants={containerVariants}

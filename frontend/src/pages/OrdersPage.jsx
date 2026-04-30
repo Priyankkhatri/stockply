@@ -13,10 +13,10 @@ import {
   IndianRupee,
   Calendar,
   Zap,
-  MapPin
+  MapPin,
+  History
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import PageHeader from '../components/PageHeader';
 import PremiumButton from '../components/PremiumButton';
 import OrderTimeline from '../components/OrderTimeline';
 import CreateOrderModal from '../components/CreateOrderModal';
@@ -36,14 +36,23 @@ const getJourneyStep = (status) => {
   }
 };
 
+const container = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.05 } }
+};
+
+const rowAnim = {
+  hidden: { opacity: 0, x: -10 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } }
+};
+
 const OrderCard = ({ order }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="mb-4 overflow-hidden rounded-[28px] border border-text/5 bg-white shadow-sm hover:shadow-md transition-all group"
+      variants={rowAnim}
+      className="mb-4 overflow-hidden rounded-[32px] border border-text/5 bg-white shadow-sm hover:shadow-premium transition-all group"
     >
       <div
         className="flex flex-col md:flex-row cursor-pointer items-stretch md:items-center justify-between px-6 lg:px-10 py-6 lg:py-8 hover:bg-[#FAF5F0]/30 transition-colors gap-6"
@@ -65,8 +74,8 @@ const OrderCard = ({ order }) => {
 
         <div className="flex-1 flex flex-col md:items-center justify-center border-y md:border-y-0 border-text/5 py-4 md:py-0">
           <p className="mb-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-text/30">Order Value</p>
-          <p className="font-bold text-text text-lg flex items-center gap-1">
-            <IndianRupee size={16} className="text-text/40" />
+          <p className="font-bold text-text text-xl flex items-center gap-1 tracking-tight">
+            <IndianRupee size={18} className="text-text/40" />
             {(order.totalAmount || 0).toLocaleString()}
           </p>
         </div>
@@ -262,51 +271,77 @@ const OrdersPage = () => {
   }, [orders, activeTab, searchTerm]);
 
   return (
-    <div className="mx-auto max-w-[1600px] px-6 py-10 pb-16">
-      <PageHeader
-        title="Purchase Orders"
-        subtitle="Command center for incoming inventory, fulfillment logistics, and supplier transactions."
-        breadcrumbs={['Retail', 'Orders']}
-        actions={
-          <PremiumButton icon={Plus} onClick={() => setShowCreateModal(true)}>
-            Draft new order
-          </PremiumButton>
-        }
-      />
+    <motion.div 
+      initial="hidden"
+      animate="show"
+      variants={container}
+      className="mx-auto max-w-[1600px] px-6 py-10 pb-16"
+    >
+      {/* ─── Header Section ─── */}
+      <motion.div variants={rowAnim} className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-8">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+            <span className="text-[10px] font-black text-text/30 uppercase tracking-[0.3em]">Purchase Orders</span>
+          </div>
+          <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">The <span className="text-primary italic font-normal serif">Manifests.</span></h1>
+          <p className="text-text/40 text-sm font-medium">Command center for incoming inventory, fulfillment logistics, and supplier transactions.</p>
+        </div>
 
-      <div className="mb-10 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-4">
-        <div className="relative">
-          <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-text/30" size={18} />
+        <div className="flex items-center gap-4">
+          <button className="px-6 py-4 bg-white border border-text/5 rounded-[20px] text-[10px] font-black uppercase tracking-widest text-text/60 hover:text-text transition-all flex items-center gap-3">
+            <History size={16} /> Activity Log
+          </button>
+          <motion.button 
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => setShowCreateModal(true)}
+            className="px-8 py-4 bg-text text-white rounded-[22px] text-[10px] font-black uppercase tracking-widest hover:bg-primary transition-all flex items-center gap-3 shadow-2xl shadow-text/10"
+          >
+            <Plus size={18} /> Draft New Order
+          </motion.button>
+        </div>
+      </motion.div>
+
+      {/* ─── Controls & Filters ─── */}
+      <motion.div variants={rowAnim} className="bg-white rounded-[32px] border border-text/5 p-8 mb-10 shadow-sm flex flex-col xl:flex-row gap-8 items-start xl:items-center justify-between">
+        <div className="relative w-full max-w-2xl group">
+          <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-text/20 group-focus-within:text-primary transition-colors" size={20} />
           <input
-            type="text"
-            placeholder="Search by order ID or supplier name..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full rounded-full border border-text/5 bg-white py-4 pl-14 pr-6 text-sm font-bold text-text shadow-sm transition-all placeholder:text-text/30 focus:border-primary/20 focus:outline-none focus:ring-4 focus:ring-primary/5"
+            placeholder="SEARCH BY ORDER ID OR SUPPLIER..."
+            className="w-full bg-background/50 border border-transparent rounded-[24px] py-5 pl-16 pr-6 text-[10px] font-black uppercase tracking-widest text-text placeholder:text-text/20 outline-none transition-all focus:bg-white focus:border-primary/20"
           />
         </div>
 
-        <div className="flex items-center gap-3 bg-white p-2 rounded-full border border-text/5 shadow-sm overflow-x-auto custom-scrollbar">
-          {tabs.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`rounded-full px-6 py-2.5 text-[10px] font-black uppercase tracking-widest whitespace-nowrap transition-all ${
-                activeTab === tab 
-                  ? 'bg-text text-white shadow-md' 
-                  : 'text-text/40 hover:text-text hover:bg-background'
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
+        <div className="flex flex-wrap gap-4">
+          <div className="flex items-center p-1.5 bg-background rounded-[20px] border border-text/5">
+            {tabs.map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`px-6 py-3.5 rounded-[16px] text-[9px] font-black uppercase tracking-widest transition-all duration-500 ${
+                  activeTab === tab
+                    ? 'bg-white text-text shadow-sm border border-text/5'
+                    : 'text-text/30 hover:text-text/60'
+                }`}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+          
+          <button className="p-5 bg-background rounded-2xl border border-text/5 text-text/40 hover:text-text transition-colors">
+            <Filter size={18} />
+          </button>
         </div>
-      </div>
+      </motion.div>
 
       {loading ? (
         <div className="flex flex-col items-center justify-center py-32 gap-6">
           <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent shadow-lg shadow-primary/20" />
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-text/30">Synchronizing Ledger...</p>
+          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-text/30">Synchronizing Manifests...</p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -343,11 +378,10 @@ const OrdersPage = () => {
       )}
       
       <style dangerouslySetInnerHTML={{ __html: `
-        .custom-scrollbar::-webkit-scrollbar { height: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.05); border-radius: 10px; }
+        .serif { font-family: "Playfair Display", serif; }
+        .shadow-premium { box-shadow: 0 20px 80px -20px rgba(0,0,0,0.06); }
       ` }} />
-    </div>
+    </motion.div>
   );
 };
 
