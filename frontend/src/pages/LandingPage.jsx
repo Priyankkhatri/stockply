@@ -45,7 +45,7 @@ const LandingPage = () => {
           
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map(l => (
-              <a key={l.label} href={l.href} className="text-[10px] font-bold uppercase tracking-[0.2em] text-text/40 hover:text-primary transition-colors">{l.label}</a>
+              <a key={l.label} href={l.href} className="text-[10px] font-bold uppercase tracking-[0.2em] text-text/60 hover:text-primary transition-colors">{l.label}</a>
             ))}
           </div>
 
@@ -66,7 +66,7 @@ const LandingPage = () => {
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="md:hidden mt-4 mx-auto max-w-sm bg-white/95 backdrop-blur-xl rounded-3xl border border-text/10 p-6 shadow-2xl pointer-events-auto">
             <div className="flex flex-col gap-4">
               {navLinks.map(l => (
-                <a key={l.label} href={l.href} onClick={() => setMobileOpen(false)} className="px-4 py-2 text-xs font-bold uppercase tracking-widest text-text/60 hover:text-primary transition-all">{l.label}</a>
+                <a key={l.label} href={l.href} onClick={() => setMobileOpen(false)} className="px-4 py-2 text-xs font-bold uppercase tracking-widest text-text/65 hover:text-primary transition-all">{l.label}</a>
               ))}
               <div className="pt-4 border-t border-text/5">
                 <button onClick={() => { navigate('/login'); setMobileOpen(false); }} className="w-full py-4 bg-text text-white text-xs font-bold uppercase tracking-widest rounded-2xl shadow-lg">Get Started</button>
@@ -93,7 +93,7 @@ const LandingPage = () => {
             <span className="italic font-normal serif text-primary/80">movement.</span>
           </motion.h1>
           
-          <motion.p variants={fadeUp} className="text-lg md:text-xl text-text/40 max-w-2xl mx-auto mb-12 leading-relaxed font-medium">
+          <motion.p variants={fadeUp} className="text-lg md:text-xl text-text/65 max-w-2xl mx-auto mb-12 leading-relaxed font-medium">
             Connect shop owners and suppliers with an elegant inventory experience. Real-time tracking, intelligent analytics, and seamless fulfillment.
           </motion.p>
           
@@ -101,7 +101,7 @@ const LandingPage = () => {
             <button onClick={() => navigate('/login')} className="px-10 py-5 bg-text text-white font-bold text-[11px] uppercase tracking-[0.2em] rounded-full shadow-2xl shadow-text/20 hover:bg-primary transition-all duration-500 flex items-center gap-4">
               Get Started Free <ArrowRight size={14} />
             </button>
-            <a href="#features" className="px-10 py-5 text-text/40 font-bold text-[11px] uppercase tracking-[0.2em] hover:text-text transition-all flex items-center gap-2 group">
+            <a href="#features" className="px-10 py-5 text-text/65 font-bold text-[11px] uppercase tracking-[0.2em] hover:text-text transition-all flex items-center gap-2 group">
               Explore Features <div className="w-1.5 h-1.5 rounded-full bg-primary/40 group-hover:bg-primary transition-all" />
             </a>
           </motion.div>
@@ -139,7 +139,7 @@ const LandingPage = () => {
                     { l: 'Uptime', v: '100%', c: 'text-text' },
                   ].map(s => (
                     <div key={s.l} className="space-y-1">
-                      <p className="text-[9px] font-bold uppercase tracking-widest text-text/30">{s.l}</p>
+                      <p className="text-[9px] font-bold uppercase tracking-widest text-text/60">{s.l}</p>
                       <p className={`text-2xl font-bold tracking-tight ${s.c}`}>{s.v}</p>
                     </div>
                   ))}
@@ -165,7 +165,7 @@ const LandingPage = () => {
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 className="bg-text rounded-[32px] p-8 text-white shadow-2xl shadow-text/20"
               >
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 mb-4 text-left">Fulfillment Rate</p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/60 mb-4 text-left">Fulfillment Rate</p>
                 <div className="flex items-center justify-between mb-6">
                   <span className="text-4xl font-bold tracking-tighter">94.2%</span>
                   <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-primary"><Zap size={18} /></div>
@@ -183,7 +183,7 @@ const LandingPage = () => {
                 <div className="flex items-center gap-4 mb-6">
                   <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary"><Truck size={18} /></div>
                   <div className="space-y-0.5 text-left">
-                    <p className="text-[10px] font-bold text-text/30 uppercase tracking-widest">In Transit</p>
+                    <p className="text-[10px] font-bold text-text/60 uppercase tracking-widest">In Transit</p>
                     <p className="text-xs font-bold text-text">8 Active Shipments</p>
                   </div>
                 </div>
@@ -214,7 +214,7 @@ const LandingPage = () => {
                 <span className="text-text/20">modern supply chain.</span>
               </h2>
             </motion.div>
-            <motion.p variants={fadeUp} className="max-w-xs text-sm text-text/40 leading-relaxed font-medium mb-2">
+            <motion.p variants={fadeUp} className="max-w-xs text-sm text-text/65 leading-relaxed font-medium mb-2">
               Every feature is meticulously designed to provide maximum clarity with minimal friction.
             </motion.p>
           </div>
@@ -229,7 +229,7 @@ const LandingPage = () => {
               { icon: Globe, title: "Global Cloud", desc: "Built on a world-class infrastructure for total reliability." },
             ].map((f, i) => (
               <motion.div key={f.title} variants={fadeUp} className="group space-y-6">
-                <div className="w-12 h-12 rounded-2xl bg-surface-muted border border-text/5 flex items-center justify-center text-text/40 group-hover:bg-primary/10 group-hover:text-primary group-hover:border-primary/20 transition-all duration-500">
+                <div className="w-12 h-12 rounded-2xl bg-surface-muted border border-text/5 flex items-center justify-center text-text/60 group-hover:bg-primary/10 group-hover:text-primary group-hover:border-primary/20 transition-all duration-500">
                   <f.icon size={20} />
                 </div>
                 <div className="space-y-3">
@@ -237,7 +237,7 @@ const LandingPage = () => {
                     {f.title}
                     <div className="w-1 h-1 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity" />
                   </h3>
-                  <p className="text-sm text-text/40 leading-relaxed font-medium">{f.desc}</p>
+                  <p className="text-sm text-text/65 leading-relaxed font-medium">{f.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -266,7 +266,7 @@ const LandingPage = () => {
                 <div className="w-full md:w-1/2 flex md:justify-end items-center gap-6">
                   <div className={`hidden md:block w-full text-right space-y-2 ${i % 2 !== 0 ? 'hidden' : ''}`}>
                     <h3 className="text-xl font-bold text-text">{s.title}</h3>
-                    <p className="text-xs text-text/40 font-medium leading-relaxed max-w-xs ml-auto">{s.desc}</p>
+                    <p className="text-xs text-text/65 font-medium leading-relaxed max-w-xs ml-auto">{s.desc}</p>
                   </div>
                   <div className="relative z-10">
                     <div className="w-20 h-20 rounded-[2rem] bg-white border border-text/5 shadow-2xl flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
@@ -278,11 +278,11 @@ const LandingPage = () => {
                 <div className="w-full md:w-1/2 space-y-4 text-left">
                   <div className="md:hidden space-y-2">
                     <h3 className="text-xl font-bold text-text">{s.title}</h3>
-                    <p className="text-xs text-text/40 font-medium leading-relaxed">{s.desc}</p>
+                    <p className="text-xs text-text/65 font-medium leading-relaxed">{s.desc}</p>
                   </div>
                   <div className={`hidden md:block space-y-2 ${i % 2 === 0 ? 'hidden' : ''}`}>
                     <h3 className="text-xl font-bold text-text">{s.title}</h3>
-                    <p className="text-xs text-text/40 font-medium leading-relaxed max-w-xs">{s.desc}</p>
+                    <p className="text-xs text-text/65 font-medium leading-relaxed max-w-xs">{s.desc}</p>
                   </div>
                 </div>
               </motion.div>
@@ -299,7 +299,7 @@ const LandingPage = () => {
             <h2 className="text-4xl font-bold text-text tracking-tight mb-8">Trusted by India's finest retail artisans.</h2>
             <div className="flex -space-x-4">
               {[1, 2, 3, 4].map(i => (
-                <div key={i} className="w-12 h-12 rounded-full border-4 border-white bg-surface-muted flex items-center justify-center text-[10px] font-bold text-text/20">U{i}</div>
+                <div key={i} className="w-12 h-12 rounded-full border-4 border-white bg-surface-muted flex items-center justify-center text-[10px] font-bold text-text/60">U{i}</div>
               ))}
               <div className="w-12 h-12 rounded-full border-4 border-white bg-primary text-white flex items-center justify-center text-[10px] font-bold">+500</div>
             </div>
@@ -316,7 +316,7 @@ const LandingPage = () => {
                 <p className="text-lg font-medium text-text italic serif leading-relaxed mb-8">"{t.text}"</p>
                 <div className="space-y-1">
                   <p className="text-sm font-bold text-text">{t.name}</p>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-text/20">{t.role}</p>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-text/60">{t.role}</p>
                 </div>
               </motion.div>
             ))}
@@ -339,7 +339,7 @@ const LandingPage = () => {
               { l: 'Orders Daily', v: '45,000' },
             ].map(s => (
               <div key={s.l} className="space-y-2">
-                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/30">{s.l}</p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/60">{s.l}</p>
                 <p className="text-4xl lg:text-5xl font-bold tracking-tight">{s.v}</p>
               </div>
             ))}
@@ -348,7 +348,7 @@ const LandingPage = () => {
           <div className="mt-32 pt-32 border-t border-white/5 flex flex-col lg:flex-row items-center justify-between gap-12">
             <div className="text-center lg:text-left space-y-4">
               <h2 className="text-4xl lg:text-6xl font-bold tracking-tight">Ready to craft your flow?</h2>
-              <p className="text-lg text-white/40 max-w-xl">Join the elite network of supply chain professionals building the future of Indian retail.</p>
+              <p className="text-lg text-white/65 max-w-xl">Join the elite network of supply chain professionals building the future of Indian retail.</p>
             </div>
             <button onClick={() => navigate('/login')} className="px-12 py-6 bg-primary text-white font-bold text-[11px] uppercase tracking-[0.2em] rounded-full hover:bg-white hover:text-text transition-all duration-500 shadow-2xl shadow-primary/20">
               Create your account
@@ -392,7 +392,7 @@ const LandingPage = () => {
             <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white">Newsletter</p>
             <div className="relative max-w-sm lg:ml-auto">
               <input type="text" placeholder="atelier@stockply.com" className="w-full bg-white/5 border border-white/10 rounded-full px-6 py-4 text-xs font-medium focus:border-primary outline-none transition-all" />
-              <button className="absolute right-2 top-2 bottom-2 px-4 bg-primary text-white rounded-full"><ArrowRight size={14} /></button>
+              <button type="submit" aria-label="Subscribe to newsletter" className="absolute right-2 top-2 bottom-2 px-4 bg-primary text-white rounded-full hover:bg-white hover:text-text transition-all duration-300"><ArrowRight size={14} /></button>
             </div>
           </div>
         </div>
