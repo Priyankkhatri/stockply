@@ -30,7 +30,12 @@ const OrderCard = ({ order }) => {
     }
   };
 
-  return (
+  const StatusBadge = ({ status }) => (
+    <span className={`rounded-full border px-4 py-1 text-[9px] font-black uppercase tracking-widest ${statusClasses[status] || statusClasses['Pending']}`}>
+      {status}
+    </span>
+  );
+
   return (
     <div className="mb-4 overflow-hidden rounded-[28px] border border-text/5 bg-white shadow-sm hover:shadow-md transition-shadow">
       <div

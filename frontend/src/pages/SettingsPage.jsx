@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   ChevronRight,
   CreditCard,
@@ -15,7 +16,15 @@ import {
 } from "lucide-react";
 
 export default function SettingsPage() {
+  const navigate = useNavigate();
   const [autoPay, setAutoPay] = useState(false);
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("userRole");
+    navigate("/login");
+  };
 
   const connectedSuppliers = [
     { name: "Oakwood Timber Co.", category: "Raw Materials", status: "Active", icon: Store },
@@ -219,7 +228,11 @@ export default function SettingsPage() {
               <ChevronRight size={18} className="text-text/20" />
             </button>
 
-            <button className="w-full bg-white border border-red-100 rounded-2xl p-6 flex items-center justify-center gap-3 text-red-500 hover:bg-red-50 transition-all group" type="button">
+            <button 
+              onClick={handleLogout}
+              className="w-full bg-white border border-red-100 rounded-2xl p-6 flex items-center justify-center gap-3 text-red-500 hover:bg-red-50 transition-all group" 
+              type="button"
+            >
               <LogOut size={18} className="group-hover:-translate-x-1 transition-transform" />
               <span className="text-sm font-bold">Sign Out Session</span>
             </button>

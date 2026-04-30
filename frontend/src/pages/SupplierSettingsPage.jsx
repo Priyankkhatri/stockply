@@ -1,15 +1,18 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Bell,
   Building2,
   Check,
   CreditCard,
+  LogOut,
   RefreshCcw,
   Save,
   ShieldCheck,
 } from "lucide-react";
 
 export default function SupplierSettingsPage() {
+  const navigate = useNavigate();
   const [syncMethod, setSyncMethod] = useState("api");
   const [alerts, setAlerts] = useState({
     push: true,
@@ -240,6 +243,19 @@ export default function SupplierSettingsPage() {
       </div>
 
       <div className="mt-12 flex justify-end items-center gap-6">
+        <button 
+          onClick={() => {
+            localStorage.removeItem("authToken");
+            localStorage.removeItem("isLoggedIn");
+            localStorage.removeItem("userRole");
+            navigate("/login");
+          }}
+          className="px-8 py-4 bg-rose-50 hover:bg-rose-100 text-rose-500 font-black text-[10px] uppercase tracking-widest rounded-2xl flex items-center gap-3 transition-all border border-rose-100"
+          type="button"
+        >
+          <LogOut size={18} />
+          Sign Out
+        </button>
         <button className="text-[10px] font-black text-text/30 uppercase tracking-[0.2em] hover:text-red-500 transition-all" type="button">
           Discard Changes
         </button>
