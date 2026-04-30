@@ -95,8 +95,8 @@ const DashboardHome = () => {
             <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             <span className="text-[10px] font-black text-text/30 uppercase tracking-[0.3em]">System Overview</span>
           </div>
-          <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">Command <span className="text-primary italic font-normal serif">Center.</span></h1>
-          <p className="text-text/40 text-sm font-medium">Real-time intelligence for your retail ecosystem.</p>
+          <h1 className="text-4xl font-bold text-text tracking-tighter leading-none">Command <span className="text-primary italic font-normal serif">Center.</span></h1>
+          <p className="text-text/40 text-xs font-medium">Real-time intelligence for your retail ecosystem.</p>
         </div>
         
         <div className="flex items-center gap-4">
@@ -119,7 +119,7 @@ const DashboardHome = () => {
                 {stat.icon && <stat.icon size={16} className="text-text/20 group-hover:text-primary transition-colors" />}
               </div>
               <div className="flex items-end justify-between">
-                <span className={`text-3xl font-bold text-text tracking-tighter ${stat.colorClass || ''}`}>{stat.value}</span>
+                <span className={`text-2xl font-bold text-text tracking-tighter ${stat.colorClass || ''}`}>{stat.value}</span>
                 <span className={`text-[10px] font-bold px-2 py-1 rounded-full ${stat.trend.includes('+') || stat.trend.includes('In Transit') ? 'bg-teal-50 text-teal-600' : 'bg-red-50 text-red-600'}`}>
                   {stat.trend}
                 </span>
@@ -284,12 +284,6 @@ const DashboardHome = () => {
         </motion.div>
       </div>
       
-      <style dangerouslySetInnerHTML={{ __html: `
-        .serif { font-family: "Playfair Display", serif; }
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.05); border-radius: 10px; }
-      ` }} />
     </motion.div>
   );
 };
