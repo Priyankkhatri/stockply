@@ -1,5 +1,5 @@
-<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M50 12L88 32V68L50 88L12 68V32L50 12Z" stroke="#C08552" stroke-width="8" stroke-linejoin="round"/>
-  <path d="M30 42C30 35 40 30 50 30C60 30 70 35 70 42C70 55 30 45 30 58C30 65 40 70 50 70C60 70 70 65 70 58" stroke="#C08552" stroke-width="6" stroke-linecap="round" opacity="0.8"/>
-  <path d="M50 12V30 M12 32L30 42 M88 32L70 42" stroke="#C08552" stroke-width="4" stroke-linecap="round" opacity="0.4"/>
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100" height="100" rx="20" fill="#C08552"/>
+  <path d="M50 15L85 35V65L50 85L15 65V35L50 15Z" stroke="white" stroke-width="6" stroke-linejoin="round" fill="none"/>
+  <path d="M30 42C30 35 40 30 50 30C60 30 70 35 70 42C70 55 30 45 30 58C30 65 40 70 50 70C60 70 70 65 70 58" stroke="white" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.9"/>
 </svg>
