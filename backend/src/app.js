@@ -8,6 +8,7 @@ const partnerRoutes = require('./routes/partnerRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const authRoutes = require('./routes/authRoutes');
 const analyticsRoutes = require('./routes/analyticsRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 
@@ -53,6 +54,7 @@ app.use('/api/v1/transactions', transactionRoutes);
 app.use('/api/v1/alerts', alertRoutes);
 app.use('/api/v1/partners', partnerRoutes);
 app.use('/api/v1/orders', orderRoutes);
+app.use('/api/v1/users', userRoutes);
 
 // Global error handler
 app.use((err, req, res, next) => {
