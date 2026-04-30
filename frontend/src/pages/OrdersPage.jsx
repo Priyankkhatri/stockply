@@ -3,9 +3,11 @@ import { ChevronDown, ChevronUp, Plus, MoreVertical, Download, Package, Clock, F
 import PageHeader from '../components/PageHeader';
 import PremiumButton from '../components/PremiumButton';
 import OrderTimeline from '../components/OrderTimeline';
+import CreateOrderModal from '../components/CreateOrderModal';
 import { orderAPI } from '../services/api';
 
 const tabs = ['All Orders', 'Active', 'Completed', 'Cancelled'];
+// ... (OrderCard remains the same)
 
 const OrderCard = ({ order }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -145,19 +147,21 @@ const OrdersPage = () => {
   const [activeTab, setActiveTab] = useState('All Orders');
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+
+  const fetchOrders = async () => {
+    try {
+      setLoading(true);
+      const res = await orderAPI.getAll();
+      setOrders(res.data?.data?.orders || []);
+    } catch (err) {
+      console.error('Error fetching orders:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        setLoading(true);
-        const res = await orderAPI.getAll();
-        setOrders(res.data?.data?.orders || []);
-      } catch (err) {
-        console.error('Error fetching orders:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchOrders();
   }, []);
 
@@ -176,7 +180,7 @@ const OrdersPage = () => {
         subtitle="Track and manage every purchase order with status, payment, and return context."
         breadcrumbs={['Dashboard', 'Orders']}
         actions={
-          <PremiumButton icon={Plus}>
+          <PremiumButton icon={Plus} onClick={() => setShowCreateModal(true)}>
             Create order
           </PremiumButton>
         }
@@ -227,10 +231,15 @@ const OrdersPage = () => {
           )}
         </div>
       )}
+
+      {showCreateModal && (
+        <CreateOrderModal 
+          onClose={() => setShowCreateModal(false)} 
+          onSuccess={fetchOrders}
+        />
+      )}
     </div>
   );
 };
-
-export default OrdersPage;
 
 export default OrdersPage;

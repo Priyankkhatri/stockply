@@ -64,4 +64,8 @@ export const analyticsAPI = {
   getSupplierOverview: () => api.get('/analytics/supplier-overview'),
 };
 
+export const userAPI = {
+  getSuppliers: () => api.get('/users/suppliers'),
+};
+
 export default api;
