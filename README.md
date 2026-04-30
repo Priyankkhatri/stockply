@@ -46,6 +46,8 @@ In a world of cluttered, legacy inventory systems, **Stockply** stands out as a 
 
 - **Partner Dashboard**: Manage all your shop clients from a single, high-fidelity portal.
 - **Advanced Fulfillment Analytics**: Visualize your supply performance with glowing, real-time data insights.
+- **High-Fidelity Mobile Experience**: Fully responsive card-based layouts for on-the-go inventory management.
+- **Bespoke Branding**: Standardized identity with consistent logo application and removal of boilerplate assets.
 - **Order Logistics**: Manage the entire lifecycle of an order from placement to delivery with live MongoDB persistence.
 
 ---
