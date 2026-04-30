@@ -48,8 +48,8 @@ const AlertItem = ({ alert, onRemove }) => {
       default:
         return {
           border: "border-text/5",
-          iconBg: "bg-background text-text/40",
-          tag: "bg-background text-text/40 border-text/5",
+          iconBg: "bg-background text-text/70",
+          tag: "bg-background text-text/70 border-text/5",
         };
     }
   };
@@ -75,8 +75,8 @@ const AlertItem = ({ alert, onRemove }) => {
               {alert.tag}
             </span>
           </div>
-          <p className="text-sm text-text/60 font-medium mb-2">{alert.description}</p>
-          <div className="flex items-center gap-2 text-[10px] text-text/30 font-black uppercase tracking-widest">
+          <p className="text-sm text-text/80 font-medium mb-2">{alert.description}</p>
+          <div className="flex items-center gap-2 text-[10px] text-text/60 font-black uppercase tracking-widest">
             <Calendar size={12} />
             <span>{alert.time}</span>
           </div>
@@ -89,19 +89,19 @@ const AlertItem = ({ alert, onRemove }) => {
             className={`px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border ${
               alert.type === "critical"
                 ? "bg-red-500 text-white border-transparent hover:bg-red-600 hover:shadow-lg hover:shadow-red-500/20"
-                : "bg-white text-text/60 border-text/10 hover:border-primary hover:text-primary"
+                : "bg-white text-text/80 border-text/10 hover:border-primary hover:text-primary"
             }`}
             type="button"
           >
             {alert.action}
           </button>
         ) : null}
-        <button className="p-3 bg-background rounded-full text-text/20 hover:text-text hover:bg-white border border-transparent hover:border-text/5 hover:shadow-sm transition-all" type="button">
+        <button className="p-3 bg-background rounded-full text-text/40 hover:text-text hover:bg-white border border-transparent hover:border-text/5 hover:shadow-sm transition-all" type="button">
           <Eye size={18} />
         </button>
         <button 
           onClick={onRemove}
-          className="p-3 bg-background rounded-full text-text/20 hover:text-red-500 hover:bg-red-50 border border-transparent hover:border-red-100 transition-all" 
+          className="p-3 bg-background rounded-full text-text/40 hover:text-red-500 hover:bg-red-50 border border-transparent hover:border-red-100 transition-all" 
           type="button"
         >
           <X size={18} />
@@ -214,16 +214,16 @@ export default function AlertsPage() {
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-            <span className="text-[10px] font-black text-text/30 uppercase tracking-[0.3em]">Notifications</span>
+            <span className="text-[10px] font-black text-text/60 uppercase tracking-[0.3em]">Notifications</span>
           </div>
           <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">System <span className="text-primary italic font-normal serif">Alerts.</span></h1>
-          <p className="text-text/40 text-sm font-medium">Stay updated on stock, orders, and operational risks.</p>
+          <p className="text-text/70 text-sm font-medium">Stay updated on stock, orders, and operational risks.</p>
         </div>
 
         <div className="flex gap-4">
           <button
             onClick={handleMarkAllRead}
-            className="px-6 py-4 rounded-[20px] border border-text/5 bg-white text-text/60 font-black text-[10px] uppercase tracking-widest flex items-center gap-3 hover:bg-background hover:text-text transition-all"
+            className="px-6 py-4 rounded-[20px] border border-text/5 bg-white text-text/80 font-black text-[10px] uppercase tracking-widest flex items-center gap-3 hover:bg-background hover:text-text transition-all"
             type="button"
           >
             <CheckCheck size={16} />
@@ -253,7 +253,7 @@ export default function AlertsPage() {
               key={tab.label}
               onClick={() => setActiveTab(tab.label)}
               className={`px-6 py-3.5 rounded-[16px] text-[9px] font-black uppercase tracking-widest transition-all duration-500 flex items-center gap-2 ${
-                activeTab === tab.label ? "bg-white text-text shadow-sm border border-text/5" : "text-text/30 hover:text-text/60"
+                activeTab === tab.label ? "bg-white text-text shadow-sm border border-text/5" : "text-text/60 hover:text-text/90"
               }`}
               type="button"
             >
@@ -275,18 +275,18 @@ export default function AlertsPage() {
 
         <div className="flex items-center gap-4">
           <button
-            className="flex items-center justify-between px-6 py-4 bg-background border border-text/5 rounded-2xl text-[9px] font-black uppercase tracking-widest text-text/40 hover:text-text hover:bg-white hover:shadow-sm transition-all w-48"
+            className="flex items-center justify-between px-6 py-4 bg-background border border-text/5 rounded-2xl text-[9px] font-black uppercase tracking-widest text-text/70 hover:text-text hover:bg-white hover:shadow-sm transition-all w-48"
             type="button"
           >
             All Types
-            <ChevronDown size={14} className="text-text/30" />
+            <ChevronDown size={14} className="text-text/60" />
           </button>
           <button
-            className="flex items-center justify-between px-6 py-4 bg-background border border-text/5 rounded-2xl text-[9px] font-black uppercase tracking-widest text-text/40 hover:text-text hover:bg-white hover:shadow-sm transition-all w-48"
+            className="flex items-center justify-between px-6 py-4 bg-background border border-text/5 rounded-2xl text-[9px] font-black uppercase tracking-widest text-text/70 hover:text-text hover:bg-white hover:shadow-sm transition-all w-48"
             type="button"
           >
             Status: Unread
-            <ChevronDown size={14} className="text-text/30" />
+            <ChevronDown size={14} className="text-text/60" />
           </button>
         </div>
       </motion.div>
@@ -294,7 +294,7 @@ export default function AlertsPage() {
       <div className="space-y-12">
         {Object.entries(groupedAlerts).map(([date, items]) => (
           <motion.section variants={rowAnim} key={date}>
-            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-text/40 mb-6 px-2 flex items-center gap-3">
+            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-text/70 mb-6 px-2 flex items-center gap-3">
               <div className="w-1.5 h-1.5 rounded-full bg-primary/40" />
               {date}
             </h3>
@@ -307,11 +307,11 @@ export default function AlertsPage() {
         ))}
         {Object.keys(groupedAlerts).length === 0 && (
           <motion.div variants={rowAnim} className="py-32 flex flex-col items-center justify-center rounded-[40px] border border-dashed border-text/10 bg-[#FAF5F0]/30">
-            <div className="w-20 h-20 rounded-3xl bg-white border border-text/5 shadow-sm flex items-center justify-center mb-6 text-text/20">
+            <div className="w-20 h-20 rounded-3xl bg-white border border-text/5 shadow-sm flex items-center justify-center mb-6 text-text/40">
               <Bell size={32} />
             </div>
             <h3 className="text-xl font-bold text-text mb-2">No alerts found</h3>
-            <p className="text-sm font-medium text-text/40">You're all caught up. No active notifications.</p>
+            <p className="text-sm font-medium text-text/70">You're all caught up. No active notifications.</p>
           </motion.div>
         )}
       </div>
