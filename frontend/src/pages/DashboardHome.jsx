@@ -1,6 +1,19 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ShoppingCart, Lightbulb, MessageSquare } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  ShoppingCart, 
+  Lightbulb, 
+  MessageSquare, 
+  ArrowUpRight, 
+  TrendingUp, 
+  AlertCircle, 
+  Package, 
+  Clock,
+  Sparkles,
+  ChevronRight,
+  Filter
+} from 'lucide-react';
 import GlassCard from '../components/GlassCard';
 import StatCard from '../components/StatCard';
 import StatusBadge from '../components/StatusBadge';
@@ -13,7 +26,8 @@ const criticalInventory = [
     stock: '0 units',
     price: 'Rs. 4.50',
     status: 'Out of Stock',
-    daysLeft: '0 days left',
+    daysLeft: '0 days',
+    velocity: 'High',
   },
   {
     name: 'Ibuprofen 400mg',
@@ -22,7 +36,8 @@ const criticalInventory = [
     stock: '12 units',
     price: 'Rs. 6.20',
     status: 'Low Stock',
-    daysLeft: '3 days left',
+    daysLeft: '3 days',
+    velocity: 'Normal',
   },
   {
     name: 'Amoxicillin 250mg',
@@ -31,212 +46,251 @@ const criticalInventory = [
     stock: '145 units',
     price: 'Rs. 12.00',
     status: 'In Stock',
-    daysLeft: '45 days left',
+    daysLeft: '45 days',
+    velocity: 'Slow',
   },
 ];
 
 const stats = [
-  { label: 'TOTAL PRODUCTS', value: '1,248' },
-  { label: 'LOW STOCK', value: '42', colorClass: 'text-[#C08552]' },
-  { label: 'OUT OF STOCK', value: '7', colorClass: 'text-red-500' },
-  { label: 'ORDERS PENDING', value: '18' },
+  { label: 'Asset Valuation', value: 'Rs. 1.2M', trend: '+12.5%', icon: TrendingUp },
+  { label: 'Low Stock SKU', value: '42', trend: '7 Urgent', colorClass: 'text-primary' },
+  { label: 'Out of Stock', value: '7', trend: 'Critical', colorClass: 'text-red-500' },
+  { label: 'Active Orders', value: '18', trend: '4 In Transit', icon: Clock },
 ];
 
 const expiringSoon = [
-  { name: 'Vitamin C Drops', days: '12 days left', color: 'text-red-500' },
-  { name: 'Cough Syrup (Adult)', days: '28 days left', color: 'text-orange-500' },
+  { name: 'Vitamin C Drops', days: '12 days left', severity: 'high' },
+  { name: 'Cough Syrup (Adult)', days: '28 days left', severity: 'medium' },
 ];
+
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const itemAnim = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }
+};
 
 const DashboardHome = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="max-w-[1600px] mx-auto px-6 py-8">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-text mb-2">Dashboard</h1>
-        <p className="text-text/60">Overview of your inventory and orders</p>
+    <motion.div 
+      initial="hidden"
+      animate="show"
+      variants={container}
+      className="max-w-[1600px] mx-auto px-6 py-10"
+    >
+      {/* ─── Header ─── */}
+      <motion.div variants={itemAnim} className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+            <span className="text-[10px] font-black text-text/30 uppercase tracking-[0.3em]">System Overview</span>
+          </div>
+          <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">Command <span className="text-primary italic font-normal serif">Center.</span></h1>
+          <p className="text-text/40 text-sm font-medium">Real-time intelligence for your retail ecosystem.</p>
+        </div>
+        
+        <div className="flex items-center gap-4">
+          <button className="px-6 py-3.5 bg-white border border-text/5 rounded-2xl text-[10px] font-black uppercase tracking-widest text-text/60 hover:text-text transition-all flex items-center gap-3">
+            <Filter size={14} /> Filter View
+          </button>
+          <button className="px-6 py-3.5 bg-text text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-primary transition-all flex items-center gap-3 shadow-xl shadow-text/10">
+            Export Report <ArrowUpRight size={14} />
+          </button>
+        </div>
+      </motion.div>
+
+      {/* ─── Key Metrics ─── */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+        {stats.map((stat, idx) => (
+          <motion.div key={stat.label} variants={itemAnim}>
+            <GlassCard className="p-8 group hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500">
+              <div className="flex justify-between items-start mb-6">
+                <p className="text-[10px] font-black text-text/30 uppercase tracking-[0.2em]">{stat.label}</p>
+                {stat.icon && <stat.icon size={16} className="text-text/20 group-hover:text-primary transition-colors" />}
+              </div>
+              <div className="flex items-end justify-between">
+                <span className={`text-3xl font-bold text-text tracking-tighter ${stat.colorClass || ''}`}>{stat.value}</span>
+                <span className={`text-[10px] font-bold px-2 py-1 rounded-full ${stat.trend.includes('+') || stat.trend.includes('In Transit') ? 'bg-teal-50 text-teal-600' : 'bg-red-50 text-red-600'}`}>
+                  {stat.trend}
+                </span>
+              </div>
+            </GlassCard>
+          </motion.div>
+        ))}
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
-        <div className="xl:col-span-3 space-y-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {stats.map((stat) => (
-              <StatCard
-                key={stat.label}
-                label={stat.label}
-                value={stat.value}
-                colorClass={stat.colorClass}
-              />
-            ))}
-          </div>
-
-          <GlassCard className="p-0 overflow-hidden">
-            <div className="p-6 flex justify-between items-center border-b border-text/5">
-              <h2 className="text-xl font-bold text-text">Critical Inventory</h2>
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-10">
+        {/* ─── Main Content: Critical Inventory ─── */}
+        <motion.div variants={itemAnim} className="xl:col-span-2">
+          <GlassCard className="p-0 overflow-hidden border-none shadow-none bg-transparent">
+            <div className="flex justify-between items-center mb-8 px-2">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-2xl bg-text/5 flex items-center justify-center text-text">
+                  <Package size={20} />
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-text tracking-tight">Critical Inventory</h2>
+                  <p className="text-[10px] font-bold text-text/30 uppercase tracking-widest mt-0.5">Urgent Procurement Required</p>
+                </div>
+              </div>
               <button
                 onClick={() => navigate('/dashboard/inventory')}
-                className="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 transition-all"
+                className="group flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-primary hover:text-text transition-colors"
               >
-                <ShoppingCart size={16} />
-                Reorder All Low Stock
+                View Ledger <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
 
-            <div className="overflow-x-auto lg:overflow-x-visible">
-              {/* Desktop Table */}
-              <table className="hidden lg:table w-full text-left border-collapse">
-                <thead>
-                  <tr className="bg-background/30 border-b border-text/5">
-                    <th className="px-6 py-4 text-[10px] font-bold text-text/40 uppercase tracking-widest">Product</th>
-                    <th className="px-6 py-4 text-[10px] font-bold text-text/40 uppercase tracking-widest">Stock</th>
-                    <th className="px-6 py-4 text-[10px] font-bold text-text/40 uppercase tracking-widest">Price</th>
-                    <th className="px-6 py-4 text-[10px] font-bold text-text/40 uppercase tracking-widest">Status</th>
-                    <th className="px-6 py-4 text-[10px] font-bold text-text/40 uppercase tracking-widest">Forecast</th>
-                    <th className="px-6 py-4 text-[10px] font-bold text-text/40 uppercase tracking-widest text-right">Action</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-text/5">
-                  {criticalInventory.map((item) => (
-                    <tr key={item.name} className="hover:bg-background/10 transition-colors">
-                      <td className="px-6 py-4">
-                        <p className="font-bold text-text text-sm">{item.name}</p>
-                        <p className="text-[10px] text-text/40">{item.category} • {item.supplier}</p>
-                      </td>
-                      <td
-                        className={`px-6 py-4 text-sm font-bold ${
-                          item.status === 'Out of Stock'
-                            ? 'text-red-500'
-                            : item.status === 'Low Stock'
-                              ? 'text-orange-500'
-                              : 'text-teal-600'
-                        }`}
-                      >
-                        {item.stock}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-text/60">{item.price}</td>
-                      <td className="px-6 py-4">
-                        <StatusBadge status={item.status} />
-                      </td>
-                      <td
-                        className={`px-6 py-4 text-sm font-bold ${
-                          item.status === 'In Stock' ? 'text-text/60' : 'text-orange-500'
-                        }`}
-                      >
-                        {item.daysLeft}
-                      </td>
-                      <td className="px-6 py-4 text-right">
-                        <button
-                          onClick={() => navigate('/dashboard/inventory/compare')}
-                          className="text-xs font-bold text-text/40 hover:text-primary transition-colors border border-text/10 px-3 py-1.5 rounded-md"
-                        >
-                          Reorder
-                        </button>
-                      </td>
+            <div className="bg-white rounded-[32px] border border-text/5 overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left">
+                  <thead>
+                    <tr className="bg-text/[0.02] border-b border-text/5">
+                      <th className="px-8 py-5 text-[10px] font-black text-text/30 uppercase tracking-[0.2em]">Asset Details</th>
+                      <th className="px-8 py-5 text-[10px] font-black text-text/30 uppercase tracking-[0.2em]">Inventory</th>
+                      <th className="px-8 py-5 text-[10px] font-black text-text/30 uppercase tracking-[0.2em]">Valuation</th>
+                      <th className="px-8 py-5 text-[10px] font-black text-text/30 uppercase tracking-[0.2em]">Forecast</th>
+                      <th className="px-8 py-5 text-[10px] font-black text-text/30 uppercase tracking-[0.2em] text-right">Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-
-              {/* Mobile List */}
-              <div className="lg:hidden divide-y divide-text/5">
-                {criticalInventory.map((item) => (
-                  <div key={item.name} className="p-6 space-y-4">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <p className="font-bold text-text text-sm">{item.name}</p>
-                        <p className="text-[10px] text-text/40 uppercase tracking-widest font-bold mt-0.5">{item.category}</p>
-                      </div>
-                      <StatusBadge status={item.status} />
-                    </div>
-                    <div className="flex justify-between items-end">
-                      <div className="space-y-1">
-                        <p className="text-[10px] font-bold text-text/40 uppercase tracking-widest">In Stock</p>
-                        <p className={`text-sm font-bold ${item.status === 'Out of Stock' ? 'text-red-500' : 'text-text'}`}>{item.stock}</p>
-                      </div>
-                      <button
-                        onClick={() => navigate('/dashboard/inventory/compare')}
-                        className="text-[10px] font-black uppercase tracking-widest text-primary border border-primary/20 px-4 py-2 rounded-lg"
-                      >
-                        Reorder
-                      </button>
-                    </div>
-                  </div>
-                ))}
+                  </thead>
+                  <tbody className="divide-y divide-text/5">
+                    {criticalInventory.map((item) => (
+                      <tr key={item.name} className="group hover:bg-text/[0.01] transition-all">
+                        <td className="px-8 py-6">
+                          <div className="flex flex-col">
+                            <span className="font-bold text-text text-sm tracking-tight">{item.name}</span>
+                            <span className="text-[10px] font-medium text-text/40 mt-1 uppercase tracking-widest">{item.category} • {item.supplier}</span>
+                          </div>
+                        </td>
+                        <td className="px-8 py-6">
+                          <div className="flex flex-col">
+                            <span className={`text-sm font-bold ${item.status === 'Out of Stock' ? 'text-red-500' : 'text-text'}`}>{item.stock}</span>
+                            <StatusBadge status={item.status} className="mt-1" />
+                          </div>
+                        </td>
+                        <td className="px-8 py-6">
+                          <span className="text-sm font-medium text-text/60">{item.price}</span>
+                        </td>
+                        <td className="px-8 py-6">
+                          <div className="flex items-center gap-2">
+                            <span className={`text-sm font-bold ${item.status === 'In Stock' ? 'text-text/60' : 'text-primary'}`}>{item.daysLeft}</span>
+                            <div className={`w-1 h-1 rounded-full ${item.velocity === 'High' ? 'bg-red-500' : item.velocity === 'Normal' ? 'bg-primary' : 'bg-teal-500'}`} title={`Velocity: ${item.velocity}`} />
+                          </div>
+                        </td>
+                        <td className="px-8 py-6 text-right">
+                          <button
+                            onClick={() => navigate('/dashboard/inventory/compare')}
+                            className="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-text/5 text-text/20 hover:text-primary hover:border-primary/20 transition-all"
+                          >
+                            <ShoppingCart size={18} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
-          </GlassCard>
-        </div>
-
-        <div className="space-y-6">
-          <GlassCard className="relative overflow-hidden">
-            <div className="flex items-center gap-2 mb-4">
-              <Lightbulb size={18} className="text-primary" />
-              <h3 className="font-bold text-text">Smart Recommendations</h3>
-            </div>
-            <div className="p-4 bg-background/50 rounded-xl border border-text/5 mb-4">
-              <p className="text-xs text-text/80 leading-relaxed mb-4">
-                <span className="font-bold text-text">Paracetamol 500mg</span> is projected to stock out in{' '}
-                <span className="text-red-500 font-bold">3 days</span> based on current sales velocity.
-              </p>
-              <div className="flex justify-between items-center text-[10px] font-bold">
-                <span className="text-text/40 uppercase tracking-widest">Suggested Order:</span>
-                <span className="text-text">60 units</span>
-              </div>
-            </div>
-            <button
-              onClick={() => navigate('/dashboard/inventory/compare')}
-              className="w-full bg-secondary hover:bg-secondary/90 text-white font-bold py-3 rounded-lg text-sm transition-all shadow-md shadow-secondary/10"
+            
+            <motion.button 
+              whileHover={{ scale: 1.01 }}
+              whileTap={{ scale: 0.99 }}
+              onClick={() => navigate('/dashboard/inventory')}
+              className="w-full mt-6 py-6 bg-primary text-white rounded-[24px] font-black text-[11px] uppercase tracking-[0.3em] flex items-center justify-center gap-4 shadow-2xl shadow-primary/20 hover:bg-primary-dark transition-all"
             >
-              Reorder Now
+              Reorder All Low Stock <ArrowUpRight size={16} />
+            </motion.button>
+          </GlassCard>
+        </motion.div>
+
+        {/* ─── Sidebar: Insights & Health ─── */}
+        <motion.div variants={itemAnim} className="space-y-8">
+          {/* Smart Insight Card */}
+          <GlassCard className="p-8 relative overflow-hidden bg-text text-white border-none shadow-2xl shadow-text/20">
+            <div className="absolute top-0 right-0 w-48 h-48 bg-primary/10 rounded-full blur-[60px] -mr-24 -mt-24" />
+            <div className="flex items-center gap-3 mb-8">
+              <div className="p-2.5 bg-white/10 backdrop-blur-xl rounded-xl text-primary">
+                <Lightbulb size={20} />
+              </div>
+              <h3 className="text-sm font-black uppercase tracking-[0.2em] text-white/90">Strategic Insight</h3>
+            </div>
+            <p className="text-sm font-medium leading-relaxed text-white/60 mb-8 italic">
+              "Inventory velocity for <span className="text-white font-bold">Pain Relief</span> categories has increased by 24% this week. Consider adjusting reorder points for Paracetamol."
+            </p>
+            <button className="w-full py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest text-white transition-all flex items-center justify-center gap-3">
+              Apply Optimization <Sparkles size={14} />
             </button>
           </GlassCard>
 
-          <GlassCard>
-            <div className="flex justify-between items-start mb-4">
+          {/* Health Gauge */}
+          <GlassCard className="p-8">
+            <div className="flex justify-between items-start mb-8">
               <div>
-                <p className="text-[10px] font-bold text-text/40 uppercase tracking-widest mb-1">Inventory Health</p>
-                <div className="flex items-center gap-2">
-                  <span className="text-3xl font-bold text-text">82%</span>
-                  <span className="text-teal-500 text-xs">↑</span>
+                <p className="text-[10px] font-black text-text/30 uppercase tracking-[0.2em] mb-2">Ecosystem Health</p>
+                <div className="flex items-center gap-3">
+                  <span className="text-4xl font-bold text-text tracking-tighter">82%</span>
+                  <span className="text-teal-500 text-[10px] font-black bg-teal-50 px-2 py-1 rounded-full">OPTIMAL</span>
                 </div>
               </div>
-              <div className="w-12 h-12 rounded-full border-4 border-teal-500 border-t-transparent animate-spin-slow"></div>
-            </div>
-            <p className="text-[10px] text-text/40 font-bold leading-tight">Optimal range. 15 items need attention.</p>
-          </GlassCard>
-
-          <GlassCard className="p-4 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-green-50 text-green-600 rounded-lg">
-                <MessageSquare size={18} />
+              <div className="relative w-16 h-16">
+                <svg className="w-full h-full transform -rotate-90">
+                  <circle cx="32" cy="32" r="28" fill="transparent" stroke="currentColor" strokeWidth="4" className="text-text/5" />
+                  <circle cx="32" cy="32" r="28" fill="transparent" stroke="currentColor" strokeWidth="4" strokeDasharray="175.9" strokeDashoffset="31.6" className="text-primary" />
+                </svg>
               </div>
-              <div>
-                <p className="text-xs font-bold text-text">WhatsApp Alerts</p>
-                <p className="text-[10px] text-text/40">Receive urgent stockout notices</p>
-              </div>
-            </div>
-            <div className="w-10 h-5 bg-secondary rounded-full relative flex items-center px-1">
-              <div className="w-3 h-3 bg-white rounded-full absolute right-1"></div>
-            </div>
-          </GlassCard>
-
-          <GlassCard>
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="font-bold text-text text-sm">Expiring Soon</h3>
-              <span className="text-text/20">!</span>
             </div>
             <div className="space-y-4">
+              <div className="flex justify-between items-center text-[10px] font-bold">
+                <span className="text-text/40 uppercase tracking-widest">Service Level</span>
+                <span className="text-text">94.2%</span>
+              </div>
+              <div className="w-full h-1.5 bg-text/5 rounded-full overflow-hidden">
+                <div className="w-[94%] h-full bg-teal-500 rounded-full" />
+              </div>
+            </div>
+          </GlassCard>
+
+          {/* Expiring Soon */}
+          <GlassCard className="p-8">
+            <div className="flex items-center gap-3 mb-8">
+              <AlertCircle size={18} className="text-primary" />
+              <h3 className="text-sm font-black uppercase tracking-[0.2em] text-text">Expiring Soon</h3>
+            </div>
+            <div className="space-y-6">
               {expiringSoon.map((item) => (
-                <div key={item.name} className="flex justify-between items-center text-xs font-bold">
-                  <span className="text-text/60">{item.name}</span>
-                  <span className={item.color}>{item.days}</span>
+                <div key={item.name} className="flex justify-between items-center group cursor-pointer">
+                  <div className="flex flex-col">
+                    <span className="text-xs font-bold text-text group-hover:text-primary transition-colors">{item.name}</span>
+                    <span className="text-[9px] font-medium text-text/30 uppercase tracking-widest mt-1">{item.days}</span>
+                  </div>
+                  <div className={`w-1.5 h-1.5 rounded-full ${item.severity === 'high' ? 'bg-red-500' : 'bg-primary'}`} />
                 </div>
               ))}
             </div>
+            <button className="w-full mt-8 py-4 border border-text/5 rounded-2xl text-[10px] font-black uppercase tracking-widest text-text/40 hover:text-text hover:bg-text/[0.02] transition-all">
+              Manage Expirations
+            </button>
           </GlassCard>
         </div>
       </div>
-    </div>
+      
+      <style dangerouslySetInnerHTML={{ __html: `
+        .serif { font-family: "Playfair Display", serif; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.05); border-radius: 10px; }
+      ` }} />
+    </motion.div>
   );
 };
 
