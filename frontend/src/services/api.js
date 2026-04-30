@@ -68,4 +68,9 @@ export const userAPI = {
   getSuppliers: () => api.get('/users/suppliers'),
 };
 
+export const notificationAPI = {
+  getAll: () => api.get('/notifications'),
+  markAllRead: () => api.patch('/notifications/mark-as-read'),
+};
+
 export default api;
