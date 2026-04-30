@@ -48,10 +48,10 @@ export default function SupplierSettingsPage() {
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-            <span className="text-[10px] font-black text-text/30 uppercase tracking-[0.3em]">Settings</span>
+            <span className="text-[10px] font-black text-text/50 uppercase tracking-[0.3em]">Settings</span>
           </div>
           <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">Portal <span className="text-primary italic font-normal serif">Configuration.</span></h1>
-          <p className="text-text/40 text-sm font-medium">Configure your business profile, financial routing, and system synchronization.</p>
+          <p className="text-text/60 text-sm font-medium">Configure your business profile, financial routing, and system synchronization.</p>
         </div>
 
         <div className="flex items-center gap-4">
@@ -79,7 +79,7 @@ export default function SupplierSettingsPage() {
 
               <div className="space-y-8">
                 <div>
-                  <label className="text-[10px] font-black text-text/30 uppercase tracking-[0.2em] block mb-3">
+                  <label className="text-[10px] font-black text-text/60 uppercase tracking-[0.2em] block mb-3">
                     Company Name
                   </label>
                   <input
@@ -91,7 +91,7 @@ export default function SupplierSettingsPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div>
-                    <label className="text-[10px] font-black text-text/30 uppercase tracking-[0.2em] block mb-3">
+                    <label className="text-[10px] font-black text-text/60 uppercase tracking-[0.2em] block mb-3">
                       GST Number
                     </label>
                     <input
@@ -101,7 +101,7 @@ export default function SupplierSettingsPage() {
                     />
                   </div>
                   <div>
-                    <label className="text-[10px] font-black text-text/30 uppercase tracking-[0.2em] block mb-3">
+                    <label className="text-[10px] font-black text-text/60 uppercase tracking-[0.2em] block mb-3">
                       Contact Email
                     </label>
                     <input
@@ -113,7 +113,7 @@ export default function SupplierSettingsPage() {
                 </div>
 
                 <div>
-                  <label className="text-[10px] font-black text-text/30 uppercase tracking-[0.2em] block mb-3">
+                  <label className="text-[10px] font-black text-text/60 uppercase tracking-[0.2em] block mb-3">
                     Street Address
                   </label>
                   <textarea
@@ -139,7 +139,7 @@ export default function SupplierSettingsPage() {
 
               <div className="space-y-8 relative z-10">
                 <div>
-                  <label className="text-[10px] font-black text-accent-emerald/50 uppercase tracking-[0.2em] block mb-3">
+                  <label className="text-[10px] font-black text-accent-emerald/70 uppercase tracking-[0.2em] block mb-3">
                     Bank Name
                   </label>
                   <input
@@ -151,7 +151,7 @@ export default function SupplierSettingsPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div>
-                    <label className="text-[10px] font-black text-accent-emerald/50 uppercase tracking-[0.2em] block mb-3">
+                    <label className="text-[10px] font-black text-accent-emerald/70 uppercase tracking-[0.2em] block mb-3">
                       Account Number
                     </label>
                     <input
@@ -161,7 +161,7 @@ export default function SupplierSettingsPage() {
                     />
                   </div>
                   <div>
-                    <label className="text-[10px] font-black text-accent-emerald/50 uppercase tracking-[0.2em] block mb-3">
+                    <label className="text-[10px] font-black text-accent-emerald/70 uppercase tracking-[0.2em] block mb-3">
                       IFSC Code
                     </label>
                     <input
@@ -224,7 +224,7 @@ export default function SupplierSettingsPage() {
                       </div>
                       <span className="font-bold font-display text-text text-sm">{method.label}</span>
                     </div>
-                    <p className="text-[10px] text-text/40 font-medium leading-relaxed pl-9">{method.desc}</p>
+                    <p className="text-[10px] text-text/60 font-medium leading-relaxed pl-9">{method.desc}</p>
                   </button>
                 ))}
               </div>
@@ -249,7 +249,7 @@ export default function SupplierSettingsPage() {
                   <div key={item.id} className="flex items-center justify-between p-4 rounded-2xl hover:bg-white/50 transition-all border border-transparent hover:border-text/5">
                     <div>
                       <p className="font-bold font-display text-text text-sm">{item.label}</p>
-                      <p className="text-[10px] text-text/40 font-medium">{item.desc}</p>
+                      <p className="text-[10px] text-text/60 font-medium">{item.desc}</p>
                     </div>
                     <button
                       onClick={() => toggleAlert(item.id)}
@@ -272,7 +272,7 @@ export default function SupplierSettingsPage() {
                 <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-text/20 shadow-sm shrink-0">
                   <ShieldCheck size={16} />
                 </div>
-                <p className="text-[10px] text-text/40 italic leading-relaxed">
+                <p className="text-[10px] text-text/60 italic leading-relaxed">
                   Sample: "Paracetamol low stock (SKU: PARA-500). Reorder now to maintain SLA."
                 </p>
               </div>
@@ -282,7 +282,7 @@ export default function SupplierSettingsPage() {
       </div>
 
       <motion.div variants={rowAnim} className="mt-12 flex justify-end items-center gap-6">
-        <button className="text-[10px] font-black text-text/30 uppercase tracking-[0.2em] hover:text-text transition-all" type="button">
+        <button className="text-[10px] font-black text-text/50 uppercase tracking-[0.2em] hover:text-text transition-all" type="button">
           Discard Changes
         </button>
         <button 
