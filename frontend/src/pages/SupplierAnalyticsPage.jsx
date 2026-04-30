@@ -76,10 +76,10 @@ export default function SupplierAnalyticsPage() {
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-            <span className="text-[10px] font-black text-text/50 uppercase tracking-[0.3em]">Analytics</span>
+            <span className="text-[10px] font-black text-text/60 uppercase tracking-[0.3em]">Analytics</span>
           </div>
           <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">Intelligence <span className="text-primary italic font-normal serif">Report.</span></h1>
-          <p className="text-text/60 text-sm font-medium">Track fulfillment velocity, demand pressure, and revenue movement across your partner network.</p>
+          <p className="text-text/70 text-sm font-medium">Track fulfillment velocity, demand pressure, and revenue movement across your partner network.</p>
         </div>
 
         <div className="flex items-center gap-4">
@@ -120,7 +120,7 @@ export default function SupplierAnalyticsPage() {
               </div>
 
               <div className="mt-4">
-                <p className="mb-1 text-[10px] font-black uppercase tracking-[0.2em] text-text/60">{stat.label}</p>
+                <p className="mb-1 text-[10px] font-black uppercase tracking-[0.2em] text-text/70">{stat.label}</p>
                 <p className="text-4xl font-display font-bold text-text">{stat.value}</p>
               </div>
             </GlassCard>
@@ -139,7 +139,7 @@ export default function SupplierAnalyticsPage() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-text/5 bg-white/50 px-6 sm:px-10 py-6 sm:py-8 gap-4">
               <div>
                 <h3 className="text-xl font-display font-bold text-text">Demand Momentum</h3>
-                <p className="text-[10px] font-black uppercase tracking-widest text-text/60">
+                <p className="text-[10px] font-black uppercase tracking-widest text-text/70">
                   Weekly order pull across connected shops
                 </p>
               </div>
@@ -163,13 +163,13 @@ export default function SupplierAnalyticsPage() {
                     dataKey="label" 
                     axisLine={false} 
                     tickLine={false} 
-                    tick={{ fill: '#BAADAC', fontSize: 10, fontWeight: 900 }} 
+                    tick={{ fill: '#6B4E4B', fontSize: 10, fontWeight: 900 }} 
                     dy={10}
                   />
                   <YAxis 
                     axisLine={false} 
                     tickLine={false} 
-                    tick={{ fill: '#BAADAC', fontSize: 10, fontWeight: 900 }}
+                    tick={{ fill: '#6B4E4B', fontSize: 10, fontWeight: 900 }}
                   />
                   <Tooltip 
                     contentStyle={{ 
@@ -225,7 +225,7 @@ export default function SupplierAnalyticsPage() {
                     <div key={item.label} className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <div className="h-2 w-2 rounded-full" style={{ backgroundColor: item.color }} />
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-text/60">{item.label}</span>
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-text/70">{item.label}</span>
                       </div>
                       <span className="text-xs font-black text-text">{item.value}%</span>
                     </div>
@@ -249,7 +249,7 @@ export default function SupplierAnalyticsPage() {
                   </div>
                   <h4 className="text-lg font-display font-bold text-text">Dispatch Optimizer</h4>
                 </div>
-                <p className="text-xs font-medium leading-relaxed text-text/60">
+                <p className="text-xs font-medium leading-relaxed text-text/70">
                   Shift tomorrow&apos;s packaging batch forward and you can improve on-time fulfillment by
                   <span className="font-black text-accent-emerald"> 6% </span>
                   across top-demand stores.
@@ -272,7 +272,7 @@ export default function SupplierAnalyticsPage() {
             transition={{ delay: 0.7 + i * 0.1 }}
           >
             <div className="rounded-[30px] border border-text/5 bg-white p-8 shadow-sm h-full">
-              <p className="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-text/30">{item.name}</p>
+              <p className="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-text/60">{item.name}</p>
               <div className="flex items-end justify-between">
                 <p className="text-3xl font-display font-bold text-text">{item.orders}</p>
                 <span className="rounded-full bg-primary/10 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-primary">

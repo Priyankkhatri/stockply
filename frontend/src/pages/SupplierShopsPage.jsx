@@ -95,7 +95,7 @@ const SupplierShopsPage = () => {
       <div className="flex h-[80vh] items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-          <p className="text-xs font-black uppercase tracking-widest text-text/60">Syncing Network Directory...</p>
+          <p className="text-xs font-black uppercase tracking-widest text-text/70">Syncing Network Directory...</p>
         </div>
       </div>
     );
@@ -118,10 +118,10 @@ const SupplierShopsPage = () => {
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-            <span className="text-[10px] font-black text-text/50 uppercase tracking-[0.3em]">Supplier / Shops</span>
+            <span className="text-[10px] font-black text-text/60 uppercase tracking-[0.3em]">Supplier / Shops</span>
           </div>
           <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">Retail <span className="text-primary italic font-normal serif">Partners.</span></h1>
-          <p className="text-text/60 text-sm font-medium">Manage your connected shop network, order volume, geography, and trust signals.</p>
+          <p className="text-text/70 text-sm font-medium">Manage your connected shop network, order volume, geography, and trust signals.</p>
         </div>
         <PremiumButton onClick={() => setIsAddModalOpen(true)} icon={Plus}>
           Add partner
@@ -143,7 +143,7 @@ const SupplierShopsPage = () => {
           </div>
 
           <div className="flex items-center gap-3 flex-shrink-0">
-            <button className="flex items-center gap-3 rounded-2xl border border-text/5 bg-white/80 px-5 py-4 text-[10px] font-black uppercase tracking-widest text-text/60 transition-all hover:border-primary/20 hover:text-text">
+            <button className="flex items-center gap-3 rounded-2xl border border-text/5 bg-white/80 px-5 py-4 text-[10px] font-black uppercase tracking-widest text-text/70 transition-all hover:border-primary/20 hover:text-text">
               <Tag size={14} className="text-primary" />
               Categories
               <ChevronDown size={14} />
@@ -178,12 +178,12 @@ const SupplierShopsPage = () => {
             <table className="w-full border-collapse text-left">
               <thead>
                 <tr className="border-b border-[#F0E5D8] bg-[#FAF5F0]/80">
-                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/50">Partner Identity</th>
-                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/50">Industry</th>
-                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/50">Geography</th>
-                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/50">Financials</th>
-                  <th className="px-10 py-6 text-center text-[10px] font-black uppercase tracking-[0.2em] text-text/50">Trust Metric</th>
-                  <th className="px-10 py-6 text-center text-[10px] font-black uppercase tracking-[0.2em] text-text/50">Status</th>
+                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/60">Partner Identity</th>
+                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/60">Industry</th>
+                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/60">Geography</th>
+                  <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-text/60">Financials</th>
+                  <th className="px-10 py-6 text-center text-[10px] font-black uppercase tracking-[0.2em] text-text/60">Trust Metric</th>
+                  <th className="px-10 py-6 text-center text-[10px] font-black uppercase tracking-[0.2em] text-text/60">Status</th>
                   <th className="px-10 py-6 text-right text-[10px] font-black uppercase tracking-[0.2em] text-text/30" />
                 </tr>
               </thead>

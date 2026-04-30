@@ -182,7 +182,7 @@ export default function SupplierInventoryPage() {
       <div className="flex h-[80vh] items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-          <p className="text-xs font-black uppercase tracking-widest text-text/60">Syncing Warehouse Data...</p>
+          <p className="text-xs font-black uppercase tracking-widest text-text/70">Syncing Warehouse Data...</p>
         </div>
       </div>
     );
@@ -195,14 +195,14 @@ export default function SupplierInventoryPage() {
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-            <span className="text-[10px] font-black text-text/50 uppercase tracking-[0.3em]">Stock Intelligence</span>
+            <span className="text-[10px] font-black text-text/60 uppercase tracking-[0.3em]">Stock Intelligence</span>
           </div>
           <h1 className="text-4xl font-bold text-text tracking-tighter leading-none">The <span className="text-primary italic font-normal serif">Ledger.</span></h1>
-          <p className="text-text/60 text-xs font-medium">Precision tracking for your entire inventory ecosystem.</p>
+          <p className="text-text/70 text-xs font-medium">Precision tracking for your entire inventory ecosystem.</p>
         </div>
 
         <div className="flex items-center gap-4">
-          <button className="px-6 py-4 bg-white border border-text/5 rounded-[20px] text-[10px] font-black uppercase tracking-widest text-text/60 hover:text-text transition-all flex items-center gap-3">
+          <button className="px-6 py-4 bg-white border border-text/5 rounded-[20px] text-[10px] font-black uppercase tracking-widest text-text/70 hover:text-text transition-all flex items-center gap-3">
             <Upload size={16} /> Export
           </button>
           <motion.button 
@@ -471,7 +471,7 @@ export default function SupplierInventoryPage() {
         <div className="hidden lg:block overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="text-[9px] font-black text-text/50 uppercase tracking-[0.25em] bg-background/30">
+              <tr className="text-[9px] font-black text-text/60 uppercase tracking-[0.25em] bg-background/30">
                 <th className="px-6 py-5">
                   <div className="flex items-center gap-2 cursor-pointer hover:text-text transition-colors">
                     Product <ArrowUpDown size={12} />
@@ -501,7 +501,7 @@ export default function SupplierInventoryPage() {
         </div>
 
         <div className="px-10 py-8 border-t border-text/5 flex items-center justify-between bg-white/50">
-          <p className="text-[10px] font-black text-text/60 uppercase tracking-[0.2em]">Showing 1-3 of 124 items</p>
+          <p className="text-[10px] font-black text-text/70 uppercase tracking-[0.2em]">Showing 1-3 of 124 items</p>
           <div className="flex items-center gap-6">
             <button className="p-2.5 rounded-xl text-text/40 transition-all" disabled>
               <ChevronLeft size={22} />
