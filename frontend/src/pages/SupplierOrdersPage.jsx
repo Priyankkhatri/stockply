@@ -72,6 +72,7 @@ const OrderCard = ({ order, isExpanded, onToggle, onUpdateStatus }) => {
                     Accept Order
                   </PremiumButton>
                 </>
+              )}
               {order.status === 'Processing' && (
                 <PremiumButton 
                   onClick={() => onUpdateStatus(order._id, 'Shipped')}

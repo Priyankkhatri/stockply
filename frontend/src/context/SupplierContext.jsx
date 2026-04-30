@@ -50,7 +50,10 @@ export const SupplierProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    fetchInitialData();
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    if (isLoggedIn) {
+      fetchInitialData();
+    }
   }, [fetchInitialData]);
 
   // ─── Products ────────────────────────────────────────────────
