@@ -148,7 +148,8 @@ const SupplierShopsPage = () => {
         ))}
       </div>
 
-      <div className="overflow-hidden rounded-[36px] border border-text/5 bg-white shadow-xl shadow-text/5">
+      {/* Desktop Table View */}
+      <div className="hidden lg:block overflow-hidden rounded-[36px] border border-text/5 bg-white shadow-xl shadow-text/5">
         <div className="overflow-x-auto">
           <table className="w-full border-collapse text-left">
             <thead>
@@ -235,6 +236,78 @@ const SupplierShopsPage = () => {
             </button>
           </div>
         </div>
+      </div>
+
+      {/* Mobile Card List View */}
+      <div className="grid grid-cols-1 gap-4 lg:hidden">
+        {visibleShops.map((shop) => {
+          const initials = shop.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+          return (
+            <motion.div
+              key={shop._id || shop.name}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              onClick={() => navigate(`/supplier/shops/${shop.name.toLowerCase().replace(/\s+/g, '-')}`)}
+              className="group overflow-hidden rounded-3xl border border-text/5 bg-white p-6 shadow-sm active:scale-[0.98] transition-all"
+            >
+              <div className="mb-6 flex items-start justify-between">
+                <div className="flex items-center gap-4">
+                  <div className={`flex h-12 w-12 items-center justify-center rounded-xl border border-black/5 text-xs font-black bg-teal-50 text-teal-600`}>
+                    {initials}
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-text group-hover:text-primary transition-colors">{shop.name}</h3>
+                    <p className="text-[9px] font-black uppercase tracking-widest text-text/30">Partner since {new Date(shop.createdAt).getFullYear() || 2024}</p>
+                  </div>
+                </div>
+                <div className={`flex flex-col items-end gap-1`}>
+                  <div className={`h-1.5 w-1.5 rounded-full ${shop.status === 'Active' ? 'bg-teal-500 shadow-[0_0_8px_rgba(20,184,166,0.5)]' : 'bg-orange-400 shadow-[0_0_8px_rgba(251,146,60,0.5)]'}`} />
+                  <span className={`text-[8px] font-black uppercase tracking-widest ${shop.status === 'Active' ? 'text-teal-600' : 'text-orange-400'}`}>
+                    {shop.status}
+                  </span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="space-y-1">
+                  <p className="text-[8px] font-black uppercase tracking-widest text-text/30">Industry</p>
+                  <p className="text-xs font-bold text-text">{shop.category || 'General'}</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-[8px] font-black uppercase tracking-widest text-text/30">Financials</p>
+                  <p className="text-xs font-black text-text">{shop.revenue || 'Rs. 0'}</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-[8px] font-black uppercase tracking-widest text-text/30">Location</p>
+                  <p className="flex items-center gap-1 text-xs font-bold text-text">
+                    <MapPin size={10} className="text-primary" />
+                    {shop.location}
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-[8px] font-black uppercase tracking-widest text-text/30">Total Orders</p>
+                  <p className="text-xs font-bold text-text">{shop.totalOrders || 0} Units</p>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between border-t border-text/5 pt-4">
+                <span className={`rounded-full border px-3 py-1 text-[8px] font-black uppercase tracking-widest ${behaviorStyles[shop.behavior] || behaviorStyles['On-time']}`}>
+                  {shop.behavior || 'On-time'}
+                </span>
+                <ChevronRight size={16} className="text-text/20 group-hover:text-primary transition-all" />
+              </div>
+            </motion.div>
+          );
+        })}
+        {visibleShops.length === 0 && (
+          <div className="flex flex-col items-center justify-center py-12 px-6 text-center">
+            <div className="w-16 h-16 rounded-full bg-background flex items-center justify-center text-text/20 mb-4">
+              <Search size={24} />
+            </div>
+            <h3 className="text-base font-bold text-text">No partners found</h3>
+            <p className="text-xs text-text/40 mt-2">Try refining your search or filter criteria.</p>
+          </div>
+        )}
       </div>
 
       <div className="relative mt-10 overflow-hidden rounded-[36px] bg-text p-10 text-white">

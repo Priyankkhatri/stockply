@@ -11,7 +11,7 @@ import {
   X,
 } from "lucide-react";
 
-const AlertItem = ({ alert }) => {
+const AlertItem = ({ alert, onRemove }) => {
   const getColors = (type) => {
     switch (type) {
       case "critical":
@@ -85,7 +85,11 @@ const AlertItem = ({ alert }) => {
         <button className="p-2 text-text/20 hover:text-text transition-colors" type="button">
           <Eye size={18} />
         </button>
-        <button className="p-2 text-text/20 hover:text-red-500 transition-colors" type="button">
+        <button 
+          onClick={onRemove}
+          className="p-2 text-text/20 hover:text-red-500 transition-colors" 
+          type="button"
+        >
           <X size={18} />
         </button>
       </div>
@@ -96,63 +100,94 @@ const AlertItem = ({ alert }) => {
 export default function AlertsPage() {
   const [activeTab, setActiveTab] = useState("All");
 
-  const alerts = useMemo(
-    () => ({
-      Today: [
-        {
-          id: 1,
-          type: "warning",
-          icon: ShoppingCart,
-          title: "Paracetamol 500mg",
-          tag: "LOW STOCK",
-          description: "Stock is low. 12 units remaining.",
-          time: "2 hours ago",
-          action: "Reorder",
-        },
-        {
-          id: 2,
-          type: "critical",
-          icon: AlertTriangle,
-          title: "Maggi Noodles",
-          tag: "OUT OF STOCK",
-          description: "Item is out of stock.",
-          time: "4 hours ago",
-          action: "Reorder",
-        },
-        {
-          id: 3,
-          type: "critical",
-          icon: Calendar,
-          title: "Ibuprofen 400mg",
-          tag: "RETURN DEADLINE",
-          description: "Return window closing in 2 days.",
-          time: "5 hours ago",
-          action: "Review Order",
-        },
-      ],
-      Yesterday: [
-        {
-          id: 4,
-          type: "info",
-          icon: DollarSign,
-          title: "Vitamin C Drops",
-          tag: "PRICE CHANGE",
-          description: "Price dropped by ₹2.",
-          time: "1 day ago",
-        },
-        {
-          id: 5,
-          type: "warning",
-          icon: Truck,
-          title: "Amoxicillin",
-          tag: "SUPPLIER DELAY",
-          description: "Supplier delayed delivery by 2 days.",
-          time: "1 day ago",
-        },
-      ],
-    }),
-    [],
-  );
+  const initialAlerts = [
+    {
+      id: 1,
+      type: "warning",
+      icon: ShoppingCart,
+      title: "Paracetamol 500mg",
+      tag: "LOW STOCK",
+      description: "Stock is low. 12 units remaining.",
+      time: "2 hours ago",
+      action: "Reorder",
+      date: "Today",
+      read: false,
+    },
+    {
+      id: 2,
+      type: "critical",
+      icon: AlertTriangle,
+      title: "Maggi Noodles",
+      tag: "OUT OF STOCK",
+      description: "Item is out of stock.",
+      time: "4 hours ago",
+      action: "Reorder",
+      date: "Today",
+      read: false,
+    },
+    {
+      id: 3,
+      type: "critical",
+      icon: Calendar,
+      title: "Ibuprofen 400mg",
+      tag: "RETURN DEADLINE",
+      description: "Return window closing in 2 days.",
+      time: "5 hours ago",
+      action: "Review Order",
+      date: "Today",
+      read: false,
+    },
+    {
+      id: 4,
+      type: "info",
+      icon: DollarSign,
+      title: "Vitamin C Drops",
+      tag: "PRICE CHANGE",
+      description: "Price dropped by ₹2.",
+      time: "1 day ago",
+      date: "Yesterday",
+      read: true,
+    },
+    {
+      id: 5,
+      type: "warning",
+      icon: Truck,
+      title: "Amoxicillin",
+      tag: "SUPPLIER DELAY",
+      description: "Supplier delayed delivery by 2 days.",
+      time: "1 day ago",
+      date: "Yesterday",
+      read: true,
+    },
+  ];
+
+  const [alertList, setAlertList] = useState(initialAlerts);
+
+  const filteredAlerts = useMemo(() => {
+    return alertList.filter((alert) => {
+      if (activeTab === "All") return true;
+      if (activeTab === "Critical") return alert.type === "critical";
+      if (activeTab === "Warnings") return alert.type === "warning";
+      if (activeTab === "Info") return alert.type === "info";
+      return true;
+    });
+  }, [activeTab, alertList]);
+
+  const groupedAlerts = useMemo(() => {
+    return filteredAlerts.reduce((acc, alert) => {
+      if (!acc[alert.date]) acc[alert.date] = [];
+      acc[alert.date].push(alert);
+      return acc;
+    }, {});
+  }, [filteredAlerts]);
+
+  const handleMarkAllRead = () => {
+    setAlertList(alertList.map(a => ({ ...a, read: true })));
+  };
+
+  const handleRemoveAlert = (id) => {
+    setAlertList(alertList.filter(a => a.id !== id));
+  };
 
   return (
     <div className="max-w-[1600px] mx-auto px-10 py-10">
@@ -163,6 +198,7 @@ export default function AlertsPage() {
         </div>
         <div className="flex gap-3">
           <button
+            onClick={handleMarkAllRead}
             className="px-5 py-2.5 rounded-lg border border-text/5 bg-white text-text/60 font-bold text-[11px] uppercase tracking-widest flex items-center gap-2 hover:bg-background transition-all"
             type="button"
           >
@@ -183,9 +219,9 @@ export default function AlertsPage() {
         <div className="flex items-center p-1 bg-white/50 border border-text/5 rounded-xl">
           {[
             { label: "All", count: null },
-            { label: "Critical", count: 2 },
-            { label: "Warnings", count: 2 },
-            { label: "Info", count: null },
+            { label: "Critical", count: alertList.filter(a => a.type === 'critical' && !a.read).length },
+            { label: "Warnings", count: alertList.filter(a => a.type === 'warning' && !a.read).length },
+            { label: "Info", count: alertList.filter(a => a.type === 'info' && !a.read).length },
           ].map((tab) => (
             <button
               key={tab.label}
@@ -196,10 +232,12 @@ export default function AlertsPage() {
               type="button"
             >
               {tab.label}
-              {tab.count ? (
+              {tab.count > 0 ? (
                 <span
                   className={`px-1.5 py-0.5 rounded text-[8px] ${
-                    tab.label === "Critical" ? "bg-red-50 text-red-500" : "bg-orange-50 text-orange-500"
+                    tab.label === "Critical" ? "bg-red-50 text-red-500" : 
+                    tab.label === "Warnings" ? "bg-orange-50 text-orange-500" :
+                    "bg-teal-50 text-teal-500"
                   }`}
                 >
                   {tab.count}
@@ -228,16 +266,21 @@ export default function AlertsPage() {
       </div>
 
       <div className="space-y-10">
-        {Object.entries(alerts).map(([date, items]) => (
+        {Object.entries(groupedAlerts).map(([date, items]) => (
           <section key={date}>
             <h3 className="text-sm font-bold text-text mb-5 px-1">{date}</h3>
             <div className="space-y-3">
               {items.map((alert) => (
-                <AlertItem key={alert.id} alert={alert} />
+                <AlertItem key={alert.id} alert={alert} onRemove={() => handleRemoveAlert(alert.id)} />
               ))}
             </div>
           </section>
         ))}
+        {Object.keys(groupedAlerts).length === 0 && (
+          <div className="py-20 text-center">
+            <p className="text-text/20 font-bold uppercase tracking-widest text-sm">No alerts found in this category</p>
+          </div>
+        )}
       </div>
     </div>
   );

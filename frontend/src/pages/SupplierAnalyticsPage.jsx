@@ -21,8 +21,7 @@ export default function SupplierAnalyticsPage() {
   const { products, orders } = useSupplier();
 
   const totalRevenue = orders.reduce((sum, o) => {
-    const val = parseInt(o.amount.replace(/[^0-9]/g, '')) || 0;
-    return sum + val;
+    return sum + (o.totalAmount || 0);
   }, 0);
 
   const fulfilledOrders = orders.filter(o => o.status === 'Dispatched').length;
@@ -57,7 +56,7 @@ export default function SupplierAnalyticsPage() {
   ];
 
   return (
-    <div className="mx-auto max-w-[1600px] px-10 py-10">
+    <div className="mx-auto max-w-[1600px] px-4 sm:px-10 py-6 sm:py-10">
       <PageHeader
         title="Supplier Analytics"
         subtitle="Track fulfillment velocity, demand pressure, and revenue movement across your partner network."
@@ -110,8 +109,8 @@ export default function SupplierAnalyticsPage() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4 }}
         >
-          <GlassCard className="h-[520px] flex flex-col overflow-hidden p-0" hover={false}>
-            <div className="flex items-center justify-between border-b border-text/5 bg-white/50 px-10 py-8">
+          <GlassCard className="h-[400px] sm:h-[520px] flex flex-col overflow-hidden p-0" hover={false}>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-text/5 bg-white/50 px-6 sm:px-10 py-6 sm:py-8 gap-4">
               <div>
                 <h3 className="text-xl font-display font-bold text-text">Demand Momentum</h3>
                 <p className="text-[10px] font-black uppercase tracking-widest text-text-muted">
@@ -175,8 +174,8 @@ export default function SupplierAnalyticsPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5 }}
           >
-            <GlassCard className="flex h-[250px] items-center gap-6">
-              <div className="h-full w-1/2">
+            <GlassCard className="flex flex-col sm:flex-row h-auto sm:h-[250px] items-center gap-6 p-6 sm:p-8">
+              <div className="h-[180px] sm:h-full w-full sm:w-1/2">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
@@ -193,7 +192,7 @@ export default function SupplierAnalyticsPage() {
                   </PieChart>
                 </ResponsiveContainer>
               </div>
-              <div className="w-1/2 space-y-4">
+              <div className="w-full sm:w-1/2 space-y-4">
                 <h4 className="text-lg font-display font-bold text-text">Fulfillment Mix</h4>
                 <div className="space-y-2">
                   {fulfillmentMix.map((item) => (
