@@ -1,4 +1,6 @@
+import React from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import Logo from './Logo';
 import { 
   LayoutDashboard, 
@@ -12,6 +14,9 @@ import {
   HelpCircle,
   LogOut,
   X,
+  Sparkles,
+  ChevronRight,
+  ShieldCheck
 } from 'lucide-react';
 
 const Sidebar = ({ role, isOpen, onClose }) => {
@@ -27,51 +32,62 @@ const Sidebar = ({ role, isOpen, onClose }) => {
 
     const links = role === 'supplier' 
       ? [
-          { name: 'Dashboard', icon: LayoutDashboard, path: '/supplier/dashboard' },
-          { name: 'Shops', icon: Users, path: '/supplier/shops' },
-          { name: 'Orders', icon: ShoppingCart, path: '/supplier/orders' },
-          { name: 'Fulfillment', icon: Truck, path: '/supplier/fulfillment' },
-          { name: 'Inventory', icon: Package, path: '/supplier/inventory' },
-          { name: 'Analytics', icon: BarChart3, path: '/supplier/analytics' },
-          { name: 'Settings', icon: Settings, path: '/supplier/settings' },
+          { name: 'Dashboard', icon: LayoutDashboard, path: '/supplier/dashboard', detail: 'Overview' },
+          { name: 'Shops', icon: Users, path: '/supplier/shops', detail: 'Retail Partners' },
+          { name: 'Orders', icon: ShoppingCart, path: '/supplier/orders', detail: 'Fulfillment' },
+          { name: 'Fulfillment', icon: Truck, path: '/supplier/fulfillment', detail: 'Logistics' },
+          { name: 'Inventory', icon: Package, path: '/supplier/inventory', detail: 'Stock Control' },
+          { name: 'Analytics', icon: BarChart3, path: '/supplier/analytics', detail: 'Performance' },
+          { name: 'Settings', icon: Settings, path: '/supplier/settings', detail: 'System' },
         ]
       : [
-          { name: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
-          { name: 'Inventory', icon: Package, path: '/dashboard/inventory' },
-          { name: 'Orders', icon: ShoppingCart, path: '/dashboard/orders' },
-          { name: 'Alerts', icon: Users, path: '/dashboard/alerts' },
-          { name: 'Analytics', icon: BarChart3, path: '/dashboard/analytics' },
-          { name: 'Settings', icon: Settings, path: '/dashboard/settings' },
+          { name: 'Dashboard', icon: LayoutDashboard, path: '/dashboard', detail: 'Command Center' },
+          { name: 'Inventory', icon: Package, path: '/dashboard/inventory', detail: 'Stock Ledger' },
+          { name: 'Orders', icon: ShoppingCart, path: '/dashboard/orders', detail: 'Procurement' },
+          { name: 'Alerts', icon: Users, path: '/dashboard/alerts', detail: 'Risk Monitor' },
+          { name: 'Analytics', icon: BarChart3, path: '/dashboard/analytics', detail: 'Market Insights' },
+          { name: 'Settings', icon: Settings, path: '/dashboard/settings', detail: 'Preferences' },
         ];
   
     return (
       <aside className={`
-        fixed inset-y-0 left-0 z-50 w-80 bg-white/80 backdrop-blur-2xl border-r border-text/5 flex flex-col transition-transform duration-500 ease-in-out
+        fixed inset-y-0 left-0 z-[60] w-72 bg-[#FDFCFB]/80 backdrop-blur-3xl border-r border-text/5 flex flex-col transition-all duration-700 ease-[0.22,1,0.36,1]
         lg:translate-x-0 lg:static lg:h-screen lg:sticky lg:top-0
-        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+        ${isOpen ? 'translate-x-0' : '-translate-x-full shadow-none'}
+        ${isOpen ? 'shadow-[40px_0_80px_-20px_rgba(0,0,0,0.1)]' : ''}
       `}>
-        <div className="p-10 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="w-14 h-14 bg-primary rounded-3xl flex items-center justify-center text-white shadow-xl shadow-primary/20">
-              <Logo size={28} />
+        {/* ─── Header: Brand Identity ─── */}
+        <div className="p-8 pt-10 flex items-center justify-between">
+          <motion.div 
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="flex items-center gap-3.5 group cursor-pointer"
+            onClick={() => navigate('/')}
+          >
+            <div className="w-12 h-12 bg-text rounded-[18px] flex items-center justify-center text-white shadow-2xl shadow-text/20 group-hover:bg-primary transition-all duration-500 transform group-hover:rotate-6">
+              <Logo size={24} />
             </div>
             <div className="flex flex-col">
-              <span className="text-text font-display font-black text-xl leading-tight tracking-tighter uppercase">Stockply</span>
-              <span className="text-[10px] font-black text-text/30 tracking-[0.3em] uppercase mt-0.5 opacity-60">Digital Atelier</span>
+              <span className="text-text font-bold text-lg tracking-tighter uppercase leading-none">Stockply</span>
+              <span className="text-[7px] font-black text-text/30 tracking-[0.4em] uppercase mt-1.5 flex items-center gap-1.5">
+                <div className="w-1 h-1 rounded-full bg-primary animate-pulse" />
+                Atelier v2
+              </span>
             </div>
-          </div>
+          </motion.div>
           
           <button 
             onClick={onClose}
-            className="lg:hidden p-2 text-text/40 hover:text-text transition-colors"
+            className="lg:hidden p-2 text-text/20 hover:text-text transition-colors bg-text/5 rounded-xl"
           >
-            <X size={24} />
+            <X size={20} />
           </button>
         </div>
 
-        <nav className="flex-1 px-8 py-4 overflow-y-auto custom-scrollbar">
-          <div className="space-y-2">
-            {links.map((link) => {
+        {/* ─── Navigation: Core Links ─── */}
+        <nav className="flex-1 px-4 py-2 overflow-y-auto custom-scrollbar">
+          <div className="space-y-1">
+            {links.map((link, idx) => {
               const isActive = location.pathname === link.path;
               return (
                 <NavLink
@@ -81,44 +97,85 @@ const Sidebar = ({ role, isOpen, onClose }) => {
                   onClick={() => {
                     if (window.innerWidth < 1024) onClose();
                   }}
-                  className={`group relative flex items-center gap-4 px-6 py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition-all ${
+                  className={`group relative flex items-center justify-between px-5 py-3.5 rounded-[20px] transition-all duration-500 ${
                     isActive
                        ? 'text-text'
-                      : 'text-text-muted hover:text-text hover:bg-primary/5'
+                      : 'text-text/30 hover:text-text/60 hover:bg-text/[0.02]'
                   }`}
                 >
-                  {isActive && <div className="absolute inset-0 bg-white shadow-premium border border-text/5 rounded-2xl z-0" />}
+                  {isActive && (
+                    <motion.div 
+                      layoutId="sidebar-active"
+                      className="absolute inset-0 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-text/5 rounded-[20px] z-0"
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
+                  
                   <div className="relative z-10 flex items-center gap-4">
-                    <link.icon size={20} className={`${isActive ? 'text-primary' : 'text-text-muted group-hover:text-primary'} transition-colors`} />
-                    <span className="mt-0.5">{link.name}</span>
+                    <div className={`p-2.5 rounded-14 transition-all duration-500 ${isActive ? 'bg-primary/10 text-primary' : 'text-text/20 group-hover:text-text/40'}`}>
+                      <link.icon size={18} strokeWidth={isActive ? 2.5 : 2} />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-[10px] font-black uppercase tracking-widest">{link.name}</span>
+                      <span className={`text-[8px] font-bold italic transition-all duration-500 ${isActive ? 'text-text/40 opacity-100' : 'opacity-0 -translate-y-1 group-hover:opacity-40 group-hover:translate-y-0'}`}>
+                        {link.detail}
+                      </span>
+                    </div>
                   </div>
+
+                  {isActive && (
+                    <motion.div 
+                      initial={{ opacity: 0, x: -5 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      className="relative z-10 w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_10px_rgba(var(--primary-rgb),0.5)]"
+                    />
+                  )}
                 </NavLink>
               );
             })}
           </div>
         </nav>
 
-        <div className="p-8 space-y-4">
-          <button className="w-full py-4 bg-primary rounded-2xl text-white font-black text-xs uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-primary/20 hover:bg-primary-dark transition-all">
-            <Plus size={20} />
-            New Entry
-          </button>
+        {/* ─── Footer: Actions & System ─── */}
+        <div className="p-6 space-y-4">
+          <div className="p-5 bg-text rounded-[28px] relative overflow-hidden group cursor-pointer transition-all duration-500 hover:shadow-2xl hover:shadow-text/20">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
+            <div className="relative z-10 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white">
+                  <Plus size={16} />
+                </div>
+                <span className="text-[9px] font-black text-white uppercase tracking-[0.2em]">New Action</span>
+              </div>
+              <ChevronRight size={14} className="text-white/20 group-hover:text-white transition-all transform group-hover:translate-x-1" />
+            </div>
+          </div>
 
-          <div className="pt-6 mt-2 border-t border-text/5 space-y-1">
+          <div className="pt-4 border-t border-text/5 space-y-1">
             <NavLink
               to="/support"
-              className="flex items-center gap-4 px-6 py-4 rounded-xl text-xs font-black uppercase tracking-widest text-text-muted hover:text-text hover:bg-background transition-all"
+              className="flex items-center gap-4 px-5 py-3.5 rounded-[18px] text-[10px] font-black uppercase tracking-widest text-text/30 hover:text-text hover:bg-text/[0.02] transition-all"
             >
-              <HelpCircle size={20} />
-              Support
+              <div className="p-2 bg-background rounded-xl">
+                <HelpCircle size={16} />
+              </div>
+              Support Hub
             </NavLink>
             <button
               onClick={handleLogout}
-              className="w-full flex items-center gap-4 px-6 py-4 rounded-xl text-xs font-black uppercase tracking-widest text-accent-rose/60 hover:text-accent-rose hover:bg-accent-rose/5 transition-all text-left"
+              className="w-full flex items-center gap-4 px-5 py-3.5 rounded-[18px] text-[10px] font-black uppercase tracking-widest text-red-400/50 hover:text-red-500 hover:bg-red-50 transition-all text-left"
             >
-              <LogOut size={20} />
-              Log Out
+              <div className="p-2 bg-red-50/50 rounded-xl text-red-400">
+                <LogOut size={16} />
+              </div>
+              Terminate Session
             </button>
+          </div>
+
+          {/* System Badge */}
+          <div className="flex items-center justify-center gap-2 pt-2">
+            <ShieldCheck size={12} className="text-teal-500/40" />
+            <span className="text-[8px] font-bold text-text/10 uppercase tracking-[0.3em]">Secure Atelier System</span>
           </div>
         </div>
       </aside>
