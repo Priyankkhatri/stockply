@@ -71,115 +71,169 @@ const LandingPage = () => {
         title="Stockply — Supply Chain Clarity, Beautifully Delivered"
         description="Stockply is the Digital Atelier for supply chain management. Real-time inventory tracking, intelligent analytics, and seamless logistics for shop owners and suppliers across India."
         path="/"
-      />
-      {/* ─── Navbar ─── */}
-      <nav aria-label="Main navigation" className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b transition-all duration-300 ${scrolled ? 'bg-white/90 border-text/10 shadow-lg shadow-text/5' : 'bg-background/80 border-text/5'}`}>
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20">
-              <Logo size={20} />
-            </div>
-            <span className="font-display font-black text-xl text-text tracking-tighter uppercase">Stockply</span>
+      />      {/* ─── Navbar ─── */}
+      <nav aria-label="Main navigation" className="fixed top-6 left-0 right-0 z-50 px-6 pointer-events-none">
+        <div className={`max-w-5xl mx-auto px-6 h-14 flex items-center justify-between rounded-full border border-text/5 backdrop-blur-xl transition-all duration-500 pointer-events-auto ${scrolled ? 'bg-white/80 shadow-2xl shadow-text/5 border-text/10' : 'bg-white/40'}`}>
+          <div className="flex items-center gap-2">
+            <Logo size={20} />
+            <span className="font-bold text-sm text-text tracking-tight uppercase">Stockply</span>
           </div>
+          
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map(l => (
-              <a key={l.label} href={l.href} className="text-[11px] font-black uppercase tracking-widest text-text/40 hover:text-primary transition-colors">{l.label}</a>
+              <a key={l.label} href={l.href} className="text-[10px] font-bold uppercase tracking-[0.2em] text-text/40 hover:text-primary transition-colors">{l.label}</a>
             ))}
           </div>
-          <div className="hidden md:flex items-center gap-3">
-            <button onClick={() => navigate('/login')} className="px-6 py-3 text-[11px] font-black uppercase tracking-widest text-text/60 hover:text-primary transition-colors">Log In</button>
-            <button onClick={() => navigate('/login')} className="px-6 py-3 bg-primary text-white text-[11px] font-black uppercase tracking-widest rounded-xl shadow-lg shadow-primary/20 hover:bg-primary-dark transition-all">
+
+          <div className="flex items-center gap-2">
+            <button onClick={() => navigate('/login')} className="hidden sm:block px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-text/60 hover:text-primary transition-colors">Log In</button>
+            <button onClick={() => navigate('/login')} className="px-5 py-2.5 bg-text text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-primary transition-all duration-300">
               Get Started
             </button>
+            {/* Mobile hamburger */}
+            <button onClick={() => setMobileOpen(!mobileOpen)} aria-label="Toggle mobile menu" className="md:hidden w-8 h-8 flex items-center justify-center text-text/60 hover:text-primary transition-colors">
+              {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
           </div>
-          {/* Mobile hamburger */}
-          <button onClick={() => setMobileOpen(!mobileOpen)} aria-label="Toggle mobile menu" aria-expanded={mobileOpen} className="md:hidden w-10 h-10 rounded-xl flex items-center justify-center text-text/60 hover:text-primary transition-colors">
-            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
         </div>
+        
         {/* Mobile menu overlay */}
         {mobileOpen && (
-          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="md:hidden bg-white border-t border-text/5 shadow-xl px-6 py-6 space-y-2">
-            {navLinks.map(l => (
-              <a key={l.label} href={l.href} onClick={() => setMobileOpen(false)} className="block px-4 py-3 rounded-xl text-xs font-black uppercase tracking-widest text-text/60 hover:text-primary hover:bg-primary/5 transition-all">{l.label}</a>
-            ))}
-            <div className="pt-4 border-t border-text/5 flex flex-col gap-2">
-              <button onClick={() => { navigate('/login'); setMobileOpen(false); }} className="w-full py-4 bg-primary text-white text-xs font-black uppercase tracking-widest rounded-xl shadow-lg shadow-primary/20">Get Started</button>
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="md:hidden mt-4 mx-auto max-w-sm bg-white/95 backdrop-blur-xl rounded-3xl border border-text/10 p-6 shadow-2xl pointer-events-auto">
+            <div className="flex flex-col gap-4">
+              {navLinks.map(l => (
+                <a key={l.label} href={l.href} onClick={() => setMobileOpen(false)} className="px-4 py-2 text-xs font-bold uppercase tracking-widest text-text/60 hover:text-primary transition-all">{l.label}</a>
+              ))}
+              <div className="pt-4 border-t border-text/5">
+                <button onClick={() => { navigate('/login'); setMobileOpen(false); }} className="w-full py-4 bg-text text-white text-xs font-bold uppercase tracking-widest rounded-2xl shadow-lg">Get Started</button>
+              </div>
             </div>
           </motion.div>
         )}
       </nav>
+      </nav>
 
       {/* ─── Hero ─── */}
       <main>
-      <section className="pt-40 pb-24 px-6 lg:px-12 max-w-7xl mx-auto relative">
-        {/* Floating decorative elements */}
-        <div className="absolute top-32 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute top-64 right-10 w-56 h-56 bg-accent-violet/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute bottom-20 left-1/4 w-40 h-40 bg-accent-cyan/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
-        <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.12 } } }} className="text-center max-w-4xl mx-auto">
-          <motion.div variants={fadeUp} className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/5 text-primary text-[10px] font-black uppercase tracking-widest mb-8">
-            <Logo size={12} /> The Digital Atelier for Supply Chains
+      <section className="pt-48 pb-32 px-6 lg:px-12 max-w-7xl mx-auto relative">
+        {/* Subtle Geometric Accents */}
+        <div className="absolute top-20 right-0 w-[500px] h-[500px] border border-text/[0.03] rounded-full -mr-64 pointer-events-none" />
+        <div className="absolute top-40 right-20 w-[300px] h-[300px] border border-text/[0.02] rounded-full pointer-events-none" />
+        
+        <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.1 } } }} className="relative z-10 flex flex-col items-center text-center">
+          <motion.div variants={fadeUp} className="mb-8 px-5 py-1.5 rounded-full border border-primary/10 bg-primary/5 text-primary text-[10px] font-bold uppercase tracking-[0.2em]">
+            Digital Atelier for Supply Chains
           </motion.div>
-          <motion.h1 variants={fadeUp} className="text-5xl lg:text-7xl font-black text-text tracking-tighter leading-[1.05] mb-6">
-            Supply chain clarity,<br />
-            <span className="text-primary">beautifully delivered.</span>
+          
+          <motion.h1 variants={fadeUp} className="text-6xl md:text-8xl font-bold text-text tracking-[-0.04em] leading-[0.95] mb-8">
+            Clarity in every<br />
+            <span className="italic font-normal serif text-primary/80">movement.</span>
           </motion.h1>
-          <motion.p variants={fadeUp} className="text-lg text-text/50 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Stockply connects shop owners and suppliers through a premium inventory management experience — real-time tracking, intelligent analytics, and seamless logistics.
+          
+          <motion.p variants={fadeUp} className="text-lg md:text-xl text-text/40 max-w-2xl mx-auto mb-12 leading-relaxed font-medium">
+            Connect shop owners and suppliers with an elegant inventory experience. Real-time tracking, intelligent analytics, and seamless fulfillment.
           </motion.p>
-          <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button onClick={() => navigate('/login')} className="group px-10 py-5 bg-primary text-white font-black text-xs uppercase tracking-widest rounded-2xl shadow-xl shadow-primary/25 hover:bg-primary-dark transition-all flex items-center gap-3">
-              Start Free <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+          
+          <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-24">
+            <button onClick={() => navigate('/login')} className="px-10 py-5 bg-text text-white font-bold text-[11px] uppercase tracking-[0.2em] rounded-full shadow-2xl shadow-text/20 hover:bg-primary transition-all duration-500 flex items-center gap-4">
+              Get Started Free <ArrowRight size={14} />
             </button>
-            <a href="#features" className="px-10 py-5 border border-text/10 bg-white text-text font-black text-xs uppercase tracking-widest rounded-2xl hover:border-primary/30 hover:shadow-lg transition-all">
-              See Features
+            <a href="#features" className="px-10 py-5 text-text/40 font-bold text-[11px] uppercase tracking-[0.2em] hover:text-text transition-all flex items-center gap-2 group">
+              Explore Features <div className="w-1.5 h-1.5 rounded-full bg-primary/40 group-hover:bg-primary transition-all" />
             </a>
           </motion.div>
         </motion.div>
 
-        {/* Dashboard Preview */}
-        <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.8 }}
-          className="mt-20 relative max-w-5xl mx-auto">
-          <div className="absolute -inset-4 bg-gradient-to-b from-primary/10 via-transparent to-transparent rounded-[48px] blur-3xl" />
-          <div className="relative bg-white rounded-[36px] border border-text/10 shadow-2xl shadow-text/10 overflow-hidden">
-            {/* Browser chrome */}
-            <div className="flex items-center gap-2 px-6 py-3 border-b border-text/5 bg-background/50">
-              <div className="flex gap-1.5">
-                <div className="w-3 h-3 rounded-full bg-rose-400/60" />
-                <div className="w-3 h-3 rounded-full bg-amber-400/60" />
-                <div className="w-3 h-3 rounded-full bg-emerald-400/60" />
+        {/* Premium Composition Preview */}
+        <motion.div 
+          initial={{ opacity: 0, y: 100 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="relative max-w-6xl mx-auto px-4"
+        >
+          <div className="grid grid-cols-12 gap-6 relative">
+            {/* Primary Content Card */}
+            <div className="col-span-12 lg:col-span-8 bg-white rounded-[40px] border border-text/10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.08)] overflow-hidden">
+              <div className="flex items-center justify-between px-8 py-6 border-b border-text/5 bg-surface-muted/50">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary"><Logo size={20} /></div>
+                  <div className="space-y-0.5 text-left">
+                    <p className="text-[10px] font-bold text-text/30 uppercase tracking-widest">Active Inventory</p>
+                    <p className="text-xs font-bold text-text">Mumbai Hub — Sector A4</p>
+                  </div>
+                </div>
+                <div className="hidden sm:flex gap-2">
+                  <div className="w-20 h-2 bg-text/5 rounded-full" />
+                  <div className="w-12 h-2 bg-primary/20 rounded-full" />
+                </div>
               </div>
-              <div className="flex-1 mx-4">
-                <div className="bg-white/80 rounded-lg px-4 py-1.5 text-[10px] font-bold text-text/20 text-center border border-text/5">stockply.app/supplier/dashboard</div>
+              <div className="p-8 lg:p-12">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+                  {[
+                    { l: 'Revenue', v: '₹2.4M', c: 'text-text' },
+                    { l: 'Growth', v: '+24%', c: 'text-primary' },
+                    { l: 'Efficiency', v: '98.2%', c: 'text-text' },
+                    { l: 'Uptime', v: '100%', c: 'text-text' },
+                  ].map(s => (
+                    <div key={s.l} className="space-y-1">
+                      <p className="text-[9px] font-bold uppercase tracking-widest text-text/30">{s.l}</p>
+                      <p className={`text-2xl font-bold tracking-tight ${s.c}`}>{s.v}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex items-end gap-3 h-48 px-2 border-b border-text/5 pb-6">
+                  {[40, 65, 45, 90, 55, 75, 60, 85, 40, 70, 50, 95].map((h, i) => (
+                    <motion.div 
+                      key={i} 
+                      initial={{ height: 0 }} 
+                      animate={{ height: `${h}%` }} 
+                      transition={{ delay: 1 + (i * 0.05), duration: 0.8 }}
+                      className={`flex-1 rounded-t-xl transition-colors duration-500 ${i === 11 ? 'bg-primary' : 'bg-text/5 hover:bg-primary/20'}`} 
+                    />
+                  ))}
+                </div>
               </div>
             </div>
-            <div className="p-3">
-            <div className="bg-background rounded-[28px] p-8 lg:p-12">
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                {[
-                  { label: 'Revenue', val: 'Rs. 2.4M', icon: BarChart3, c: 'text-amber-500 bg-amber-50' },
-                  { label: 'Orders', val: '1,247', icon: ShoppingCart, c: 'text-teal-500 bg-teal-50' },
-                  { label: 'Products', val: '386', icon: Package, c: 'text-blue-500 bg-blue-50' },
-                  { label: 'Partners', val: '45', icon: Users, c: 'text-purple-500 bg-purple-50' },
-                ].map((s) => (
-                  <div key={s.label} className="bg-white rounded-2xl p-5 border border-text/5">
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 ${s.c}`}><s.icon size={18} /></div>
-                    <p className="text-[9px] font-black uppercase tracking-widest text-text/30 mb-1">{s.label}</p>
-                    <p className="text-xl font-black text-text tracking-tight">{s.val}</p>
+
+            {/* Floating Detail Cards */}
+            <div className="hidden lg:flex lg:col-span-4 flex-col gap-6 pt-12">
+              <motion.div 
+                animate={{ y: [0, -10, 0] }} 
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="bg-text rounded-[32px] p-8 text-white shadow-2xl shadow-text/20"
+              >
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 mb-4 text-left">Fulfillment Rate</p>
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-4xl font-bold tracking-tighter">94.2%</span>
+                  <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-primary"><Zap size={18} /></div>
+                </div>
+                <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+                  <motion.div initial={{ width: 0 }} animate={{ width: '94.2%' }} transition={{ delay: 1.5, duration: 1 }} className="h-full bg-primary" />
+                </div>
+              </motion.div>
+              
+              <motion.div 
+                animate={{ y: [0, 10, 0] }} 
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                className="bg-white rounded-[32px] p-8 border border-text/10 shadow-xl"
+              >
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary"><Truck size={18} /></div>
+                  <div className="space-y-0.5 text-left">
+                    <p className="text-[10px] font-bold text-text/30 uppercase tracking-widest">In Transit</p>
+                    <p className="text-xs font-bold text-text">8 Active Shipments</p>
                   </div>
-                ))}
-              </div>
-              <div className="flex items-end justify-between gap-3 h-32 px-2">
-                {[35, 55, 42, 68, 50, 85, 60].map((h, i) => (
-                  <div key={i} className="flex-1 flex flex-col items-center gap-2">
-                    <div className={`w-full rounded-xl ${i === 5 ? 'bg-primary' : 'bg-primary/15'}`} style={{ height: `${h}%` }} />
-                    <span className="text-[8px] font-bold text-text/20">{['M','T','W','T','F','S','S'][i]}</span>
-                  </div>
-                ))}
-              </div>
+                </div>
+                <div className="space-y-3">
+                  {[1, 2].map(i => (
+                    <div key={i} className="flex items-center justify-between py-2 border-b border-text/5 last:border-0">
+                      <div className="w-24 h-2 bg-text/5 rounded-full" />
+                      <div className="w-8 h-2 bg-primary/20 rounded-full" />
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
             </div>
-          </div>
           </div>
         </motion.div>
       </section>
