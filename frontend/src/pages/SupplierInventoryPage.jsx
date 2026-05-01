@@ -297,9 +297,9 @@ export default function SupplierInventoryPage() {
 
         <div className="flex flex-wrap gap-4 items-center">
           {!['All Items', 'Fabric', 'Leather', 'Hardware'].includes(activeTab) && (
-            <div className="flex items-center gap-2 px-4 py-3 bg-primary/5 text-primary rounded-[16px] border border-primary/20">
-              <span className="text-[9px] font-black uppercase tracking-widest">{activeTab}</span>
-              <button onClick={() => setActiveTab('All Items')} className="p-1 hover:bg-primary/10 rounded-full transition-colors">
+            <div className="flex shrink-0 items-center gap-2 px-4 py-3 bg-primary/5 text-primary rounded-[16px] border border-primary/20">
+              <span className="text-[9px] font-black uppercase tracking-widest whitespace-nowrap">{activeTab}</span>
+              <button onClick={() => setActiveTab('All Items')} className="p-1 hover:bg-primary/10 rounded-full transition-colors shrink-0">
                 <X size={14} />
               </button>
             </div>
