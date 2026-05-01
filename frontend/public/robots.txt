@@ -1,25 +1,7 @@
-# Stockply — robots.txt
-# https://stockply.vercel.app
-
 User-agent: *
 Allow: /
-Disallow: /dashboard
-Disallow: /dashboard/*
-Disallow: /supplier/*
-Disallow: /home
-Disallow: /support
+Disallow: /dashboard/
+Disallow: /supplier/dashboard/
+Disallow: /onboarding/
 
-# Specific rules for AI crawlers
-User-agent: GPTBot
-Allow: /
-Disallow: /dashboard
-Disallow: /dashboard/*
-
-User-agent: ChatGPT-User
-Allow: /
-
-# Sitemaps
-Sitemap: https://stockply.vercel.app/sitemap.xml
-
-# Crawl-delay
-Crawl-delay: 1
+Sitemap: https://stockply.io/sitemap.xml
