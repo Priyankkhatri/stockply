@@ -94,14 +94,17 @@ const HomeRoute = () => {
   return <Navigate to={getHomePath(session.role)} replace />;
 };
 
+import { HelmetProvider } from 'react-helmet-async';
+
 function App() {
   const session = getSession();
 
   return (
-    <ShopProvider>
-      <SupplierProvider>
-      <Router>
-        <Suspense fallback={<PageLoader />}>
+    <HelmetProvider>
+      <ShopProvider>
+        <SupplierProvider>
+          <Router>
+            <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
@@ -293,6 +296,7 @@ function App() {
       </Router>
       </SupplierProvider>
     </ShopProvider>
+    </HelmetProvider>
   );
 }
 
