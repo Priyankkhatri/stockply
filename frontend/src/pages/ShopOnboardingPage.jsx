@@ -11,7 +11,15 @@ const fadeUp = {
   exit: { opacity: 0, y: -20, transition: { duration: 0.3 } }
 };
 
-const SHOP_TYPES = ['Pharmacy', 'Medical Store', 'Grocery', 'Electronics', 'Fashion', 'General Store', 'Other'];
+const SHOP_TYPES = [
+  'Pharmacy / Medical Store',
+  'Grocery / Kirana Store',
+  'Electronics',
+  'Fashion / Apparel',
+  'General Store',
+  'Hardware / Paints',
+  'Other'
+];
 
 export default function ShopOnboardingPage() {
   const navigate = useNavigate();
