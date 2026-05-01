@@ -1,10 +1,10 @@
 const Product = require('../models/Product');
 const Transaction = require('../models/Transaction');
 
-// Get all products
+// Get all products (scoped to current user)
 exports.getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find().sort({ createdAt: -1 });
+    const products = await Product.find({ owner: req.user._id }).sort({ createdAt: -1 });
     res.status(200).json({
       status: 'success',
       results: products.length,
@@ -18,9 +18,10 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
-// Create a new product
+// Create a new product (assigned to current user)
 exports.createProduct = async (req, res) => {
   try {
+    req.body.owner = req.user._id;
     const newProduct = await Product.create(req.body);
     res.status(201).json({
       status: 'success',
@@ -40,7 +41,7 @@ exports.updateStock = async (req, res) => {
     const { id } = req.params;
     const { adjustment } = req.body;
 
-    const product = await Product.findById(id);
+    const product = await Product.findOne({ _id: id, owner: req.user._id });
     if (!product) {
       return res.status(404).json({
         status: 'fail',
@@ -86,7 +87,7 @@ exports.scanProduct = async (req, res) => {
   try {
     const { barcode } = req.params;
 
-    const product = await Product.findOne({ barcode });
+    const product = await Product.findOne({ barcode, owner: req.user._id });
     if (!product) {
       return res.status(404).json({
         status: 'fail',

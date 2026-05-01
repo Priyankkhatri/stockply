@@ -23,7 +23,21 @@ const userSchema = new mongoose.Schema({
   name: {
     type: String,
     trim: true
-  }
+  },
+  onboardingComplete: {
+    type: Boolean,
+    default: false
+  },
+
+  // ─── Shop Owner fields ──────────────────────────────────────
+  shopName: { type: String, trim: true },
+  shopType: { type: String, trim: true },
+  location: { type: String, trim: true },
+
+  // ─── Supplier fields ────────────────────────────────────────
+  companyName: { type: String, trim: true },
+  categoriesSupplied: [{ type: String }],
+
 }, { timestamps: true });
 
 // Hash the password before saving

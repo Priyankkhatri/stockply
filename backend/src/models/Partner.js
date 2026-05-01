@@ -11,7 +11,12 @@ const partnerSchema = new mongoose.Schema({
   city: { type: String },
   location: { type: String },
   email: { type: String },
-  phone: { type: String }
+  phone: { type: String },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: [true, 'Partner must belong to a user']
+  }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Partner', partnerSchema);

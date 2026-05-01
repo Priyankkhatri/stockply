@@ -6,4 +6,7 @@ const router = express.Router();
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
 
+// Protected — requires JWT
+router.get('/me', authController.protect, authController.getMe);
+
 module.exports = router;

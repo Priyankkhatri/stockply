@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -14,20 +14,14 @@ import {
   MoreVertical,
   History,
   TrendingUp,
-  X
+  X,
+  Loader2
 } from 'lucide-react';
+import { productAPI, alertAPI } from '../services/api';
 import StatusBadge from '../components/StatusBadge';
 import ProductDetailPanel from '../components/ProductDetailPanel';
 import PremiumButton from '../components/PremiumButton';
 import GlassCard from '../components/GlassCard';
-
-const initialProducts = [
-  { id: '1', name: 'Paracetamol 500mg', supplier: 'PharmaCorp Inc.', category: 'Analgesics', stock: '12 units', status: 'Low Stock', action: 'Reorder', price: 'Rs. 4.50', code: 'SKU-001' },
-  { id: '2', name: 'Ibuprofen 400mg', supplier: 'BioHealth Labs', category: 'Analgesics', stock: '450 units', status: 'In Stock', action: 'Manage', price: 'Rs. 6.20', code: 'SKU-002' },
-  { id: '3', name: 'Amoxicillin 250mg', supplier: 'PharmaCorp Inc.', category: 'Antibiotics', stock: '85 units', status: 'In Stock', action: 'Manage', price: 'Rs. 12.00', code: 'SKU-003' },
-  { id: '4', name: 'Vitamin C Drops', supplier: 'NatureWell', category: 'Supplements', stock: '0 units', status: 'Out of Stock', action: 'Urgent Reorder', price: 'Rs. 8.40', code: 'SKU-004' },
-  { id: '5', name: 'Cough Syrup Adult', supplier: 'MediCore', category: 'Respiratory', stock: '28 units', status: 'Low Stock', action: 'Reorder', price: 'Rs. 5.90', code: 'SKU-005' },
-];
 
 const container = {
   hidden: { opacity: 0 },
@@ -41,40 +35,77 @@ const rowAnim = {
 
 const InventoryPage = () => {
   const location = useLocation();
-  const [productList, setProductList] = useState(initialProducts);
+  const [productList, setProductList] = useState([]);
+  const [summary, setSummary] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [searchTerm, setSearchTerm] = useState(location.state?.searchQuery || '');
   const [activeStatus, setActiveStatus] = useState(location.state?.filter || 'All');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [addLoading, setAddLoading] = useState(false);
   const [newProduct, setNewProduct] = useState({
-    name: '', code: '', category: 'Analgesics', supplier: 'PharmaCorp Inc.', price: ''
+    name: '', sku: '', category: 'General', supplier: '', price: '', stock: ''
   });
 
-  const handleAddProduct = (e) => {
+  // ─── Fetch products from API ────────────────────────────────
+  const fetchData = useCallback(async () => {
+    try {
+      setLoading(true);
+      const [prodRes, summaryRes] = await Promise.all([
+        productAPI.getAll().catch(() => ({ data: { data: { products: [] } } })),
+        alertAPI.getSummary().catch(() => ({ data: { data: { summary: {} } } })),
+      ]);
+      setProductList(prodRes.data?.data?.products ?? []);
+      setSummary(summaryRes.data?.data?.summary ?? null);
+    } catch (err) {
+      console.error('Failed to fetch inventory:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  // ─── Add Product via API ────────────────────────────────────
+  const handleAddProduct = async (e) => {
     e.preventDefault();
-    const newEntry = {
-      id: Date.now().toString(),
-      name: newProduct.name || 'New Asset',
-      supplier: newProduct.supplier,
-      category: newProduct.category,
-      stock: '0 units',
-      status: 'Out of Stock',
-      action: 'Urgent Reorder',
-      price: `Rs. ${parseFloat(newProduct.price || 0).toFixed(2)}`,
-      code: newProduct.code || `SKU-${Math.floor(Math.random() * 10000)}`
-    };
-    setProductList([newEntry, ...productList]);
-    setIsAddModalOpen(false);
-    setNewProduct({ name: '', code: '', category: 'Analgesics', supplier: 'PharmaCorp Inc.', price: '' });
+    setAddLoading(true);
+    try {
+      const payload = {
+        name: newProduct.name,
+        sku: newProduct.sku || `SKU-${Date.now()}`,
+        category: newProduct.category,
+        supplier: newProduct.supplier,
+        price: parseFloat(newProduct.price) || 0,
+        stock: parseInt(newProduct.stock) || 0,
+      };
+      const res = await productAPI.create(payload);
+      const created = res.data?.data?.product;
+      if (created) {
+        setProductList(prev => [created, ...prev]);
+      }
+      setIsAddModalOpen(false);
+      setNewProduct({ name: '', sku: '', category: 'General', supplier: '', price: '', stock: '' });
+      // Refresh summary
+      alertAPI.getSummary().then(r => setSummary(r.data?.data?.summary ?? null)).catch(() => {});
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to create product');
+    } finally {
+      setAddLoading(false);
+    }
   };
 
+  // ─── Filter & Search ────────────────────────────────────────
   const visibleProducts = useMemo(() => {
     return productList.filter((product) => {
+      const term = searchTerm.toLowerCase();
       const matchesSearch =
-        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.supplier.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.code.toLowerCase().includes(searchTerm.toLowerCase());
+        (product.name || '').toLowerCase().includes(term) ||
+        (product.supplier || '').toLowerCase().includes(term) ||
+        (product.category || '').toLowerCase().includes(term) ||
+        (product.sku || '').toLowerCase().includes(term);
 
       const matchesStatus = 
         activeStatus === 'All' || 
@@ -82,7 +113,21 @@ const InventoryPage = () => {
         product.category === activeStatus;
       return matchesSearch && matchesStatus;
     });
-  }, [searchTerm, activeStatus]);
+  }, [productList, searchTerm, activeStatus]);
+
+  // ─── Compute dynamic stats ─────────────────────────────────
+  const stats = useMemo(() => {
+    const totalSKU = productList.length;
+    const totalValue = productList.reduce((sum, p) => sum + (p.stock || 0) * (p.price || 0), 0);
+    const inStockCount = productList.filter(p => p.status === 'In Stock').length;
+    const healthPct = totalSKU > 0 ? ((inStockCount / totalSKU) * 100).toFixed(1) : '0.0';
+    
+    return [
+      { label: 'Total Inventory SKU', value: totalSKU.toLocaleString(), icon: Layers, trend: summary ? `${summary.lowStockCount || 0} low` : '—' },
+      { label: 'Asset Valuation', value: `Rs. ${totalValue >= 1000000 ? (totalValue / 1000000).toFixed(1) + 'M' : totalValue >= 1000 ? (totalValue / 1000).toFixed(1) + 'K' : totalValue.toFixed(0)}`, icon: TrendingUp, trend: totalSKU > 0 ? 'Live' : '—' },
+      { label: 'Stock Health', value: `${healthPct}%`, icon: Package, trend: healthPct >= 90 ? 'Excellent' : healthPct >= 70 ? 'Good' : 'Needs attention' },
+    ];
+  }, [productList, summary]);
 
   return (
     <motion.div 
@@ -104,10 +149,10 @@ const InventoryPage = () => {
 
         <div className="flex items-center gap-4">
           <button 
-            onClick={() => alert("Activity Log: Syncing with ledger history...")}
+            onClick={() => fetchData()}
             className="px-6 py-4 bg-white border border-text/5 rounded-[20px] text-[10px] font-black uppercase tracking-widest text-text/80 hover:text-text hover:border-primary/20 transition-all flex items-center gap-3 group"
           >
-            <History size={16} className="group-hover:text-primary transition-colors" /> Activity Log
+            <History size={16} className="group-hover:text-primary transition-colors" /> Refresh
           </button>
           <motion.button 
             whileHover={{ scale: 1.02 }}
@@ -122,11 +167,7 @@ const InventoryPage = () => {
 
       {/* ─── Stats & Highlights ─── */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-        {[
-          { label: 'Total Inventory SKU', value: '1,248', icon: Layers, trend: '↑ 4 new' },
-          { label: 'Asset Valuation', value: 'Rs. 4.2M', icon: TrendingUp, trend: '↑ 12%' },
-          { label: 'Stock Health', value: '92.4%', icon: Package, trend: 'Stable' },
-        ].map((stat) => (
+        {stats.map((stat) => (
           <motion.div key={stat.label} variants={rowAnim}>
             <GlassCard className="p-6 flex items-center justify-between group hover:shadow-2xl transition-all duration-500">
               <div className="flex items-center gap-5">
@@ -190,6 +231,34 @@ const InventoryPage = () => {
       {/* ─── Main Ledger ─── */}
       <div className="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-10 items-start">
         <motion.div variants={rowAnim} className="bg-white rounded-[40px] border border-text/5 shadow-premium overflow-hidden">
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-32 text-center">
+              <Loader2 size={32} className="animate-spin text-primary mb-4" />
+              <p className="text-[10px] font-black text-text/70 uppercase tracking-widest">Loading inventory...</p>
+            </div>
+          ) : visibleProducts.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-32 text-center px-8">
+              <div className="w-20 h-20 bg-text/5 rounded-3xl flex items-center justify-center text-text/70 mb-6">
+                <Package size={40} strokeWidth={1} />
+              </div>
+              <p className="text-[11px] font-black uppercase tracking-widest text-text/70 mb-2">
+                {productList.length === 0 ? 'No Products Yet' : 'No Matches Found'}
+              </p>
+              <p className="text-xs text-text/70 font-medium leading-relaxed max-w-sm">
+                {productList.length === 0
+                  ? 'Register your first asset to begin tracking inventory in real-time.'
+                  : 'Try adjusting your search or filter criteria.'}
+              </p>
+              {productList.length === 0 && (
+                <button
+                  onClick={() => setIsAddModalOpen(true)}
+                  className="mt-6 px-6 py-3 bg-primary text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-primary-dark transition-all flex items-center gap-2"
+                >
+                  <Plus size={14} /> Register First Asset
+                </button>
+              )}
+            </div>
+          ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
@@ -205,22 +274,22 @@ const InventoryPage = () => {
                 <AnimatePresence mode="popLayout">
                   {visibleProducts.map((product) => (
                     <motion.tr
-                      key={product.id}
+                      key={product._id}
                       layout
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       onClick={() => setSelectedProduct(product)}
                       className={`group cursor-pointer transition-all duration-500 hover:bg-text/[0.01] ${
-                        selectedProduct?.id === product.id ? 'bg-text/[0.02]' : ''
+                        selectedProduct?._id === product._id ? 'bg-text/[0.02]' : ''
                       }`}
                     >
                       <td className="px-6 py-5">
                         <div className="flex items-center gap-4">
-                          <div className={`w-1 h-10 rounded-full transition-all duration-500 ${selectedProduct?.id === product.id ? 'bg-primary' : 'bg-text/5 group-hover:bg-text/10'}`} />
+                          <div className={`w-1 h-10 rounded-full transition-all duration-500 ${selectedProduct?._id === product._id ? 'bg-primary' : 'bg-text/5 group-hover:bg-text/10'}`} />
                           <div className="flex flex-col">
                             <span className="font-bold text-text text-sm tracking-tight">{product.name}</span>
-                            <span className="text-[10px] font-bold text-text/80 mt-1 uppercase tracking-widest">{product.code} • {product.supplier}</span>
+                            <span className="text-[10px] font-bold text-text/80 mt-1 uppercase tracking-widest">{product.sku}{product.supplier ? ` • ${product.supplier}` : ''}</span>
                           </div>
                         </div>
                       </td>
@@ -234,8 +303,8 @@ const InventoryPage = () => {
                       </td>
                       <td className="px-6 py-5">
                         <div className="flex flex-col">
-                          <span className="text-sm font-bold text-text tracking-tight">{product.stock}</span>
-                          <span className="text-[9px] font-black text-text/70 uppercase tracking-widest mt-1">Valuation: {product.price}</span>
+                          <span className="text-sm font-bold text-text tracking-tight">{product.stock} units</span>
+                          <span className="text-[9px] font-black text-text/70 uppercase tracking-widest mt-1">Rs. {(product.price || 0).toFixed(2)}/unit</span>
                         </div>
                       </td>
                       <td className="px-6 py-5">
@@ -257,13 +326,14 @@ const InventoryPage = () => {
               </tbody>
             </table>
           </div>
+          )}
         </motion.div>
 
         {/* ─── Detail Panel ─── */}
         <AnimatePresence mode="wait">
           {selectedProduct ? (
             <motion.div 
-              key={selectedProduct.id}
+              key={selectedProduct._id}
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 20 }}
@@ -276,7 +346,13 @@ const InventoryPage = () => {
                 >
                   <X size={16} className="text-text/70" />
                 </button>
-                <ProductDetailPanel product={selectedProduct} onClose={() => setSelectedProduct(null)} />
+                <ProductDetailPanel product={{
+                  ...selectedProduct,
+                  id: selectedProduct._id,
+                  code: selectedProduct.sku,
+                  stock: `${selectedProduct.stock} units`,
+                  price: `Rs. ${(selectedProduct.price || 0).toFixed(2)}`
+                }} onClose={() => setSelectedProduct(null)} />
               </GlassCard>
             </motion.div>
           ) : (
@@ -337,12 +413,11 @@ const InventoryPage = () => {
                   <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-text/70 ml-1">SKU Code</label>
                     <input 
-                      required
                       type="text" 
-                      value={newProduct.code}
-                      onChange={(e) => setNewProduct({...newProduct, code: e.target.value})}
+                      value={newProduct.sku}
+                      onChange={(e) => setNewProduct({...newProduct, sku: e.target.value})}
                       className="w-full bg-background border border-text/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all" 
-                      placeholder="SKU-8829" 
+                      placeholder="Auto-generated if empty" 
                     />
                   </div>
                 </div>
@@ -350,57 +425,65 @@ const InventoryPage = () => {
                 <div className="grid grid-cols-2 gap-8">
                   <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-text/70 ml-1">Category</label>
-                    <div className="relative">
-                      <select 
-                        value={newProduct.category}
-                        onChange={(e) => setNewProduct({...newProduct, category: e.target.value})}
-                        className="w-full bg-background border border-text/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all appearance-none cursor-pointer"
-                      >
-                        <option>Analgesics</option>
-                        <option>Antibiotics</option>
-                        <option>Supplements</option>
-                        <option>Respiratory</option>
-                      </select>
-                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-text/40 pointer-events-none" size={16} />
-                    </div>
+                    <input 
+                      type="text"
+                      value={newProduct.category}
+                      onChange={(e) => setNewProduct({...newProduct, category: e.target.value})}
+                      className="w-full bg-background border border-text/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all" 
+                      placeholder="e.g. Analgesics" 
+                    />
                   </div>
                   <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-text/70 ml-1">Supplier</label>
-                    <div className="relative">
-                      <select 
-                        value={newProduct.supplier}
-                        onChange={(e) => setNewProduct({...newProduct, supplier: e.target.value})}
-                        className="w-full bg-background border border-text/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all appearance-none cursor-pointer"
-                      >
-                        <option>PharmaCorp Inc.</option>
-                        <option>BioHealth Labs</option>
-                        <option>NatureWell</option>
-                        <option>MediCore</option>
-                      </select>
-                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-text/40 pointer-events-none" size={16} />
-                    </div>
+                    <input 
+                      type="text"
+                      value={newProduct.supplier}
+                      onChange={(e) => setNewProduct({...newProduct, supplier: e.target.value})}
+                      className="w-full bg-background border border-text/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all" 
+                      placeholder="e.g. PharmaCorp Inc." 
+                    />
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-text/70 ml-1">Unit Price</label>
-                  <input 
-                    required
-                    type="number" 
-                    step="0.01"
-                    value={newProduct.price}
-                    onChange={(e) => setNewProduct({...newProduct, price: e.target.value})}
-                    className="w-full bg-background border border-text/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all" 
-                    placeholder="4.50" 
-                  />
+                <div className="grid grid-cols-2 gap-8">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-text/70 ml-1">Unit Price (Rs.)</label>
+                    <input 
+                      required
+                      type="number" 
+                      step="0.01"
+                      value={newProduct.price}
+                      onChange={(e) => setNewProduct({...newProduct, price: e.target.value})}
+                      className="w-full bg-background border border-text/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all" 
+                      placeholder="4.50" 
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-text/70 ml-1">Initial Stock</label>
+                    <input 
+                      type="number" 
+                      min="0"
+                      value={newProduct.stock}
+                      onChange={(e) => setNewProduct({...newProduct, stock: e.target.value})}
+                      className="w-full bg-background border border-text/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all" 
+                      placeholder="0" 
+                    />
+                  </div>
                 </div>
 
                 <div className="pt-6">
                   <button 
                     type="submit"
-                    className="w-full py-6 bg-text text-white rounded-[24px] font-black text-[11px] uppercase tracking-[0.3em] shadow-2xl shadow-text/20 hover:bg-primary transition-all"
+                    disabled={addLoading}
+                    className="w-full py-6 bg-text text-white rounded-[24px] font-black text-[11px] uppercase tracking-[0.3em] shadow-2xl shadow-text/20 hover:bg-primary transition-all disabled:opacity-50 flex items-center justify-center gap-3"
                   >
-                    Integrate into Ledger
+                    {addLoading ? (
+                      <>
+                        <Loader2 size={18} className="animate-spin" /> Registering...
+                      </>
+                    ) : (
+                      'Integrate into Ledger'
+                    )}
                   </button>
                 </div>
               </form>
