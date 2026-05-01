@@ -54,8 +54,14 @@ const Topbar = ({ role, onMenuClick }) => {
             type="text"
             placeholder="Search SKU, Product..."
             onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                alert(`Searching for: ${e.target.value}...`);
+              if (e.key === 'Enter' && e.target.value.trim()) {
+                const query = e.target.value.trim();
+                if (role === 'supplier') {
+                  navigate('/supplier/inventory', { state: { searchQuery: query } });
+                } else {
+                  navigate('/dashboard/inventory', { state: { searchQuery: query } });
+                }
+                e.target.value = '';
               }
             }}
             className="w-full rounded-2xl lg:rounded-[32px] border border-text/5 bg-white/40 py-3 lg:py-4 pl-12 lg:pl-16 pr-4 lg:pr-8 text-xs lg:text-sm font-bold text-text placeholder:text-text/70 transition-all focus:border-primary/20 focus:bg-white focus:shadow-[0_8px_30px_rgb(0,0,0,0.04)] focus:outline-none"

@@ -43,7 +43,7 @@ const InventoryPage = () => {
   const location = useLocation();
   const [productList, setProductList] = useState(initialProducts);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState(location.state?.searchQuery || '');
   const [activeStatus, setActiveStatus] = useState(location.state?.filter || 'All');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [newProduct, setNewProduct] = useState({

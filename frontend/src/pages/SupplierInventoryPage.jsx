@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Plus, 
@@ -171,8 +172,9 @@ const SupplierProductDetailPanel = ({ product, onClose, onUpdateStock }) => {
 
 export default function SupplierInventoryPage() {
   const { products, summary, loading, addProduct, updateStock } = useSupplier();
+  const location = useLocation();
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState(location.state?.searchQuery || '');
   const [activeTab, setActiveTab] = useState('All Items');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
