@@ -1,4 +1,40 @@
-# Pull Request #106: Systemic UI Contrast Enhancement and Dynamic Filter Tags
+# Pull Request #112: Functional Completeness Pass — Modal Forms, Status System & Global Search
+
+## Status: Merged ✅
+**Branch**: `main`  
+**Date**: May 1, 2026  
+**Author**: Antigravity AI
+
+---
+
+### 1. Executive Summary
+Completed a deep functional audit of both portals, resolving unconnected form states, broken status rendering, and dead-end alert() handlers. Elevated the Inventory Add Asset modal from a static UI element to a fully wired, stateful form that persists added products into the live table.
+
+### 2. Key Changes
+
+#### 🟢 Shop Owner Portal — InventoryPage
+- **Functional Add Asset Modal**: Converted the static modal to a real `<form>` with `handleAddProduct` submission. Newly added products are instantly visible in the ledger table without a page reload.
+- **Controlled Inputs**: All form fields (name, SKU, category, supplier, price) are now properly wired to `newProduct` state with two-way binding.
+- **Custom Select Dropdowns**: Added `ChevronDown` icon overlays to select elements for consistent styling.
+- **Empty State default**: `selectedProduct` now defaults to `null` instead of `products[0]`, showing the empty state panel on first load.
+- **Global Search Integration**: `searchTerm` is now pre-populated from `location.state.searchQuery` — enabling the Topbar global search to navigate directly to the inventory with a filter applied.
+
+#### 🔵 Supplier Portal — SupplierInventoryPage
+- **Global Search Integration**: Same `location.state.searchQuery` wiring applied.
+- Added `useLocation` import.
+
+#### ⚪ Global Components
+- **StatusBadge**: Expanded from 5 static stock-only statuses to 14 statuses covering all order, fulfillment, payment, and stock states across the platform (`Pending`, `Processing`, `Shipped`, `Delivered`, `Cancelled`, `Accepted`, `Ready`, `Packing`, `Dispatched`, `At Risk`, `Paid`, `Failed`, etc.).
+- **ProductDetailPanel**: Changed from a `fixed` full-screen overlay to an `inline` flex container, correctly rendering inside the GlassCard on the InventoryPage.
+- **Topbar Search**: Replaced `alert()` stub with actual `navigate()` to the correct role-specific inventory page with `searchQuery` passed as router state.
+
+### 3. Design & Accessibility
+- Modal form fields use standard focus ring pattern with `focus:ring-4 focus:ring-primary/5`.
+- Status badges now use tailwind standard color tokens (emerald, rose, orange, blue, purple, teal) — no dependency on custom CSS vars that may not resolve.
+
+---
+
+
 
 ## Status: Merged ✅
 **Branch**: `main`  

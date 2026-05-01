@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Plus, 
@@ -171,8 +172,9 @@ const SupplierProductDetailPanel = ({ product, onClose, onUpdateStock }) => {
 
 export default function SupplierInventoryPage() {
   const { products, summary, loading, addProduct, updateStock } = useSupplier();
+  const location = useLocation();
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState(location.state?.searchQuery || '');
   const [activeTab, setActiveTab] = useState('All Items');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
@@ -297,9 +299,9 @@ export default function SupplierInventoryPage() {
 
         <div className="flex flex-wrap gap-4 items-center">
           {!['All Items', 'Fabric', 'Leather', 'Hardware'].includes(activeTab) && (
-            <div className="flex items-center gap-2 px-4 py-3 bg-primary/5 text-primary rounded-[16px] border border-primary/20">
-              <span className="text-[9px] font-black uppercase tracking-widest">{activeTab}</span>
-              <button onClick={() => setActiveTab('All Items')} className="p-1 hover:bg-primary/10 rounded-full transition-colors">
+            <div className="flex shrink-0 items-center gap-2 px-4 py-3 bg-primary/5 text-primary rounded-[16px] border border-primary/20">
+              <span className="text-[9px] font-black uppercase tracking-widest whitespace-nowrap">{activeTab}</span>
+              <button onClick={() => setActiveTab('All Items')} className="p-1 hover:bg-primary/10 rounded-full transition-colors shrink-0">
                 <X size={14} />
               </button>
             </div>

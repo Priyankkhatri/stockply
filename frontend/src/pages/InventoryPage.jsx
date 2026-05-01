@@ -21,7 +21,7 @@ import ProductDetailPanel from '../components/ProductDetailPanel';
 import PremiumButton from '../components/PremiumButton';
 import GlassCard from '../components/GlassCard';
 
-const products = [
+const initialProducts = [
   { id: '1', name: 'Paracetamol 500mg', supplier: 'PharmaCorp Inc.', category: 'Analgesics', stock: '12 units', status: 'Low Stock', action: 'Reorder', price: 'Rs. 4.50', code: 'SKU-001' },
   { id: '2', name: 'Ibuprofen 400mg', supplier: 'BioHealth Labs', category: 'Analgesics', stock: '450 units', status: 'In Stock', action: 'Manage', price: 'Rs. 6.20', code: 'SKU-002' },
   { id: '3', name: 'Amoxicillin 250mg', supplier: 'PharmaCorp Inc.', category: 'Antibiotics', stock: '85 units', status: 'In Stock', action: 'Manage', price: 'Rs. 12.00', code: 'SKU-003' },
@@ -41,13 +41,35 @@ const rowAnim = {
 
 const InventoryPage = () => {
   const location = useLocation();
-  const [selectedProduct, setSelectedProduct] = useState(products[0]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [productList, setProductList] = useState(initialProducts);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [searchTerm, setSearchTerm] = useState(location.state?.searchQuery || '');
   const [activeStatus, setActiveStatus] = useState(location.state?.filter || 'All');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [newProduct, setNewProduct] = useState({
+    name: '', code: '', category: 'Analgesics', supplier: 'PharmaCorp Inc.', price: ''
+  });
+
+  const handleAddProduct = (e) => {
+    e.preventDefault();
+    const newEntry = {
+      id: Date.now().toString(),
+      name: newProduct.name || 'New Asset',
+      supplier: newProduct.supplier,
+      category: newProduct.category,
+      stock: '0 units',
+      status: 'Out of Stock',
+      action: 'Urgent Reorder',
+      price: `Rs. ${parseFloat(newProduct.price || 0).toFixed(2)}`,
+      code: newProduct.code || `SKU-${Math.floor(Math.random() * 10000)}`
+    };
+    setProductList([newEntry, ...productList]);
+    setIsAddModalOpen(false);
+    setNewProduct({ name: '', code: '', category: 'Analgesics', supplier: 'PharmaCorp Inc.', price: '' });
+  };
 
   const visibleProducts = useMemo(() => {
-    return products.filter((product) => {
+    return productList.filter((product) => {
       const matchesSearch =
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         product.supplier.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -136,9 +158,9 @@ const InventoryPage = () => {
 
         <div className="flex flex-wrap gap-4 items-center">
           {!['All', 'In Stock', 'Low Stock', 'Out of Stock'].includes(activeStatus) && (
-            <div className="flex items-center gap-2 px-4 py-3 bg-primary/5 text-primary rounded-[16px] border border-primary/20">
-              <span className="text-[9px] font-black uppercase tracking-widest">{activeStatus}</span>
-              <button onClick={() => setActiveStatus('All')} className="p-1 hover:bg-primary/10 rounded-full transition-colors">
+            <div className="flex shrink-0 items-center gap-2 px-4 py-3 bg-primary/5 text-primary rounded-[16px] border border-primary/20">
+              <span className="text-[9px] font-black uppercase tracking-widest whitespace-nowrap">{activeStatus}</span>
+              <button onClick={() => setActiveStatus('All')} className="p-1 hover:bg-primary/10 rounded-full transition-colors shrink-0">
                 <X size={14} />
               </button>
             </div>
@@ -203,7 +225,12 @@ const InventoryPage = () => {
                         </div>
                       </td>
                       <td className="px-6 py-5">
-                        <span className="text-xs font-bold text-text/80 uppercase tracking-widest">{product.category}</span>
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); setActiveStatus(product.category); }}
+                          className="text-xs font-bold text-text/80 uppercase tracking-widest hover:text-primary transition-colors cursor-pointer"
+                        >
+                          {product.category}
+                        </button>
                       </td>
                       <td className="px-6 py-5">
                         <div className="flex flex-col">
@@ -234,7 +261,7 @@ const InventoryPage = () => {
 
         {/* ─── Detail Panel ─── */}
         <AnimatePresence mode="wait">
-          {selectedProduct && (
+          {selectedProduct ? (
             <motion.div 
               key={selectedProduct.id}
               initial={{ opacity: 0, x: 20 }}
@@ -251,6 +278,18 @@ const InventoryPage = () => {
                 </button>
                 <ProductDetailPanel product={selectedProduct} onClose={() => setSelectedProduct(null)} />
               </GlassCard>
+            </motion.div>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="sticky top-32 h-[calc(100vh-160px)] flex flex-col items-center justify-center text-center p-10 bg-white/40 rounded-[40px] border border-dashed border-text/10"
+            >
+              <div className="w-16 h-16 bg-text/5 rounded-3xl flex items-center justify-center text-text/70 mb-6">
+                <Package size={32} strokeWidth={1} />
+              </div>
+              <p className="text-[11px] font-black uppercase tracking-widest text-text/70 mb-2">No Asset Selected</p>
+              <p className="text-xs text-text/70 font-medium leading-relaxed">Select an item from the ledger to view detailed analytics and manage stock.</p>
             </motion.div>
           )}
         </AnimatePresence>
@@ -282,45 +321,89 @@ const InventoryPage = () => {
                 </button>
               </div>
 
-              <div className="p-10 space-y-8">
+              <form onSubmit={handleAddProduct} className="p-10 space-y-8">
                 <div className="grid grid-cols-2 gap-8">
                   <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-text/70 ml-1">Asset Name</label>
-                    <input type="text" className="w-full bg-background border border-text/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all" placeholder="e.g. Paracetamol 500mg" />
+                    <input 
+                      required
+                      type="text" 
+                      value={newProduct.name}
+                      onChange={(e) => setNewProduct({...newProduct, name: e.target.value})}
+                      className="w-full bg-background border border-text/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all" 
+                      placeholder="e.g. Paracetamol 500mg" 
+                    />
                   </div>
                   <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-text/70 ml-1">SKU Code</label>
-                    <input type="text" className="w-full bg-background border border-text/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all" placeholder="SKU-8829" />
+                    <input 
+                      required
+                      type="text" 
+                      value={newProduct.code}
+                      onChange={(e) => setNewProduct({...newProduct, code: e.target.value})}
+                      className="w-full bg-background border border-text/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all" 
+                      placeholder="SKU-8829" 
+                    />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-8">
                   <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-text/70 ml-1">Category</label>
-                    <select className="w-full bg-background border border-text/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all appearance-none">
-                      <option>Analgesics</option>
-                      <option>Antibiotics</option>
-                      <option>Supplements</option>
-                    </select>
+                    <div className="relative">
+                      <select 
+                        value={newProduct.category}
+                        onChange={(e) => setNewProduct({...newProduct, category: e.target.value})}
+                        className="w-full bg-background border border-text/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all appearance-none cursor-pointer"
+                      >
+                        <option>Analgesics</option>
+                        <option>Antibiotics</option>
+                        <option>Supplements</option>
+                        <option>Respiratory</option>
+                      </select>
+                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-text/40 pointer-events-none" size={16} />
+                    </div>
                   </div>
                   <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-text/70 ml-1">Supplier</label>
-                    <select className="w-full bg-background border border-text/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all appearance-none">
-                      <option>PharmaCorp Inc.</option>
-                      <option>BioHealth Labs</option>
-                    </select>
+                    <div className="relative">
+                      <select 
+                        value={newProduct.supplier}
+                        onChange={(e) => setNewProduct({...newProduct, supplier: e.target.value})}
+                        className="w-full bg-background border border-text/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all appearance-none cursor-pointer"
+                      >
+                        <option>PharmaCorp Inc.</option>
+                        <option>BioHealth Labs</option>
+                        <option>NatureWell</option>
+                        <option>MediCore</option>
+                      </select>
+                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-text/40 pointer-events-none" size={16} />
+                    </div>
                   </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-text/70 ml-1">Unit Price</label>
+                  <input 
+                    required
+                    type="number" 
+                    step="0.01"
+                    value={newProduct.price}
+                    onChange={(e) => setNewProduct({...newProduct, price: e.target.value})}
+                    className="w-full bg-background border border-text/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all" 
+                    placeholder="4.50" 
+                  />
                 </div>
 
                 <div className="pt-6">
                   <button 
-                    onClick={() => setIsAddModalOpen(false)}
+                    type="submit"
                     className="w-full py-6 bg-text text-white rounded-[24px] font-black text-[11px] uppercase tracking-[0.3em] shadow-2xl shadow-text/20 hover:bg-primary transition-all"
                   >
                     Integrate into Ledger
                   </button>
                 </div>
-              </div>
+              </form>
             </motion.div>
           </div>
         )}
