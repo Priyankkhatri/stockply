@@ -36,11 +36,21 @@ const LoginPage = () => {
         localStorage.setItem('authToken', token);
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('userRole', user.role);
+        localStorage.setItem('onboardingComplete', user.onboardingComplete ? 'true' : 'false');
         
-        if (user.role === 'shop') {
-          navigate('/dashboard');
+        // New signups → onboarding; existing users → dashboard
+        if (!user.onboardingComplete) {
+          if (user.role === 'shop') {
+            navigate('/onboarding/shop');
+          } else {
+            navigate('/onboarding/supplier');
+          }
         } else {
-          navigate('/supplier/dashboard');
+          if (user.role === 'shop') {
+            navigate('/dashboard');
+          } else {
+            navigate('/supplier/dashboard');
+          }
         }
       }
     } catch (err) {

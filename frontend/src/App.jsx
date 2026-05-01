@@ -23,6 +23,8 @@ const SupplierFulfillmentPage = lazy(() => import("./pages/SupplierFulfillmentPa
 const SupplierInventoryPage = lazy(() => import("./pages/SupplierInventoryPage"));
 const SupplierAnalyticsPage = lazy(() => import("./pages/SupplierAnalyticsPage"));
 const SupplierSettingsPage = lazy(() => import("./pages/SupplierSettingsPage"));
+const ShopOnboardingPage = lazy(() => import("./pages/ShopOnboardingPage"));
+const SupplierOnboardingPage = lazy(() => import("./pages/SupplierOnboardingPage"));
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 
 // Loading fallback component
@@ -102,6 +104,24 @@ function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/home" element={<HomeRoute />} />
+
+            {/* ─── Onboarding Routes ─── */}
+            <Route
+              path="/onboarding/shop"
+              element={
+                <RequireSession role="shop">
+                  <ShopOnboardingPage />
+                </RequireSession>
+              }
+            />
+            <Route
+              path="/onboarding/supplier"
+              element={
+                <RequireSession role="supplier">
+                  <SupplierOnboardingPage />
+                </RequireSession>
+              }
+            />
 
             <Route
               path="/dashboard"
