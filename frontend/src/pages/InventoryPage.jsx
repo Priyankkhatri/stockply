@@ -17,7 +17,7 @@ import {
   X,
   Loader2
 } from 'lucide-react';
-import { productAPI, alertAPI } from '../services/api';
+import { useShop } from '../context/ShopContext';
 import StatusBadge from '../components/StatusBadge';
 import ProductDetailPanel from '../components/ProductDetailPanel';
 import PremiumButton from '../components/PremiumButton';
@@ -35,9 +35,7 @@ const rowAnim = {
 
 const InventoryPage = () => {
   const location = useLocation();
-  const [productList, setProductList] = useState([]);
-  const [summary, setSummary] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { products: productList, summary, loading, addProduct, refreshData } = useShop();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [searchTerm, setSearchTerm] = useState(location.state?.searchQuery || '');
   const [activeStatus, setActiveStatus] = useState(location.state?.filter || 'All');
@@ -47,28 +45,7 @@ const InventoryPage = () => {
     name: '', sku: '', category: 'General', supplier: '', price: '', stock: ''
   });
 
-  // ─── Fetch products from API ────────────────────────────────
-  const fetchData = useCallback(async () => {
-    try {
-      setLoading(true);
-      const [prodRes, summaryRes] = await Promise.all([
-        productAPI.getAll().catch(() => ({ data: { data: { products: [] } } })),
-        alertAPI.getSummary().catch(() => ({ data: { data: { summary: {} } } })),
-      ]);
-      setProductList(prodRes.data?.data?.products ?? []);
-      setSummary(summaryRes.data?.data?.summary ?? null);
-    } catch (err) {
-      console.error('Failed to fetch inventory:', err);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
-  // ─── Add Product via API ────────────────────────────────────
+  // ─── Add Product via Context ────────────────────────────────────
   const handleAddProduct = async (e) => {
     e.preventDefault();
     setAddLoading(true);
@@ -81,15 +58,9 @@ const InventoryPage = () => {
         price: parseFloat(newProduct.price) || 0,
         stock: parseInt(newProduct.stock) || 0,
       };
-      const res = await productAPI.create(payload);
-      const created = res.data?.data?.product;
-      if (created) {
-        setProductList(prev => [created, ...prev]);
-      }
+      await addProduct(payload);
       setIsAddModalOpen(false);
       setNewProduct({ name: '', sku: '', category: 'General', supplier: '', price: '', stock: '' });
-      // Refresh summary
-      alertAPI.getSummary().then(r => setSummary(r.data?.data?.summary ?? null)).catch(() => {});
     } catch (err) {
       alert(err.response?.data?.message || 'Failed to create product');
     } finally {
@@ -149,7 +120,7 @@ const InventoryPage = () => {
 
         <div className="flex items-center gap-4">
           <button 
-            onClick={() => fetchData()}
+            onClick={() => refreshData()}
             className="px-6 py-4 bg-white border border-text/5 rounded-[20px] text-[10px] font-black uppercase tracking-widest text-text/80 hover:text-text hover:border-primary/20 transition-all flex items-center gap-3 group"
           >
             <History size={16} className="group-hover:text-primary transition-colors" /> Refresh

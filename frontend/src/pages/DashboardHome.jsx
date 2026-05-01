@@ -15,7 +15,7 @@ import {
   Filter,
   Loader2
 } from 'lucide-react';
-import { productAPI, alertAPI, orderAPI } from '../services/api';
+import { useShop } from '../context/ShopContext';
 import GlassCard from '../components/GlassCard';
 import StatCard from '../components/StatCard';
 import StatusBadge from '../components/StatusBadge';
@@ -37,29 +37,11 @@ const itemAnim = {
 
 const DashboardHome = () => {
   const navigate = useNavigate();
-  const [products, setProducts] = useState([]);
-  const [summary, setSummary] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  const fetchData = useCallback(async () => {
-    try {
-      setLoading(true);
-      const [prodRes, summaryRes] = await Promise.all([
-        productAPI.getAll().catch(() => ({ data: { data: { products: [] } } })),
-        alertAPI.getSummary().catch(() => ({ data: { data: { summary: {} } } })),
-      ]);
-      setProducts(prodRes.data?.data?.products ?? []);
-      setSummary(summaryRes.data?.data?.summary ?? null);
-    } catch (err) {
-      console.error('Dashboard data fetch failed:', err);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const { products, summary, user, loading, refreshData } = useShop();
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    refreshData();
+  }, [refreshData]);
 
   // ─── Computed stats from real data ─────────────────────────
   const criticalInventory = useMemo(() => {
@@ -108,6 +90,28 @@ const DashboardHome = () => {
       variants={container}
       className="max-w-[1600px] mx-auto px-6 py-10"
     >
+      {user && !user.onboardingComplete && (
+        <motion.div
+          variants={itemAnim}
+          className="mb-8"
+        >
+          <div className="rounded-[32px] bg-primary/5 border border-primary/10 p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-6">
+              <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shadow-inner-soft">
+                <AlertTriangle size={28} />
+              </div>
+              <div>
+                <h4 className="text-lg font-bold text-text">Complete your shop profile</h4>
+                <p className="text-xs text-text/60 max-w-md mt-1">Unlock advanced analytics, custom alerts, and automated restock suggestions by finishing your business setup.</p>
+              </div>
+            </div>
+            <PremiumButton variant="primary" onClick={() => navigate('/onboarding/shop')}>
+              Complete Setup
+            </PremiumButton>
+          </div>
+        </motion.div>
+      )}
+
       {/* ─── Header ─── */}
       <motion.div variants={itemAnim} className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
         <div className="space-y-1">
