@@ -15,10 +15,20 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Response interceptor - log errors globally
+// Response interceptor - handle 401 globally
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    if (error.response?.status === 401) {
+      // Token expired or invalid — clear session
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('userRole');
+      // Redirect to login (if not already there)
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login';
+      }
+    }
     console.error('API Error:', error.response?.data?.message || error.message);
     return Promise.reject(error);
   }
@@ -27,6 +37,13 @@ api.interceptors.response.use(
 export const authAPI = {
   signup: (data) => api.post('/auth/signup', data),
   login: (data) => api.post('/auth/login', data),
+  getMe: () => api.get('/auth/me'),
+};
+
+export const onboardingAPI = {
+  completeShop: (data) => api.post('/onboarding/shop', data),
+  completeSupplier: (data) => api.post('/onboarding/supplier', data),
+  skip: () => api.post('/onboarding/skip'),
 };
 
 export const productAPI = {

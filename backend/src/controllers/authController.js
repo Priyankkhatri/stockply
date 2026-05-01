@@ -80,6 +80,29 @@ exports.login = async (req, res) => {
   }
 };
 
+// GET /auth/me — Fetch current user profile
+exports.getMe = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'User not found'
+      });
+    }
+
+    res.status(200).json({
+      status: 'success',
+      data: { user }
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: err.message
+    });
+  }
+};
+
 exports.protect = async (req, res, next) => {
   try {
     // 1) Getting token and check of it's there

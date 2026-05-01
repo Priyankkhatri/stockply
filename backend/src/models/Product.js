@@ -9,13 +9,11 @@ const productSchema = new mongoose.Schema({
   sku: {
     type: String,
     required: [true, 'Product must have an SKU'],
-    unique: true,
     uppercase: true,
     trim: true
   },
   barcode: {
     type: String,
-    unique: true,
     sparse: true
   },
   category: {
@@ -41,11 +39,24 @@ const productSchema = new mongoose.Schema({
     enum: ['In Stock', 'Low Stock', 'Out of Stock'],
     default: 'In Stock'
   },
+  supplier: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: [true, 'Product must belong to a user']
+  },
   createdAt: {
     type: Date,
     default: Date.now
   }
 });
+
+// Compound index: SKU is unique per owner (not globally)
+productSchema.index({ sku: 1, owner: 1 }, { unique: true });
 
 const Product = mongoose.model('Product', productSchema);
 
