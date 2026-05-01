@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from "react";
 import { motion } from "framer-motion";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { SupplierProvider } from "./context/SupplierContext";
+import { ShopProvider } from "./context/ShopContext";
 import DashboardLayout from "./layouts/DashboardLayout";
 
 // Lazy load pages for performance
@@ -97,7 +98,8 @@ function App() {
   const session = getSession();
 
   return (
-    <SupplierProvider>
+    <ShopProvider>
+      <SupplierProvider>
       <Router>
         <Suspense fallback={<PageLoader />}>
           <Routes>
@@ -289,7 +291,8 @@ function App() {
           </Routes>
         </Suspense>
       </Router>
-    </SupplierProvider>
+      </SupplierProvider>
+    </ShopProvider>
   );
 }
 
