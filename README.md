@@ -95,15 +95,13 @@ stockply/
 
 *(Add your high-quality screenshots here)*
 
-| Shop Dashboard | Supplier Inventory |
+| Landing Experience | Login Portal |
 | :---: | :---: |
-| ![Shop Dashboard](./screenshots/screenshot1.png) | ![Supplier Dashboard](./screenshots/screenshot2.png) |
-| :---: | :---: |
-| Shop Interface | Supplier Intelligence |
+| ![Landing](./screenshots/landing.png) | ![Login](./screenshots/login.png) |
 
-| Inventory Control | System Analytics |
+| Command Center | Stock Intelligence |
 | :---: | :---: |
-| ![Inventory](./screenshots/screenshot3.png) | ![Analytics](./screenshots/screenshot1.png) |
+| ![Dashboard](./screenshots/dashboard.png) | ![Inventory](./screenshots/inventory.png) |
 
 ---
 
