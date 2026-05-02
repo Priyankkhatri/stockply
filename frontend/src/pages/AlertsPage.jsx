@@ -60,7 +60,7 @@ const AlertItem = ({ alert, onRemove }) => {
   return (
     <motion.div
       variants={rowAnim}
-      className={`bg-white rounded-[24px] border border-text/5 border-l-4 ${colors.border} shadow-sm p-6 flex items-center justify-between group transition-all hover:shadow-premium`}
+      className={`bg-white rounded-[20px] sm:rounded-[24px] border border-text/5 border-l-4 ${colors.border} shadow-sm p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group transition-all hover:shadow-premium`}
     >
       <div className="flex items-center gap-6">
         <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${colors.iconBg}`}>
@@ -208,15 +208,15 @@ export default function AlertsPage() {
       initial="hidden"
       animate="show"
       variants={containerVariants}
-      className="max-w-[1600px] mx-auto px-10 pb-12 pt-10"
+      className="max-w-[1600px] mx-auto px-4 sm:px-10 pb-12 pt-6 sm:pt-10"
     >
-      <motion.div variants={rowAnim} className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-8">
+      <motion.div variants={rowAnim} className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 sm:mb-12 gap-6 sm:gap-8">
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
             <span className="text-[10px] font-black text-text/70 uppercase tracking-[0.3em]">Notifications</span>
           </div>
-          <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">System <span className="text-primary italic font-normal serif">Alerts.</span></h1>
+          <h1 className="text-3xl sm:text-5xl font-bold text-text tracking-tighter leading-none">System <span className="text-primary italic font-normal serif">Alerts.</span></h1>
           <p className="text-text/70 text-sm font-medium">Stay updated on stock, orders, and operational risks.</p>
         </div>
 
@@ -241,8 +241,8 @@ export default function AlertsPage() {
         </div>
       </motion.div>
 
-      <motion.div variants={rowAnim} className="bg-white rounded-[32px] border border-text/5 p-8 mb-10 shadow-sm flex flex-col xl:flex-row gap-8 items-start xl:items-center justify-between">
-        <div className="flex items-center p-1.5 bg-background border border-text/5 rounded-[20px]">
+      <motion.div variants={rowAnim} className="bg-white rounded-[24px] sm:rounded-[32px] border border-text/5 p-4 sm:p-8 mb-6 sm:mb-10 shadow-sm flex flex-col xl:flex-row gap-6 sm:gap-8 items-start xl:items-center justify-between">
+        <div className="flex items-center p-1.5 bg-background border border-text/5 rounded-[20px] overflow-x-auto w-full sm:w-auto scrollbar-hide">
           {[
             { label: "All", count: null },
             { label: "Critical", count: alertList.filter(a => a.type === 'critical' && !a.read).length },
@@ -252,7 +252,7 @@ export default function AlertsPage() {
             <button
               key={tab.label}
               onClick={() => setActiveTab(tab.label)}
-              className={`px-6 py-3.5 rounded-[16px] text-[9px] font-black uppercase tracking-widest transition-all duration-500 flex items-center gap-2 ${
+              className={`px-4 sm:px-6 py-3 sm:py-3.5 rounded-[16px] text-[9px] font-black uppercase tracking-widest transition-all duration-500 flex items-center gap-2 whitespace-nowrap ${
                 activeTab === tab.label ? "bg-white text-text shadow-sm border border-text/5" : "text-text/70 hover:text-text/90"
               }`}
               type="button"
@@ -273,7 +273,7 @@ export default function AlertsPage() {
           ))}
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="hidden sm:flex items-center gap-4">
           <button
             className="flex items-center justify-between px-6 py-4 bg-background border border-text/5 rounded-2xl text-[9px] font-black uppercase tracking-widest text-text/70 hover:text-text hover:bg-white hover:shadow-sm transition-all w-48"
             type="button"

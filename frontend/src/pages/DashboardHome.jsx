@@ -88,7 +88,7 @@ const DashboardHome = () => {
       initial="hidden"
       animate="show"
       variants={container}
-      className="max-w-[1600px] mx-auto px-6 py-10"
+      className="max-w-[1600px] mx-auto px-4 sm:px-6 py-6 sm:py-10"
     >
       {user && !user.onboardingComplete && (
         <motion.div
@@ -113,13 +113,13 @@ const DashboardHome = () => {
       )}
 
       {/* ─── Header ─── */}
-      <motion.div variants={itemAnim} className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
+      <motion.div variants={itemAnim} className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 sm:mb-12 gap-6">
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             <span className="text-[10px] font-black text-text/80 uppercase tracking-[0.3em]">System Overview</span>
           </div>
-          <h1 className="text-4xl font-bold text-text tracking-tighter leading-none">Command <span className="text-primary italic font-normal serif">Center.</span></h1>
+          <h1 className="text-3xl sm:text-4xl font-bold text-text tracking-tighter leading-none">Command <span className="text-primary italic font-normal serif">Center.</span></h1>
           <p className="text-text/80 text-xs font-medium">Real-time intelligence for your retail ecosystem.</p>
         </div>
         
@@ -142,7 +142,7 @@ const DashboardHome = () => {
           <Loader2 size={28} className="animate-spin text-primary" />
         </div>
       ) : (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-10">
         {stats.map((stat, idx) => (
           <motion.div key={stat.label} variants={itemAnim}>
             <GlassCard className="p-8 group hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500">
@@ -162,7 +162,7 @@ const DashboardHome = () => {
       </div>
       )}
 
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-10">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 sm:gap-10">
         {/* ─── Main Content: Critical Inventory ─── */}
         <motion.div variants={itemAnim} className="xl:col-span-2">
           <GlassCard className="p-0 overflow-hidden border-none shadow-none bg-transparent">

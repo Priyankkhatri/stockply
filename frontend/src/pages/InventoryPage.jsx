@@ -105,16 +105,16 @@ const InventoryPage = () => {
       initial="hidden"
       animate="show"
       variants={container}
-      className="max-w-[1600px] mx-auto px-6 py-10"
+      className="max-w-[1600px] mx-auto px-4 sm:px-6 py-6 sm:py-10"
     >
       {/* ─── Header Section ─── */}
-      <motion.div variants={rowAnim} className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-8">
+      <motion.div variants={rowAnim} className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 sm:mb-12 gap-6 sm:gap-8">
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
             <span className="text-[10px] font-black text-text/80 uppercase tracking-[0.3em]">Stock Intelligence</span>
           </div>
-          <h1 className="text-4xl font-bold text-text tracking-tighter leading-none">The <span className="text-primary italic font-normal serif">Ledger.</span></h1>
+          <h1 className="text-3xl sm:text-4xl font-bold text-text tracking-tighter leading-none">The <span className="text-primary italic font-normal serif">Ledger.</span></h1>
           <p className="text-text/80 text-xs font-medium">Precision tracking for your entire inventory ecosystem.</p>
         </div>
 
@@ -137,7 +137,7 @@ const InventoryPage = () => {
       </motion.div>
 
       {/* ─── Stats & Highlights ─── */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12">
         {stats.map((stat) => (
           <motion.div key={stat.label} variants={rowAnim}>
             <GlassCard className="p-6 flex items-center justify-between group hover:shadow-2xl transition-all duration-500">
@@ -157,7 +157,7 @@ const InventoryPage = () => {
       </div>
 
       {/* ─── Controls & Filters ─── */}
-      <motion.div variants={rowAnim} className="bg-white rounded-[32px] border border-text/5 p-8 mb-10 shadow-sm flex flex-col xl:flex-row gap-8 items-start xl:items-center justify-between">
+      <motion.div variants={rowAnim} className="bg-white rounded-[24px] sm:rounded-[32px] border border-text/5 p-4 sm:p-8 mb-6 sm:mb-10 shadow-sm flex flex-col xl:flex-row gap-6 sm:gap-8 items-start xl:items-center justify-between">
         <div className="relative w-full max-w-2xl group">
           <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-text/70 group-focus-within:text-primary transition-colors" size={20} />
           <input
@@ -182,7 +182,7 @@ const InventoryPage = () => {
               <button
                 key={status}
                 onClick={() => setActiveStatus(status)}
-                className={`px-6 py-3.5 rounded-[16px] text-[9px] font-black uppercase tracking-widest transition-all duration-500 ${
+                className={`px-4 sm:px-6 py-3 sm:py-3.5 rounded-[16px] text-[9px] font-black uppercase tracking-widest transition-all duration-500 whitespace-nowrap ${
                   activeStatus === status
                     ? 'bg-white text-text shadow-sm border border-text/10'
                     : 'text-text/70 hover:text-text'
@@ -200,8 +200,8 @@ const InventoryPage = () => {
       </motion.div>
 
       {/* ─── Main Ledger ─── */}
-      <div className="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-10 items-start">
-        <motion.div variants={rowAnim} className="bg-white rounded-[40px] border border-text/5 shadow-premium overflow-hidden">
+      <div className="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-6 sm:gap-10 items-start">
+        <motion.div variants={rowAnim} className="bg-white rounded-[28px] sm:rounded-[40px] border border-text/5 shadow-premium overflow-hidden">
           {loading ? (
             <div className="flex flex-col items-center justify-center py-32 text-center">
               <Loader2 size={32} className="animate-spin text-primary mb-4" />
@@ -369,7 +369,7 @@ const InventoryPage = () => {
               </div>
 
               <form onSubmit={handleAddProduct} className="p-10 space-y-8">
-                <div className="grid grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                   <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-text/70 ml-1">Asset Name</label>
                     <input 

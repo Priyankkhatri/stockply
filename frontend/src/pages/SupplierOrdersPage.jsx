@@ -247,7 +247,7 @@ const OrderRow = ({ order, isActive, onClick }) => {
     <motion.div
       variants={rowAnim}
       onClick={onClick}
-      className={`group mb-3 overflow-hidden rounded-[28px] border transition-all duration-500 px-8 py-5 flex items-center justify-between cursor-pointer relative ${
+      className={`group mb-3 overflow-hidden rounded-[20px] sm:rounded-[28px] border transition-all duration-500 px-4 sm:px-8 py-4 sm:py-5 flex flex-col sm:flex-row sm:items-center justify-between cursor-pointer relative ${
         isActive 
           ? 'bg-white border-primary/20 shadow-xl shadow-primary/5 ring-1 ring-primary/5' 
           : 'bg-white/50 border-text/5 hover:border-text/10 hover:bg-white hover:shadow-premium'
@@ -255,7 +255,7 @@ const OrderRow = ({ order, isActive, onClick }) => {
     >
       <div className={`absolute left-0 top-0 bottom-0 w-1 bg-primary transition-transform origin-top rounded-l-full ${isActive ? 'scale-y-100' : 'scale-y-0'}`}></div>
       
-      <div className="flex-[0.6] flex items-center gap-6">
+      <div className="flex-[0.6] flex items-center gap-4 sm:gap-6 mb-3 sm:mb-0">
         <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${isActive ? 'bg-primary text-white' : 'bg-background text-text/20 group-hover:bg-primary/10 group-hover:text-primary'}`}>
           <Package size={18} />
         </div>
@@ -265,19 +265,19 @@ const OrderRow = ({ order, isActive, onClick }) => {
         </div>
       </div>
 
-      <div className="flex-1 px-4">
+      <div className="hidden md:block flex-1 px-4">
         <p className="text-[10px] text-text/70 font-black uppercase tracking-widest">{new Date(order.createdAt).toLocaleDateString()}</p>
         <p className="text-[9px] text-text/70 font-bold uppercase tracking-widest mt-0.5">{order.items?.length || 0} Products • {order.items?.reduce((acc, curr) => acc + curr.quantity, 0) || 0} units</p>
       </div>
 
-      <div className="flex-1 text-center">
+      <div className="hidden sm:block flex-1 text-center">
         <p className="text-sm font-bold text-text tracking-tight mb-1">₹ {order.totalAmount.toLocaleString()}</p>
         <span className={`px-2 py-0.5 rounded-md border font-black text-[8px] uppercase tracking-widest ${paymentClasses[order.paymentStatus] || paymentClasses.Pending}`}>
           {order.paymentStatus || 'Pending'}
         </span>
       </div>
 
-      <div className="flex-1 flex justify-end items-center gap-6">
+      <div className="flex-1 flex justify-end sm:justify-end items-center gap-4 sm:gap-6">
         <span className={`px-4 py-2 rounded-full border font-black text-[9px] uppercase tracking-[0.1em] flex items-center gap-2.5 transition-all ${
           order.status === 'Shipped' || order.status === 'Delivered' 
             ? 'bg-teal-50 text-teal-600 border-teal-100 group-hover:bg-teal-600 group-hover:text-white' 
@@ -341,7 +341,7 @@ export default function SupplierOrdersPage() {
       initial="hidden"
       animate="show"
       variants={containerVariants}
-      className="max-w-[1600px] mx-auto px-10 pb-12 pt-10"
+      className="max-w-[1600px] mx-auto px-4 sm:px-10 pb-12 pt-6 sm:pt-10"
     >
       <style dangerouslySetInnerHTML={{ __html: `
         .serif { font-family: "Playfair Display", serif; }
@@ -351,13 +351,13 @@ export default function SupplierOrdersPage() {
       ` }} />
 
       {/* Header */}
-      <motion.div variants={rowAnim} className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-8">
+      <motion.div variants={rowAnim} className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 sm:mb-12 gap-6 sm:gap-8">
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(192,133,82,0.5)]" />
             <span className="text-[10px] font-black text-text/70 uppercase tracking-[0.3em]">Supplier / Fulfillment Queue</span>
           </div>
-          <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">Order <span className="text-primary italic font-normal serif">Logistics.</span></h1>
+          <h1 className="text-3xl sm:text-5xl font-bold text-text tracking-tighter leading-none">Order <span className="text-primary italic font-normal serif">Logistics.</span></h1>
           <p className="text-text/70 text-sm font-medium">Coordinate restock fulfillment and manage global retail partner requests.</p>
         </div>
 
@@ -380,13 +380,13 @@ export default function SupplierOrdersPage() {
 
       {/* Control Bar */}
       <motion.div variants={rowAnim}>
-        <GlassCard className="mb-8 flex flex-wrap items-center justify-between gap-6 p-4 border-text/5 shadow-premium" hover={false}>
-          <div className="flex items-center rounded-2xl bg-background/50 p-1">
+        <GlassCard className="mb-8 flex flex-col sm:flex-row flex-wrap items-start sm:items-center justify-between gap-4 sm:gap-6 p-4 border-text/5 shadow-premium" hover={false}>
+          <div className="flex items-center rounded-2xl bg-background/50 p-1 overflow-x-auto w-full sm:w-auto scrollbar-hide">
             {['All', 'Pending', 'Processing', 'Shipped', 'Delivered'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-6 py-2.5 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all flex items-center gap-3 ${
+                className={`px-4 sm:px-6 py-2.5 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all flex items-center gap-3 whitespace-nowrap ${
                   activeTab === tab
                     ? 'bg-white text-text shadow-md shadow-text/5 border border-text/5'
                     : 'text-text/70 hover:text-text hover:bg-white/30'
@@ -402,7 +402,7 @@ export default function SupplierOrdersPage() {
             ))}
           </div>
 
-          <div className="flex items-center gap-4 px-2 flex-1 max-w-md">
+          <div className="flex items-center gap-4 px-2 flex-1 max-w-md w-full sm:w-auto">
             <div className="relative w-full group">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-text/70 group-focus-within:text-primary transition-colors" size={16} />
               <input

@@ -120,7 +120,7 @@ const SupplierShopsPage = () => {
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
             <span className="text-[10px] font-black text-text/70 uppercase tracking-[0.3em]">Supplier / Shops</span>
           </div>
-          <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">Retail <span className="text-primary italic font-normal serif">Partners.</span></h1>
+          <h1 className="text-3xl sm:text-5xl font-bold text-text tracking-tighter leading-none">Retail <span className="text-primary italic font-normal serif">Partners.</span></h1>
           <p className="text-text/80 text-sm font-medium">Manage your connected shop network, order volume, geography, and trust signals.</p>
         </div>
         <PremiumButton onClick={() => setIsAddModalOpen(true)} icon={Plus}>

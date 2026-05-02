@@ -246,7 +246,7 @@ export default function SupplierInventoryPage() {
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
             <span className="text-[10px] font-black text-text/80 uppercase tracking-[0.3em]">Supply Intelligence</span>
           </div>
-          <h1 className="text-4xl font-bold text-text tracking-tighter leading-none">The <span className="text-primary italic font-normal serif">Ledger.</span></h1>
+          <h1 className="text-3xl sm:text-4xl font-bold text-text tracking-tighter leading-none">The <span className="text-primary italic font-normal serif">Ledger.</span></h1>
           <p className="text-text/90 text-xs font-medium">Global stock control and SKU asset management.</p>
         </div>
 
