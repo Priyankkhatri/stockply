@@ -11,6 +11,7 @@ export const useShop = () => {
 
 export const ShopProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [partners, setPartners] = useState([]);
   const [summary, setSummary] = useState(null);
   const [user, setUser] = useState(null);
@@ -22,16 +23,18 @@ export const ShopProvider = ({ children }) => {
       setLoading(true);
       setError(null);
 
-      const [prodRes, summaryRes, partnersRes, userRes] = await Promise.all([
+      const [prodRes, summaryRes, partnersRes, ordersRes, userRes] = await Promise.all([
         productAPI.getAll().catch(() => ({ data: { data: { products: [] } } })),
         alertAPI.getSummary().catch(() => ({ data: { data: { summary: {} } } })),
         partnerAPI.getAll().catch(() => ({ data: { data: { partners: [] } } })),
-        import('../services/api').then(m => m.authAPI.me()).catch(() => ({ data: { data: { user: null } } })),
+        orderAPI.getAll().catch(() => ({ data: { data: { orders: [] } } })),
+        import('../services/api').then(m => m.authAPI.getMe()).catch(() => ({ data: { data: { user: null } } })),
       ]);
 
       setProducts(prodRes.data?.data?.products ?? []);
       setSummary(summaryRes.data?.data?.summary ?? {});
       setPartners(partnersRes.data?.data?.partners ?? []);
+      setOrders(ordersRes.data?.data?.orders ?? []);
       setUser(userRes.data?.data?.user ?? null);
     } catch (err) {
       console.error('Shop fetch error:', err);
@@ -78,8 +81,28 @@ export const ShopProvider = ({ children }) => {
     return product;
   };
 
+  const addOrder = async (orderData) => {
+    const res = await orderAPI.create(orderData);
+    const order = res.data?.data?.order;
+    setOrders(prev => [order, ...prev]);
+    return order;
+  };
+
+  const updateOrderStatus = async (id, status) => {
+    const res = await orderAPI.updateStatus(id, status);
+    const order = res.data?.data?.order;
+    setOrders(prev => prev.map(o => o._id === id ? order : o));
+    return order;
+  };
+
+  const removeOrder = async (id) => {
+    await orderAPI.delete(id);
+    setOrders(prev => prev.filter(o => o._id !== id));
+  };
+
   const value = {
     products,
+    orders,
     partners,
     summary,
     user,
@@ -88,6 +111,9 @@ export const ShopProvider = ({ children }) => {
     addProduct,
     deleteProduct,
     updateProduct,
+    addOrder,
+    updateOrderStatus,
+    removeOrder,
     refreshData: fetchInitialData
   };
 

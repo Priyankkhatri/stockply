@@ -23,6 +23,7 @@ import CreateOrderModal from '../components/CreateOrderModal';
 import StatusBadge from '../components/StatusBadge';
 import GlassCard from '../components/GlassCard';
 import { orderAPI } from '../services/api';
+import { useShop } from '../context/ShopContext';
 
 const tabs = ['All Orders', 'Active', 'Completed', 'Cancelled'];
 
@@ -236,26 +237,13 @@ const OrderCard = ({ order }) => {
 
 const OrdersPage = () => {
   const [activeTab, setActiveTab] = useState('All Orders');
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { orders, loading, refreshData } = useShop();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const fetchOrders = async () => {
-    try {
-      setLoading(true);
-      const res = await orderAPI.getAll();
-      setOrders(res.data?.data?.orders || []);
-    } catch (err) {
-      console.error('Error fetching orders:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchOrders();
-  }, []);
+    refreshData();
+  }, [refreshData]);
 
   const filteredOrders = useMemo(() => {
     return orders.filter(order => {
@@ -380,7 +368,7 @@ const OrdersPage = () => {
       {showCreateModal && (
         <CreateOrderModal 
           onClose={() => setShowCreateModal(false)} 
-          onSuccess={fetchOrders}
+          onSuccess={refreshData}
         />
       )}
       
@@ -389,4 +377,3 @@ const OrdersPage = () => {
 };
 
 export default OrdersPage;
-

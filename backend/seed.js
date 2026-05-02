@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const bcrypt = require('bcryptjs');
 
-dotenv.config();
+const path = require('path');
+dotenv.config({ path: path.join(__dirname, '.env') });
 
 const User = require('./src/models/User');
 const Product = require('./src/models/Product');
@@ -141,34 +142,72 @@ const seedDatabase = async () => {
     ]);
 
     console.log('Inserting Demo Orders...');
-    await Order.create([
-      {
+    const orders = [];
+    const statuses = ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'];
+    const priorities = ['High', 'Medium', 'Low'];
+    const paymentStatuses = ['Pending', 'Paid', 'Failed'];
+
+    // Create 10 orders for shop1 with supplier1
+    for (let i = 0; i < 10; i++) {
+      const product = sup1Products[Math.floor(Math.random() * sup1Products.length)];
+      const qty = Math.floor(Math.random() * 5) + 1;
+      orders.push({
         orderNumber: 'ORD-' + Math.floor(100000 + Math.random() * 900000),
         shopId: shop1._id,
         supplierId: supplier1._id,
         shopName: shop1.shopName,
-        items: [
-          { productId: sup1Products[0]._id, name: sup1Products[0].name, quantity: 2, price: sup1Products[0].price }
-        ],
-        totalAmount: sup1Products[0].price * 2,
-        status: 'Processing',
-        paymentStatus: 'Paid',
-        priority: 'High'
-      },
-      {
+        supplierName: supplier1.companyName,
+        items: [{ productId: product._id, name: product.name, quantity: qty, price: product.price }],
+        totalAmount: product.price * qty,
+        status: statuses[Math.floor(Math.random() * statuses.length)],
+        paymentStatus: paymentStatuses[Math.floor(Math.random() * paymentStatuses.length)],
+        priority: priorities[Math.floor(Math.random() * priorities.length)],
+        createdAt: new Date(Date.now() - Math.floor(Math.random() * 30 * 24 * 60 * 60 * 1000)),
+        deliveryDate: new Date(Date.now() + Math.floor(Math.random() * 10 * 24 * 60 * 60 * 1000))
+      });
+    }
+
+    // Create 10 orders for shop2 with supplier2
+    for (let i = 0; i < 10; i++) {
+      const product = sup2Products[Math.floor(Math.random() * sup2Products.length)];
+      const qty = Math.floor(Math.random() * 20) + 5;
+      orders.push({
         orderNumber: 'ORD-' + Math.floor(100000 + Math.random() * 900000),
         shopId: shop2._id,
         supplierId: supplier2._id,
         shopName: shop2.shopName,
-        items: [
-          { productId: sup2Products[1]._id, name: sup2Products[1].name, quantity: 10, price: sup2Products[1].price }
-        ],
-        totalAmount: sup2Products[1].price * 10,
-        status: 'Delivered',
-        paymentStatus: 'Paid',
-        priority: 'Medium'
-      }
-    ]);
+        supplierName: supplier2.companyName,
+        items: [{ productId: product._id, name: product.name, quantity: qty, price: product.price }],
+        totalAmount: product.price * qty,
+        status: statuses[Math.floor(Math.random() * statuses.length)],
+        paymentStatus: paymentStatuses[Math.floor(Math.random() * paymentStatuses.length)],
+        priority: priorities[Math.floor(Math.random() * priorities.length)],
+        createdAt: new Date(Date.now() - Math.floor(Math.random() * 30 * 24 * 60 * 60 * 1000)),
+        deliveryDate: new Date(Date.now() + Math.floor(Math.random() * 10 * 24 * 60 * 60 * 1000))
+      });
+    }
+
+    // Create 5 cross orders (shop1 with supplier2)
+    for (let i = 0; i < 5; i++) {
+      const product = sup2Products[Math.floor(Math.random() * sup2Products.length)];
+      const qty = Math.floor(Math.random() * 10) + 2;
+      orders.push({
+        orderNumber: 'ORD-' + Math.floor(100000 + Math.random() * 900000),
+        shopId: shop1._id,
+        supplierId: supplier2._id,
+        shopName: shop1.shopName,
+        supplierName: supplier2.companyName,
+        items: [{ productId: product._id, name: product.name, quantity: qty, price: product.price }],
+        totalAmount: product.price * qty,
+        status: statuses[Math.floor(Math.random() * statuses.length)],
+        paymentStatus: paymentStatuses[Math.floor(Math.random() * paymentStatuses.length)],
+        priority: priorities[Math.floor(Math.random() * priorities.length)],
+        createdAt: new Date(Date.now() - Math.floor(Math.random() * 30 * 24 * 60 * 60 * 1000)),
+        deliveryDate: new Date(Date.now() + Math.floor(Math.random() * 10 * 24 * 60 * 60 * 1000))
+      });
+    }
+
+    await Order.create(orders);
 
     console.log('Demo Data Seeded Successfully!');
     process.exit();
