@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { HelmetProvider } from 'react-helmet-async'
+import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
 
@@ -14,7 +15,9 @@ createRoot(document.getElementById('root')).render(
     <ErrorBoundary>
       <Provider store={store}>
         <HelmetProvider>
-          <App />
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
           <Toaster 
             position="bottom-right"
             toastOptions={{
