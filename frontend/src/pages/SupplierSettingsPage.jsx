@@ -50,7 +50,7 @@ export default function SupplierSettingsPage() {
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
             <span className="text-[10px] font-black text-text/70 uppercase tracking-[0.3em]">Settings</span>
           </div>
-          <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">Portal <span className="text-primary italic font-normal serif">Configuration.</span></h1>
+          <h1 className="text-3xl sm:text-5xl font-bold text-text tracking-tighter leading-none">Portal <span className="text-primary italic font-normal serif">Configuration.</span></h1>
           <p className="text-text/70 text-sm font-medium">Configure your business profile, financial routing, and system synchronization.</p>
         </div>
 

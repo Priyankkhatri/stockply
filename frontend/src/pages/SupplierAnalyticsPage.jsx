@@ -78,7 +78,7 @@ export default function SupplierAnalyticsPage() {
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
             <span className="text-[10px] font-black text-text/80 uppercase tracking-[0.3em]">Analytics</span>
           </div>
-          <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">Intelligence <span className="text-primary italic font-normal serif">Report.</span></h1>
+          <h1 className="text-3xl sm:text-5xl font-bold text-text tracking-tighter leading-none">Intelligence <span className="text-primary italic font-normal serif">Report.</span></h1>
           <p className="text-text/80 text-sm font-medium">Track fulfillment velocity, demand pressure, and revenue movement across your partner network.</p>
         </div>
 

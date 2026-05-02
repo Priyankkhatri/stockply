@@ -73,7 +73,7 @@ export default function SupportPage() {
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
             <span className="text-[10px] font-black text-text/70 uppercase tracking-[0.3em]">Support Center</span>
           </div>
-          <h1 className="text-5xl font-bold tracking-tighter text-text leading-none">Help & <span className="text-primary italic font-normal serif">Support.</span></h1>
+          <h1 className="text-3xl sm:text-5xl font-bold tracking-tighter text-text leading-none">Help & <span className="text-primary italic font-normal serif">Support.</span></h1>
           <p className="text-text/70 text-sm font-medium">Get assistance with orders, inventory workflows, and account operations.</p>
         </div>
 

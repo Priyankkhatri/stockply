@@ -82,19 +82,19 @@ const SupplierDashboardPage = () => {
   }
 
   return (
-    <div className="max-w-[1600px] mx-auto px-10 pb-12 pt-10">
+    <div className="max-w-[1600px] mx-auto px-4 sm:px-10 pb-12 pt-6 sm:pt-10">
       <motion.div 
         variants={itemVariants}
         initial="hidden"
         animate="show"
-        className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-8"
+        className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 sm:mb-12 gap-6 sm:gap-8"
       >
         <div className="space-y-1">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
             <span className="text-[10px] font-black text-text/80 uppercase tracking-[0.3em]">Supplier Portal</span>
           </div>
-          <h1 className="text-5xl font-bold text-text tracking-tighter leading-none">Global <span className="text-primary italic font-normal serif">Dashboard.</span></h1>
+          <h1 className="text-3xl sm:text-5xl font-bold text-text tracking-tighter leading-none">Global <span className="text-primary italic font-normal serif">Dashboard.</span></h1>
           <p className="text-text/80 text-sm font-medium">Logistics, inventory, and supply chain intelligence.</p>
         </div>
 
@@ -123,7 +123,7 @@ const SupplierDashboardPage = () => {
         animate="show"
       >
         {/* KPI Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 mb-12">
           <StatCard
             title="Total Revenue"
             value={`₹ ${(stats.totalRevenue || 0).toLocaleString()}`}
@@ -158,9 +158,9 @@ const SupplierDashboardPage = () => {
           />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-10 mb-12">
           {/* Left column */}
-          <div className="lg:col-span-2 space-y-10">
+          <div className="lg:col-span-2 space-y-6 sm:space-y-10">
             {/* Demand Chart */}
             <motion.div variants={itemVariants}>
               <GlassCard className="p-10">

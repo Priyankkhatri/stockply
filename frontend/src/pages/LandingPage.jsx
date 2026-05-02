@@ -41,18 +41,18 @@ const LandingPage = () => {
       />
 
       {/* ─── Sophisticated Navigation ─── */}
-      <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-700 ${scrolled ? 'py-4' : 'py-8'}`}>
-        <div className={`max-w-[1400px] mx-auto px-8 transition-all duration-700 ${scrolled ? 'scale-[0.98]' : 'scale-100'}`}>
-          <div className={`flex items-center justify-between px-10 h-20 rounded-[32px] border transition-all duration-700 ${
+      <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-700 ${scrolled ? 'py-3 sm:py-4' : 'py-4 sm:py-8'}`}>
+        <div className={`max-w-[1400px] mx-auto px-4 sm:px-8 transition-all duration-700 ${scrolled ? 'scale-[0.98]' : 'scale-100'}`}>
+          <div className={`flex items-center justify-between px-4 sm:px-10 h-16 sm:h-20 rounded-2xl sm:rounded-[32px] border transition-all duration-700 ${
             scrolled 
               ? 'bg-white/80 backdrop-blur-2xl border-text/5 shadow-[0_20px_50px_rgba(0,0,0,0.03)]' 
               : 'bg-transparent border-transparent'
           }`}>
             <div className="flex items-center gap-4 group cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-              <div className="w-12 h-12 bg-text rounded-2xl flex items-center justify-center text-white shadow-xl shadow-text/10 group-hover:bg-primary transition-all duration-500">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-text rounded-xl sm:rounded-2xl flex items-center justify-center text-white shadow-xl shadow-text/10 group-hover:bg-primary transition-all duration-500">
                 <Logo size={24} />
               </div>
-              <div className="flex flex-col">
+              <div className="hidden sm:flex flex-col">
                 <span className="font-bold text-lg text-text tracking-tighter uppercase leading-none">Stockply</span>
                 <span className="text-[8px] font-black text-text/20 tracking-[0.4em] uppercase mt-1">Digital Atelier</span>
               </div>
@@ -76,7 +76,7 @@ const LandingPage = () => {
               </button>
               <button 
                 onClick={() => navigate('/login')}
-                className="px-10 py-4 bg-text text-white text-[10px] font-bold uppercase tracking-[0.25em] rounded-2xl hover:bg-primary transition-all duration-500 shadow-xl shadow-text/10"
+                className="px-6 sm:px-10 py-3 sm:py-4 bg-text text-white text-[10px] font-bold uppercase tracking-[0.25em] rounded-2xl hover:bg-primary transition-all duration-500 shadow-xl shadow-text/10"
               >
                 Join Now
               </button>
@@ -89,9 +89,9 @@ const LandingPage = () => {
       </nav>
 
       {/* ─── Hero: The Grand Entrance ─── */}
-      <section className="relative pt-64 pb-32 px-8">
+      <section className="relative pt-32 sm:pt-48 lg:pt-64 pb-16 sm:pb-32 px-4 sm:px-8">
         <div className="max-w-[1400px] mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
             <motion.div 
               initial="hidden" 
               animate="visible" 
@@ -102,17 +102,17 @@ const LandingPage = () => {
                 <Sparkles size={14} /> Intelligence for supply chains
               </motion.div>
               
-              <motion.h1 variants={fadeUp} className="text-6xl md:text-8xl font-bold text-text tracking-[-0.05em] leading-[0.9] lg:max-w-xl">
+              <motion.h1 variants={fadeUp} className="text-4xl sm:text-6xl md:text-8xl font-bold text-text tracking-[-0.05em] leading-[0.9] lg:max-w-xl">
                 Scale Your <br />
                 <span className="text-primary italic font-normal serif">Supply Chain.</span>
               </motion.h1>
               
-              <motion.p variants={fadeUp} className="text-xl text-text/70 max-w-lg leading-relaxed font-medium">
+              <motion.p variants={fadeUp} className="text-base sm:text-xl text-text/70 max-w-lg leading-relaxed font-medium">
                 Stockply simplifies complex logistics with a high-performance inventory management platform. Built for businesses that value speed, precision, and efficiency.
               </motion.p>
               
               <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center gap-8 pt-4">
-                <button onClick={() => navigate('/login')} className="group w-full sm:w-auto px-12 py-6 bg-text text-white font-bold text-[11px] uppercase tracking-[0.25em] rounded-[2rem] hover:bg-primary transition-all duration-500 flex items-center justify-center gap-4 shadow-2xl shadow-text/20">
+                <button onClick={() => navigate('/login')} className="group w-full sm:w-auto px-8 sm:px-12 py-5 sm:py-6 bg-text text-white font-bold text-[11px] uppercase tracking-[0.25em] rounded-[2rem] hover:bg-primary transition-all duration-500 flex items-center justify-center gap-4 shadow-2xl shadow-text/20">
                   Enter The Portal <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </button>
                 <button className="flex items-center gap-4 group">
@@ -123,7 +123,7 @@ const LandingPage = () => {
                 </button>
               </motion.div>
 
-              <motion.div variants={fadeUp} className="pt-12 flex items-center gap-10">
+              <motion.div variants={fadeUp} className="pt-8 sm:pt-12 flex items-center gap-6 sm:gap-10">
                 <div className="flex -space-x-3">
                   {[1,2,3].map(i => (
                     <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-background/50 flex items-center justify-center text-[8px] font-bold text-text/70">U{i}</div>
@@ -141,8 +141,8 @@ const LandingPage = () => {
               transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
               className="lg:col-span-6 relative"
             >
-              <div className="relative z-10 rounded-[60px] overflow-hidden border border-text/5 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] bg-white p-4">
-                <img src={heroImage} alt="Stockply Dashboard" className="w-full h-auto rounded-[48px]" />
+              <div className="relative z-10 rounded-[32px] sm:rounded-[60px] overflow-hidden border border-text/5 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] bg-white p-2 sm:p-4">
+                <img src={heroImage} alt="Stockply Dashboard" className="w-full h-auto rounded-[24px] sm:rounded-[48px]" />
               </div>
               {/* Floating Decorative Element */}
               <motion.div 
@@ -177,12 +177,12 @@ const LandingPage = () => {
       </section>
 
       {/* ─── Intelligence Section ─── */}
-      <section id="features" className="py-48 px-8">
+      <section id="features" className="py-20 sm:py-48 px-4 sm:px-8">
         <div className="max-w-[1400px] mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-start">
-            <div className="lg:col-span-5 sticky top-48">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-start">
+            <div className="lg:col-span-5 lg:sticky lg:top-48">
               <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary mb-10">Advanced Features</p>
-              <h2 className="text-5xl md:text-7xl font-bold text-text tracking-tighter leading-[0.95] mb-12">
+              <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold text-text tracking-tighter leading-[0.95] mb-8 sm:mb-12">
                 Built for the <br />
                 Future of <br />
                 <span className="text-text/20">Retail Logistics.</span>
@@ -205,7 +205,7 @@ const LandingPage = () => {
               </div>
             </div>
 
-            <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10">
               {[
                 { icon: Package, title: 'Smart Inventory', desc: 'A sophisticated ledger system for precision tracking. Monitor SKU movements with absolute accuracy and zero latency.' },
                 { icon: BarChart3, title: 'Actionable Insights', desc: 'Visual data that drives growth. We transform raw numbers into intuitive dashboards that highlight opportunities instantly.' },
@@ -214,7 +214,7 @@ const LandingPage = () => {
                 { icon: Users, title: 'Partner Network', desc: 'Connect your entire ecosystem. Manage suppliers and retailers through a unified portal built for synergy.' },
                 { icon: Globe, title: 'Global Backbone', desc: 'Cloud-native architecture that scales with your ambition. Consistent performance across any geography.' },
               ].map((f, i) => (
-                <div key={i} className="p-12 rounded-[48px] bg-white border border-text/5 hover:border-primary/20 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.05)] transition-all duration-700 group">
+                <div key={i} className="p-8 sm:p-12 rounded-[32px] sm:rounded-[48px] bg-white border border-text/5 hover:border-primary/20 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.05)] transition-all duration-700 group">
                   <div className="w-16 h-16 rounded-3xl bg-background flex items-center justify-center text-text/20 group-hover:bg-primary group-hover:text-white transition-all duration-500 mb-10 shadow-sm">
                     <f.icon size={28} />
                   </div>
@@ -232,20 +232,20 @@ const LandingPage = () => {
       </section>
 
       {/* ─── Growth: The Visual Proof ─── */}
-      <section id="ecosystem" className="py-48 px-8 bg-text text-white rounded-[80px] mx-8 my-24 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[160px] -mr-96 -mt-96" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-white/5 rounded-full blur-[140px] -ml-72 -mb-72" />
+      <section id="ecosystem" className="py-20 sm:py-48 px-4 sm:px-8 bg-text text-white rounded-[32px] sm:rounded-[80px] mx-4 sm:mx-8 my-12 sm:my-24 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[400px] sm:w-[800px] h-[400px] sm:h-[800px] bg-primary/5 rounded-full blur-[160px] -mr-48 sm:-mr-96 -mt-48 sm:-mt-96" />
+        <div className="absolute bottom-0 left-0 w-[300px] sm:w-[600px] h-[300px] sm:h-[600px] bg-white/5 rounded-full blur-[140px] -ml-36 sm:-ml-72 -mb-36 sm:-mb-72" />
         
         <div className="max-w-[1400px] mx-auto relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32 items-center">
             <div className="space-y-12">
               <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary">Our Impact</p>
-              <h2 className="text-5xl md:text-8xl font-bold tracking-tighter leading-[0.85]">
+              <h2 className="text-3xl sm:text-5xl md:text-8xl font-bold tracking-tighter leading-[0.85]">
                 Driving <br />
                 Growth for <br />
                 Modern Retail.
               </h2>
-              <div className="grid grid-cols-2 gap-16 pt-12">
+              <div className="grid grid-cols-2 gap-8 sm:gap-16 pt-8 sm:pt-12">
                 {[
                   { l: 'Processed Volume', v: '₹840Cr+' },
                   { l: 'Cities Connected', v: '142+' },
@@ -254,15 +254,15 @@ const LandingPage = () => {
                 ].map(s => (
                   <div key={s.l} className="space-y-3">
                     <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-white/40">{s.l}</p>
-                    <p className="text-4xl font-bold tracking-tight">{s.v}</p>
+                    <p className="text-2xl sm:text-4xl font-bold tracking-tight">{s.v}</p>
                   </div>
                 ))}
               </div>
             </div>
 
             <div className="relative">
-              <div className="p-16 rounded-[60px] bg-white/5 border border-white/10 backdrop-blur-xl">
-                <blockquote className="text-3xl font-medium italic serif leading-relaxed mb-16 text-white/80">
+              <div className="p-8 sm:p-16 rounded-[32px] sm:rounded-[60px] bg-white/5 border border-white/10 backdrop-blur-xl">
+                <blockquote className="text-xl sm:text-3xl font-medium italic serif leading-relaxed mb-10 sm:mb-16 text-white/80">
                   "Stockply didn't just give us a dashboard; it gave us a competitive edge. Our inventory cycle time dropped by 60% in the first quarter."
                 </blockquote>
                 <div className="flex items-center gap-6">
@@ -274,10 +274,10 @@ const LandingPage = () => {
                 </div>
               </div>
               {/* Floating Stat Card */}
-              <motion.div 
+              <motion.div  
                 animate={{ y: [0, -30, 0] }} 
                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -top-12 -right-12 p-8 rounded-[32px] bg-primary text-white shadow-2xl"
+                className="absolute -top-8 -right-4 sm:-top-12 sm:-right-12 p-6 sm:p-8 rounded-[24px] sm:rounded-[32px] bg-primary text-white shadow-2xl hidden sm:block"
               >
                 <div className="flex items-center gap-4 mb-2">
                   <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
@@ -298,14 +298,14 @@ const LandingPage = () => {
       </section>
 
       {/* ─── Philosophy: The Stockply Way ─── */}
-      <section id="philosophy" className="py-48 px-8">
+      <section id="philosophy" className="py-20 sm:py-48 px-4 sm:px-8">
         <div className="max-w-[1400px] mx-auto text-center">
-          <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary mb-12">Our Vision</p>
-          <h2 className="text-6xl md:text-9xl font-bold text-text tracking-tighter leading-none mb-24 max-w-5xl mx-auto">
+          <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary mb-8 sm:mb-12">Our Vision</p>
+          <h2 className="text-4xl sm:text-6xl md:text-9xl font-bold text-text tracking-tighter leading-none mb-12 sm:mb-24 max-w-5xl mx-auto">
             Efficiency <br />
             <span className="text-text/10">at any scale.</span>
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-16 text-left">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-16 text-left">
             {[
               { t: 'The Minimalist Edge', d: 'We remove the noise. You focus on the signals. A clean interface leads to clean decisions.' },
               { t: 'Connected Craft', d: 'Relationships are the bedrock of logistics. We build features that strengthen your partner bonds.' },
@@ -321,9 +321,9 @@ const LandingPage = () => {
       </section>
 
       {/* ─── Footer: The Final Impression ─── */}
-      <footer className="pt-48 pb-24 px-10">
+      <footer className="pt-20 sm:pt-48 pb-12 sm:pb-24 px-4 sm:px-10">
         <div className="max-w-[1400px] mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-12 gap-20 pb-32 border-b border-text/5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-10 sm:gap-20 pb-16 sm:pb-32 border-b border-text/5">
             <div className="col-span-2 md:col-span-4 space-y-10">
               <div className="flex items-center gap-4">
                 <div className="w-14 h-14 bg-text rounded-[20px] flex items-center justify-center text-white">
@@ -373,7 +373,7 @@ const LandingPage = () => {
             </div>
           </div>
 
-          <div className="pt-16 flex flex-col md:flex-row justify-between items-center gap-10">
+          <div className="pt-8 sm:pt-16 flex flex-col md:flex-row justify-between items-center gap-6 sm:gap-10">
             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-text/20">
               &copy; 2025 Stockply Technology. All rights reserved.
             </p>
