@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import Topbar from '../components/Topbar';
+import { useSocket } from '../hooks/useSocket';
 
 const DashboardLayout = ({ children, role }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  
+  // Initialize real-time synchronization
+  useSocket();
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 

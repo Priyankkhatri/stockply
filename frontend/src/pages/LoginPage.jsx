@@ -1,66 +1,76 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Store, Truck, ArrowRight, ShieldCheck, Mail, Lock, User, Sparkles, ChevronRight } from 'lucide-react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
+import toast from 'react-hot-toast';
+import { 
+  Store, 
+  Truck, 
+  ArrowRight, 
+  Mail, 
+  Lock, 
+  User, 
+  Sparkles 
+} from 'lucide-react';
+
 import { authAPI } from '../services/api';
+import { setCredentials } from '../store/slices/authSlice';
 import SEOHead from '../components/SEOHead';
 import Logo from '../components/Logo';
 
 const LoginPage = () => {
-  const [isLogin, setIsLogin] = useState(true);
-  const [role, setRole] = useState('shop'); // 'shop' or 'supplier'
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [isLogin, setIsLogin] = React.useState(true);
+  const [role, setRole] = React.useState('shop');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
+  const validationSchema = Yup.object({
+    email: Yup.string().email('Invalid email address').required('Email is required'),
+    password: Yup.string().min(6, 'Must be at least 6 characters').required('Password is required'),
+    name: isLogin ? Yup.string() : Yup.string().required('Name is required'),
+  });
 
-    try {
-      let res;
-      if (isLogin) {
-        res = await authAPI.login({ email, password, role });
-      } else {
-        res = await authAPI.signup({ email, password, role, name });
-      }
-
-      if (res.data.status === 'success') {
-        const { token, data } = res.data;
-        const user = data.user;
-
-        localStorage.setItem('authToken', token);
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('userRole', user.role);
-        localStorage.setItem('onboardingComplete', user.onboardingComplete ? 'true' : 'false');
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+      name: '',
+    },
+    validationSchema,
+    onSubmit: async (values) => {
+      try {
+        let res;
+        const payload = { ...values, role };
         
-        window.dispatchEvent(new Event('auth-change'));
-
-        // New signups → onboarding; existing users → dashboard
-        if (!user.onboardingComplete) {
-          if (user.role === 'shop') {
-            navigate('/onboarding/shop');
-          } else {
-            navigate('/onboarding/supplier');
-          }
+        if (isLogin) {
+          res = await authAPI.login(payload);
         } else {
-          if (user.role === 'shop') {
-            navigate('/dashboard');
+          res = await authAPI.signup(payload);
+        }
+
+        if (res.data.status === 'success') {
+          const { token, data } = res.data;
+          const user = data.user;
+
+          dispatch(setCredentials({ user, token }));
+          toast.success(isLogin ? `Welcome back, ${user.name}!` : "Account created successfully!");
+          
+          window.dispatchEvent(new Event('auth-change'));
+
+          if (!user.onboardingComplete) {
+            navigate(user.role === 'shop' ? '/onboarding/shop' : '/onboarding/supplier');
           } else {
-            navigate('/supplier/dashboard');
+            navigate(user.role === 'shop' ? '/dashboard' : '/supplier/dashboard');
           }
         }
+      } catch (err) {
+        const msg = err.response?.data?.message || err.message || 'Authentication failed';
+        toast.error(msg);
       }
-    } catch (err) {
-      setError(err.response?.data?.message || err.message || 'Authentication failed');
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+  });
 
   const fadeUp = {
     hidden: { opacity: 0, y: 20 },
@@ -75,10 +85,10 @@ const LoginPage = () => {
         path="/login"
       />
 
-      {/* ─── Left Side: Cinematic Narrative ─── */}
+      {/* ─── Left Side: Narrative ─── */}
       <div className="hidden lg:flex w-[40%] bg-text relative overflow-hidden flex-col justify-between p-16">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent mix-blend-overlay"></div>
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] -mr-48 -mt-48"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent mix-blend-overlay" />
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] -mr-48 -mt-48" />
         
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
@@ -102,7 +112,7 @@ const LoginPage = () => {
             transition={{ delay: 0.2 }}
             className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full border border-white/10 bg-white/5 text-primary text-[10px] font-bold uppercase tracking-[0.3em]"
           >
-            <Sparkles size={14} /> System v2.0.4 Active
+            <Sparkles size={14} /> System v2.0.5 Active
           </motion.div>
           <motion.h2 
             initial={{ opacity: 0, y: 30 }}
@@ -120,7 +130,7 @@ const LoginPage = () => {
             transition={{ delay: 0.4 }}
             className="text-white/40 text-sm font-medium leading-relaxed max-w-sm italic"
           >
-            Enter your credentials to access the world's most refined supply chain ecosystem. Precision in every pixel, speed in every shipment.
+            Access the world's most refined supply chain ecosystem. Precision in every pixel, speed in every shipment.
           </motion.p>
         </div>
 
@@ -141,11 +151,10 @@ const LoginPage = () => {
         </motion.div>
       </div>
 
-      {/* ─── Right Side: Elegant Auth Flow ─── */}
+      {/* ─── Right Side: Auth Flow ─── */}
       <div className="w-full lg:w-[60%] flex flex-col items-center justify-center p-8 md:p-20 bg-[#FDFCFB] relative">
-        {/* Subtle Decorative Elements */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[100px] -mr-48 -mt-48"></div>
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-text/5 rounded-full blur-[80px] -ml-32 -mb-32"></div>
+        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[100px] -mr-48 -mt-48" />
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-text/5 rounded-full blur-[80px] -ml-32 -mb-32" />
 
         <motion.div 
           initial="hidden"
@@ -164,11 +173,11 @@ const LoginPage = () => {
             </motion.p>
           </div>
 
-          {/* Role Switcher */}
           <motion.div variants={fadeUp} className="space-y-4">
             <label className="text-[10px] font-black tracking-[0.3em] text-text/70 uppercase">Select Portal</label>
             <div className="grid grid-cols-2 gap-4 p-1.5 bg-background rounded-[24px] border border-text/5">
               <button
+                type="button"
                 onClick={() => setRole('shop')}
                 className={`flex items-center justify-center gap-3 py-4 rounded-[20px] text-[10px] font-black uppercase tracking-widest transition-all duration-500 ${
                   role === 'shop' 
@@ -179,6 +188,7 @@ const LoginPage = () => {
                 <Store size={14} className={role === 'shop' ? 'text-primary' : ''} /> Shop Owner
               </button>
               <button
+                type="button"
                 onClick={() => setRole('supplier')}
                 className={`flex items-center justify-center gap-3 py-4 rounded-[20px] text-[10px] font-black uppercase tracking-widest transition-all duration-500 ${
                   role === 'supplier' 
@@ -191,63 +201,55 @@ const LoginPage = () => {
             </div>
           </motion.div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <AnimatePresence mode="wait">
-              {error && (
-                <motion.div 
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  className="p-4 rounded-2xl bg-red-50 border border-red-100 text-red-600 text-xs font-bold flex items-center gap-3"
-                >
-                  <div className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />
-                  {error}
-                </motion.div>
-              )}
-            </AnimatePresence>
-
+          <form onSubmit={formik.handleSubmit} className="space-y-6">
             <div className="space-y-6">
               {!isLogin && (
                 <motion.div variants={fadeUp} className="relative group">
-                  <User className="absolute left-6 top-1/2 -translate-y-1/2 text-text/20 group-focus-within:text-primary transition-colors" size={18} />
+                  <User className={`absolute left-6 top-1/2 -translate-y-1/2 transition-colors ${formik.errors.name && formik.touched.name ? 'text-red-500' : 'text-text/20 group-focus-within:text-primary'}`} size={18} />
                   <input
+                    name="name"
                     type="text"
-                    required={!isLogin}
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.name}
                     placeholder="FULL NAME"
-                    className="w-full bg-background border border-transparent rounded-[20px] py-5 pl-16 pr-6 text-xs font-bold text-text placeholder:text-text/20 outline-none transition-all focus:bg-white focus:border-primary/20"
+                    className={`w-full bg-background border rounded-[20px] py-5 pl-16 pr-6 text-xs font-bold text-text placeholder:text-text/20 outline-none transition-all focus:bg-white ${formik.errors.name && formik.touched.name ? 'border-red-500' : 'border-transparent focus:border-primary/20'}`}
                   />
+                  {formik.errors.name && formik.touched.name && (
+                    <span className="absolute -bottom-5 left-2 text-[9px] font-bold text-red-500 uppercase tracking-widest">{formik.errors.name}</span>
+                  )}
                 </motion.div>
               )}
 
               <motion.div variants={fadeUp} className="relative group">
-                <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-text/20 group-focus-within:text-primary transition-colors" size={18} />
+                <Mail className={`absolute left-6 top-1/2 -translate-y-1/2 transition-colors ${formik.errors.email && formik.touched.email ? 'text-red-500' : 'text-text/20 group-focus-within:text-primary'}`} size={18} />
                 <input
+                  name="email"
                   type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.email}
                   placeholder="EMAIL ADDRESS"
-                  className="w-full bg-background border border-transparent rounded-[20px] py-5 pl-16 pr-6 text-xs font-bold text-text placeholder:text-text/20 outline-none transition-all focus:bg-white focus:border-primary/20"
+                  className={`w-full bg-background border rounded-[20px] py-5 pl-16 pr-6 text-xs font-bold text-text placeholder:text-text/20 outline-none transition-all focus:bg-white ${formik.errors.email && formik.touched.email ? 'border-red-500' : 'border-transparent focus:border-primary/20'}`}
                 />
+                {formik.errors.email && formik.touched.email && (
+                  <span className="absolute -bottom-5 left-2 text-[9px] font-bold text-red-500 uppercase tracking-widest">{formik.errors.email}</span>
+                )}
               </motion.div>
 
               <motion.div variants={fadeUp} className="relative group">
-                <Lock className="absolute left-6 top-1/2 -translate-y-1/2 text-text/20 group-focus-within:text-primary transition-colors" size={18} />
+                <Lock className={`absolute left-6 top-1/2 -translate-y-1/2 transition-colors ${formik.errors.password && formik.touched.password ? 'text-red-500' : 'text-text/20 group-focus-within:text-primary'}`} size={18} />
                 <input
+                  name="password"
                   type="password"
-                  required
-                  minLength={6}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.password}
                   placeholder="PASSWORD"
-                  className="w-full bg-background border border-transparent rounded-[20px] py-5 pl-16 pr-6 text-xs font-bold text-text placeholder:text-text/20 outline-none transition-all focus:bg-white focus:border-primary/20"
+                  className={`w-full bg-background border rounded-[20px] py-5 pl-16 pr-6 text-xs font-bold text-text placeholder:text-text/20 outline-none transition-all focus:bg-white ${formik.errors.password && formik.touched.password ? 'border-red-500' : 'border-transparent focus:border-primary/20'}`}
                 />
-                {isLogin && (
-                  <button type="button" className="absolute right-6 top-1/2 -translate-y-1/2 text-[9px] font-black text-primary uppercase tracking-widest hover:text-text transition-colors">
-                    Reset
-                  </button>
+                {formik.errors.password && formik.touched.password && (
+                  <span className="absolute -bottom-5 left-2 text-[9px] font-bold text-red-500 uppercase tracking-widest">{formik.errors.password}</span>
                 )}
               </motion.div>
             </div>
@@ -255,40 +257,31 @@ const LoginPage = () => {
             <motion.button
               variants={fadeUp}
               type="submit"
-              disabled={loading}
-              className="w-full bg-text text-white py-6 rounded-[24px] font-black text-[11px] uppercase tracking-[0.3em] flex items-center justify-center gap-4 hover:bg-primary transition-all duration-500 shadow-2xl shadow-text/10 disabled:opacity-50 group"
+              disabled={formik.isSubmitting}
+              className="w-full bg-text text-white py-6 rounded-[24px] font-black text-[11px] uppercase tracking-[0.3em] flex items-center justify-center gap-4 hover:bg-primary transition-all duration-500 shadow-2xl shadow-text/10 disabled:opacity-50 group mt-8"
             >
-              {loading ? 'Authenticating...' : (isLogin ? 'Enter The Portal' : 'Create Account')}
+              {formik.isSubmitting ? 'Authenticating...' : (isLogin ? 'Enter The Portal' : 'Create Account')}
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </motion.button>
           </form>
 
           <motion.div variants={fadeUp} className="pt-6 flex flex-col items-center gap-8">
             <button
+              type="button"
               onClick={() => {
                 setIsLogin(!isLogin);
-                setError(null);
+                formik.resetForm();
               }}
               className="text-[10px] font-black uppercase tracking-[0.2em] text-text/70 hover:text-text transition-colors"
             >
               {isLogin ? "New to the system? Sign Up" : 'Returning user? Log In'}
             </button>
-
-            <div className="flex items-center gap-8 text-[9px] font-bold text-text/20 uppercase tracking-widest">
-              <a href="#" className="hover:text-text/70 transition-colors">Privacy</a>
-              <div className="w-1 h-1 rounded-full bg-text/10" />
-              <a href="#" className="hover:text-text/70 transition-colors">Security</a>
-              <div className="w-1 h-1 rounded-full bg-text/10" />
-              <a href="#" className="hover:text-text/70 transition-colors">Support</a>
-            </div>
           </motion.div>
         </motion.div>
       </div>
 
       <style dangerouslySetInnerHTML={{ __html: `
-        .serif {
-          font-family: "Playfair Display", serif;
-        }
+        .serif { font-family: "Playfair Display", serif; }
       ` }} />
     </div>
   );

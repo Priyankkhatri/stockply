@@ -1,9 +1,11 @@
-import React, { Suspense, lazy } from "react";
+import React, { Suspense, lazy, useEffect } from "react";
 import { motion } from "framer-motion";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { SupplierProvider } from "./context/SupplierContext";
 import { ShopProvider } from "./context/ShopContext";
 import DashboardLayout from "./layouts/DashboardLayout";
+import { trackPageView, initGA } from './utils/analytics';
+import { useAuth } from './hooks/useAuth';
 
 // Lazy load pages for performance
 const LandingPage = lazy(() => import("./pages/LandingPage"));
@@ -46,7 +48,7 @@ const PageLoader = () => (
       
       <div className="space-y-4 text-center">
         <div className="space-y-1">
-          <p className="text-[11px] font-black uppercase tracking-[0.5em] text-text">Stockply <span className="text-primary italic font-normal serif lowercase">v2.0</span></p>
+          <p className="text-[11px] font-black uppercase tracking-[0.5em] text-text">Stockply <span className="text-primary italic font-normal serif lowercase">v2.1</span></p>
           <p className="text-[9px] font-bold text-text/70 uppercase tracking-[0.3em]">Synchronizing Assets</p>
         </div>
         
@@ -63,48 +65,47 @@ const PageLoader = () => (
   </div>
 );
 
-const getSession = () => ({
-  isLoggedIn: localStorage.getItem("isLoggedIn") === "true",
-  role: localStorage.getItem("userRole") === "supplier" ? "supplier" : "shop",
-});
-
-const getHomePath = (role) => (role === "supplier" ? "/supplier/dashboard" : "/dashboard");
-
 const RequireSession = ({ role, children }) => {
-  const session = getSession();
+  const { isLoggedIn, role: userRole } = useAuth();
+  const getHomePath = (r) => (r === "supplier" ? "/supplier/dashboard" : "/dashboard");
 
-  if (!session.isLoggedIn) {
+  if (!isLoggedIn) {
     return <Navigate to="/login" replace />;
   }
 
-  if (role && session.role !== role) {
-    return <Navigate to={getHomePath(session.role)} replace />;
+  if (role && userRole !== role) {
+    return <Navigate to={getHomePath(userRole)} replace />;
   }
 
   return children;
 };
 
 const HomeRoute = () => {
-  const session = getSession();
+  const { isLoggedIn, role: userRole } = useAuth();
+  const getHomePath = (r) => (r === "supplier" ? "/supplier/dashboard" : "/dashboard");
 
-  if (!session.isLoggedIn) {
+  if (!isLoggedIn) {
     return <Navigate to="/login" replace />;
   }
 
-  return <Navigate to={getHomePath(session.role)} replace />;
+  return <Navigate to={getHomePath(userRole)} replace />;
 };
 
-import { HelmetProvider } from 'react-helmet-async';
-
 function App() {
-  const session = getSession();
+  const location = useLocation();
+
+  useEffect(() => {
+    initGA('G-STOCKPLY2026');
+  }, []);
+
+  useEffect(() => {
+    trackPageView(location.pathname + location.search);
+  }, [location]);
 
   return (
-    <HelmetProvider>
-      <ShopProvider>
-        <SupplierProvider>
-          <Router>
-            <Suspense fallback={<PageLoader />}>
+    <ShopProvider>
+      <SupplierProvider>
+        <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
@@ -202,7 +203,7 @@ function App() {
               path="/support"
               element={
                 <RequireSession>
-                  <DashboardLayout role={session.role}>
+                  <DashboardLayout role={localStorage.getItem('userRole')}>
                     <SupportPage />
                   </DashboardLayout>
                 </RequireSession>
@@ -293,12 +294,9 @@ function App() {
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
-      </Router>
       </SupplierProvider>
     </ShopProvider>
-    </HelmetProvider>
   );
 }
-
 
 export default App;

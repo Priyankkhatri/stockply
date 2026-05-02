@@ -25,6 +25,7 @@ import { useSupplier } from '../context/SupplierContext';
 import StatusBadge from '../components/StatusBadge';
 import GlassCard from '../components/GlassCard';
 import PremiumButton from '../components/PremiumButton';
+import Skeleton, { TableSkeleton, CardSkeleton } from '../components/Skeleton';
 
 const container = {
   hidden: { opacity: 0 },
@@ -35,6 +36,25 @@ const rowAnim = {
   hidden: { opacity: 0, x: -10 },
   show: { opacity: 1, x: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } }
 };
+
+const InventorySkeleton = () => (
+  <div className="space-y-10">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+      {[...Array(3)].map((_, i) => (
+        <GlassCard key={i} className="p-6 flex items-center gap-5">
+          <Skeleton width={48} height={48} className="rounded-2xl" />
+          <div className="flex-1">
+            <Skeleton width="40%" height={10} className="mb-2" />
+            <Skeleton width="60%" height={24} />
+          </div>
+        </GlassCard>
+      ))}
+    </div>
+    <div className="bg-white rounded-[40px] border border-text/5 shadow-premium overflow-hidden">
+      <TableSkeleton rows={8} />
+    </div>
+  </div>
+);
 
 const SupplierProductDetailPanel = ({ product, onClose, onUpdateStock }) => {
   const [adjustmentValue, setAdjustmentValue] = useState(1);
@@ -227,8 +247,12 @@ export default function SupplierInventoryPage() {
   };
 
   if (loading) return (
-    <div className="flex items-center justify-center h-96">
-      <div className="w-8 h-8 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
+    <div className="max-w-[1600px] mx-auto px-4 md:px-8 py-10">
+      <div className="mb-12 space-y-4">
+        <Skeleton width={200} height={12} />
+        <Skeleton width={300} height={48} />
+      </div>
+      <InventorySkeleton />
     </div>
   );
 

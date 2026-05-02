@@ -1,6 +1,9 @@
 import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import toast from 'react-hot-toast';
 import { 
   ChevronDown, 
   Plus, 
@@ -22,6 +25,7 @@ import StatusBadge from '../components/StatusBadge';
 import ProductDetailPanel from '../components/ProductDetailPanel';
 import PremiumButton from '../components/PremiumButton';
 import GlassCard from '../components/GlassCard';
+import { TableSkeleton, CardSkeleton } from '../components/Skeleton';
 
 const container = {
   hidden: { opacity: 0 },
@@ -40,33 +44,36 @@ const InventoryPage = () => {
   const [searchTerm, setSearchTerm] = useState(location.state?.searchQuery || '');
   const [activeStatus, setActiveStatus] = useState(location.state?.filter || 'All');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [addLoading, setAddLoading] = useState(false);
-  const [newProduct, setNewProduct] = useState({
-    name: '', sku: '', category: 'General', supplier: '', price: '', stock: ''
-  });
 
-  // ─── Add Product via Context ────────────────────────────────────
-  const handleAddProduct = async (e) => {
-    e.preventDefault();
-    setAddLoading(true);
-    try {
-      const payload = {
-        name: newProduct.name,
-        sku: newProduct.sku || `SKU-${Date.now()}`,
-        category: newProduct.category,
-        supplier: newProduct.supplier,
-        price: parseFloat(newProduct.price) || 0,
-        stock: parseInt(newProduct.stock) || 0,
-      };
-      await addProduct(payload);
-      setIsAddModalOpen(false);
-      setNewProduct({ name: '', sku: '', category: 'General', supplier: '', price: '', stock: '' });
-    } catch (err) {
-      alert(err.response?.data?.message || 'Failed to create product');
-    } finally {
-      setAddLoading(false);
-    }
-  };
+  // ─── Add Product via Formik ────────────────────────────────────
+  const formik = useFormik({
+    initialValues: {
+      name: '', sku: '', category: 'General', supplier: '', price: '', stock: ''
+    },
+    validationSchema: Yup.object({
+      name: Yup.string().required('Product name is required'),
+      price: Yup.number().required('Price is required').min(0, 'Must be positive'),
+      stock: Yup.number().required('Initial stock is required').min(0, 'Must be positive'),
+    }),
+    onSubmit: async (values, { resetForm, setSubmitting }) => {
+      try {
+        const payload = {
+          ...values,
+          sku: values.sku || `SKU-${Date.now()}`,
+          price: parseFloat(values.price),
+          stock: parseInt(values.stock),
+        };
+        await addProduct(payload);
+        toast.success(`${values.name} integrated into ledger.`);
+        setIsAddModalOpen(false);
+        resetForm();
+      } catch (err) {
+        toast.error(err.response?.data?.message || 'Failed to create product');
+      } finally {
+        setSubmitting(false);
+      }
+    },
+  });
 
   // ─── Filter & Search ────────────────────────────────────────
   const visibleProducts = useMemo(() => {
@@ -201,11 +208,10 @@ const InventoryPage = () => {
 
       {/* ─── Main Ledger ─── */}
       <div className="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-6 sm:gap-10 items-start">
-        <motion.div variants={rowAnim} className="bg-white rounded-[28px] sm:rounded-[40px] border border-text/5 shadow-premium overflow-hidden">
+        <motion.div variants={rowAnim} className="bg-white rounded-[28px] sm:rounded-[40px] border border-text/5 shadow-premium overflow-hidden min-h-[400px]">
           {loading ? (
-            <div className="flex flex-col items-center justify-center py-32 text-center">
-              <Loader2 size={32} className="animate-spin text-primary mb-4" />
-              <p className="text-[10px] font-black text-text/70 uppercase tracking-widest">Loading inventory...</p>
+            <div className="p-8">
+              <TableSkeleton rows={8} />
             </div>
           ) : visibleProducts.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-32 text-center px-8">
@@ -302,7 +308,9 @@ const InventoryPage = () => {
 
         {/* ─── Detail Panel ─── */}
         <AnimatePresence mode="wait">
-          {selectedProduct ? (
+          {loading ? (
+             <CardSkeleton />
+          ) : selectedProduct ? (
             <motion.div 
               key={selectedProduct._id}
               initial={{ opacity: 0, x: 20 }}
@@ -341,6 +349,7 @@ const InventoryPage = () => {
           )}
         </AnimatePresence>
       </div>
+
       {/* ─── Add Product Modal ─── */}
       <AnimatePresence>
         {isAddModalOpen && (
@@ -368,25 +377,28 @@ const InventoryPage = () => {
                 </button>
               </div>
 
-              <form onSubmit={handleAddProduct} className="p-10 space-y-8">
+              <form onSubmit={formik.handleSubmit} className="p-10 space-y-8">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                   <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-text/70 ml-1">Asset Name</label>
                     <input 
-                      required
+                      name="name"
                       type="text" 
-                      value={newProduct.name}
-                      onChange={(e) => setNewProduct({...newProduct, name: e.target.value})}
-                      className="w-full bg-background border border-text/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all" 
+                      value={formik.values.name}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      className={`w-full bg-background border ${formik.touched.name && formik.errors.name ? 'border-red-500' : 'border-text/5'} rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all`} 
                       placeholder="e.g. Paracetamol 500mg" 
                     />
+                    {formik.touched.name && formik.errors.name && <p className="text-[10px] text-red-500 font-bold uppercase ml-1">{formik.errors.name}</p>}
                   </div>
                   <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-text/70 ml-1">SKU Code</label>
                     <input 
+                      name="sku"
                       type="text" 
-                      value={newProduct.sku}
-                      onChange={(e) => setNewProduct({...newProduct, sku: e.target.value})}
+                      value={formik.values.sku}
+                      onChange={formik.handleChange}
                       className="w-full bg-background border border-text/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all" 
                       placeholder="Auto-generated if empty" 
                     />
@@ -397,9 +409,10 @@ const InventoryPage = () => {
                   <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-text/70 ml-1">Category</label>
                     <input 
+                      name="category"
                       type="text"
-                      value={newProduct.category}
-                      onChange={(e) => setNewProduct({...newProduct, category: e.target.value})}
+                      value={formik.values.category}
+                      onChange={formik.handleChange}
                       className="w-full bg-background border border-text/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all" 
                       placeholder="e.g. Analgesics" 
                     />
@@ -407,9 +420,10 @@ const InventoryPage = () => {
                   <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-text/70 ml-1">Supplier</label>
                     <input 
+                      name="supplier"
                       type="text"
-                      value={newProduct.supplier}
-                      onChange={(e) => setNewProduct({...newProduct, supplier: e.target.value})}
+                      value={formik.values.supplier}
+                      onChange={formik.handleChange}
                       className="w-full bg-background border border-text/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all" 
                       placeholder="e.g. PharmaCorp Inc." 
                     />
@@ -420,23 +434,26 @@ const InventoryPage = () => {
                   <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-text/70 ml-1">Unit Price (Rs.)</label>
                     <input 
-                      required
+                      name="price"
                       type="number" 
                       step="0.01"
-                      value={newProduct.price}
-                      onChange={(e) => setNewProduct({...newProduct, price: e.target.value})}
-                      className="w-full bg-background border border-text/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all" 
+                      value={formik.values.price}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      className={`w-full bg-background border ${formik.touched.price && formik.errors.price ? 'border-red-500' : 'border-text/5'} rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all`} 
                       placeholder="4.50" 
                     />
                   </div>
                   <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-text/70 ml-1">Initial Stock</label>
                     <input 
+                      name="stock"
                       type="number" 
                       min="0"
-                      value={newProduct.stock}
-                      onChange={(e) => setNewProduct({...newProduct, stock: e.target.value})}
-                      className="w-full bg-background border border-text/5 rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all" 
+                      value={formik.values.stock}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      className={`w-full bg-background border ${formik.touched.stock && formik.errors.stock ? 'border-red-500' : 'border-text/5'} rounded-2xl p-4 text-sm font-bold focus:outline-none focus:border-primary/20 transition-all`} 
                       placeholder="0" 
                     />
                   </div>
@@ -445,10 +462,10 @@ const InventoryPage = () => {
                 <div className="pt-6">
                   <button 
                     type="submit"
-                    disabled={addLoading}
+                    disabled={formik.isSubmitting}
                     className="w-full py-6 bg-text text-white rounded-[24px] font-black text-[11px] uppercase tracking-[0.3em] shadow-2xl shadow-text/20 hover:bg-primary transition-all disabled:opacity-50 flex items-center justify-center gap-3"
                   >
-                    {addLoading ? (
+                    {formik.isSubmitting ? (
                       <>
                         <Loader2 size={18} className="animate-spin" /> Registering...
                       </>

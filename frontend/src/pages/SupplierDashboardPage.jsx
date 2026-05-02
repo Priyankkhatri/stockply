@@ -18,6 +18,7 @@ import { useSupplier } from '../context/SupplierContext';
 import PageHeader from '../components/PageHeader';
 import PremiumButton from '../components/PremiumButton';
 import GlassCard from '../components/GlassCard';
+import Skeleton, { CardSkeleton, TableSkeleton } from '../components/Skeleton';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -53,6 +54,20 @@ const StatCard = ({ title, value, icon: Icon, trend, trendValue, colorClass }) =
   </motion.div>
 );
 
+const KPISkeleton = () => (
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 mb-12">
+    {[...Array(4)].map((_, i) => (
+      <GlassCard key={i} className="p-8 space-y-4">
+        <Skeleton width={56} height={56} className="rounded-2xl" />
+        <div>
+          <Skeleton width={80} height={12} className="mb-2" />
+          <Skeleton width={120} height={32} />
+        </div>
+      </GlassCard>
+    ))}
+  </div>
+);
+
 const SupplierDashboardPage = () => {
   const navigate = useNavigate();
   const { products, orders, partners, loading, analytics } = useSupplier();
@@ -69,17 +84,6 @@ const SupplierDashboardPage = () => {
   );
 
   const activeOrdersCount = stats.activeOrders ?? orders.filter(o => o.status === 'Pending' || o.status === 'Processing').length;
-
-  if (loading) {
-    return (
-      <div className="flex h-[80vh] items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-          <p className="text-[10px] font-black uppercase tracking-widest text-text/80">Syncing Intelligence...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="max-w-[1600px] mx-auto px-4 sm:px-10 pb-12 pt-6 sm:pt-10">
@@ -123,40 +127,44 @@ const SupplierDashboardPage = () => {
         animate="show"
       >
         {/* KPI Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 mb-12">
-          <StatCard
-            title="Total Revenue"
-            value={`₹ ${(stats.totalRevenue || 0).toLocaleString()}`}
-            icon={IndianRupee}
-            trend="up"
-            trendValue={growth.revenue || "0%"}
-            colorClass="bg-amber-500 text-amber-500"
-          />
-          <StatCard
-            title="Active Orders"
-            value={activeOrdersCount}
-            icon={ShoppingCart}
-            trend="up"
-            trendValue={growth.orders || "0%"}
-            colorClass="bg-teal-500 text-teal-500"
-          />
-          <StatCard
-            title="Stock Items"
-            value={stats.totalProducts ?? products.length}
-            icon={Package}
-            trend="down"
-            trendValue={growth.stock || "0%"}
-            colorClass="bg-blue-500 text-blue-500"
-          />
-          <StatCard
-            title="Retail Partners"
-            value={partners.length}
-            icon={Users}
-            trend="up"
-            trendValue={growth.partners || "0%"}
-            colorClass="bg-purple-500 text-purple-500"
-          />
-        </div>
+        {loading ? (
+          <KPISkeleton />
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 mb-12">
+            <StatCard
+              title="Total Revenue"
+              value={`₹ ${(stats.totalRevenue || 0).toLocaleString()}`}
+              icon={IndianRupee}
+              trend="up"
+              trendValue={growth.revenue || "0%"}
+              colorClass="bg-amber-500 text-amber-500"
+            />
+            <StatCard
+              title="Active Orders"
+              value={activeOrdersCount}
+              icon={ShoppingCart}
+              trend="up"
+              trendValue={growth.orders || "0%"}
+              colorClass="bg-teal-500 text-teal-500"
+            />
+            <StatCard
+              title="Stock Items"
+              value={stats.totalProducts ?? products.length}
+              icon={Package}
+              trend="down"
+              trendValue={growth.stock || "0%"}
+              colorClass="bg-blue-500 text-blue-500"
+            />
+            <StatCard
+              title="Retail Partners"
+              value={partners.length}
+              icon={Users}
+              trend="up"
+              trendValue={growth.partners || "0%"}
+              colorClass="bg-purple-500 text-purple-500"
+            />
+          </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-10 mb-12">
           {/* Left column */}
@@ -173,17 +181,21 @@ const SupplierDashboardPage = () => {
                     <ArrowUpRight size={14} strokeWidth={3} /> {growth.orders || "0%"}
                   </div>
                 </div>
-                <div className="h-48 flex items-end justify-between gap-4 px-2">
-                  {trendData.map((data, i) => (
-                    <div key={i} className="flex-1 flex flex-col items-center gap-3 group">
-                      <div
-                        className={`w-full rounded-2xl transition-all duration-700 ${data.count > 0 ? 'bg-primary shadow-[0_0_20px_rgba(192,133,82,0.3)]' : 'bg-primary/10 group-hover:bg-primary/30'}`}
-                        style={{ height: `${Math.max(5, (data.count / (Math.max(...trendData.map(d => d.count)) || 1)) * 100)}%` }}
-                      />
-                      <span className="text-[10px] font-black uppercase tracking-widest text-text/70 group-hover:text-text transition-colors">{data.day}</span>
-                    </div>
-                  ))}
-                </div>
+                {loading ? (
+                  <Skeleton variant="rectangular" height={200} className="rounded-3xl" />
+                ) : (
+                  <div className="h-48 flex items-end justify-between gap-4 px-2">
+                    {trendData.map((data, i) => (
+                      <div key={i} className="flex-1 flex flex-col items-center gap-3 group">
+                        <div
+                          className={`w-full rounded-2xl transition-all duration-700 ${data.count > 0 ? 'bg-primary shadow-[0_0_20px_rgba(192,133,82,0.3)]' : 'bg-primary/10 group-hover:bg-primary/30'}`}
+                          style={{ height: `${Math.max(5, (data.count / (Math.max(...trendData.map(d => d.count)) || 1)) * 100)}%` }}
+                        />
+                        <span className="text-[10px] font-black uppercase tracking-widest text-text/70 group-hover:text-text transition-colors">{data.day}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </GlassCard>
             </motion.div>
 
@@ -201,7 +213,9 @@ const SupplierDashboardPage = () => {
                 </div>
 
                 <div className="space-y-3">
-                  {orders && orders.length > 0 ? (
+                  {loading ? (
+                    <TableSkeleton rows={3} />
+                  ) : orders && orders.length > 0 ? (
                     orders.slice(0, 5).map((order) => (
                       <div
                         key={order._id}
@@ -285,7 +299,9 @@ const SupplierDashboardPage = () => {
                 </div>
 
                 <div className="space-y-4">
-                  {lowStockItems.length > 0 ? (
+                  {loading ? (
+                    <TableSkeleton rows={2} />
+                  ) : lowStockItems.length > 0 ? (
                     lowStockItems.map((item) => (
                       <div
                         key={item._id}

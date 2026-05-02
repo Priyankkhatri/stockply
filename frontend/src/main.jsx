@@ -4,10 +4,32 @@ import { HelmetProvider } from 'react-helmet-async'
 import './index.css'
 import App from './App.jsx'
 
+import { Provider } from 'react-redux';
+import { Toaster } from 'react-hot-toast';
+import store from './store';
+import ErrorBoundary from './components/ErrorBoundary';
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <HelmetProvider>
-      <App />
-    </HelmetProvider>
+    <ErrorBoundary>
+      <Provider store={store}>
+        <HelmetProvider>
+          <App />
+          <Toaster 
+            position="bottom-right"
+            toastOptions={{
+              style: {
+                background: '#2B2B2B',
+                color: '#FFFFFF',
+                borderRadius: '16px',
+                fontSize: '12px',
+                fontWeight: 'bold',
+                padding: '16px 24px',
+              },
+            }}
+          />
+        </HelmetProvider>
+      </Provider>
+    </ErrorBoundary>
   </StrictMode>,
 )
