@@ -5,7 +5,7 @@
 [![Figma Design](https://img.shields.io/badge/Figma-Design-F24E1E?logo=figma)](https://www.figma.com/design/QrKMtDP4QTgr966N20zdOV/Untitled?node-id=0-1&t=7mfRi0p7h7UuW9fN-1)
 [![Live Demo](https://img.shields.io/badge/Live-Demo-black?logo=vercel)](https://stockply.vercel.app)
 [![Backend API](https://img.shields.io/badge/Backend-API-46E3B7?logo=render)](https://stockply-backend.onrender.com/api/v1)
-[![Postman Collection](https://img.shields.io/badge/Postman-Collection-FF6C37?logo=postman)](./stockply_postman_collection.json)
+[![Postman Docs](https://img.shields.io/badge/Postman-Docs-FF6C37?logo=postman)](https://documenter.getpostman.com/view/50839274/2sBXqKof1A)
 [![YouTube Demo](https://img.shields.io/badge/YouTube-Demo-FF0000?logo=youtube)](https://youtube.com/watch?v=placeholder)
 
 ---
@@ -132,9 +132,9 @@ stockply/
 
 The API is fully documented via a Postman Collection. 
 
-1.  **Import**: Load the `stockply_postman_collection.json` (found in the root) into your Postman workspace.
-2.  **Environment**: Set the `base_url` variable to `https://stockply-backend.onrender.com/api/v1`.
-3.  **Auth**: Use the `/auth/login` endpoint to receive a JWT, then set it as the `token` variable for protected routes.
+1.  **Access**: Visit the [Official API Documentation](https://documenter.getpostman.com/view/50839274/2sBXqKof1A).
+2.  **Environment**: The collection is pre-configured with the production base URL: `https://stockply-backend.onrender.com/api/v1`.
+3.  **Auth**: Use the `/auth/login` endpoint to receive a JWT, then set it as the `token` variable in your Postman environment.
 
 ---
 
