@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 
-const BASE_URL = 'https://stockply.io'; // Assuming stockply.io or similar, user can update
+const BASE_URL = 'https://stockply.vercel.app';
 
 const SEOHead = ({
   title = 'Stockply — Supply Chain Clarity, Beautifully Delivered',

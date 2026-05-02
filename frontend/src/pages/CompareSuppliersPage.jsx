@@ -17,6 +17,7 @@ import {
 import Logo from "../components/Logo";
 import GlassCard from "../components/GlassCard";
 import PremiumButton from "../components/PremiumButton";
+import SEOHead from "../components/SEOHead";
 
 const XCircle = ({ size, className }) => (
   <XCircleIcon size={size} className={className} strokeWidth={2.5} />
@@ -89,6 +90,11 @@ export default function CompareSuppliersPage() {
       variants={containerVariants}
       className="max-w-[1600px] mx-auto px-6 py-10"
     >
+      <SEOHead 
+        title="Supplier Comparison Engine" 
+        description="Optimize your procurement by comparing suppliers on price, reliability, and lead time using intelligent matrix analysis." 
+        path="/dashboard/compare" 
+      />
       {/* ─── Header Section ─── */}
       <motion.div variants={itemVariants} className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-8">
         <div className="space-y-1">

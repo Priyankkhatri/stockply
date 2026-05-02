@@ -19,6 +19,9 @@ import { useShop } from '../context/ShopContext';
 import GlassCard from '../components/GlassCard';
 import StatCard from '../components/StatCard';
 import StatusBadge from '../components/StatusBadge';
+import SEOHead from '../components/SEOHead';
+import PremiumButton from '../components/PremiumButton';
+import { AlertTriangle } from 'lucide-react';
 
 const container = {
   hidden: { opacity: 0 },
@@ -90,6 +93,11 @@ const DashboardHome = () => {
       variants={container}
       className="max-w-[1600px] mx-auto px-4 sm:px-6 py-6 sm:py-10"
     >
+      <SEOHead 
+        title="Command Center" 
+        description="Real-time inventory intelligence and strategic insights for your retail business." 
+        path="/dashboard" 
+      />
       {user && !user.onboardingComplete && (
         <motion.div
           variants={itemAnim}

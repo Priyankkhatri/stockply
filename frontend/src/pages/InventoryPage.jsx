@@ -26,6 +26,7 @@ import ProductDetailPanel from '../components/ProductDetailPanel';
 import PremiumButton from '../components/PremiumButton';
 import GlassCard from '../components/GlassCard';
 import { TableSkeleton, CardSkeleton } from '../components/Skeleton';
+import SEOHead from '../components/SEOHead';
 
 const container = {
   hidden: { opacity: 0 },
@@ -114,6 +115,11 @@ const InventoryPage = () => {
       variants={container}
       className="max-w-[1600px] mx-auto px-4 sm:px-6 py-6 sm:py-10"
     >
+      <SEOHead 
+        title="Inventory Ledger" 
+        description="Real-time tracking of stock levels, SKUs, and supply chain assets with precision data intelligence." 
+        path="/dashboard/inventory" 
+      />
       {/* ─── Header Section ─── */}
       <motion.div variants={rowAnim} className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 sm:mb-12 gap-6 sm:gap-8">
         <div className="space-y-1">

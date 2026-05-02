@@ -24,6 +24,7 @@ import StatusBadge from '../components/StatusBadge';
 import GlassCard from '../components/GlassCard';
 import { orderAPI } from '../services/api';
 import { useShop } from '../context/ShopContext';
+import SEOHead from '../components/SEOHead';
 
 const tabs = ['All Orders', 'Active', 'Completed', 'Cancelled'];
 
@@ -269,6 +270,11 @@ const OrdersPage = () => {
       variants={container}
       className="mx-auto max-w-[1600px] px-6 py-10 pb-16"
     >
+      <SEOHead 
+        title="Order Manifests" 
+        description="Track and manage purchase orders, fulfillment logistics, and supplier transactions in real-time." 
+        path="/dashboard/orders" 
+      />
       {/* ─── Header Section ─── */}
       <motion.div variants={rowAnim} className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-8">
         <div className="space-y-1">

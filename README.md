@@ -1,151 +1,146 @@
-<div align="center">
-
 # 📦 Stockply
 
 ### **The Digital Atelier for Supply Chain Excellence**
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Frontend-black?logo=vercel)](https://frontend-three-peach-97.vercel.app)
-[![Backend API](https://img.shields.io/badge/Backend%20API-Render-46E3B7?logo=render)](https://stockply-backend.onrender.com/health)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![React](https://img.shields.io/badge/React-18.2-blue?logo=react)](https://reactjs.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-Express-green?logo=node.js)](https://nodejs.org/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?logo=mongodb)](https://www.mongodb.com/)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+[![Figma Design](https://img.shields.io/badge/Figma-Design-F24E1E?logo=figma)](https://www.figma.com/design/QrKMtDP4QTgr966N20zdOV/Untitled?node-id=0-1&t=7mfRi0p7h7UuW9fN-1)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-black?logo=vercel)](https://stockply.vercel.app)
+[![Backend API](https://img.shields.io/badge/Backend-API-46E3B7?logo=render)](https://stockply-backend.onrender.com/api/v1)
+[![Postman Docs](https://img.shields.io/badge/Postman-Docs-FF6C37?logo=postman)](https://documenter.getpostman.com/view/placeholder)
+[![YouTube Demo](https://img.shields.io/badge/YouTube-Demo-FF0000?logo=youtube)](https://youtube.com/watch?v=placeholder)
 
 ---
 
-### 🌐 [Live App ↗](https://frontend-three-peach-97.vercel.app) &nbsp;|&nbsp; ⚙️ [Backend API ↗](https://stockply-backend.onrender.com/health) &nbsp;|&nbsp; 🎨 [Figma Design ↗](https://www.figma.com/design/QrKMtDP4QTgr966N20zdOV/Untitled?node-id=0-1&t=7mfRi0p7h7UuW9fN-1)
+## 🛑 Problem Statement
+
+In the current retail landscape, small to medium-sized shop owners often struggle with **opaque supply chains**, **unpredictable stockouts**, and **manual coordination** with suppliers. Existing inventory management systems are either overly complex, expensive, or lack real-time synchronization between the shop and the distributor. This leads to lost revenue, inefficient capital allocation, and fractured business relationships.
+
+## 💡 Solution
+
+**Stockply** is a high-fidelity, full-stack SaaS ecosystem that bridges the gap between retail shops and suppliers. By providing a unified "Digital Atelier," Stockply offers:
+- **Real-time Inventory Sync**: Instant visibility into stock levels across the supply chain.
+- **Smart Procurement**: Automated low-stock alerts and one-click purchase orders.
+- **Data-Driven Analytics**: Visualizing growth, trends, and reliability for both parties.
+- **Bespoke UI/UX**: A premium, minimalist interface that reduces cognitive load and enhances productivity.
 
 ---
 
-**Stockply** is a premium, full-stack supply chain ecosystem designed to redefine how shop owners and suppliers interact. Inspired by the "Digital Atelier" philosophy, it blends minimalist aesthetics with industrial-strength functionality backed by a live MongoDB Atlas database.
+## 🚀 Features
 
-[Explore Features](#-key-capabilities) • [Tech Stack](#-the-engine) • [Getting Started](#-launch-sequence) • [Design System](#-design-philosophy)
+### 🏢 Shop Owner Module
+- **Premium Inventory Ledger**: Track products with sub-second latency and intelligent categorization.
+- **Automated Alerts**: Real-time notifications for low-stock and out-of-stock items via WebSockets.
+- **Supplier Directory**: Search and connect with verified suppliers.
+- **Order Management**: Place and track orders with live status updates.
+- **Analytics Dashboard**: View total inventory value, low-stock distribution, and procurement history.
+- **Supplier Comparison Engine**: Compare partners based on price, reliability, and delivery speed.
 
-</div>
-
----
-
-## ✨ Why Stockply?
-
-In a world of cluttered, legacy inventory systems, **Stockply** stands out as a beacon of clarity. We believe that professional tools should be as delightful to use as they are powerful. Whether you are a boutique owner managing inventory or a large-scale supplier fulfilling thousands of orders, Stockply provides the precision you need with the beauty you deserve.
-
----
-
-## 🚀 Key Capabilities
-
-### 🏢 For Shop Owners
-> "Empowering retailers with data-driven precision."
-
-- **Intelligent Inventory Ledger**: Real-time tracking with smart categorisation and automated low-stock triggers.
-- **Supplier Comparison Engine**: Compare suppliers based on dynamic metrics: Price, Reliability, and Lead Time.
-- **Seamless Procurement**: One-click purchase orders with integrated tracking.
-
-### 🏭 For Suppliers
-> "Scale your distribution with cinematic efficiency."
-
-- **Partner Dashboard**: Manage all your shop clients from a single, high-fidelity portal.
-- **Advanced Fulfillment Analytics**: Visualize your supply performance with glowing, real-time data insights.
-- **High-Fidelity Mobile Experience**: Fully responsive card-based layouts for on-the-go inventory management.
-- **Bespoke Branding**: Standardized identity with consistent logo application and removal of boilerplate assets.
-- **Order Logistics**: Manage the entire lifecycle of an order from placement to delivery with live MongoDB persistence.
+### 🏭 Supplier Module
+- **Partner Portal**: Manage relationships with multiple retail shops from a single view.
+- **Advanced Fulfillment**: Process orders with a dedicated logistics workflow.
+- **Stock Management**: Maintain a catalog of products available for distribution.
+- **Client Analytics**: Track which partners are driving the most volume and identify growth opportunities.
+- **Real-time Notifications**: Get instant alerts when a new order is placed by a shop.
 
 ---
 
-## 🛠 The Engine
+## 🛠 Tech Stack
 
-Stockply is built on a modern, high-performance MERN stack designed for speed and scalability.
+**Frontend:**
+- **React 19 + Vite**: Modern, high-performance UI library and build tool.
+- **MUI (Material UI)**: Professional component library for high-fidelity layouts.
+- **Tailwind CSS 4**: Atomic styling for the "Digital Atelier" aesthetic.
+- **Framer Motion**: Hardware-accelerated micro-animations.
+- **Redux Toolkit**: Predictable state management for complex supply chain logic.
+- **Formik & Yup**: Robust form handling and schema-based validation.
 
-| Technology | Purpose |
-| :--- | :--- |
-| **React 18 + Vite** | UI Logic & Component Architecture |
-| **Tailwind CSS** | Atomic Styling & "Digital Atelier" Theme |
-| **Framer Motion** | Micro-animations & Transitions |
-| **Node.js + Express** | REST API Backend |
-| **MongoDB Atlas** | Cloud Database Persistence |
-| **Mongoose** | ODM & Schema Validation |
-| **Render** | Backend Hosting |
-| **Vercel** | Frontend Hosting with Auto-deploy |
+**Backend:**
+- **Node.js & Express**: Scalable server-side environment and RESTful API.
+- **MongoDB Atlas**: Cloud-native NoSQL database for real-time persistence.
+- **Socket.io**: Real-time bidirectional communication for instant notifications.
+- **Mongoose**: Elegant object modeling for Node.js.
+
+**DevOps:**
+- **Vercel**: Frontend deployment with edge-optimized delivery.
+- **Render**: Scalable backend hosting.
+- **Git/GitHub**: Version control with atomic commit workflows.
 
 ---
 
-## 📂 Architecture
+## 📂 Project Structure
 
 ```bash
 stockply/
-├── frontend/              # React + Vite frontend
+├── frontend/              # React + Vite frontend application
 │   ├── src/
-│   │   ├── components/    # Atomic UI elements (GlassCard, PremiumButton...)
-│   │   ├── context/       # Global state (SupplierContext)
+│   │   ├── components/    # Atomic UI elements (GlassCard, Skeletons, Navbar...)
+│   │   ├── context/       # Global React Context providers (Shop/Supplier)
+│   │   ├── hooks/         # Custom hooks (useSocket, useAuth)
 │   │   ├── layouts/       # Structural templates (DashboardLayout)
-│   │   ├── pages/         # Route-specific views
-│   │   └── services/      # API service layer (axios)
-│   └── vercel.json        # Vercel routing config
+│   │   ├── pages/         # Route-specific views (Inventory, Dashboard...)
+│   │   ├── services/      # Axios API service layer
+│   │   └── store/         # Redux state slices
+│   └── public/            # Static assets (Favicon, Logo)
 └── backend/               # Express REST API
-    └── src/
-        ├── controllers/   # Business logic
-        ├── models/        # Mongoose schemas
-        └── routes/        # Express routers
+    ├── src/
+    │   ├── controllers/   # Business logic and request handling
+    │   ├── models/        # Mongoose database schemas
+    │   ├── routes/        # Express route definitions
+    │   └── services/      # Core service logic (Socket, Auth)
+    └── server.js          # Main entry point
 ```
+
+---
+
+## 📸 Screenshots
+
+*(Add your high-quality screenshots here)*
+
+| Shop Dashboard | Supplier Inventory |
+| :---: | :---: |
+| ![Shop Dashboard](./screenshots/screenshot1.png) | ![Supplier Dashboard](./screenshots/screenshot2.png) |
+| :---: | :---: |
+| Shop Interface | Supplier Intelligence |
+
+| Inventory Control | System Analytics |
+| :---: | :---: |
+| ![Inventory](./screenshots/screenshot3.png) | ![Analytics](./screenshots/screenshot1.png) |
 
 ---
 
 ## 🛰 Launch Sequence
 
-Get Stockply running locally in minutes.
+1. **Clone & Enter**:
+   ```bash
+   git clone https://github.com/Priyankkhatri/stockply.git && cd stockply
+   ```
 
-### Prerequisites
-- Node.js >= 18
-- MongoDB (local or Atlas)
+2. **Setup Backend**:
+   ```bash
+   cd backend && npm install
+   # Configure .env with MONGODB_URI and JWT_SECRET
+   npm run dev
+   ```
 
-### 1. Clone & Enter
-```bash
-git clone https://github.com/Priyankkhatri/stockply.git && cd stockply
-```
-
-### 2. Setup Backend
-```bash
-cd backend
-npm install
-# Create .env file:
-echo "MONGODB_URI=your_mongodb_connection_string" > .env
-echo "PORT=5000" >> .env
-npm run dev
-```
-
-### 3. Setup Frontend
-```bash
-cd frontend
-npm install
-# Create .env.local file:
-echo "VITE_API_URL=http://localhost:5000/api/v1" > .env.local
-npm run dev
-```
-
-### 4. Open in Browser
-```
-http://localhost:5173
-```
-
-> **Test Credentials**: Any email + any password. Select your role (Shop Owner or Supplier).
+3. **Setup Frontend**:
+   ```bash
+   cd frontend && npm install
+   # Configure .env.local with VITE_API_URL
+   npm run dev
+   ```
 
 ---
 
-## 🎨 Design Philosophy: The Digital Atelier
+## 🎨 Design Philosophy: Atelier DS
 
-Stockply isn't just an app; it's a workspace. Our design system, **Atelier DS**, is built on four core pillars:
+Stockply isn't just an application; it's a digital workspace built on four core pillars:
 
-1. **Glassmorphism**: Using depth and transparency to create a sense of hierarchy and focus.
-2. **Kinetic Typography**: Intentional use of 'Inter' and 'Outfit' fonts for maximum legibility.
-3. **Harmonious Palette**: Warm parchment backgrounds with gold primary accents.
-4. **Micro-Interactions**: Every click, hover, and scroll is accompanied by smooth, hardware-accelerated animations.
+1.  **Glassmorphism**: Depth and transparency to create hierarchy and focus.
+2.  **Kinetic Typography**: Intentional use of *Inter* and *Playfair Display* for maximum legibility and elegance.
+3.  **Harmonious Palette**: Warm parchment backgrounds (`#FAF5F0`) with gold (`#C08552`) primary accents.
+4.  **Micro-Interactions**: Every click and hover is powered by hardware-accelerated Framer Motion animations.
 
 ---
 
 <div align="center">
-
 Built with precision by **Priyank Khatri**.
-
-[🐛 Report Bug](https://github.com/Priyankkhatri/stockply/issues) • [💡 Request Feature](https://github.com/Priyankkhatri/stockply/issues) • [🌐 Live Demo](https://frontend-three-peach-97.vercel.app)
-
 </div>

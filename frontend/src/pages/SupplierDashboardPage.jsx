@@ -19,6 +19,7 @@ import PageHeader from '../components/PageHeader';
 import PremiumButton from '../components/PremiumButton';
 import GlassCard from '../components/GlassCard';
 import Skeleton, { CardSkeleton, TableSkeleton } from '../components/Skeleton';
+import SEOHead from '../components/SEOHead';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -87,6 +88,11 @@ const SupplierDashboardPage = () => {
 
   return (
     <div className="max-w-[1600px] mx-auto px-4 sm:px-10 pb-12 pt-6 sm:pt-10">
+      <SEOHead 
+        title="Supplier Intelligence" 
+        description="Global supply chain command center for managing retail partners, orders, and fulfillment." 
+        path="/supplier/dashboard" 
+      />
       <motion.div 
         variants={itemVariants}
         initial="hidden"
