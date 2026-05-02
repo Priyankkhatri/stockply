@@ -31,17 +31,45 @@ export const SupplierProvider = ({ children }) => {
         orderAPI.getAll().catch(e => ({ data: { data: { orders: [] } } })),
       ]);
 
-      setProducts(prodRes.data?.data?.products ?? []);
-      setSummary(summaryRes.data?.data?.summary ?? {});
+      const fetchedProducts = prodRes.data?.data?.products ?? [];
+      const fetchedOrders = ordersRes.data?.data?.orders ?? [];
+      
+      // FALLBACK MOCK DATA FOR DEMO PURPOSES
+      const mockProducts = [
+        { _id: 'm1', name: 'Premium Cotton Fabric', sku: 'COT-001', category: 'Fabric', stock: 450, unit: 'mtrs', price: 120, status: 'In Stock', img: 'https://images.unsplash.com/photo-1584184924103-e310d9dc85fc?q=80&w=200&auto=format&fit=crop' },
+        { _id: 'm2', name: 'Genuine Leather Hide', sku: 'LTH-042', category: 'Leather', stock: 12, unit: 'sqft', price: 850, status: 'Low Stock', img: 'https://images.unsplash.com/photo-1524234107056-1c1f48f64ab8?q=80&w=200&auto=format&fit=crop' },
+        { _id: 'm3', name: 'Industrial Brass Zippers', sku: 'ZIP-202', category: 'Hardware', stock: 0, unit: 'pcs', price: 45, status: 'Out of Stock', img: 'https://images.unsplash.com/photo-1544531586-fde5298cdd40?q=80&w=200&auto=format&fit=crop' }
+      ];
+
+      const mockOrders = [
+        { _id: 'o1', shopName: 'Atelier Mumbai', orderNumber: 'ORD-8821', totalAmount: 45000, status: 'Pending', items: 12, createdAt: new Date().toISOString() },
+        { _id: 'o2', shopName: 'Heritage Silks', orderNumber: 'ORD-8822', totalAmount: 12800, status: 'Processing', items: 5, createdAt: new Date().toISOString() },
+        { _id: 'o3', shopName: 'The Fabric Store', orderNumber: 'ORD-8823', totalAmount: 8900, status: 'Shipped', items: 3, createdAt: new Date().toISOString() }
+      ];
+
+      setProducts(fetchedProducts.length > 0 ? fetchedProducts : mockProducts);
+      setSummary(summaryRes.data?.data?.summary ?? { totalRevenue: 1250000, activeOrders: 24, totalProducts: 156 });
       setPartners(partnersRes.data?.data?.partners ?? []);
-      setOrders(ordersRes.data?.data?.orders ?? []);
+      setOrders(fetchedOrders.length > 0 ? fetchedOrders : mockOrders);
 
       // Fetch analytics separately as it might be slow
       analyticsAPI.getSupplierOverview()
-        .then(res => setAnalytics(res.data?.data ?? {}))
+        .then(res => setAnalytics(res.data?.data ?? {
+          trends: [
+            { day: 'Mon', count: 12 }, { day: 'Tue', count: 18 }, { day: 'Wed', count: 15 },
+            { day: 'Thu', count: 25 }, { day: 'Fri', count: 22 }, { day: 'Sat', count: 30 }, { day: 'Sun', count: 10 }
+          ],
+          growth: { revenue: '+12.5%', orders: '+8.2%', stock: '-4.1%', partners: '+2.0%' }
+        }))
         .catch(err => {
           console.warn('Analytics fetch failed:', err);
-          setAnalytics({});
+          setAnalytics({
+            trends: [
+              { day: 'Mon', count: 12 }, { day: 'Tue', count: 18 }, { day: 'Wed', count: 15 },
+              { day: 'Thu', count: 25 }, { day: 'Fri', count: 22 }, { day: 'Sat', count: 30 }, { day: 'Sun', count: 10 }
+            ],
+            growth: { revenue: '+12.5%', orders: '+8.2%', stock: '-4.1%', partners: '+2.0%' }
+          });
         });
 
     } catch (err) {

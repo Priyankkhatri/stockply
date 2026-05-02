@@ -31,10 +31,25 @@ export const ShopProvider = ({ children }) => {
         import('../services/api').then(m => m.authAPI.getMe()).catch(() => ({ data: { data: { user: null } } })),
       ]);
 
-      setProducts(prodRes.data?.data?.products ?? []);
-      setSummary(summaryRes.data?.data?.summary ?? {});
+      const fetchedProducts = prodRes.data?.data?.products ?? [];
+      const fetchedOrders = ordersRes.data?.data?.orders ?? [];
+
+      const mockProducts = [
+        { _id: 'sp1', name: 'Luxury Silk Scarf', sku: 'SILK-99', category: 'Accessories', supplier: 'Heritage Silks', stock: 45, price: 1200, status: 'In Stock' },
+        { _id: 'sp2', name: 'Cotton Summer Dress', sku: 'DRS-04', category: 'Apparel', supplier: 'Atelier Mumbai', stock: 8, price: 3500, status: 'Low Stock' },
+        { _id: 'sp3', name: 'Leather Satchel', sku: 'BAG-22', category: 'Bags', supplier: 'Genuine Crafts', stock: 15, price: 8500, status: 'In Stock' },
+        { _id: 'sp4', name: 'Velvet Cushion Cover', sku: 'HOM-11', category: 'Home', supplier: 'Textile Hub', stock: 0, price: 450, status: 'Out of Stock' }
+      ];
+
+      const mockOrders = [
+        { _id: 'so1', orderNumber: 'SO-1001', supplierName: 'Heritage Silks', totalAmount: 5400, status: 'Processing', createdAt: new Date().toISOString() },
+        { _id: 'so2', orderNumber: 'SO-1002', supplierName: 'Atelier Mumbai', totalAmount: 12500, status: 'Shipped', createdAt: new Date().toISOString() }
+      ];
+
+      setProducts(fetchedProducts.length > 0 ? fetchedProducts : mockProducts);
+      setSummary(summaryRes.data?.data?.summary ?? { lowStockCount: 1, outOfStockCount: 1, totalValue: 245000 });
       setPartners(partnersRes.data?.data?.partners ?? []);
-      setOrders(ordersRes.data?.data?.orders ?? []);
+      setOrders(fetchedOrders.length > 0 ? fetchedOrders : mockOrders);
       setUser(userRes.data?.data?.user ?? null);
     } catch (err) {
       console.error('Shop fetch error:', err);
