@@ -42,10 +42,17 @@ export const ShopProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    if (isLoggedIn) {
-      fetchInitialData();
-    }
+    const handleStorageChange = () => {
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      if (isLoggedIn) {
+        fetchInitialData();
+      }
+    };
+
+    handleStorageChange();
+
+    window.addEventListener('auth-change', handleStorageChange);
+    return () => window.removeEventListener('auth-change', handleStorageChange);
   }, [fetchInitialData]);
 
   const addProduct = async (productData) => {

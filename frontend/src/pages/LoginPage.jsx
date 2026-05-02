@@ -38,6 +38,8 @@ const LoginPage = () => {
         localStorage.setItem('userRole', user.role);
         localStorage.setItem('onboardingComplete', user.onboardingComplete ? 'true' : 'false');
         
+        window.dispatchEvent(new Event('auth-change'));
+
         // New signups → onboarding; existing users → dashboard
         if (!user.onboardingComplete) {
           if (user.role === 'shop') {
